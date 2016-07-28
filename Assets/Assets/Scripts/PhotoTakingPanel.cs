@@ -13,14 +13,14 @@ public class PhotoTakingPanel : MonoBehaviour {
 
 	private GameObject commonPanel02;
 	private GameObject demoShowPanel;
-
+	private bool isMusicOn = true;
 
 	void Awake () 
 	{	
 		_instance = this;
 		//获取需要监听的按钮对象
 		homeBtn = transform.Find ("HomeBtn").gameObject;
-		musicBtn = transform.Find ("MusicBtn").gameObject;
+		musicBtn = transform.Find ("MusicOnBtn").gameObject;
 		helpBtn = transform.Find ("HelpBtn").gameObject;
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
 
@@ -41,7 +41,7 @@ public class PhotoTakingPanel : MonoBehaviour {
 
 	void OnHomeBtnClick(GameObject btn)
 	{
-		//返回主界面 to do...
+		
 		Debug.Log("GameObject " + btn.name);
 		gameObject.SetActive (false);
 		transform.parent.Find ("StartPanel").gameObject.SetActive (true);
@@ -49,11 +49,14 @@ public class PhotoTakingPanel : MonoBehaviour {
 	}
 	void OnMusicBtnClick(GameObject btn)
 	{
+		//图标变换,
+		isMusicOn=!isMusicOn;
 
-		//返回声音设置界面 to do...
-		Debug.Log("GameObject " + btn.name);
+		musicBtn.GetComponent<UISprite> ().spriteName = (isMusicOn ? "音乐" : "静音");
+		//声音开关  to do ....
 
 	}
+
 	void OnHelpBtnClick(GameObject btn)//播放操作演示
 	{
 		Debug.Log("GameObject " + btn.name);

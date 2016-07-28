@@ -5,67 +5,109 @@ public class DescriptionPanel : MonoBehaviour {
 
 
 	public static DescriptionPanel _instance;
-	private GameObject photoTakingPanel;
 
 	private UILabel descriptionLabel;
+
+	private GameObject homeBtn;
+	private GameObject musicOnBtn;
+	private GameObject musicOffBtn;
 	private GameObject nextBtn;
-	private GameObject startPanel;// for test..
+	private GameObject photoTakingPanel;
+	private GameObject startPanel;
+
 	private LevelItemData data;
+
+	private bool isMusicOn = true;
 
 	void Awake()
 	{
 		_instance = this;
-		//CommonPanel01.panelFlag = 2;
-
 
 	}
 
 	void Start () 
 	{
-		//startPanel = GameObject.Find ("StartPanel");// for test..
-		descriptionLabel = transform.Find ("Bg/Label").GetComponent<UILabel> ();
-		//photoTakingPanel = GameObject.Find ("UIRoot/PhotoTakingPanel");
-		photoTakingPanel = transform.parent.parent.Find ("PhotoTakingPanel").gameObject;
-
+		homeBtn = transform.Find ("HomeBtn").GetComponent<UIButton> ().gameObject;
+		musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
+		musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
 		nextBtn = transform.Find ("NextBtn").GetComponent<UIButton> ().gameObject;
+	
+		startPanel = transform.parent.Find ("StartPanel").gameObject;
+		photoTakingPanel = transform.parent.Find ("PhotoTakingPanel").gameObject;
+		descriptionLabel = transform.Find ("LabelBg/Label").GetComponent<UILabel> ();
 
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
+		UIEventListener.Get (homeBtn).onClick = OnHomeBtnClick;
+		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
+		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
 
 	}
 
-	//显示从commonPannel01传递的数据
-	public void Show(LevelItemData data) {
-		//this.gameObject.SetActive(true);
-		PanelOn();
+	/// <summary>
+	/// 显示关卡描述文字
+	/// </summary>
+	/// <param name="data">传入的参数是关卡数据</param>
+	public void Show(LevelItemData data) 
+	{
+		Debug.Log ("show()");
 		this.data = data;
-		if(descriptionLabel == null){
-			descriptionLabel = transform.Find ("Bg/Label").GetComponent<UILabel> ();
+		if(descriptionLabel == null)
+		{
+			descriptionLabel = transform.Find ("LabelBg/Label").GetComponent<UILabel> ();
 		} 
 		descriptionLabel.text = data.LevelDescription;
 	}
 
-	public void PanelOn()
-	{
-		gameObject.SetActive(true);
-	}
 
-	public void PanelOff()
-	{
-		gameObject.SetActive (false);
-
-	}
 		
 
-
+	/// <summary>
+	/// 点击按钮进入到拍摄界面
+	/// </summary>
+	/// <param name="btn">Button.</param>
 	void OnNextBtnClick(GameObject btn)
 	{
 		Debug.Log ("next btn clicled, ready to take photos");
 		//关闭当前界面
 		//PanelOff ();
-		CommonPanel01._instance.PanelOff ();
+
 		//跳到拍摄界面，to do...
 		photoTakingPanel.SetActive(true);
 
+
+	}
+
+	void OnMusicOnBtnClick(GameObject btn)
+	{
+		isMusicOn=false;
+		//musicBtn.GetComponent<UISprite> ().spriteName = (isMusicOn ? "音乐" : "静音");
+		musicOffBtn.SetActive (true);
+		musicOnBtn.SetActive (false);
+
+		//声音开关  to do ....
+	}
+	void  OnMusicOffBtnClick(GameObject btn)  
+	{
+		isMusicOn = true;
+		musicOffBtn.SetActive (false);
+		musicOnBtn.SetActive (true);
+
+	}
+
+	void OnHomeBtnClick(GameObject btn)
+	{
+		Debug.Log ("OnHomeBtnClick");
+		//关闭当前界面
+		PanelOff ();
+		//返回主界面 
+		startPanel.SetActive (true);
+		
+	}
+		
+
+	public void PanelOff()
+	{
+		gameObject.SetActive (false);
 
 	}
 

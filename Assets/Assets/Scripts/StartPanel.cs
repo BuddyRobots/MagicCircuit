@@ -4,73 +4,64 @@ using System.Collections;
 public class StartPanel : MonoBehaviour {
 	
 	public static StartPanel _instance;
-	private  GameObject homeBtn;
-	private GameObject musicBtn;
+
+
 	private GameObject nextBtn;
-	private GameObject commonPannel01;
+	private GameObject musicOnBtn;
+	private GameObject musicOffBtn;
 	private GameObject levelSelectPanel;
 	private GameObject levelDescriptionPanel;
 
 
+	private bool isMusicOn = true;
+
 	void Awake()
 	{
-
 		_instance = this;
 
 	}
 
 	void Start () 
 	{		
-
-		homeBtn = transform.Find ("HomeBtn").gameObject;
-		musicBtn= transform.Find ("MusicBtn").gameObject;
+		
 		nextBtn= transform.Find ("NextBtn").gameObject;
+		musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
+		musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
 
-		commonPannel01=transform.parent.Find("CommonPanel01").gameObject;
-		levelSelectPanel=transform.parent.Find("CommonPanel01/LevelSelectPanel").gameObject;
-		levelDescriptionPanel=transform.parent.Find("CommonPanel01/DescriptionPanel").gameObject;
 
-		UIEventListener.Get(homeBtn).onClick = OnHomeBtnClick;
-		UIEventListener.Get(musicBtn).onClick = OnMusicBtnClick;
-		UIEventListener.Get(nextBtn).onClick = OnNextBtnClick;
+		levelSelectPanel=transform.parent.Find("LevelSelectPanel").gameObject;
+		levelDescriptionPanel=transform.parent.Find("DescriptionPanel").gameObject;
 
-		if(commonPannel01==null)
-		{
-			Debug.Log ("commonPannel01 is null");
 
-		}
-	}
-	
+		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
+		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
+		UIEventListener.Get(nextBtn).onClick =OnNextBtnClick;
 
-	void Update () {
-	
 	}
 
-	//进入主界面
-	void OnHomeBtnClick(GameObject btn)
+	void  OnMusicOffBtnClick(GameObject btn)  
 	{
-
-
-		Debug.Log ("HomeBtn clicked");
-		//return to homePage  
-		//to do...
-
-
-		//PanelOff ();
-
+		isMusicOn = true;
+		musicOffBtn.SetActive (false);
+		musicOnBtn.SetActive (true);
+		//打开音效  to do ...
 	}
+		
 
-
-	//声音设置
-	void OnMusicBtnClick(GameObject btn)
+	void OnMusicOnBtnClick(GameObject btn)
 	{
-		Debug.Log ("musicBtn clicked");
-		//MusicSet panel pop up 
-		//to do...
+		isMusicOn=false;
+		musicOffBtn.SetActive (true);
+		musicOnBtn.SetActive (false);
 
-		//PanelOff ();
+		//关闭音效 to do ....
 	}
 
+
+	/// <summary>
+	/// 进入到下一个界面
+	/// </summary>
+	/// <param name="btn">参数是点击的按钮对象</param>
 	void OnNextBtnClick(GameObject btn)
 	{
 		Debug.Log ("NextBtn Clicked");
@@ -79,29 +70,19 @@ public class StartPanel : MonoBehaviour {
 
 
 		//显示选关界面
-		commonPannel01.SetActive(true);
 		levelSelectPanel.SetActive (true);
-		levelDescriptionPanel.SetActive (false);
-
-		//CommonPanel01._instance.PanelOn ();
-		//LevelUI._instance.PanelOn ();
-		//DescriptionPanel._instance.PanelOff ();
-		//CommonPanel01.panelFlag=1;
 	}
 
+
+
+	/// <summary>
+	/// 关闭界面
+	/// </summary>
 	public void PanelOff()
 	{
 		gameObject.SetActive (false);
 
 	}
-
-	public void PanelOn()
-	{
-
-		gameObject.SetActive (true);
-	}
-
-
-
+		
 
 }

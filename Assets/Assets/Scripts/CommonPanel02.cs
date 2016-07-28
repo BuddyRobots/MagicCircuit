@@ -8,7 +8,7 @@ public class CommonPanel02 : MonoBehaviour {
 	private GameObject homeBtn;
 	private GameObject musicBtn;
 	private GameObject helpBtn;
-
+	private bool isMusicOn = true;
 
 	void Awake()
 	{
@@ -49,8 +49,11 @@ public class CommonPanel02 : MonoBehaviour {
 
 	void OnMusicBtnClick(GameObject btn)
 	{
-		//返回声音界面
-		Debug.Log("GameObject: "+btn.name);
+		//图标变换,
+		isMusicOn=!isMusicOn;
+
+		musicBtn.GetComponent<UISprite> ().spriteName = (isMusicOn ? "音乐" : "静音");
+		//声音开关  to do ....
 
 	}
 
