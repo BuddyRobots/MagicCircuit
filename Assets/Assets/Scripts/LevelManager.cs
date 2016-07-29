@@ -8,6 +8,7 @@ using LitJson;
 public class LevelManager : MonoBehaviour 
 {
 	//管理类----从文件中读取信息，初始化关卡列表信息
+	//该脚本挂在camera上面，游戏一开始就要运行（初始化数据，加载本地关卡数据，等等）
 	public static LevelManager _instance;
 
 	public List<LevelItemData> levelItemDataList = new List<LevelItemData>();
@@ -17,10 +18,7 @@ public class LevelManager : MonoBehaviour
 //	public event OnLevelChangeEvent OnLevelChange;
 	public  Dictionary<int,int> pList=new Dictionary<int,int>();
 
-
-	//private GameObject levelSelectPanel;
-
-	////json字符串，保存关卡的信息
+	//json字符串，保存关卡的信息（这里的信息字段名和levelItemData里的属性保持一致）
 	string leveljsonstr = @"
             {
  				""levelData"":[
@@ -28,7 +26,7 @@ public class LevelManager : MonoBehaviour
            			""levelID"": 1,
            			""levelName"": ""level_1"",
            			""levelDescription"":  ""level_1 is so easy"" ,
-           			""progress"":1,
+           			""progress"":0,
            			""preLevelID"": 0,
            			""nextLevelID"": 2
 
@@ -37,7 +35,7 @@ public class LevelManager : MonoBehaviour
            			""levelID"": 2,
            			""levelName"": ""Level_2"",
            			""levelDescription"":  ""Level_2 is a little bit hard,just have a try!"" ,
-           			""progress"":0,
+           			""progress"":1,
            			""preLevelID"": 1,
            			""nextLevelID"": 3
 				},
@@ -156,15 +154,16 @@ public class LevelManager : MonoBehaviour
 		_instance = this;
 		//Debug.Log ("path is :"+Application.persistentDataPath);
 
-
+		//code for test...
+		PlayerPrefs.SetInt ("LevelID",14);
+		PlayerPrefs.SetInt ("LevelProgress",3);
 	}
 
 	void Start() 
 	{
+		
 		parseLevelItemInfo();
 		loadLocalLevelProgressData ();
-
-
 
 	}
 
@@ -177,45 +176,59 @@ public class LevelManager : MonoBehaviour
 		if (PlayerPrefs.HasKey ("LevelID")) {
 		
 			levelID = PlayerPrefs.GetInt ("LevelID");
-			//levelID = PlayerPrefs.SetInt ("LevelID1",2);
-			//levelID = PlayerPrefs.SetInt ("LevelID",2);
+			//PlayerPrefs.SetInt ("LevelID1",2);
+			//PlayerPrefs.SetInt ("LevelID",2);
 		}
 		if (PlayerPrefs.HasKey ("LevelProgress")) {
 
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
 		}
 
-		if(pList.ContainsKey(levelID)==false)
+		/*if(pList.ContainsKey(levelID)==false)
 		{
 			pList.Add (levelID, levelPro);
 
-		}
+		}*/
 		//获取到已完成的关卡后需要更新list数据
-		//updateLevelItemDataList (levelID,levelPro);
+		Debug.Log ("loadLocalLevelProgressData==>levelid==" + levelID + "  levelPro==" + levelPro);
+		updateLevelItemDataList (levelID,levelPro);
 
 	}
 
 	//更新关卡数据信息
 	public void updateLevelItemDataList(int levelID,int levelPro)
 	{
-		/*int levelID = 0;
-		int levelPro = 0;
-		foreach (var dic in pList) 
+		
+		Debug.Log ("updateLevelItemDataList==>levelid==" + levelID + "  levelPro==" + levelPro);
+		if(levelID == 0)
 		{
-			levelID = dic.Key;//这是已经完成的最高关卡
-			levelPro = dic.Value;//关卡的进度
+			return;
+		}
 
-		}*/
-
-		//修改已完成的最高关卡之前的所有关卡进度---都是已完成
-		for(int i=0;i<=levelID;++i)
+			//修改已完成的最高关卡之前的所有关卡进度---都是已完成
+		for (int i = 0; i < levelID; ++i)
 		{
 
 			levelItemDataList [i].Progress = LevelProgress.Done;
 
 		}
 		//设置当前要完成的关卡进度
-		levelItemDataList[levelID+1].Progress=LevelProgress.Doing;
+
+		if (levelID < 15) 
+		{
+			levelItemDataList [levelID].Progress = LevelProgress.Doing;
+		} 
+		else 
+		{
+			levelItemDataList [levelID-1].Progress = LevelProgress.Done;
+		}
+
+
+
+
+
+
+
 
 		//设置等待完成的关卡进度
 		//由于初始化数据的时候默认所有关卡的进度都是Todo,所以这段代码可以省略

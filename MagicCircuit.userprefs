@@ -1,9 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Assets/Scripts/LevelSelectPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Assets/Scripts/PhotoRecognizingPanel.cs">
     <Files>
-      <File FileName="Assets/Assets/Scripts/LevelManager.cs" Line="13" Column="75" />
-      <File FileName="Assets/Assets/Scripts/LevelSelectPanel.cs" Line="258" Column="29" />
+      <File FileName="Assets/Assets/Scripts/CircuitItem.cs" Line="15" Column="25" />
+      <File FileName="Assets/Assets/Scripts/CircuitItemManager.cs" Line="15" Column="2" />
+      <File FileName="Assets/Assets/Scripts/LevelManager.cs" Line="250" Column="7" />
+      <File FileName="Assets/Assets/Scripts/PhotoRecognizingPanel.cs" Line="19" Column="2" />
+      <File FileName="Assets/Assets/Scripts/LevelSelectPanel.cs" Line="188" Column="3" />
+      <File FileName="Assets/cvDllTest.cs" Line="19" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

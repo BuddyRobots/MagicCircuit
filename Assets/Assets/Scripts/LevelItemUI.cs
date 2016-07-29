@@ -3,9 +3,7 @@ using System.Collections;
 
 public class LevelItemUI : MonoBehaviour {
 
-
-
-	//界面上显示的每一个item的信息
+	//该类负责每一个关卡的界面显示 
 
 	private UISprite levelItemBg;//背景图片
 	//private UILabel levelNumLabel;//等级数字
@@ -37,10 +35,7 @@ public class LevelItemUI : MonoBehaviour {
 
 	void Awake()
 	{
-		//btn = transform.GetComponent<UIButton> ();
-		//UIEventListener.Get (button).onClick = OnBtnClick;
 		levelSelectPanel=GameObject.Find("UI Root/LevelSelectPanel");
-		//levelDescriptionPanel = GameObject.Find ("UI Root/DescriptionPanel");
 		levelDescriptionPanel =transform.parent.parent.parent.parent.Find("DescriptionPanel").gameObject;
 	}
 		
@@ -60,7 +55,7 @@ public class LevelItemUI : MonoBehaviour {
 	//如果对象有collider，可以这样实现点击事件
 	public void OnClick()
 	{
-		Debug.Log ("levelBtn clicked: "+ this.name);
+		//Debug.Log ("levelBtn clicked: "+ this.name);
 		levelSelectPanel.SetActive (false);
 		levelDescriptionPanel.SetActive (true);
 
@@ -75,7 +70,7 @@ public class LevelItemUI : MonoBehaviour {
 			//objectArray[0] = data;//这里可以把整个item的数据都传过去，方便后面使用，不要只传等级数字
 			//objectArray[1] = this;
 			DescriptionPanel._instance.Show (data);
-			Debug.Log(DescriptionPanel._instance);
+			//Debug.Log(DescriptionPanel._instance);
 		}
 
 	}

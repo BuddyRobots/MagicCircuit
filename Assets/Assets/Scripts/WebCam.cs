@@ -14,13 +14,16 @@ public class WebCam : MonoBehaviour {
 		if(Application.HasUserAuthorization(UserAuthorization.WebCam))
 		{
 			WebCamDevice[] devices = WebCamTexture.devices;
-			deviceName = devices [0].name;
-			tex = new WebCamTexture (deviceName, 640, 480, 12);
-			GetComponent<Renderer>().material.mainTexture = tex;
-			tex.Play ();
-
+			if(devices.Length > 0){
+				deviceName = devices [0].name;
+				tex = new WebCamTexture (deviceName, 400, 300, 12);
+				GetComponent<Renderer>().material.mainTexture = tex;
+				tex.Play ();
+			}
 
 		}
 
 	}
 }
+
+

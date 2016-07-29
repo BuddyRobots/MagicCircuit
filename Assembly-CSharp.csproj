@@ -153,6 +153,8 @@
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\BackgroundSubtractorMOG2.cs" />
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\KalmanFilter.cs" />
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\Video.cs" />
+     <Compile Include="Assets\Assets\Scripts\CircuitItem.cs" />
+     <Compile Include="Assets\Assets\Scripts\CircuitItemManager.cs" />
      <Compile Include="Assets\Assets\Scripts\CommonPanel02.cs" />
      <Compile Include="Assets\Assets\Scripts\DescriptionPanel.cs" />
      <Compile Include="Assets\Assets\Scripts\LevelItemData.cs" />
@@ -315,8 +317,13 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\testScripts\DrawLineTest.cs" />
+     <Compile Include="Assets\testScripts\LineDrawingTest.cs" />
      <Compile Include="Assets\testScripts\UIManager.cs" />
      <Compile Include="Assets\testScripts\UIResourceDefine.cs" />
+     <Compile Include="Assets\testScripts\cvDllTest.cs" />
+     <Compile Include="Assets\testScripts\drawTrianglr.cs" />
+     <Compile Include="Assets\testScripts\testLine01.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />

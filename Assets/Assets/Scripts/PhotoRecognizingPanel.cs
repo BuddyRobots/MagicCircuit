@@ -5,7 +5,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 
 	private GameObject homeBtn;
-	private GameObject musicBtn;
+	private GameObject musicOnBtn;
+	private GameObject musicOffBtn;
 	private GameObject helpBtn;
 
 
@@ -14,6 +15,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private UIAtlas atalas;
 
 	private bool isMusicOn = true;
+	//需要计时器，控制背景图片的渐变
 
 
 
@@ -24,7 +26,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	void Start () {
 		homeBtn = transform.Find ("HomeBtn").GetComponent<UIButton> ().gameObject;
-		musicBtn = transform.Find ("MusicBtn").GetComponent<UIButton> ().gameObject;
+		musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
+		musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
 		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
 
 		startPanel = transform.parent.Find ("StartPanel").gameObject;
@@ -32,16 +35,41 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 
 		UIEventListener.Get (homeBtn).onClick = OnHomeBtnClick;
-		UIEventListener.Get (musicBtn).onClick = OnMusicBtnClick;
+		UIEventListener.Get (musicOnBtn).onClick = OnMusicOnBtnClick;
+		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
+		CreateItem(325f, 498f, 0);
 	}
 	
 
-	void Update () {
+	void Update () 
+	{
 		//Debug.Log (Input.mousePosition);
 
+
 	
 	}
+
+
+	public void CreateItem(float x, float y, float z)
+	{
+	
+		GameObject bulb = (GameObject)Resources.Load ("Bulb",typeof(GameObject));//报错？？？？？？？？？为空
+		Debug.Log ("bulb name==="+bulb.name);
+		GameObject newBulb= GameObject.Instantiate(bulb, new Vector3(x,y,z), Quaternion.identity) as GameObject;
+		newBulb.name = "Tree001"; // 给这棵树起名字
+		newBulb.transform.parent = GameObject.Find("PhotoRecognizingPanel").transform; // 将自己的父物体设置成“PhotoRecognizingPanel”
+		newBulb.transform.position = newBulb.transform.parent.position; // 放在父物体的原点（相对坐标）
+		newBulb.transform.localScale = new Vector3(1,1,1); // 设置这棵树的大小
+
+//		GameObject tree = （GameObject）Resources.Load(“DemoTrees”, typeof(GameObject)); // 导入这棵树
+//		GameObject aNewTree = GameObject.Instantiate(tree, new Vector3(x, y, z), Quaternion.identity) as GameObject; //把树克隆出来
+//		aNewTree.name = "Tree001"; // 给这棵树起名字
+//		aNewTree.transform.parent = GameObject.Find("某个路径").transform; // 将自己的父物体设置成“某个路径”
+//		aNewTree.transform.position = new Vector3(aNewTree.transform.parent.x, aNewTree.transform.parent.y, aNewTree.transform.parent.z); // 放在父物体的原点（相对坐标）
+//		aNewTree.transform.localScale = new Vector3(100， 100， 100); // 设置这棵树的大小
+	}
+
 
 
 	/// <summary>
@@ -66,14 +94,21 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	}
 
 
-	void OnMusicBtnClick(GameObject btn)
+	void OnMusicOnBtnClick(GameObject btn)
 	{
-		isMusicOn=!isMusicOn;
-		musicBtn.GetComponent<UISprite> ().spriteName = (isMusicOn ? "音乐" : "静音");
+		isMusicOn=false;
+		musicOffBtn.SetActive (true);
+		musicOnBtn.SetActive (false);
+
 		//声音开关  to do ....
+	}
+	void  OnMusicOffBtnClick(GameObject btn)  
+	{
+		isMusicOn = true;
+		musicOffBtn.SetActive (false);
+		musicOnBtn.SetActive (true);
 
 	}
-
 
 	void OnHomeBtnClick(GameObject btn)
 	{

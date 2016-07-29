@@ -67,9 +67,9 @@ public class DescriptionPanel : MonoBehaviour {
 	/// <param name="btn">Button.</param>
 	void OnNextBtnClick(GameObject btn)
 	{
-		Debug.Log ("next btn clicled, ready to take photos");
+		
 		//关闭当前界面
-		//PanelOff ();
+		PanelOff ();
 
 		//跳到拍摄界面，to do...
 		photoTakingPanel.SetActive(true);

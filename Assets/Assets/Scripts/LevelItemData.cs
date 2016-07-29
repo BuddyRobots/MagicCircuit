@@ -13,11 +13,11 @@ public enum LevelProgress
 
 public class LevelItemData 
 {
-	//这是保存关卡的信息类，包括每一关的ID,关卡名字，描述文字,和完成进度
+	//这是保存关卡的纯信息类，包括每一关的ID,关卡名字，描述文字,和完成进度
 	private int m_LevelID;
 	private int m_LevelNumber;//关卡数字
 	private string m_LevelName;//关卡名字
-	private string m_IconName;//背景图片在图集中的名字
+	private string m_IconName;//背景图片在图集中的名字-----这个可以不要
 	private string m_LevelDescription;//关卡描述
 	private LevelProgress progress;
 	private int preLevelID;

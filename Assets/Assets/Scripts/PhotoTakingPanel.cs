@@ -42,7 +42,7 @@ public class PhotoTakingPanel : MonoBehaviour {
 	void OnHomeBtnClick(GameObject btn)
 	{
 		
-		Debug.Log("GameObject " + btn.name);
+		//Debug.Log("GameObject " + btn.name);
 		gameObject.SetActive (false);
 		transform.parent.Find ("StartPanel").gameObject.SetActive (true);
 
@@ -78,6 +78,9 @@ public class PhotoTakingPanel : MonoBehaviour {
 		//确认，画面变暗，播放倒计时动画，呈现静态照片 to do ...
 
 		Debug.Log("GameObject " + btn.name);
+
+		//code for test...
+
 	}
 
 	#endregion

@@ -64,7 +64,7 @@ public class StartPanel : MonoBehaviour {
 	/// <param name="btn">参数是点击的按钮对象</param>
 	void OnNextBtnClick(GameObject btn)
 	{
-		Debug.Log ("NextBtn Clicked");
+		//Debug.Log ("NextBtn Clicked");
 		//关闭当前界面，切换到关卡选择界面
 		PanelOff ();
 
