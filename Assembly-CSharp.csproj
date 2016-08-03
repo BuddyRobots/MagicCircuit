@@ -153,33 +153,10 @@
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\BackgroundSubtractorMOG2.cs" />
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\KalmanFilter.cs" />
      <Compile Include="Assets\Assets\OpenCVForUnity\org\opencv\video\Video.cs" />
-     <Compile Include="Assets\Assets\Scripts\CircuitItem.cs" />
-     <Compile Include="Assets\Assets\Scripts\CircuitItemManager.cs" />
-     <Compile Include="Assets\Assets\Scripts\CommonPanel02.cs" />
-     <Compile Include="Assets\Assets\Scripts\DescriptionPanel.cs" />
-     <Compile Include="Assets\Assets\Scripts\LevelItemData.cs" />
-     <Compile Include="Assets\Assets\Scripts\LevelItemUI.cs" />
-     <Compile Include="Assets\Assets\Scripts\LevelManager.cs" />
-     <Compile Include="Assets\Assets\Scripts\LevelSelectPanel.cs" />
-     <Compile Include="Assets\Assets\Scripts\PhotoRecognizingPanel.cs" />
-     <Compile Include="Assets\Assets\Scripts\PhotoTakingPanel.cs" />
-     <Compile Include="Assets\Assets\Scripts\PlayerData.cs" />
-     <Compile Include="Assets\Assets\Scripts\StartPanel.cs" />
-     <Compile Include="Assets\Assets\Scripts\WebCam.cs" />
-     <Compile Include="Assets\Assets\Scripts\WelldonePanel.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\CvUtil\Card.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\CvUtil\Segmentation.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\CvUtil\Track.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Features\Axis.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Features\CircularDist.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Features\Feature.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Features\HorizonLine.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Objects\Apple.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Objects\House.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Objects\MyObject.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Objects\Tree.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Utility\BaseParams.cs" />
-     <Compile Include="Assets\Assets\ScriptsCV\Utility\FigProc.cs" />
+     <Compile Include="Assets\EventTriggerListener.cs" />
+     <Compile Include="Assets\FailurePanel.cs" />
+     <Compile Include="Assets\LineManager.cs" />
+     <Compile Include="Assets\Move.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -317,13 +294,41 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
-     <Compile Include="Assets\testScripts\DrawLineTest.cs" />
-     <Compile Include="Assets\testScripts\LineDrawingTest.cs" />
+     <Compile Include="Assets\Scripts\CircuitItem.cs" />
+     <Compile Include="Assets\Scripts\CircuitItemManager.cs" />
+     <Compile Include="Assets\Scripts\CommonPanel02.cs" />
+     <Compile Include="Assets\Scripts\DescriptionPanel.cs" />
+     <Compile Include="Assets\Scripts\LevelItemData.cs" />
+     <Compile Include="Assets\Scripts\LevelItemUI.cs" />
+     <Compile Include="Assets\Scripts\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\LevelSelectPanel.cs" />
+     <Compile Include="Assets\Scripts\PhotoRecognizingPanel.cs" />
+     <Compile Include="Assets\Scripts\PhotoTakingPanel.cs" />
+     <Compile Include="Assets\Scripts\PlayerData.cs" />
+     <Compile Include="Assets\Scripts\StartPanel.cs" />
+     <Compile Include="Assets\Scripts\TimerItem.cs" />
+     <Compile Include="Assets\Scripts\TimerManager.cs" />
+     <Compile Include="Assets\Scripts\WebCam.cs" />
+     <Compile Include="Assets\Scripts\WelldonePanel.cs" />
+     <Compile Include="Assets\ScriptsCV\CvUtil\Card.cs" />
+     <Compile Include="Assets\ScriptsCV\CvUtil\Segmentation.cs" />
+     <Compile Include="Assets\ScriptsCV\CvUtil\Track.cs" />
+     <Compile Include="Assets\ScriptsCV\Features\Axis.cs" />
+     <Compile Include="Assets\ScriptsCV\Features\CircularDist.cs" />
+     <Compile Include="Assets\ScriptsCV\Features\Feature.cs" />
+     <Compile Include="Assets\ScriptsCV\Features\HorizonLine.cs" />
+     <Compile Include="Assets\ScriptsCV\Objects\Apple.cs" />
+     <Compile Include="Assets\ScriptsCV\Objects\House.cs" />
+     <Compile Include="Assets\ScriptsCV\Objects\MyObject.cs" />
+     <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
+     <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
+     <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
+     <Compile Include="Assets\UIMain.cs" />
+     <Compile Include="Assets\moveTest.cs" />
+     <Compile Include="Assets\test.cs" />
      <Compile Include="Assets\testScripts\UIManager.cs" />
      <Compile Include="Assets\testScripts\UIResourceDefine.cs" />
-     <Compile Include="Assets\testScripts\cvDllTest.cs" />
      <Compile Include="Assets\testScripts\drawTrianglr.cs" />
-     <Compile Include="Assets\testScripts\testLine01.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
@@ -336,7 +341,9 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
+     <None Include="Assets\shader.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+     <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
@@ -353,6 +360,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
@@ -374,6 +382,13 @@
  <Reference Include="LitJson">
  <HintPath>/Users/wang'qian/Documents/GitFile/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
+ <Reference Include="DOTween">
+ <HintPath>/Users/wang'qian/Documents/GitFile/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D83EF54E-5E83-E09C-8DD3-50F2503F2AAC}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
