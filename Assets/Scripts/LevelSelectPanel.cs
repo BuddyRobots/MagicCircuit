@@ -10,14 +10,10 @@ public class LevelSelectPanel : MonoBehaviour {
 
 	public static LevelSelectPanel _instance;
 
-	private GameObject startPanel;
 	private GameObject levelDescriptionPanel;
+	public List<UIButton> uiBtnListT = new List<UIButton>();
+	public List<UIButton> uiBtnListL = new List<UIButton>();
 
-	private GameObject homeBtn;
-	private GameObject musicOnBtn;
-	private GameObject musicOffBtn;
-
-	private bool isMusicOn;
 
 	private UIButton btnT01;
 	private UIButton btnT02;
@@ -52,21 +48,16 @@ public class LevelSelectPanel : MonoBehaviour {
 	private UIButton btnL15;
 
 
-	public List<UIButton> uiBtnListT = new List<UIButton>();
-	public List<UIButton> uiBtnListL = new List<UIButton>();
+
 
 	void Awake()
 	{
 		_instance = this;
 	}
 
-	void Start()
+	void OnEnable()
 	{
-		startPanel = transform.parent.Find ("StartPanel").gameObject;
-		homeBtn = transform.Find ("HomeBtn").GetComponent<UIButton> ().gameObject;
-		musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
-		musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
-
+		//Debug.Log ("Start");
 		btnT01 = transform.Find ("Bg/LevelD01/LevelT01").GetComponent<UIButton> ();
 		btnL01 = transform.Find ("Bg/LevelD01/LevelL01").GetComponent<UIButton> ();
 
@@ -145,52 +136,61 @@ public class LevelSelectPanel : MonoBehaviour {
 		uiBtnListL.Add (btnL13);
 		uiBtnListL.Add (btnL14);
 		uiBtnListL.Add (btnL15);
-
-	
-		UIEventListener.Get(homeBtn).onClick = OnHomeBtnClick;
-		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
-		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
 	
 		//界面刷新
 		refreshLevelUI ();
 
 	}
-
-
-
-	public void PanelOff()
-	{
-		gameObject.SetActive (false);
-	}
-
-	void OnHomeBtnClick(GameObject btn)
-	{
-		//关闭当前界面，跳到主界面
-		PanelOff ();
-		startPanel.SetActive (true);
-	}
-
-	void OnMusicOnBtnClick(GameObject btn)
-	{
-		isMusicOn=false;
-		//musicBtn.GetComponent<UISprite> ().spriteName = (isMusicOn ? "音乐" : "静音");
-		musicOffBtn.SetActive (true);
-		musicOnBtn.SetActive (false);
-
-		//声音开关  to do ....
-	}
-	void  OnMusicOffBtnClick(GameObject btn)  
-	{
-		isMusicOn = true;
-		musicOffBtn.SetActive (false);
-		musicOnBtn.SetActive (true);
-
-	}
 		
+
+	void OnEnable11()
+	{
+		Debug.Log ("OnEnable");
+//		if(uiBtnListT.Capacity == 0){
+//			uiBtnListT.Add (btnT01);
+//			uiBtnListT.Add (btnT02);
+//			uiBtnListT.Add (btnT03);
+//			uiBtnListT.Add (btnT04);
+//			uiBtnListT.Add (btnT05);
+//			uiBtnListT.Add (btnT06);
+//			uiBtnListT.Add (btnT07);
+//			uiBtnListT.Add (btnT08);
+//			uiBtnListT.Add (btnT09);
+//			uiBtnListT.Add (btnT10);
+//			uiBtnListT.Add (btnT11);
+//			uiBtnListT.Add (btnT12);
+//			uiBtnListT.Add (btnT13);
+//			uiBtnListT.Add (btnT14);
+//			uiBtnListT.Add (btnT15);
+//
+//		}
+//
+//		if(uiBtnListL.Capacity == 0){
+//			uiBtnListL.Add (btnL01);
+//			uiBtnListL.Add (btnL02);
+//			uiBtnListL.Add (btnL03);
+//			uiBtnListL.Add (btnL04);
+//			uiBtnListL.Add (btnL05);
+//			uiBtnListL.Add (btnL06);
+//			uiBtnListL.Add (btnL07);
+//			uiBtnListL.Add (btnL08);
+//			uiBtnListL.Add (btnL09);
+//			uiBtnListL.Add (btnL10);
+//			uiBtnListL.Add (btnL11);
+//			uiBtnListL.Add (btnL12);
+//			uiBtnListL.Add (btnL13);
+//			uiBtnListL.Add (btnL14);
+//			uiBtnListL.Add (btnL15);
+//
+//		}
+
+		refreshLevelUI ();
+	}
+
+
 	public int GetLevel(string levelName)
 	{
 		int ret = 0;
-
 		string temp =levelName.Substring (6);
 		if (temp [0] == 0)
 		{
@@ -203,7 +203,6 @@ public class LevelSelectPanel : MonoBehaviour {
 		{
 			int.TryParse (temp, out ret);
 		}
-		//Debug.Log ("ret=="+ret);
 		return ret;
 
 	}
@@ -212,18 +211,13 @@ public class LevelSelectPanel : MonoBehaviour {
 	//刷新UI
 	public void refreshLevelUI()
 	{
-		
-
-		//Debug.Log (LevelManager._instance);
+		//Debug.Log ("refreshLevelUI");
 		for (int i = 0; i < LevelManager._instance.levelItemDataList.Count; ++i)
 		{
 			LevelItemData data = LevelManager._instance.levelItemDataList [i];
-			//Debug.Log ("refreshLevelUI==LevelId=="+data.LevelID + " " +  data.Progress);
 			UIButton btnT = uiBtnListT [i];
 			UIButton btnL = uiBtnListL [i];
 			int levelId = GetLevel(btnT.name);
-			//print ("btn.name=="+btnT.name);
-			//print ("levelID==" + levelId);
 
 			if(data.LevelID==levelId)
 			{
@@ -250,82 +244,8 @@ public class LevelSelectPanel : MonoBehaviour {
 
 
 				}
-
-
+					
 			}
-			
-
-		
-
-
-//		foreach(LevelItemData data in LevelManager._instance.levelItemDataList)
-//		{
-//			
-//
-//			switch(data.LevelID)
-//			{
-//			case 1:
-//				
-//				switch(data.Progress)
-//				{
-//				case LevelProgress.Todo:
-//					
-//				btnT01.gameObject.SetActive(false);
-//				btnL01.gameObject.SetActive (false);
-//					break;
-//				case LevelProgress.Doing:
-//					
-//					btnT01.gameObject.SetActive (true);
-//				btnL01.gameObject.SetActive (false);
-//
-//					break;
-//				case LevelProgress.Done:
-//					
-//				
-//				btnT01.gameObject.SetActive (false);
-//					btnL01.gameObject.SetActive(true);
-//					break;
-//				default:
-//					break;
-//
-//
-//				}
-//				break;
-//			case 3:
-//
-//				switch(data.Progress)
-//				{
-//				case LevelProgress.Todo:
-//					btnT03.gameObject.SetActive (false);
-//					btnL03.gameObject.SetActive (false);
-//
-//					break;
-//				case LevelProgress.Doing:
-//					btnT03.gameObject.SetActive (true);
-//					btnL03.gameObject.SetActive (false);
-//					break;
-//				case LevelProgress.Done:
-//					btnT03.gameObject.SetActive (false);
-//					btnL03.gameObject.SetActive (true);
-//					break;
-//				default:
-//					break;
-//
-//
-//				}
-//
-//				break;
-//			default:
-//				break;
-//
-//
-//			}
-//			
-//
-//		}
-//
-//
-//	}
 
 		}
 

@@ -12,7 +12,7 @@ public class Move : MonoBehaviour {
 	public float duration;
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		index = 0;
 		this.transform.position = pos [0].position;
 		//duration = 0.5f;

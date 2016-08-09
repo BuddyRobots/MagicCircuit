@@ -11,6 +11,7 @@ public class WelldonePanel : MonoBehaviour {
 	private string curLevelName;//记录当前的关卡名
 	private string nextLevelName;//记录下一关的关卡名
 
+	private LevelItemData data;
 
 
 	void Start () {
@@ -21,8 +22,26 @@ public class WelldonePanel : MonoBehaviour {
 
 		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
+		curLevelName = LevelManager.currentLevelData.LevelName;
+		data = LevelManager.currentLevelData;
 
 	}
+
+//	public void GetData(LevelItemData itemData)
+//	{
+//		data = itemData;
+//
+//	}
+
+	//获取关卡名字
+//	public void SetLevel(string levelName )
+//	{
+//		//点击重玩按钮要回到当前关卡，所以要记录当前关卡
+//		//curLevelName=levelName;
+//		data.LevelName=levelName;
+//
+//		Debug.Log ("curLevelName===" + data.LevelName);
+//	}
 
 
 	void OnReplayBtnClick(GameObject btn)//重玩
@@ -34,7 +53,7 @@ public class WelldonePanel : MonoBehaviour {
 		//重玩，返回到当前关卡的（开始拍摄界面）
 		photoTakingPanel.SetActive(true);
 		//把当前关卡名传递过去
-		photoTakingPanel.GetComponent<PhotoTakingPanel> ().SetLevelValue (curLevelName);
+		//photoTakingPanel.GetComponent<PhotoTakingPanel> ().SetLevelValue (data.LevelName);
 
 	}
 
@@ -53,5 +72,9 @@ public class WelldonePanel : MonoBehaviour {
 
 		transform.parent.parent.Find ("LevelSelectPanel").gameObject.SetActive (true);
 
+		//记录通关的关卡
+		PlayerPrefs.SetInt ("LevelID",data.LevelID);
+		Debug.Log ("data.LevelID====" + data.LevelID);
+		PlayerPrefs.SetInt ("LevelProgress",3);
 	}
 }

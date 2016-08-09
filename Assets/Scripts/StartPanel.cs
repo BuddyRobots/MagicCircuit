@@ -7,8 +7,8 @@ public class StartPanel : MonoBehaviour {
 
 
 	private GameObject nextBtn;
-	private GameObject musicOnBtn;
-	private GameObject musicOffBtn;
+	//private GameObject musicOnBtn;
+	//private GameObject musicOffBtn;
 	private GameObject levelSelectPanel;
 	private GameObject levelDescriptionPanel;
 
@@ -25,37 +25,37 @@ public class StartPanel : MonoBehaviour {
 	{		
 		
 		nextBtn= transform.Find ("NextBtn").gameObject;
-		musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
-		musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
+		//musicOnBtn = transform.Find ("MusicOnBtn").GetComponent<UIButton> ().gameObject;
+		//musicOffBtn = transform.Find ("MusicOffBtn").GetComponent<UIButton> ().gameObject;
 
 
 		levelSelectPanel=transform.parent.Find("LevelSelectPanel").gameObject;
 		levelDescriptionPanel=transform.parent.Find("DescriptionPanel").gameObject;
 
 
-		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
-		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
+//		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
+//		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
 		UIEventListener.Get(nextBtn).onClick =OnNextBtnClick;
 
 	}
-
-	void  OnMusicOffBtnClick(GameObject btn)  
-	{
-		isMusicOn = true;
-		musicOffBtn.SetActive (false);
-		musicOnBtn.SetActive (true);
-		//打开音效  to do ...
-	}
-		
-
-	void OnMusicOnBtnClick(GameObject btn)
-	{
-		isMusicOn=false;
-		musicOffBtn.SetActive (true);
-		musicOnBtn.SetActive (false);
-
-		//关闭音效 to do ....
-	}
+//
+//	void  OnMusicOffBtnClick(GameObject btn)  
+//	{
+//		isMusicOn = true;
+//		musicOffBtn.SetActive (false);
+//		musicOnBtn.SetActive (true);
+//		//打开音效  to do ...
+//	}
+//		
+//
+//	void OnMusicOnBtnClick(GameObject btn)
+//	{
+//		isMusicOn=false;
+//		musicOffBtn.SetActive (true);
+//		musicOnBtn.SetActive (false);
+//
+//		//关闭音效 to do ....
+//	}
 
 
 	/// <summary>

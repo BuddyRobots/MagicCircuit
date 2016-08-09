@@ -17,7 +17,7 @@ public class LevelItemData
 	private int m_LevelID;
 	private int m_LevelNumber;//关卡数字
 	private string m_LevelName;//关卡名字
-	private string m_IconName;//背景图片在图集中的名字-----这个可以不要
+	//private string m_IconName;//背景图片在图集中的名字-----这个可以不要
 	private string m_LevelDescription;//关卡描述
 	private LevelProgress progress;
 	private int preLevelID;
@@ -72,18 +72,18 @@ public class LevelItemData
 		}
 	}
 
-	public string IconName
-	{
-
-		get
-		{ 
-			return m_IconName;
-		}
-		set
-		{ 
-			m_IconName = value;
-		}
-	}
+//	public string IconName
+//	{
+//
+//		get
+//		{ 
+//			return m_IconName;
+//		}
+//		set
+//		{ 
+//			m_IconName = value;
+//		}
+//	}
 
 	public string LevelName
 	{

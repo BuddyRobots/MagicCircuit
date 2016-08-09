@@ -81,6 +81,13 @@ public class CircuitItemManager :MonoBehaviour
 		vecs4.Add (vec01);
 		vecs4.Add (vec02);
 		vecs4.Add (vec03);
+		vecs4.Add (vec04);
+		vecs4.Add (vec05);
+		vecs4.Add (vec06);
+		vecs4.Add (vec07);
+		vecs4.Add (vec08);
+		vecs4.Add (vec09);
+
 		item4.list = vecs4;
 		item4.showOrder = 3;
 

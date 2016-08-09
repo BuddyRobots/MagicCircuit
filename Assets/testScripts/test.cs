@@ -15,12 +15,12 @@ public class test : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		Time.timeScale = 1f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		DrawLine ();
 	}
 
 	//设置一段线的数据

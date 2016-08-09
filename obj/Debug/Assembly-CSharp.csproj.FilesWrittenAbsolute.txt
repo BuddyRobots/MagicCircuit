@@ -34,3 +34,6 @@
 /Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/Mono.Cecil.Mdb.dll
 /Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/Assembly-CSharp.dll.mdb
 /Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/DOTween.dll
+/Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/wang'qian/Documents/GitFile/MagicCircuit/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb

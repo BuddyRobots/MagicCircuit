@@ -1,34 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// 该类负责控制关卡按钮
+/// </summary>
 public class LevelItemUI : MonoBehaviour {
 
-	//该类负责每一个关卡的界面显示 
 
-	//private UISprite levelItemBg;//背景图片
-	//private UILabel levelNumLabel;//等级数字
-	public LevelItemData data;//item数据
+	public LevelItemData data;
 
 	private GameObject levelSelectPanel;
 	private GameObject levelDescriptionPanel;
-
-//	private UISprite Sprite {
-//		get {
-//			if (levelItemBg == null) {
-//				//levelItemBg = transform.Find("LevelBtn").GetComponent<UISprite>();
-//				levelItemBg = transform.GetComponent<UISprite>();
-//			}
-//			return levelItemBg;
-//		}
-//	}
-//	private UILabel Label {
-//		get {
-//			if (levelNumLabel == null) {
-//				levelNumLabel = transform.Find("Label").GetComponent<UILabel>();
-//			}
-//			return levelNumLabel;
-//		}
-//	}
 
 
 	void Awake()
@@ -53,24 +35,21 @@ public class LevelItemUI : MonoBehaviour {
 	//如果对象有collider，可以这样实现点击事件
 	public void OnClick()
 	{
-		//Debug.Log ("levelBtn clicked: "+ this.name);
-		levelSelectPanel.SetActive (false);
 		levelDescriptionPanel.SetActive (true);
 
 		//得到关卡数字
 		int levelID = GetLevel (this.name);
-		data = LevelManager._instance.GetSingleLevelItem (levelID);
+		data = LevelManager._instance.GetSingleLevelItem (levelID);//根据关卡数字拿到关卡数据
 
-		//这里需要把等级数字传递过去
+
 		if (data!=null) 
 		{
-			//object[] objectArray = new object[2];
-			//objectArray[0] = data;//这里可以把整个item的数据都传过去，方便后面使用，不要只传等级数字
-			//objectArray[1] = this;
 			DescriptionPanel._instance.Show (data);//根据拿到的数据进行显示
-			//Debug.Log(DescriptionPanel._instance);
 		}
 
+		LevelManager._instance.SetCurrentLevel(data);//保存当前关卡信息
+
+		levelSelectPanel.SetActive (false);
 	}
 
 	/// <summary>
@@ -95,7 +74,6 @@ public class LevelItemUI : MonoBehaviour {
 		{
 			int.TryParse (temp, out ret);
 		}
-		//Debug.Log ("ret=="+ret);
 		return ret;
 
 	}
