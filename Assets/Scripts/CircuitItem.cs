@@ -23,11 +23,4 @@ public class CircuitItem
 
 	public int showOrder;//显示顺序
 
-
-
-
-
-
-
-
 }

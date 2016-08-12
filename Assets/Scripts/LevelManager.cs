@@ -173,7 +173,7 @@ public class LevelManager : MonoBehaviour
 	/// </summary>
 	public void loadLocalLevelProgressData()
 	{
-		Debug.Log ("loadLocalLevelProgressData");
+		//Debug.Log ("loadLocalLevelProgressData");
 		int levelID = 0;
 		int levelPro = 0;
 		if (PlayerPrefs.HasKey ("LevelID")) {
@@ -189,7 +189,7 @@ public class LevelManager : MonoBehaviour
 		if (PlayerPrefs.HasKey ("LevelProgress")) {
 
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
-			Debug.Log ("levelPro==" + levelPro);
+			//Debug.Log ("levelPro==" + levelPro);
 		} else {
 		
 			PlayerPrefs.SetInt ("LevelProgress", 0);
@@ -223,7 +223,7 @@ public class LevelManager : MonoBehaviour
 		} 
 		else 
 		{//有关卡记录，不是第一次玩
-			Debug.Log ("updateLevelItemDataListBB");
+			//Debug.Log ("updateLevelItemDataListBB");
 			//修改已完成的最高关卡之前的所有关卡进度---都是已完成
 			for (int i = 0; i < levelID; ++i) {
 
@@ -246,7 +246,7 @@ public class LevelManager : MonoBehaviour
 			
 			}
 			*/
-			Debug.Log ("updateLevelItemDataListCC");
+//			Debug.Log ("updateLevelItemDataListCC");
 		}
 	}
 

@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\EventTriggerListener.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -291,6 +290,7 @@
      <Compile Include="Assets\OpenCVForUnity\org\opencv\video\BackgroundSubtractorMOG2.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\video\KalmanFilter.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\video\Video.cs" />
+     <Compile Include="Assets\Scripts\ArrowCtrl.cs" />
      <Compile Include="Assets\Scripts\CircuitItem.cs" />
      <Compile Include="Assets\Scripts\CircuitItemManager.cs" />
      <Compile Include="Assets\Scripts\CommonPanel02.cs" />
@@ -301,6 +301,7 @@
      <Compile Include="Assets\Scripts\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Scripts\LevelSelectPanel.cs" />
+     <Compile Include="Assets\Scripts\MoveCtrl.cs" />
      <Compile Include="Assets\Scripts\MusicCtrl.cs" />
      <Compile Include="Assets\Scripts\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\PhotoTakingPanel.cs" />
@@ -323,10 +324,12 @@
      <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
-     <Compile Include="Assets\UIMain.cs" />
+     <Compile Include="Assets\showTest.cs" />
      <Compile Include="Assets\testScripts\DrawLineTest.cs" />
+     <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
      <Compile Include="Assets\testScripts\LineManager.cs" />
      <Compile Include="Assets\testScripts\Move.cs" />
+     <Compile Include="Assets\testScripts\UIMain.cs" />
      <Compile Include="Assets\testScripts\UIManager.cs" />
      <Compile Include="Assets\testScripts\UIResourceDefine.cs" />
      <Compile Include="Assets\testScripts\drawTrianglr.cs" />
@@ -345,7 +348,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
-     <None Include="Assets\shader.shader" />
+     <None Include="Assets\Shader\shader.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
      <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />

@@ -41,11 +41,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	//需要跳转连接的界面
 	private GameObject commonPanel02;
-	//private GameObject wellDonePanel;
 	private GameObject failurePanel;
-	//private GameObject photoTakingPanel;
-
-	//private UIAtlas atalas;
 
 	private UILabel levelNameLabel;
 
@@ -54,16 +50,10 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// </summary>
 	private bool isShowDone=false;
 
-	//private bool isAnimationDone=false;//电流动画是否播完的标志
-
 	/// <summary>
 	/// 判断拍摄的照片是否显示完成的标志
 	/// </summary>
 	private bool isPhotoShowDone = false;
-
-
-
-
 
 	/// <summary>
 	/// 判断箭头电流动画是否完成的标志
@@ -75,24 +65,26 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// </summary>
 	private bool isCreate = false;
 
+	/// <summary>
+	/// 保证创建图标的协同只走一遍的标志
+	/// </summary>
 	private bool isCreate_Update=false;
+	/// <summary>
+	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
+	/// </summary>
+	private int iconCount = 1;
 
-
-	//需要一张纹理来存储拍摄截取的图像
-	private UISprite image;
-	//需要计时器，控制背景图片的渐变  ..... to do 
-	//private float imageTimer=0;
-	//private float toGrayTime=0;
-
+	private UISprite image;//拍摄截取的图像
+	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
 
 	//显示图标的计时器
-	private float timer = 0f;//计时器
-	private float intervalTime = 1f;//间隔时间
+	//private float timer = 0f;//计时器
+	//private float intervalTime = 1f;//间隔时间
 	private float  animationTimer=0;//电流动画播放计时器
 	private float animationTime=5f;//重玩按钮和下一步按钮在电流动画播放两秒后出现
 
 
-	private int itemCount=0;//图标的数量计数器
+	//private int itemCount=0;//图标的数量计数器
 
 	private Transform arrowOccurPos;
 	private List<CircuitItem> list=new List<CircuitItem>();//图标的集合
@@ -101,7 +93,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 
 	//画线--------------for test...
-	private List<Vector3> pos=new List<Vector3>();
+	//private List<Vector3> pos=new List<Vector3>();
 
 	private List<Vector3> posArrow=new List<Vector3>();//这个是箭头的坐标点集合
 
@@ -120,34 +112,19 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private GameObject lineParent;
 	private GameObject linePrefab;
 
-	//private float lineTimer = 0;
-	//private float time = 1f;
-
 	private int index = 0;
 
 	//--------------------
 
+	private static float maskTimer = 0f;//蒙板透明度渐变计时器-----总时间=所有item开始显示到显示完成的总时间
+	private float maskTime;//蒙板由透明变成不透明的总时间
 
+
+
+	List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
 	void Awake()
 	{
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
-
-		#region 画线
-		//for test...点的集合
-		pos.Add (new Vector3 (1f, 0, 0));
-		pos.Add (new Vector3 (10, 1, 0));
-		pos.Add (new Vector3 (20, 4, 0));
-		pos.Add (new Vector3 (30, 10, 0));
-		pos.Add (new Vector3 (40, 20, 0));
-		pos.Add (new Vector3 (50, 30, 0));
-		pos.Add (new Vector3 (60, 40, 0));
-		pos.Add (new Vector3 (70, 50, 0));
-		pos.Add (new Vector3 (80, 60, 0));
-		pos.Add (new Vector3 (90, 70, 0));
-
-
-
-		#endregion
 
 		// for test....箭头位置的集合
 		posArrow.Add(new Vector3 (-198, -97, 0));
@@ -164,73 +141,66 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		posArrow.Add(new Vector3 (-178, 160, 0));
 		posArrow.Add(new Vector3 (-242, 94, 0));
 		posArrow.Add(new Vector3 (-259, -14, 0));
-
-
 	}
-
 
 	void Start () 
 	{
-		
-
 	}
 
 	void OnEnable()
 	{
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 
-		//result = Result.Success;
+		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
+		failurePanel=transform.parent.Find ("CommonPanel02/FailurePanel").gameObject;
+		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
+		replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
+		nextBtn=transform.Find("NextBtn").GetComponent<UIButton> ().gameObject;
+		bulb = Resources.Load ("Bulb",typeof(GameObject))  as GameObject;
+		battery = Resources.Load ("Battery",typeof(GameObject))  as GameObject;
+		switchOn = Resources.Load ("SwitchOn",typeof(GameObject))  as GameObject;
+		arrowPrefab=Resources.Load("Arrow") as GameObject;
+		linePrefab = Resources.Load ("Line") as GameObject;
 
+		lineParent = this.gameObject;
+		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
+		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
+		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
 		isShowDone=false;
 		isPhotoShowDone = false;
 		isArrowShow=false;
 		isCreate = false;
 		isCreate_Update=false;
 		index = 0;
-		//replayBtn.SetActive(false);
-		//nextBtn.SetActive (false);
+		iconCount = 1;
 		result = Result.Success;//for test..
 		data = LevelManager.currentLevelData;
 
-
-		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
-		//wellDonePanel=transform.parent.Find ("CommonPanel02/WelldonePanel").gameObject;
-		failurePanel=transform.parent.Find ("CommonPanel02/FailurePanel").gameObject;
-		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
-		replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
-		nextBtn=transform.Find("NextBtn").GetComponent<UIButton> ().gameObject;
-
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
-
-		bulb = Resources.Load ("Bulb",typeof(GameObject))  as GameObject;
-		battery = Resources.Load ("Battery",typeof(GameObject))  as GameObject;
-		switchOn = Resources.Load ("SwitchOn",typeof(GameObject))  as GameObject;
-		arrowPrefab=Resources.Load("Arrow") as GameObject;
-		linePrefab = Resources.Load ("Line") as GameObject;
-		lineParent = this.gameObject;
+		mask=transform.Find("Bg/Mask").GetComponent<UISprite> ();
+		image.gameObject.SetActive (false);
+		mask.gameObject.SetActive (true);
 
 		list=CircuitItemManager._instance.itemList;
+		arrowOccurPos = gameObject.transform;
 
-
-		//两点之间画线，需要知道两点之间的距离，线段的中心点，以及角度------思想是把要显示的图片放在中心点的位置，然后把图片的宽度拉伸到和线段一样长，再依照角度旋转
-//		distance = Vector3.Distance (fromPos, toPos);
-//		centerPos = Vector3.Lerp (fromPos, toPos, 0.5f);
-//		angle = TanAngle (fromPos, toPos);
-
-		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
-		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
-		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
 
+		mask.alpha = 0;
+		maskTime = list.Count  * 1;//显示图标的总时间=图标个数*每个图标隔的时间
+		Debug.Log("maskTime===="+maskTime);
+		foreach (var item in lines) 
+		{
+			maskTime += (float)((item.Count - 1) * 0.2);//显示一条线的总时间
+
+		}
+		Debug.Log("maskTime---------"+maskTime);
 		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 
+
 	}
-
-
-
-
-
+		
 	/// <summary>
 	/// 显示拍摄的图片
 	/// </summary>
@@ -243,96 +213,116 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		yield return new WaitForSeconds (2f);
 		isPhotoShowDone = true;
 	}
+		
+
+
 
 	void Update () 
 	{
+		//mask 要在背景图片显示了2秒后才被激活  或者把背景图片和mask放在一起，一起显示，刚开始mask的透明度为0，2秒后mask的透明度开始渐变，直到透明度为1  
+		//to do...
 		if (isPhotoShowDone) 
 		{
-			
+			#region 背景图片显示2秒后蒙板出现，透明度渐变，同时开始创建图标
+			//图标显示2秒后蒙板出现，透明度渐变
+			maskTimer += Time.deltaTime;
+			if (maskTimer >= maskTime) {
+				maskTimer =maskTime;
+			}
+			mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
+
+
+			//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
 			if(isCreate_Update==false)
 			{
-				StartCoroutine (Create ());
+				//创建图标
+				StartCoroutine (CreateAllItem ());
 				isCreate_Update =true;
 			}
-			if (isCreate) 
+			if (iconCount == 0) 
 			{
 				isShowDone = true;
 			}
+			#endregion
+
+			#region  图标创建完成，如果结果是正确的，就播放电流
 			//如果所有图标都显示完了，且匹配成功，就播放动画，跳转到welldone界面
 			if (isShowDone && result == Result.Success) 
 			{
 				if (isArrowShow == false) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
 				{
-					StartCoroutine (ArrowShow ());
-					//动画播放2秒后 label的文字变化（并开始闪动），弹出两个按钮
-
+					StartCoroutine (ArrowShow01 ());
 					isArrowShow = true;
-					//Debug.Log ("ArrowShow ()");
 				}
-
 			}
+
+			#endregion
+
+			#region 如果结果是错误的，就跳转到失败界面
 			else if (isShowDone && result == Result.Fail) 
 			{
-				//如果所有图标都显示完了,且匹配失败，跳转到失败界面
 				Fail ();
 			}
+			#endregion
 		}
 
 	}
+
 	/// <summary>
-	/// 创建图标
+	/// 创建所有的图标
 	/// </summary>
-	IEnumerator Create()
+	IEnumerator CreateAllItem()
 	{
+		iconCount = list.Count;
 		for (int i = 0; i < list.Count; i++) 
 		{
 			isCreate = false;//只要进来了就说明线没画完
-			CreateItem (list [i]);
-			yield return new WaitForSeconds (1);
+			CreateSingleItem (list [i]);
+			yield return new WaitForSeconds (1);//隔一秒创建一个图标
 		}
 	}
-
-
-	//创建图标----传入图标的类型和坐标
-	public void CreateItem(CircuitItem circuitItem)
+	/// <summary>
+	/// 创建单个图标
+	/// </summary>
+	/// <param name="circuitItem">单个图标</param>
+	public void CreateSingleItem(CircuitItem circuitItem)
 	{
 
 		GameObject item = null;
-
 		switch (circuitItem.type) 
 		{
 		case ItemType.Battery://如果是电池，则克隆电池的图标
-			item = GameObject.Instantiate (battery, circuitItem.list [0], Quaternion.identity) as GameObject;
-			goList.Add (item);
+			//item = GameObject.Instantiate (battery, circuitItem.list [0], Quaternion.identity) as GameObject;
+			item = GameObject.Instantiate (battery) as GameObject;
+
+			goList.Add (item);//新创建一个对象的同时把这个对象加入到对象列表，方便关闭界面的时候销毁这些新创建的对象
 			arrowOccurPos = item.transform;//箭头从电池的位置出来
-			//lineStart = item;
 			item.name = "battery"; 
+
+			iconCount--;
 			break;
 
 		case ItemType.Bulb:
-			item = GameObject.Instantiate (bulb, circuitItem.list [0], Quaternion.identity) as GameObject;
+			//item = GameObject.Instantiate (bulb, circuitItem.list [0], Quaternion.identity) as GameObject;
+			item = GameObject.Instantiate (bulb) as GameObject;
 			goList.Add (item);
-			//lineEnd = item;
 			item.name = "bulb";
+			iconCount--;
 			break;
 
 		case ItemType.Switch:
-			item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
+			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
+			item = GameObject.Instantiate (switchOn) as GameObject;
 			goList.Add (item);
 			item.name = "switchOn"; 
+			iconCount--;
 			break;
 
 		case ItemType.CircuitLine:
-			//goList.Add (item);
-			//Debug.Log ("this is a line...");
-
-			//首先要知道线上面的点的坐标
-			//DrawLine (circuitItem.list);
-
-			//StartCoroutine(DrawCircuit(circuitItem.list));
-			StartCoroutine(DrawCircuit(pos));// for test..
-
-
+			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
+			lines.Add (circuitItem.list);
+			//开始画线
+			StartCoroutine(DrawCircuit(circuitItem.list));
 			break;
 		default:
 			break;
@@ -340,11 +330,49 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		}
 		if (item!=null) 
 		{
-			item.transform.parent = transform;//GameObject.Find ("PhotoRecognizingPanel").transform; // 将自己的父物体设置成“PhotoRecognizingPanel”
+			item.transform.parent = transform;// 将自己的父物体设置成“PhotoRecognizingPanel”
 
-			item.transform.position = circuitItem.list [0]; 
+			//item.transform.position = circuitItem.list [0]; //我这里测试用写的坐标是根据transform.positon标志的，所以用transform.position来接收
+			item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
 			item.transform.localScale = new Vector3 (1, 1, 1); 
 		}
+	}
+
+	/// <summary>
+	/// 画线路
+	/// </summary>
+	/// <param name="pos">线上点的集合</param>
+	IEnumerator DrawCircuit(List <Vector3> pos)
+	{
+		for (int i = 0; i < pos.Count - 1; i++)
+		{
+
+			DrawLine (pos [i], pos [i + 1]);
+			yield return new WaitForSeconds (0.1f);//画一条线，隔0.1秒再画一条
+
+		}
+		iconCount--;
+		isCreate = true;//只要画完一条线就标志已经画完
+
+	}
+
+	/// <summary>
+	/// 两点之间画线
+	/// </summary>
+	/// <param name="pos">参数是点的集合</param>
+	//两点之间画线，需要知道两点之间的距离，线段的中心点，以及角度------思想是把要显示的图片放在中心点的位置，然后把图片的宽度拉伸到和线段一样长，再依照角度旋转
+	void DrawLine(Vector3 posFrom, Vector3 posTo)
+	{
+		distance = Vector3.Distance (posFrom, posTo);
+		centerPos = Vector3.Lerp (posFrom, posTo, 0.5f);
+		angle = TanAngle (posFrom, posTo);
+
+		GameObject lineGo = NGUITools.AddChild(lineParent, linePrefab);//生成新的连线  
+		goList.Add(lineGo);
+		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
+		lineSp.width = (int)distance;//将连线图片的宽度设置为上面计算的距离  
+		lineGo.transform.localPosition = centerPos;//设置连线图片的坐标 ----@@@@@@@@@@@@@@@@@@@@#####这里用世界坐标还是本地坐标看测试代码中设定的坐标是根据什么来定的 
+		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
 	}
 
 
@@ -354,7 +382,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// 箭头出现
 	/// </summary>
 	/// <returns>The show.</returns>
-	IEnumerator ArrowShow()
+	 IEnumerator ArrowShow()
 	{
 		List<Vector3> arrowPos= posArrow;
 		for (int i = 0; i < arrowPos.Count; i++)
@@ -371,17 +399,9 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				Vector3 looknor = new Vector3 ((arrowPos [i + 1].x - arrowPos [i].x), (arrowPos [i + 1].y - arrowPos [i].y), 0f).normalized;
 				arrow.transform.up = looknor;
 			}
-//			if (i == arrowPos.Count - 1) 
-//			{
-//				
-//				WellDone ();
-//				
-//			}
-			yield return new WaitForSeconds (0.2f);
+			yield return new WaitForSeconds (0.1f);
 
-
-
-
+			//动画播放一会后 label的文字变化（并开始闪动），弹出两个按钮
 			animationTimer++;
 			if (animationTimer >= animationTime) 
 			{
@@ -391,11 +411,45 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			}
 	
 		}
+	}
+
+	IEnumerator ArrowShow01()
+	{
+		List<Vector3> line = new List<Vector3> ();//整个线路上的点
+		for (int i = 0; i < lines.Count; i++)
+		{
+			List<Vector3> singleLine = lines [i];
+			for (int j = 0; j <singleLine.Count; j++) 
+			{
+				line.Add (singleLine [j]);
 
 
+			}
+		}
+		for (int j = 0; j <line.Count; j++) {
+
+			GameObject arrow = Instantiate (arrowPrefab) as GameObject;//在第一条线的第一个点创建一个箭头
+			goList.Add (arrow);
+			arrow.transform.parent = transform;
+			arrow.name="arrow";
+			arrow.transform.localPosition =arrowOccurPos.localPosition;
+			arrow.transform.localScale = Vector3.one;
+			arrow.GetComponent<MoveCtrl> ().Move (line);
+			yield return new WaitForSeconds(0.4f);
+
+			animationTimer++;
+			if (animationTimer >= animationTime) 
+			{
+				animationTimer = 0;
+				WellDone ();
+
+			}
+		}
+		  
 
 
 	}
+
 
 
 	public void Fail()
@@ -447,33 +501,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		PanelOff();
 
 	}
-
-	/// <summary>
-	/// 将玩家的图和关卡图比较，返回bool值，true则播放动画，false则跳转到失败界面
-	/// </summary>
-	/// <returns><c>true</c>, if with answer was compared, <c>false</c> otherwise.</returns>
-	public bool CompareWithAnswer()
-	{
-		return false;
-
-
-	}
-		
-	/// <summary>
-	/// 画线路
-	/// </summary>
-	/// <param name="pos">参数是线上的点的坐标</param>
-	/// 
-	IEnumerator DrawCircuit(List <Vector3> pos)
-	{
-		for (int i = 0; index < pos.Count - 1; i++)
-		{
-			DrawLine (pos);
-			yield return new WaitForSeconds (0.2f);//画一条线，隔0.2秒再画一条
-
-		}
-		isCreate = true;//只要画完一条线就标志已经画完
-	}
 		
 	private float TanAngle(Vector2 from, Vector2 to)
 	{
@@ -484,41 +511,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 		return nnangle;  
 
-	}
-	/// <summary>
-	/// 两点之间画线
-	/// </summary>
-	/// <param name="pos">参数是点的集合</param>
-	void DrawLine(List <Vector3> pos)
-	{
-
-		if (pos.Count == 1) 
-		{
-
-			fromPos = toPos = pos [0];
-		} 
-		else 
-		{
-			fromPos = pos [index];
-			toPos = pos [index + 1];
-		}
-		#region 画线
-		distance = Vector3.Distance (fromPos, toPos);
-		centerPos = Vector3.Lerp (fromPos, toPos, 0.5f);
-		angle = TanAngle (fromPos, toPos);
-
-		GameObject lineGo = NGUITools.AddChild(lineParent, linePrefab);//生成新的连线  
-		goList.Add(lineGo);
-		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
-		lineSp.width = (int)distance;//将连线图片的宽度设置为上面计算的距离  
-		lineGo.transform.localPosition = centerPos;//设置连线图片的坐标  
-		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
-
-		//画完一条以后 fromPos后移，toPos后移
-
-
-		#endregion
-		index++;
 	}
 
 
@@ -533,7 +525,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	{
 		foreach (GameObject item in goList) 
 		{
-			Destroy (item);
+			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 		}
 
 		gameObject.SetActive (false);

@@ -50,19 +50,27 @@ public class DrawLineTest : MonoBehaviour {
 			Vector3 pos2 = Vector3.Lerp(gameOjbet_tran[1].position, gameOjbet_tran[2].position, i / 100f);
 			Vector3 pos3 = Vector3.Lerp(gameOjbet_tran[2].position, gameOjbet_tran[3].position, i / 100f);
 			Vector3 pos4 = Vector3.Lerp(gameOjbet_tran[3].position, gameOjbet_tran[4].position, i / 100f);
+			Vector3 pos5 = Vector3.Lerp(gameOjbet_tran[4].position, gameOjbet_tran[5].position, i / 100f);
+			Vector3 pos6 = Vector3.Lerp(gameOjbet_tran[5].position, gameOjbet_tran[6].position, i / 100f);
 
 
 			//二
 			var pos1_0 = Vector3.Lerp(pos1, pos2, i / 100f);
 			var pos1_1 = Vector3.Lerp(pos2, pos3, i / 100f);
 			var pos1_2 = Vector3.Lerp(pos3, pos4, i / 100f);
+			var pos1_3 = Vector3.Lerp(pos4, pos5, i / 100f);
 
 			//三
 			var pos2_0 = Vector3.Lerp(pos1_0, pos1_1, i / 100f);
 			var pos2_1 = Vector3.Lerp(pos1_1, pos1_2, i / 100f);
+			var pos2_2 = Vector3.Lerp(pos1_2, pos1_3, i / 100f);
+
+			var pos3_0 = Vector3.Lerp(pos2_0, pos2_1, i / 100f);
+			var pos3_1 = Vector3.Lerp(pos2_1, pos2_2, i / 100f);
+
 
 			//四
-			Vector3 find = Vector3.Lerp(pos2_0, pos2_1, i / 100f);
+			Vector3 find = Vector3.Lerp(pos3_0, pos3_1, i / 100f);
 
 			point.Add(find);            
 		}
