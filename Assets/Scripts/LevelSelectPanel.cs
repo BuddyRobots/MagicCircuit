@@ -141,52 +141,6 @@ public class LevelSelectPanel : MonoBehaviour {
 		refreshLevelUI ();
 
 	}
-		
-
-	void OnEnable11()
-	{
-		Debug.Log ("OnEnable");
-//		if(uiBtnListT.Capacity == 0){
-//			uiBtnListT.Add (btnT01);
-//			uiBtnListT.Add (btnT02);
-//			uiBtnListT.Add (btnT03);
-//			uiBtnListT.Add (btnT04);
-//			uiBtnListT.Add (btnT05);
-//			uiBtnListT.Add (btnT06);
-//			uiBtnListT.Add (btnT07);
-//			uiBtnListT.Add (btnT08);
-//			uiBtnListT.Add (btnT09);
-//			uiBtnListT.Add (btnT10);
-//			uiBtnListT.Add (btnT11);
-//			uiBtnListT.Add (btnT12);
-//			uiBtnListT.Add (btnT13);
-//			uiBtnListT.Add (btnT14);
-//			uiBtnListT.Add (btnT15);
-//
-//		}
-//
-//		if(uiBtnListL.Capacity == 0){
-//			uiBtnListL.Add (btnL01);
-//			uiBtnListL.Add (btnL02);
-//			uiBtnListL.Add (btnL03);
-//			uiBtnListL.Add (btnL04);
-//			uiBtnListL.Add (btnL05);
-//			uiBtnListL.Add (btnL06);
-//			uiBtnListL.Add (btnL07);
-//			uiBtnListL.Add (btnL08);
-//			uiBtnListL.Add (btnL09);
-//			uiBtnListL.Add (btnL10);
-//			uiBtnListL.Add (btnL11);
-//			uiBtnListL.Add (btnL12);
-//			uiBtnListL.Add (btnL13);
-//			uiBtnListL.Add (btnL14);
-//			uiBtnListL.Add (btnL15);
-//
-//		}
-
-		refreshLevelUI ();
-	}
-
 
 	public int GetLevel(string levelName)
 	{
@@ -249,5 +203,10 @@ public class LevelSelectPanel : MonoBehaviour {
 
 		}
 
+	}
+
+	public void PanelOff()
+	{
+		gameObject.SetActive (false);
 	}
 }

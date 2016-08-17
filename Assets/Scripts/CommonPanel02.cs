@@ -24,4 +24,9 @@ public class CommonPanel02 : MonoBehaviour {
 		//跳转到帮助界面
 		Debug.Log("GameObject: "+btn.name);
 	}
+
+	public void PanelOff()
+	{
+		gameObject.SetActive (false);
+	}
 }

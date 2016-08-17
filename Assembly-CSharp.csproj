@@ -297,6 +297,7 @@
      <Compile Include="Assets\Scripts\DescriptionPanel.cs" />
      <Compile Include="Assets\Scripts\FailurePanel.cs" />
      <Compile Include="Assets\Scripts\HomeBtn.cs" />
+     <Compile Include="Assets\Scripts\HomeBtnInRecognizePanel.cs" />
      <Compile Include="Assets\Scripts\LevelItemData.cs" />
      <Compile Include="Assets\Scripts\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
@@ -307,10 +308,12 @@
      <Compile Include="Assets\Scripts\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\PlayerData.cs" />
      <Compile Include="Assets\Scripts\StartPanel.cs" />
+     <Compile Include="Assets\Scripts\SwitchCtrl.cs" />
      <Compile Include="Assets\Scripts\TimerItem.cs" />
      <Compile Include="Assets\Scripts\TimerManager.cs" />
      <Compile Include="Assets\Scripts\WebCam.cs" />
      <Compile Include="Assets\Scripts\WelldonePanel.cs" />
+     <Compile Include="Assets\Scripts\getImage.cs" />
      <Compile Include="Assets\ScriptsCV\CvUtil\Card.cs" />
      <Compile Include="Assets\ScriptsCV\CvUtil\Segmentation.cs" />
      <Compile Include="Assets\ScriptsCV\CvUtil\Track.cs" />
@@ -324,9 +327,9 @@
      <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
-     <Compile Include="Assets\showTest.cs" />
      <Compile Include="Assets\testScripts\DrawLineTest.cs" />
      <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
+     <Compile Include="Assets\testScripts\FingerSpriteMove.cs" />
      <Compile Include="Assets\testScripts\LineManager.cs" />
      <Compile Include="Assets\testScripts\Move.cs" />
      <Compile Include="Assets\testScripts\UIMain.cs" />
@@ -348,7 +351,6 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
-     <None Include="Assets\Shader\shader.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
      <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />

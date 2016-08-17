@@ -42,7 +42,6 @@ public class MusicCtrl : MonoBehaviour {
 			if (bgAudio.isPlaying) {
 				bgAudio.Pause ();
 			}
-			//bgAudio.Pause();
 		}
 	}
 

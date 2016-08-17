@@ -62,7 +62,7 @@ public class ArrowCtrl : MonoBehaviour
 	{
 		this.speed = speed;
 		dest = pos;//记录目标点，方便后面判断是不是移动到了这个点
-		direction= (pos - transform.localPosition).normalized;
+		direction= (pos - transform.localPosition).normalized;//箭头的方向
 		transform.up = direction;
 
 
