@@ -55,7 +55,7 @@ public class RecognizeAlgo {
             util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(0, 0, 255));
 
             // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Battery", ItemType.Battery, ID++);
+            tmpItem = new CircuitItem(ID, "Battery", ItemType.Battery, ID++, frameImg.size());
             tmpItem.extractCard(bb[i], rect[i]);
             listItem.Add(tmpItem);
         }
@@ -73,7 +73,7 @@ public class RecognizeAlgo {
             util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(0, 255, 0));
 
             // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Bulb", ItemType.Bulb, ID++);
+            tmpItem = new CircuitItem(ID, "Bulb", ItemType.Bulb, ID++, frameImg.size());
             tmpItem.extractCard(bb[i], rect[i]);
             listItem.Add(tmpItem);
         }
@@ -91,7 +91,7 @@ public class RecognizeAlgo {
             util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(255, 255, 0));
 
             // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Switch", ItemType.Switch, ID++);
+            tmpItem = new CircuitItem(ID, "Switch", ItemType.Switch, ID++, frameImg.size());
             tmpItem.extractCard(bb[i], rect[i]);
             listItem.Add(tmpItem);
         }
@@ -113,7 +113,7 @@ public class RecognizeAlgo {
         for(var i = 0; i < listLine.Count; i++)
             for(var j = 0; j < listLine[i].Count; j++)
             {
-                tmpItem = new CircuitItem(ID, "CircuitLine", ItemType.CircuitLine, ID++);
+                tmpItem = new CircuitItem(ID, "CircuitLine", ItemType.CircuitLine, ID++, frameImg.size());
                 tmpItem.extractLine(listLine[i][j], rect[i]);
                 listItem.Add(tmpItem);
             }

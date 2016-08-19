@@ -1,5 +1,4 @@
-﻿    using OpenCVForUnity;
-using System;
+﻿using OpenCVForUnity;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -120,17 +119,17 @@ namespace MagicCircuit
         public string name { get; set; }
         public ItemType type { get; set; }      //图标类型
         public List<Vector3> list { get; set; } //图标的坐标
-		public double theta{ get; set; }                  //图标的朝向（单位：角度）
-		public int showOrder{ get; set; }                   //显示顺序 从0开始（图标的显示顺序是灯泡）
-		public bool powered{ get; set; }                    //元件是否通电
+		public double theta{ get; set; }        //图标的朝向（单位：角度）
+		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
+		public bool powered{ get; set; }        //元件是否通电
 
-        private double x_shift = 240;           //Parameters for changing cordinates
-        private double y_shift = 320;
+        private double x_shift;                 //Parameters for changing cordinates
+        private double y_shift;
 
 		public CircuitItem(){
 		}
 
-        public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, bool _p = false)
+        public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, Size _frameSize, bool _p = false)
         {
             ID = _id;
             name = _name;
@@ -139,10 +138,12 @@ namespace MagicCircuit
             theta = _theta;
             showOrder = _order;
             powered = _p;
+			x_shift = _frameSize.width / 2;
+            y_shift = _frameSize.height / 2;
         }
 
         // @Override
-        public CircuitItem(int _id, string _name, ItemType _type, int _order, bool _p = false)
+        public CircuitItem(int _id, string _name, ItemType _type, int _order, Size _frameSize, bool _p = false)
         {
             ID = _id;
             name = _name;
@@ -151,6 +152,8 @@ namespace MagicCircuit
             powered = _p;
             list = new List<Vector3>();
             theta = 0;
+			x_shift = _frameSize.width / 2;
+            y_shift = _frameSize.height / 2;
         }
 
         private List<Vector3> points2vector3(List<Point> src)
