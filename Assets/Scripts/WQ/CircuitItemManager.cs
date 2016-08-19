@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using MagicCircuit;
 public class CircuitItemManager :MonoBehaviour
 {
 	//坐标管理类
@@ -135,10 +135,6 @@ public class CircuitItemManager :MonoBehaviour
 		vecs4.Add (vec11);
 		item4.list = vecs4;
 		item4.showOrder = 5;
-
-
-
-
 
 
 		itemListTest.Add(item1);

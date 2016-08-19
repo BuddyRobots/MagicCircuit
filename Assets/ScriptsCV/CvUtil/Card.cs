@@ -16,7 +16,7 @@ namespace OpenCVForUnitySample
 
     public class Card
     {
-        public CvKNearest m_Knn;
+        public KNearest m_Knn;
         public int m_minSquareLen;
         public int m_maxSquareLen;
         public long m_distanceThreshold;
@@ -30,7 +30,7 @@ namespace OpenCVForUnitySample
         public Card(CardType cardType)
         {
 
-            m_Knn = new CvKNearest();
+           // m_Knn = new KNearest();
 
             m_sampleSize = 50;
             m_maxSquareLen = 400;
@@ -53,7 +53,7 @@ namespace OpenCVForUnitySample
                 Response = ReadData(Application.persistentDataPath + "/cards/50/letter_LabelData.yml", Response, false);
             }
 
-            m_Knn.train(Sample, Response);
+           // m_Knn.train(Sample, Response);
 
             m_StdSquareClockwise = new List<Point>(4);
             m_StdSquareCounterClockwise = new List<Point>(4);
@@ -182,7 +182,7 @@ namespace OpenCVForUnitySample
                 OpenCVForUnity.Rect rect = new OpenCVForUnity.Rect(0, 0, m_sampleSize, m_sampleSize);
                 Mat tgt = transResult.submat(rect);
                 tgt.convertTo(tgt, CvType.CV_32FC1);
-                m_Knn.find_nearest(tgt.reshape(1, 1), 1, new Mat(), result, distance);
+                m_Knn.findNearest(tgt.reshape(1, 1), 1, new Mat(), result, distance);
                 if (distance.get(0, 0)[0] < m_distanceThreshold)
                 {
                     if (one)

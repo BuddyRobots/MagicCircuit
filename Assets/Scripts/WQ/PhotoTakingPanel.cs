@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class PhotoTakingPanel : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class PhotoTakingPanel : MonoBehaviour {
 	private UILabel countDown;
 
 	private UILabel levelLabel;
+	//private GetImage getImage; 
+
 
 	void Awake () 
 	{	
@@ -37,10 +40,13 @@ public class PhotoTakingPanel : MonoBehaviour {
 		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
 	}
 
+
+
 	void Start()
 	{
 		noticeImg.gameObject.SetActive (false);
 		countDown.gameObject.SetActive (false);
+
 
 	}
 
@@ -63,17 +69,18 @@ public class PhotoTakingPanel : MonoBehaviour {
 		PanelOff();
 
 	}
+
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		//画面变暗， to do ...
-	
-		noticeImg.gameObject.SetActive (true);
+		GetImage._instance.TakePicture ();
 
+		noticeImg.gameObject.SetActive (true);
 		StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
 
 
 
 	}
+
 
 	IEnumerator CountDown()
 	{

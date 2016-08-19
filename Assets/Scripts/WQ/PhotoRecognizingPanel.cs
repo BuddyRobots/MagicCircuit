@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using MagicCircuit;
 
 
 
@@ -93,6 +93,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	private GameObject lineParent;
 	private GameObject linePrefab;
+	private GameObject fingerPrefab;
+
 
 	private static float maskTimer = 0f;//蒙板渐变计时器
 	private float maskTime;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
@@ -128,6 +130,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		switchBtn = Resources.Load ("Switch",typeof(GameObject))  as GameObject;
 		arrowPrefab=Resources.Load("Arrow") as GameObject;
 		linePrefab = Resources.Load ("lineNew") as GameObject;
+		fingerPrefab= Resources.Load ("Finger") as GameObject;
 
 		lineParent = this.gameObject;
 
@@ -145,7 +148,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		image.gameObject.SetActive (false);
 		mask.gameObject.SetActive (true);
 
-		itemsList=CircuitItemManager._instance.itemList;
+//		itemsList=CircuitItemManager._instance.itemList;  // for test
+
 		arrowOccurPos = gameObject.transform;
 
 		replayBtn.SetActive(false);
@@ -216,11 +220,11 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				//如果图标显示完成且匹配成功，就在开关右下角出现小手，指向开关位置提示玩家点击开关，玩家点击开关闭合后，如果还有其他开关，则小手移动的下一个开关的右下角。。。
 				//依次把所有的开关都点击闭合后，小手消失，播放电流
 				// to do ...
-
+			//	FingerShow();
 
 				if (isArrowShowDone == false) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
 				{
-					StartCoroutine (ArrowShow01 ());
+					StartCoroutine (ArrowShow ());
 					isArrowShowDone = true;
 				}
 			}
@@ -237,11 +241,31 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	}
 
+	private Vector3 offSet=new Vector3(-84,65,0);// offset btween the switch and finger
+
+	void FingerShow()
+	{
+		//itemsList=GetImage._instance.itemLists[0];//for test
+		for(int i=0;i<itemsList.Count;++i)
+		{
+			if (itemsList[i].type==ItemType.Switch) 
+			{
+				GameObject finger = Instantiate (fingerPrefab) as GameObject;
+				finger.transform.localPosition = itemsList [i].list [0]-offSet;
+
+				//finger.transform.localPosition=
+			}
+
+		}
+
+	}
+
 	/// <summary>
 	/// 创建所有的图标
 	/// </summary>
 	IEnumerator CreateAllItem()
 	{
+		itemsList=GetImage._instance.itemLists[0];//for test
 		iconCount = itemsList.Count;
 		for (int i = 0; i < itemsList.Count; i++) 
 		{
@@ -345,7 +369,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 
 
-	IEnumerator ArrowShow01()
+	IEnumerator ArrowShow()
 	{
 		List<Vector3> line = new List<Vector3> ();//整个线路上的点
 		for (int i = 0; i < lines.Count; i++)

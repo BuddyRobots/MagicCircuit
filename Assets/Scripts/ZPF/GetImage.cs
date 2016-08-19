@@ -1,0 +1,257 @@
+﻿using UnityEngine;
+using OpenCVForUnity;
+using System.Collections;
+using System.IO;
+using System.Collections.Generic;
+using MagicCircuit;
+using System.Threading;
+
+public class GetImage : MonoBehaviour
+{
+    [HideInInspector]
+    public Texture2D texture;
+
+    private WebCamTexture webCamTexture;
+    private WebCamDevice webCamDevice;
+    private Mat frameImg;
+
+    private bool initDone = false;
+	private const int cam_width = 640;
+	private const int cam_height = 480;
+	private const int tex_width  = 640;//1120;//640;
+	private const int tex_height = 480;
+	private bool isShotTook=false;
+
+	// textures
+	public Texture2D light_tex;
+	public Texture2D battery_tex;
+	public Texture2D switch_tex;
+	public Texture2D line_tex;
+
+	public RecognizeAlgo recognizeAlgo;
+
+	public List<CircuitItem> listItem;
+
+
+	private RotateCamera rotateCamera;
+
+	public static GetImage _instance;
+
+	private bool isTakePicture;//用于控制取十张图片
+	private bool isFinishHandlePicture;//用于线程是否处理完10张图片
+
+	void Awake()
+	{
+		Debug.Log ("setimage-----awake");
+		_instance = this;
+
+	}
+
+    // Use this for initialization
+    void Start() 
+	{
+		Debug.Log ("setimage-----start");
+		rotateCamera = new RotateCamera ();
+
+        // Initialize webcam
+        StartCoroutine(init());
+		// Intialize RecogniazeAlgo
+		recognizeAlgo = new RecognizeAlgo(light_tex,
+			battery_tex,
+			switch_tex,
+			line_tex);
+
+		listItem = new List<CircuitItem>();
+    }
+
+	void OnEnable()
+	{
+		isShotTook=false;
+		isTakePicture = false;
+		isFinishHandlePicture = false;
+
+
+		tempImgs.Clear ();
+	}
+
+
+
+    private IEnumerator init()
+    {
+        if (webCamTexture != null)
+        {
+            webCamTexture.Stop();
+            initDone = false;
+            frameImg.Dispose();
+        }
+		WebCamDevice[] devices = WebCamTexture.devices;
+
+		if(devices.Length <=1 && devices.Length >0 )
+		{
+
+			webCamDevice = WebCamTexture.devices [0];
+		}
+		else if (devices.Length > 1) 
+		{
+			webCamDevice = WebCamTexture.devices [1];
+
+		}
+		webCamTexture = new WebCamTexture (webCamDevice.name, cam_width, cam_height);
+		webCamTexture.Play ();
+
+        while (true)
+        {
+            if (webCamTexture.didUpdateThisFrame)
+            {
+                frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
+
+                texture = new Texture2D(tex_width, tex_height, TextureFormat.RGBA32, false);
+                gameObject.GetComponent<Renderer>().material.mainTexture = texture;
+
+                initDone = true;
+                break;
+            }
+            else
+            {
+                yield return 0;
+            }
+        }
+    }
+
+
+
+	void Update()
+	{
+		int i = 0;
+		TakePhoto ();
+		if (!isFinishHandlePicture && tempImgs.Count >= 10) {
+			TakePicture_Start ();
+			isFinishHandlePicture = true;
+		}
+	}
+	public void TakePicture()
+	{
+		isTakePicture = true; 
+	}
+
+
+//	void Update() 
+//	{
+//		listItem = new List<CircuitItem>();
+//		if (!initDone)
+//			return;
+//		if (webCamTexture.didUpdateThisFrame)
+//		{
+//			
+////			Utils.webCamTextureToMat(webCamTexture, frameImg);
+////			Mat tmpImg = frameImg.clone ();
+////			rotateCamera.rotate (ref tmpImg);
+////			// Image Processing Codes
+////			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
+////			//itemLists.Add (listItem);
+////			texture.Resize(resultImg.cols(), resultImg.rows());
+////			Utils.matToTexture2D(resultImg, texture);
+//
+//
+//
+//			Utils.webCamTextureToMat(webCamTexture, frameImg);
+//			Mat tmpImg = frameImg.clone ();
+//			rotateCamera.rotate (ref tmpImg);
+//			texture.Resize(tmpImg.cols(), tmpImg.rows());
+//			Utils.matToTexture2D(tmpImg, texture);
+//
+//			  
+//
+//
+//			if (!isShotTook) 
+//			{
+//				TakeSnapShot ();
+//				isShotTook = true;
+//			}
+//		}
+//	}
+
+	private List<Mat> tempImgs = new List<Mat>();
+	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
+	/// <summary>
+	/// Take photos 
+	/// </summary>
+	public void TakePhoto() 
+	{
+		
+        if (!initDone)
+            return;
+        if (webCamTexture.didUpdateThisFrame)
+        {
+
+			Utils.webCamTextureToMat(webCamTexture, frameImg);
+			Mat tmpImg = frameImg.clone ();
+			rotateCamera.rotate (ref tmpImg);
+
+			if (isTakePicture && tempImgs.Count < 10) {
+				tempImgs.Add (tmpImg);
+			}
+
+
+			texture.Resize(tmpImg.cols(), tmpImg.rows());
+			Utils.matToTexture2D(tmpImg, texture);
+
+
+//            Utils.webCamTextureToMat(webCamTexture, frameImg);
+//			Mat tmpImg = frameImg.clone ();
+//			rotateCamera.rotate (ref tmpImg);
+//			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
+
+
+
+
+//			texture.Resize(resultImg.cols(), resultImg.rows());
+//			Utils.matToTexture2D(resultImg, texture);
+			if (!isShotTook) 
+			{
+				TakeSnapShot ();
+				isShotTook = true;
+			}
+        }
+    }
+	//开启线程的地方
+	private void TakePicture_Start()
+	{
+		Thread takePicture = new Thread (ThreadTakePicture);
+		takePicture.IsBackground = true;
+		takePicture.Start ();
+	}
+	//线程函数,此函数用于处理已经获得的照片
+	private void ThreadTakePicture()
+	{
+		itemLists.Clear ();
+
+		for (int i = 0; i < tempImgs.Count; i++) {
+			List<CircuitItem> temp = new List<CircuitItem>();
+
+			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
+			itemLists.Add (temp);
+
+		}
+	}
+
+	/// <summary>
+	/// Take a snap shot.
+	/// </summary>
+	void TakeSnapShot()
+	{
+		Texture2D snap = new Texture2D(webCamTexture.width, webCamTexture.height);
+		snap.SetPixels(webCamTexture.GetPixels());
+		snap.Apply();
+
+		#if UNITY_EDITOR  
+		string filepath = Application.dataPath +"/PaiZhao/" + "a.jpg";
+		#elif UNITY_IPHONE 
+		string filepath =Application.persistentDataPath+"/a.jpg";
+		#endif 
+
+		File.WriteAllBytes(filepath, snap.EncodeToJPG ());
+
+
+	}
+}

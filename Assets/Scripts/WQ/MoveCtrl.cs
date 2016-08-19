@@ -34,24 +34,25 @@ public class MoveCtrl : MonoBehaviour {
 
 	void Update () 
 	{
-		isAtDest = arrowCtrl.IsAtDest ();
-		if (isAtDest)//如果箭头移动到了目的地，重新设置目的地
-		{
-			index++;
-			arrowCtrl.SetDestination (line [index%line.Count],2);
+		if (line.Count > 0) {
+			
+		
+			isAtDest = arrowCtrl.IsAtDest ();
+			if (isAtDest) {//如果箭头移动到了目的地，重新设置目的地
+				index++;
+				arrowCtrl.SetDestination (line [index % line.Count], 2);
 
-		}
+			}
 
-		if (Vector3.Distance( transform.localPosition,line [line.Count - 1])< 2)// 如果箭头移动到了线路的终点，就出队列，且销毁这个箭头
-		{
+			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) {// 如果箭头移动到了线路的终点，就出队列，且销毁这个箭头
 			
 
-			//transform.parent.GetComponent<PhotoRecognizingPanel> ().arrowList.Dequeue();
+				//transform.parent.GetComponent<PhotoRecognizingPanel> ().arrowList.Dequeue();
 
-			Destroy (gameObject);
+				Destroy (gameObject);
+			}
+
 		}
-
-	
 	}
 
 	/// <summary>
