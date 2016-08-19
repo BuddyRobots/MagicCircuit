@@ -212,7 +212,7 @@ public class LevelManager : MonoBehaviour
 		if (levelID == 0) 
 		{//表示一关都没有玩过，是第一次玩
 
-			Debug.Log ("updateLevelItemDataListAA");
+			//Debug.Log ("updateLevelItemDataListAA");
 			levelItemDataList [0].Progress = LevelProgress.Doing;
 			for (int i = 1; i < levelItemDataList.Count; ++i) {
 

@@ -104,7 +104,55 @@ public class tuneThres : MonoBehaviour
     void OnApplicationQuit() {
         // Save color threshold
         colorThres.saveThres();
-        Debug.Log("ColorThreshold saved");
+       // Debug.Log("ColorThreshold saved");
     }
+
+
+
+
+
+
+	public void ChangeHmin(string value)
+	{
+		h_min = int.Parse (value);
+		//Debug.Log ("h_min====" + h_min);
+
+	}
+	public void ChangeHmax(string value)
+	{
+		h_max = int.Parse (value);
+
+	}
+
+	public void ChangeSmin(string value)
+	{
+		s_min = int.Parse (value);
+
+	}
+	public void ChangeSmax(string value)
+	{
+		s_max = int.Parse (value);
+
+	}
+
+	public void ChangeVmin(string value)
+	{
+		v_min = int.Parse (value);
+
+	}
+	public void ChangeVmax(string value)
+	{
+		v_max = int.Parse (value);
+
+	}
+
+	public void ChangeArea(string value)
+	{
+		area = int.Parse (value);
+
+	}
+
+
+
 
 }

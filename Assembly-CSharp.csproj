@@ -392,6 +392,7 @@
      <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
+     <Compile Include="Assets\sliderctrl.cs" />
      <Compile Include="Assets\testScripts\DrawLineTest.cs" />
      <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
      <Compile Include="Assets\testScripts\FingerSpriteMove.cs" />

@@ -83,17 +83,22 @@ public class GetImage : MonoBehaviour
             frameImg.Dispose();
         }
 		WebCamDevice[] devices = WebCamTexture.devices;
+		#if UNITY_EDITOR  
+		webCamDevice = WebCamTexture.devices [0];
+		#elif UNITY_IPHONE 
+		webCamDevice = WebCamTexture.devices [1];
+		#endif 
 
-		if(devices.Length <=1 && devices.Length >0 )
-		{
-
-			webCamDevice = WebCamTexture.devices [0];
-		}
-		else if (devices.Length > 1) 
-		{
-			webCamDevice = WebCamTexture.devices [1];
-
-		}
+//		if(devices.Length <=1 && devices.Length >0 )
+//		{
+//
+//			webCamDevice = WebCamTexture.devices [0];
+//		}
+//		else if (devices.Length > 1) 
+//		{
+//			webCamDevice = WebCamTexture.devices [1];
+//
+//		}
 		webCamTexture = new WebCamTexture (webCamDevice.name, cam_width, cam_height);
 		webCamTexture.Play ();
 
