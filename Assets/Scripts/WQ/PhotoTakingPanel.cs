@@ -74,6 +74,7 @@ public class PhotoTakingPanel : MonoBehaviour {
 	{
 		GetImage._instance.TakePicture ();
 
+
 		noticeImg.gameObject.SetActive (true);
 		StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
 
@@ -94,9 +95,13 @@ public class PhotoTakingPanel : MonoBehaviour {
 		countDown.text = "1";
 		yield return new WaitForSeconds (1);
 
+		GetImage._instance.SavePic ();
+
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
 		photoRecognizingPanel.SetActive (true);
+
+
 
 		PanelOff ();
 	}

@@ -13,6 +13,8 @@ public class tuneThres : MonoBehaviour
     private WebCamDevice webCamDevice;
     private Mat frameImg;
 
+	RotateCamera rotateCamera;
+
     private bool initDone = false;
     private const int cam_width  = 640;
     private const int cam_height = 480;
@@ -42,6 +44,8 @@ public class tuneThres : MonoBehaviour
 
         colorThres = new ColorThreshold(component.name, ref area,
             ref h_min, ref h_max, ref s_min, ref s_max, ref v_min, ref v_max);
+
+		rotateCamera = new RotateCamera ();
     }
 
     private IEnumerator init()
@@ -85,10 +89,14 @@ public class tuneThres : MonoBehaviour
         if (webCamTexture.didUpdateThisFrame)
         {
             Utils.webCamTextureToMat(webCamTexture, frameImg);
+			Mat tmpImg = frameImg.clone ();
+
+			rotateCamera.rotate (ref tmpImg);
 
             // Image Processing Codes
-            Mat resultImg = colorThres.tuneThreshold(frameImg, ref area, ref h_min, ref h_max, ref s_min, ref s_max, ref v_min, ref v_max);
+			Mat resultImg = colorThres.tuneThreshold(tmpImg, ref area, ref h_min, ref h_max, ref s_min, ref s_max, ref v_min, ref v_max);
 
+			texture.Resize(resultImg.cols(), resultImg.rows());
             Utils.matToTexture2D(resultImg, texture);
         }
     }

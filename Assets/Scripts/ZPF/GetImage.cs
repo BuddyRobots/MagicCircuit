@@ -8,6 +8,8 @@ using System.Threading;
 
 public class GetImage : MonoBehaviour
 {
+	public static GetImage _instance;
+
     [HideInInspector]
     public Texture2D texture;
 
@@ -15,12 +17,10 @@ public class GetImage : MonoBehaviour
     private WebCamDevice webCamDevice;
     private Mat frameImg;
 
-    private bool initDone = false;
 	private const int cam_width = 640;
 	private const int cam_height = 480;
 	private const int tex_width  = 640;//1120;//640;
 	private const int tex_height = 480;
-	private bool isShotTook=false;
 
 	// textures
 	public Texture2D light_tex;
@@ -29,32 +29,28 @@ public class GetImage : MonoBehaviour
 	public Texture2D line_tex;
 
 	public RecognizeAlgo recognizeAlgo;
+	private RotateCamera rotateCamera;
 
 	public List<CircuitItem> listItem;
 
-
-	private RotateCamera rotateCamera;
-
-	public static GetImage _instance;
-
+	private bool isShotTook=false;
+	private bool initDone = false;
 	private bool isTakePicture;//用于控制取十张图片
 	private bool isFinishHandlePicture;//用于线程是否处理完10张图片
 
+
 	void Awake()
 	{
-		Debug.Log ("setimage-----awake");
 		_instance = this;
 
 	}
-
-    // Use this for initialization
+		
     void Start() 
 	{
-		Debug.Log ("setimage-----start");
 		rotateCamera = new RotateCamera ();
 
-        // Initialize webcam
-        StartCoroutine(init());
+        
+        //StartCoroutine(init());
 		// Intialize RecogniazeAlgo
 		recognizeAlgo = new RecognizeAlgo(light_tex,
 			battery_tex,
@@ -69,9 +65,11 @@ public class GetImage : MonoBehaviour
 		isShotTook=false;
 		isTakePicture = false;
 		isFinishHandlePicture = false;
-
+		initDone = false;
 
 		tempImgs.Clear ();
+
+		StartCoroutine(init());
 	}
 
 
@@ -122,13 +120,14 @@ public class GetImage : MonoBehaviour
 
 	void Update()
 	{
-		int i = 0;
 		TakePhoto ();
-		if (!isFinishHandlePicture && tempImgs.Count >= 10) {
+		if (!isFinishHandlePicture && tempImgs.Count >= 10) 
+		{
 			TakePicture_Start ();
 			isFinishHandlePicture = true;
 		}
 	}
+
 	public void TakePicture()
 	{
 		isTakePicture = true; 
@@ -220,19 +219,42 @@ public class GetImage : MonoBehaviour
 		Thread takePicture = new Thread (ThreadTakePicture);
 		takePicture.IsBackground = true;
 		takePicture.Start ();
+		Debug.Log ("itemList.count : " + itemLists.Count);
 	}
+
+	Mat img=new Mat();
+
 	//线程函数,此函数用于处理已经获得的照片
 	private void ThreadTakePicture()
 	{
-		itemLists.Clear ();
+		itemLists.Clear ();                                                                                                                                                                                                                                                                                                                         
 
 		for (int i = 0; i < tempImgs.Count; i++) {
+			
 			List<CircuitItem> temp = new List<CircuitItem>();
 
 			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
+			img = resultImg;
 			itemLists.Add (temp);
 
+			//texture.Resize(resultImg.cols(), resultImg.rows());
+			//Utils.matToTexture2D(resultImg, texture);
 		}
+		Debug.Log ("itemList.count : " + itemLists[4].Count);
+	}
+		
+	public void SavePic()
+	{
+		Texture2D tex2D = new Texture2D (img.cols(), img.rows());
+		Utils.matToTexture2D (img, tex2D);
+		tex2D.Apply ();
+		#if UNITY_EDITOR  
+		string path = Application.dataPath +"/Pic/" +Time.time+ ".jpg";
+		#elif UNITY_IPHONE 
+		string path =Application.persistentDataPath+"/b.jpg";
+		#endif 
+		File.WriteAllBytes(path, tex2D.EncodeToJPG ());
+
 	}
 
 	/// <summary>
