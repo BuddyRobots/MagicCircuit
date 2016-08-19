@@ -56,8 +56,11 @@ public class tuneThres : MonoBehaviour
             initDone = false;
             frameImg.Dispose();
         }
-
-        webCamDevice = WebCamTexture.devices[0];
+		#if UNITY_EDITOR  
+		webCamDevice = WebCamTexture.devices [0];
+		#elif UNITY_IPHONE 
+		webCamDevice = WebCamTexture.devices [1];
+		#endif 
         webCamTexture = new WebCamTexture(webCamDevice.name, cam_width, cam_height);
         webCamTexture.Play();
 
