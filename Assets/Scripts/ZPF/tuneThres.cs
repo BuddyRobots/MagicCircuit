@@ -101,7 +101,7 @@ public class tuneThres : MonoBehaviour
         }
     }
 
-    void OnApplicationQuit() {
+    void OnDisable() {
         // Save color threshold
         colorThres.saveThres();
        // Debug.Log("ColorThreshold saved");

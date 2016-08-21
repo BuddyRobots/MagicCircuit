@@ -123,6 +123,9 @@ namespace MagicCircuit
 		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
 		public bool powered{ get; set; }        //元件是否通电
 
+        public Vector2 connect_left;            //Connect point on card
+        public Vector2 connect_right;
+
         private double x_shift;                 //Parameters for changing cordinates
         private double y_shift;
 
@@ -138,6 +141,10 @@ namespace MagicCircuit
             theta = _theta;
             showOrder = _order;
             powered = _p;
+
+            connect_left = new Vector2();
+            connect_right = new Vector2();
+
 			x_shift = _frameSize.width / 2;
             y_shift = _frameSize.height / 2;
         }
@@ -152,7 +159,11 @@ namespace MagicCircuit
             powered = _p;
             list = new List<Vector3>();
             theta = 0;
-			x_shift = _frameSize.width / 2;
+
+            connect_left = new Vector2();
+            connect_right = new Vector2();
+
+            x_shift = _frameSize.width / 2;
             y_shift = _frameSize.height / 2;
         }
 
@@ -175,10 +186,19 @@ namespace MagicCircuit
 
             Point right = new Point((center.x + _x), (center.y + _y));
 
-            theta = Mathf.Atan2((float)(right.y - center.y), (float)(right.x - center.x));
-            theta = theta * 180.0 / Mathf.PI;
-
+            theta = Mathf.Atan2((float)(right.y - center.y), (float)(right.x - center.x)); // thera in radians
+            
             list.Add(cordinateMat2Tex(center.x, center.y));
+
+            // Compute the cordinate of connect points
+            // Make sure rect is a square in detect part to make this work right.
+            _x = rect.width / (1 + Mathf.Tan((float)theta)) / 2;
+            _y = _x * Mathf.Tan((float)theta);
+
+            connect_left = new Vector2((float)(center.x - _x), (float)(center.y - _y));
+            connect_right = new Vector2((float)(center.x + _x), (float)(center.y + _y));
+
+            theta = theta * 180.0 / Mathf.PI; // theta in degrees
         }
 
         public void extractLine(List<Point> line, OpenCVForUnity.Rect rect)
