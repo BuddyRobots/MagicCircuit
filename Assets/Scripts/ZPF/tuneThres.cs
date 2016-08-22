@@ -118,7 +118,7 @@ public class tuneThres : MonoBehaviour
 	public void ChangeHmin(string value)
 	{
 		h_min = int.Parse (value);
-		//Debug.Log ("h_min====" + h_min);
+
 
 	}
 	public void ChangeHmax(string value)

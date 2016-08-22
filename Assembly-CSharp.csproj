@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\LabelCtrl.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -364,6 +365,7 @@
      <Compile Include="Assets\Scripts\WQ\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\PlayerData.cs" />
+     <Compile Include="Assets\Scripts\WQ\Sliderctrl.cs" />
      <Compile Include="Assets\Scripts\WQ\StartPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\SwitchCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\TimerItem.cs" />
@@ -392,7 +394,6 @@
      <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
-     <Compile Include="Assets\sliderctrl.cs" />
      <Compile Include="Assets\testScripts\DrawLineTest.cs" />
      <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
      <Compile Include="Assets\testScripts\FingerSpriteMove.cs" />
