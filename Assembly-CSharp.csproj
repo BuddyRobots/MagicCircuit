@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LabelCtrl.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -354,8 +353,10 @@
      <Compile Include="Assets\Scripts\WQ\CommonPanel02.cs" />
      <Compile Include="Assets\Scripts\WQ\DescriptionPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\FailurePanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\FingerCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\HomeBtn.cs" />
      <Compile Include="Assets\Scripts\WQ\HomeBtnInRecognizePanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\LabelCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelItemData.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelManager.cs" />
@@ -364,19 +365,15 @@
      <Compile Include="Assets\Scripts\WQ\MusicCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\PhotoTakingPanel.cs" />
-     <Compile Include="Assets\Scripts\WQ\PlayerData.cs" />
      <Compile Include="Assets\Scripts\WQ\Sliderctrl.cs" />
      <Compile Include="Assets\Scripts\WQ\StartPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\SwitchCtrl.cs" />
-     <Compile Include="Assets\Scripts\WQ\TimerItem.cs" />
-     <Compile Include="Assets\Scripts\WQ\TimerManager.cs" />
      <Compile Include="Assets\Scripts\WQ\WebCam.cs" />
-     <Compile Include="Assets\Scripts\WQ\WelldonePanel.cs" />
-     <Compile Include="Assets\Scripts\ZPF\CardDetection.cs" />
+     <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
      <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
      <Compile Include="Assets\Scripts\ZPF\GetImage.cs" />
-     <Compile Include="Assets\Scripts\ZPF\LineDetection.cs" />
+     <Compile Include="Assets\Scripts\ZPF\LineDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\RecognizeAlgo.cs" />
      <Compile Include="Assets\Scripts\ZPF\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\ZPF\Utils.cs" />
@@ -394,18 +391,7 @@
      <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
-     <Compile Include="Assets\testScripts\DrawLineTest.cs" />
-     <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
-     <Compile Include="Assets\testScripts\FingerSpriteMove.cs" />
-     <Compile Include="Assets\testScripts\LineManager.cs" />
-     <Compile Include="Assets\testScripts\Move.cs" />
-     <Compile Include="Assets\testScripts\UIMain.cs" />
-     <Compile Include="Assets\testScripts\UIManager.cs" />
-     <Compile Include="Assets\testScripts\UIResourceDefine.cs" />
-     <Compile Include="Assets\testScripts\drawTrianglr.cs" />
      <Compile Include="Assets\testScripts\moveTest.cs" />
-     <Compile Include="Assets\testScripts\panelTest.cs" />
-     <Compile Include="Assets\testScripts\test.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />

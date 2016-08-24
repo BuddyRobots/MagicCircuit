@@ -12,27 +12,24 @@ public class PhotoTakingPanel : MonoBehaviour {
 	private GameObject commonPanel02;
 	private GameObject demoShowPanel;
 	private GameObject photoRecognizingPanel;
+
 	private UISprite noticeImg;
 	private UILabel countDown;
-
 	private UILabel levelLabel;
 
 	void Awake () 
 	{	
 		_instance = this;
 
-		//获取需要监听的按钮对象
 		helpBtn = transform.Find ("HelpBtn").gameObject;
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
 		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
 		demoShowPanel = transform.parent.Find ("CommonPanel02/DemoShowPanel").gameObject;
-		photoRecognizingPanel = transform.parent.Find ("PhotoRecognizingPanel").gameObject;// for test...
+		photoRecognizingPanel = transform.parent.Find ("PhotoRecognizingPanel").gameObject;
 		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
 		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
 		levelLabel = transform.Find ("LevelLabel").GetComponent<UILabel> ();
 
-
-		//设置按钮的监听，指向本类的ButtonClick方法中。
 		UIEventListener.Get(helpBtn).onClick = OnHelpBtnClick;
 		UIEventListener.Get(confirmBtn).onClick = OnConfirmBtnClick;
 	}
@@ -41,7 +38,6 @@ public class PhotoTakingPanel : MonoBehaviour {
 	{
 		noticeImg.gameObject.SetActive (false);
 		countDown.gameObject.SetActive (false);
-
 	}
 
 	void OnEnable()
@@ -50,7 +46,6 @@ public class PhotoTakingPanel : MonoBehaviour {
 	}
 
 	#region 计算按钮的点击事件
-
 
 	/// <summary>
 	/// 点击帮助按钮，播放操作演示
@@ -66,7 +61,7 @@ public class PhotoTakingPanel : MonoBehaviour {
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		GetImage._instance.TakePicture ();
+		//GetImage._instance.TakePicture ();
 
 		noticeImg.gameObject.SetActive (true);
 		StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
@@ -87,10 +82,6 @@ public class PhotoTakingPanel : MonoBehaviour {
 
 		GetImage._instance.SavePic ();
 
-		countDown.gameObject.SetActive (false);
-		noticeImg.gameObject.SetActive (false);
-		photoRecognizingPanel.SetActive (true);
-
 		PanelOff ();
 	}
 	#endregion
@@ -98,6 +89,9 @@ public class PhotoTakingPanel : MonoBehaviour {
 	public void PanelOff()
 	{
 		countDown.text="3";
+		countDown.gameObject.SetActive (false);
+		noticeImg.gameObject.SetActive (false);
+		photoRecognizingPanel.SetActive (true);
 		gameObject.SetActive (false);
 
 	}

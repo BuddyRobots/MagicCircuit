@@ -68,6 +68,11 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// </summary>
 	private bool isCreate_Update=false;
 
+
+
+	private bool isFingerShow = false;
+
+
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
 	/// </summary>
@@ -104,18 +109,26 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// </summary>
 	private List<GameObject> goList=new List<GameObject>();
 
+	List<GameObject> switchList = new List<GameObject> ();
+
 	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
 	List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
 	public  List<GameObject> arrowList=new List<GameObject>();
 
+	//private int switchCount;
+
+
 	void Awake()
 	{
-		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
+		
 
 	}
 		
 	void OnEnable()
 	{
+		prePos = Vector3.zero; 
+		//switchCount = 1;
+		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		labelBgTwinkle = transform.Find ("LevelNameBgT").GetComponent<UISprite> ().gameObject;
 		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
@@ -130,7 +143,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		switchBtn = Resources.Load ("Switch",typeof(GameObject))  as GameObject;
 		arrowPrefab=Resources.Load("Arrow") as GameObject;
 		linePrefab = Resources.Load ("lineNew") as GameObject;
-		fingerPrefab= Resources.Load ("Finger") as GameObject;
+		fingerPrefab= Resources.Load ("Finger",typeof(GameObject)) as GameObject;
 
 		lineParent = this.gameObject;
 
@@ -148,7 +161,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		image.gameObject.SetActive (false);
 		mask.gameObject.SetActive (true);
 
-//		itemsList=CircuitItemManager._instance.itemList;  // for test
+	    itemsList=CircuitItemManager._instance.itemList;  // for test
 
 		arrowOccurPos = gameObject.transform;
 
@@ -164,18 +177,26 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			maskTime += (float)((item.Count - 1) * 0.2);//显示一条线的总时间
 
 		}
-		//Debug.Log("maskTime---------"+maskTime);
-
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
-		//循环10次调用图像识别的接口，然后再显示背景图片  ---或者放到拍摄界面的确认按钮点击里面
-		// to do ...
+
 		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 
 
 	}
 		
+	void OnDisable()
+	{
+		if (finger) {
+			Destroy (finger);
+			finger = null;
+		}
+		switchList.Clear ();
+
+	}
+
+
 	/// <summary>
 	/// 显示拍摄的图片
 	/// </summary>
@@ -186,7 +207,10 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		yield return new WaitForSeconds (2f);
 		isPhotoShowDone = true;
 	}
-		
+
+
+
+
 	void Update () 
 	{
 		if (isPhotoShowDone) 
@@ -220,9 +244,28 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				//如果图标显示完成且匹配成功，就在开关右下角出现小手，指向开关位置提示玩家点击开关，玩家点击开关闭合后，如果还有其他开关，则小手移动的下一个开关的右下角。。。
 				//依次把所有的开关都点击闭合后，小手消失，播放电流
 				// to do ...
-			//	FingerShow();
 
-				if (isArrowShowDone == false) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
+				if(switchList.Count >0)//如果有开关，则需要显示小手
+				{
+//					if(isFingerShow==false &&  switchCount<= switchList.Count )//1true //访问数 《 开关数
+//					{
+//						
+//						ShowFinger(switchList[switchCount-1].transform.localPosition);//显示小手，传入开关的位置
+//						isFingerShow=true;//false
+//					}
+					for (int i = 0; i < switchList.Count; i++) {
+						if (switchList[i].GetComponent<SwitchCtrl>().isSwitchOn) {
+							ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置
+							break;
+						}
+						if (i == switchList.Count - 1) {
+							Destroy(finger);
+							finger = null;
+						}
+					}
+
+				}
+				if (isArrowShowDone == false && isFingerShow) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
 				{
 					StartCoroutine (ArrowShow ());
 					isArrowShowDone = true;
@@ -240,36 +283,69 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		}
 
 	}
+		 
 
-	private Vector3 offSet=new Vector3(-84,65,0);// offset btween the switch and finger
+	private Vector3 offSet = new Vector3 (113, -108, 0);
+	private GameObject finger;
+	private Vector3 prePos= Vector3.zero; // 记录当前指向的开关，如果没发生变化，不做任何操作
 
-	void FingerShow()
+	void ShowFinger(Vector3 switchPos)
 	{
-		//itemsList=GetImage._instance.itemLists[0];//for test
-		for(int i=0;i<itemsList.Count;++i)
-		{
-			if (itemsList[i].type==ItemType.Switch) 
-			{
-				GameObject finger = Instantiate (fingerPrefab) as GameObject;
-				finger.transform.localPosition = itemsList [i].list [0]-offSet;
-
-				//finger.transform.localPosition=
-			}
-
+		if (prePos == switchPos) {
+			return;
 		}
 
+		prePos = switchPos;
+		if (finger) {
+			Destroy (finger);
+			finger = null;
+		}
+		finger = Instantiate (fingerPrefab) as GameObject;
+		finger.name="finger";
+		finger.transform.parent = transform;
+		finger.transform.localScale = Vector3.one;
+
+
+		finger.GetComponent<FingerCtrl> ().FingerShow (switchPos + offSet);
 	}
+
+//	void ShowFinger(Vector3 switchPos)
+//	{
+//		switchCount++;
+//		//itemsList=GetImage._instance.itemLists[0];//for test
+//		//for(int i=0;i<switchList.Count;i++)
+//		{
+//			GameObject finger = Instantiate (fingerPrefab) as GameObject;
+//			goList.Add (finger);
+//			finger.name="finger";
+//			finger.transform.parent = transform;
+//			finger.transform.localScale = Vector3.one;
+//			//finger.transform.localPosition = switchList[i].transform.localPosition + offSet;//手指出现的位置=开关的位置+偏移量
+//			finger.transform.localPosition = switchPos + offSet;
+//			finger.GetComponent<FingerCtrl> ().FingerShow (finger.transform.localPosition);
+//
+//			if (switchList[switchCount-1].GetComponent<SwitchCtrl>().isSwitchOn==false) 
+//			{
+//				finger.SetActive(false);
+//			}
+//
+//		}
+//
+//	}
+
+
+
+
 
 	/// <summary>
 	/// 创建所有的图标
 	/// </summary>
 	IEnumerator CreateAllItem()
 	{
-		itemsList=GetImage._instance.itemLists[0];//for test
+		//itemsList=GetImage._instance.itemLists[0];//for test
 		iconCount = itemsList.Count;
 		for (int i = 0; i < itemsList.Count; i++) 
 		{
-			//isCreate = false;//只要进来了就说明线没画完
 			CreateSingleItem (itemsList [i]);
 			yield return new WaitForSeconds (1);//隔一秒创建一个图标
 		}
@@ -306,6 +382,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		case ItemType.Switch:
 			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
 			item = GameObject.Instantiate (switchBtn) as GameObject;
+			switchList.Add (item);
 			goList.Add (item);
 			item.name = "switch"; 
 			iconCount--;
@@ -327,6 +404,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			//item.transform.position = circuitItem.list [0]; //我这里测试用写的坐标是根据transform.positon标志的，所以用transform.position来接收
 			item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
 			item.transform.localScale = new Vector3 (1, 1, 1); 
+			//根据图标数据的旋转角度进行旋转，旋转的是Z上的弧度
+			//to do...
 		}
 	}
 
@@ -448,7 +527,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			PlayerPrefs.SetInt ("LevelID",data.LevelID);
 			Debug.Log ("data.LevelID====" + data.LevelID);
 			PlayerPrefs.SetInt ("LevelProgress",2);
-			LevelManager._instance.loadLocalLevelProgressData ();
+			LevelManager._instance.LoadLocalLevelProgressData ();
 		}
 		transform.parent.Find ("LevelSelectPanel").gameObject.SetActive (true);
 
@@ -481,6 +560,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		{
 			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 		}
+
 		gameObject.SetActive (false);
 	}
 }

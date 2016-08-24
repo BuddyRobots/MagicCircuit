@@ -72,19 +72,6 @@ public class LevelItemData
 		}
 	}
 
-//	public string IconName
-//	{
-//
-//		get
-//		{ 
-//			return m_IconName;
-//		}
-//		set
-//		{ 
-//			m_IconName = value;
-//		}
-//	}
-
 	public string LevelName
 	{
 		get

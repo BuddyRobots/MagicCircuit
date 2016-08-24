@@ -11,8 +11,6 @@ public class CommonPanel02 : MonoBehaviour {
 	void Awake()
 	{
 		_instance = this;
-
-
 		helpBtn = transform.Find ("HelpBtn").gameObject;
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 

@@ -3,8 +3,8 @@ using System.Collections;
 
 public class SwitchCtrl : MonoBehaviour
 {
-
-	public static bool isSwitchOn=true;
+	
+	public  bool isSwitchOn=true;
 	private GameObject switchOnBtn;
 	private GameObject switchOffBtn;
 

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sliderctrl : MonoBehaviour {
+public class Sliderctrl : MonoBehaviour 
+{
 	public UISlider HminSlider;
 	public UISlider HmaxSlider;
 	public UISlider SminSlider;
@@ -18,16 +19,30 @@ public class Sliderctrl : MonoBehaviour {
 	public UILabel VmaxLabel;
 	public UILabel AreaLabel;
 
-
-
-
 	private int h_min = 0, h_max = 180;
 	private int s_min = 0, s_max = 255;
 	private int v_min = 0, v_max = 255;
 	private int area = 30000;
 
-	public void SetThreshold(string name)
+
+	private string componentName;
+
+
+
+
+
+
+
+	void Start()
 	{
+
+
+
+	}
+
+	public void SetThreshhold(string name)
+	{
+		componentName = name;
 		if (PlayerPrefs.HasKey(name + "_h_min"))
 			loadThres(name);
 		else

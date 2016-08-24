@@ -39,8 +39,20 @@ public class CircuitItemManager :MonoBehaviour
 		item1.list=vecs1;
 		item1.showOrder = 0;
 
+		CircuitItem item7 = new CircuitItem();
+		item7.ID = 1;
+		item7.name = "Switch";
+		item7.type = ItemType.Switch;
+		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
+		Vector3 vec7 = new Vector3 (0,-75,0);
+		List<Vector3> vecs7 = new List<Vector3> ();
+		vecs7.Add (vec7);
+		item7.list=vecs7;
+		item7.showOrder = 1;
+
+
 		CircuitItem item2 = new CircuitItem();
-		item2.ID = 1;
+		item2.ID = 2;
 		item2.name = "Bulb";
 		item2.type = ItemType.Bulb;
 		//Vector3 vec2 = new Vector3 (-0.4f,0,0);
@@ -48,10 +60,10 @@ public class CircuitItemManager :MonoBehaviour
 		List<Vector3> vecs2 = new List<Vector3> ();
 		vecs2.Add (vec2);
 		item2.list=vecs2;
-		item2.showOrder = 1;
+		item2.showOrder = 2;
 
 		CircuitItem item3 = new CircuitItem();
-		item3.ID = 2;
+		item3.ID = 3;
 		item3.name = "Switch";
 		item3.type = ItemType.Switch;
 		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
@@ -59,10 +71,10 @@ public class CircuitItemManager :MonoBehaviour
 		List<Vector3> vecs3 = new List<Vector3> ();
 		vecs3.Add (vec3);
 		item3.list=vecs3;
-		item3.showOrder = 2;
+		item3.showOrder = 3;
 
 		CircuitItem item5 = new CircuitItem();
-		item5.ID = 3;
+		item5.ID = 4;
 		item5.name = "CircuitLine";
 		item5.type = ItemType.CircuitLine;
 		Vector3 vec21 = new Vector3 (205, -46, 0);
@@ -81,11 +93,11 @@ public class CircuitItemManager :MonoBehaviour
 		vecs5.Add (vec26);
 		vecs5.Add (vec27);
 		item5.list = vecs5;
-		item5.showOrder = 3;
+		item5.showOrder = 4;
 
 
 		CircuitItem item6 = new CircuitItem();
-		item6.ID = 4;
+		item6.ID = 5;
 		item6.name = "CircuitLine";
 		item6.type = ItemType.CircuitLine;
 		Vector3 vec31 = new Vector3 (-103, 92, 0);
@@ -104,10 +116,10 @@ public class CircuitItemManager :MonoBehaviour
 		vecs6.Add (vec36);
 		vecs6.Add (vec37);
 		item6.list = vecs6;
-		item6.showOrder = 4;
+		item6.showOrder = 5;
 
 		CircuitItem item4 = new CircuitItem();
-		item4.ID = 5;
+		item4.ID = 6;
 		item4.name = "CircuitLine";
 		item4.type = ItemType.CircuitLine;
 		Vector3 vec01 = new Vector3 (-126, -77, 0);
@@ -134,10 +146,11 @@ public class CircuitItemManager :MonoBehaviour
 		vecs4.Add (vec10);
 		vecs4.Add (vec11);
 		item4.list = vecs4;
-		item4.showOrder = 5;
+		item4.showOrder = 6;
 
 
 		itemListTest.Add(item1);
+		itemListTest.Add(item7);
 		itemListTest.Add(item2);
 		itemListTest.Add(item3);
 		itemListTest.Add(item5);

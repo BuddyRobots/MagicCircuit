@@ -9,8 +9,7 @@ using LitJson;
 ///该脚本挂在camera上面，游戏一开始就运行（初始化数据，加载本地关卡数据，等等）
 /// </summary>
 public class LevelManager : MonoBehaviour 
-{
-	
+{	
 	public static LevelManager _instance;
 
 	/// <summary>
@@ -18,7 +17,7 @@ public class LevelManager : MonoBehaviour
 	/// </summary>
 	public List<LevelItemData> levelItemDataList = new List<LevelItemData>();
 
-	public static LevelItemData currentLevelData;//这个数据可以被welldonePanel，failurePanel，photoTakingPanel,photoRecognizingPanel 拿去获取当前关卡名字
+	public static LevelItemData currentLevelData;//这个数据可以被failurePanel，photoTakingPanel,photoRecognizingPanel 拿去获取当前关卡名字
 
 
 	//json字符串，保存关卡的信息（这里的信息字段名和levelItemData里的属性保持一致）
@@ -155,7 +154,6 @@ public class LevelManager : MonoBehaviour
 	void Awake()
 	{
 		_instance = this;
-		//Debug.Log ("path is :"+Application.persistentDataPath);
 
 		//code for test...
 		//PlayerPrefs.SetInt ("LevelID",7);
@@ -164,14 +162,14 @@ public class LevelManager : MonoBehaviour
 
 	void Start() 
 	{
-		parseLevelItemInfo();
-		loadLocalLevelProgressData ();
+		ParseLevelItemInfo();
+		LoadLocalLevelProgressData ();
 	}
 
 	/// <summary>
 	/// 加载本地已经完成的关卡
 	/// </summary>
-	public void loadLocalLevelProgressData()
+	public void LoadLocalLevelProgressData()
 	{
 		//Debug.Log ("loadLocalLevelProgressData");
 		int levelID = 0;
@@ -197,7 +195,7 @@ public class LevelManager : MonoBehaviour
 			Debug.Log ("levelPro2==" + levelPro);
 		}
 		//获取到已完成的关卡后需要更新list数据
-		updateLevelItemDataList (levelID,levelPro);
+		UpdateLevelItemDataList (levelID,levelPro);
 
 	}
 
@@ -206,7 +204,7 @@ public class LevelManager : MonoBehaviour
 	/// </summary>
 	/// <param name="levelID">关卡ID</param>
 	/// <param name="levelPro">关卡进度</param>
-	public void updateLevelItemDataList(int levelID,int levelPro)
+	public void UpdateLevelItemDataList(int levelID,int levelPro)
 	{
 		//Debug.Log ("updateLevelItemDataList==");
 		if (levelID == 0) 
@@ -253,7 +251,7 @@ public class LevelManager : MonoBehaviour
 	/// <summary>
 	/// 解析json字符串，并把信息存到levelitemdata里面
 	/// </summary>
-	public void parseLevelItemInfo()
+	public void ParseLevelItemInfo()
 	{
 		JsonData jd = JsonMapper.ToObject(leveljsonstr);   
 		JsonData jdLevelItems = jd["levelData"]; 

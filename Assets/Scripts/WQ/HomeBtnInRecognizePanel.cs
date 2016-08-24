@@ -26,7 +26,6 @@ public class HomeBtnInRecognizePanel : MonoBehaviour {
 		//transform.parent.gameObject.SetActive(false);
 		startPanel.SetActive (true);
 		transform.parent.GetComponent<PhotoRecognizingPanel> ().PanelOff();
-		Debug.Log ("Onclick===========");
 
 	}
 }

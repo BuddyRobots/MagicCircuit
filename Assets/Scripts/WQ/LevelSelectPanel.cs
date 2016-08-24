@@ -4,17 +4,14 @@ using System.Collections.Generic;
 
 public class LevelSelectPanel : MonoBehaviour {
 
-
-	//用来控制关卡列表，
-	//包含很多个LevelItemUI---用列表来存储
-
+	//用来控制关卡列表，包含很多个LevelItemUI---用列表来存储
 	public static LevelSelectPanel _instance;
 
 	private GameObject levelDescriptionPanel;
 	public List<UIButton> uiBtnListT = new List<UIButton>();
 	public List<UIButton> uiBtnListL = new List<UIButton>();
 
-
+	// twinkle button
 	private UIButton btnT01;
 	private UIButton btnT02;
 	private UIButton btnT03;
@@ -31,6 +28,7 @@ public class LevelSelectPanel : MonoBehaviour {
 	private UIButton btnT14;
 	private UIButton btnT15;
 
+	// light button
 	private UIButton btnL01;
 	private UIButton btnL02;
 	private UIButton btnL03;
@@ -47,17 +45,10 @@ public class LevelSelectPanel : MonoBehaviour {
 	private UIButton btnL14;
 	private UIButton btnL15;
 
-
-
-
 	void Awake()
 	{
 		_instance = this;
-	}
 
-	void OnEnable()
-	{
-		//Debug.Log ("Start");
 		btnT01 = transform.Find ("Bg/LevelD01/LevelT01").GetComponent<UIButton> ();
 		btnL01 = transform.Find ("Bg/LevelD01/LevelL01").GetComponent<UIButton> ();
 
@@ -103,8 +94,6 @@ public class LevelSelectPanel : MonoBehaviour {
 		btnT15 = transform.Find ("Bg/LevelD15/LevelT15").GetComponent<UIButton> ();
 		btnL15 = transform.Find ("Bg/LevelD15/LevelL15").GetComponent<UIButton> ();
 
-
-
 		uiBtnListT.Add (btnT01);
 		uiBtnListT.Add (btnT02);
 		uiBtnListT.Add (btnT03);
@@ -136,34 +125,17 @@ public class LevelSelectPanel : MonoBehaviour {
 		uiBtnListL.Add (btnL13);
 		uiBtnListL.Add (btnL14);
 		uiBtnListL.Add (btnL15);
-	
-		//界面刷新
-		refreshLevelUI ();
-
 	}
 
-	public int GetLevel(string levelName)
+	void OnEnable()
 	{
-		int ret = 0;
-		string temp =levelName.Substring (6);
-		if (temp [0] == 0)
-		{
-
-			string temp2 = temp.Substring (1);
-			int.TryParse (temp2, out ret);
-
-		} 
-		else
-		{
-			int.TryParse (temp, out ret);
-		}
-		return ret;
+		//界面刷新
+		RefreshLevelUI ();
 
 	}
 
-
-	//刷新UI
-	public void refreshLevelUI()
+	//refresh UI
+	public void RefreshLevelUI()
 	{
 		//Debug.Log ("refreshLevelUI");
 		for (int i = 0; i < LevelManager._instance.levelItemDataList.Count; ++i)
@@ -171,38 +143,29 @@ public class LevelSelectPanel : MonoBehaviour {
 			LevelItemData data = LevelManager._instance.levelItemDataList [i];
 			UIButton btnT = uiBtnListT [i];
 			UIButton btnL = uiBtnListL [i];
-			int levelId = GetLevel(btnT.name);
-
+			//int levelId = GetLevel(btnT.name);
+			int levelId =btnT.GetComponent<LevelItemUI>().GetLevel(btnT.name);
 			if(data.LevelID==levelId)
 			{
 				switch(data.Progress)
 				{
-					case LevelProgress.Todo:
-						
+					case LevelProgress.Todo:						
 						btnT.gameObject.SetActive (false);
 						btnL.gameObject.SetActive (false);
 						break;
 					case LevelProgress.Doing:
-						
 						btnT.gameObject.SetActive (true);
 						btnL.gameObject.SetActive (false);
-
 						break;
-					case LevelProgress.Done:
-						
+					case LevelProgress.Done:	
 						btnT.gameObject.SetActive (false);
 						btnL.gameObject.SetActive (true);
 						break;
 					default:
 						break;
-
-
 				}
-					
 			}
-
 		}
-
 	}
 
 	public void PanelOff()

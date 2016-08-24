@@ -21,7 +21,6 @@ public class DescriptionPanel : MonoBehaviour {
 
 	void Start () 
 	{
-		
 		nextBtn = transform.Find ("NextBtn").GetComponent<UIButton> ().gameObject;
 		photoTakingPanel = transform.parent.Find ("PhotoTakingPanel").gameObject;
 		descriptionLabel = transform.Find ("LabelBg/Label").GetComponent<UILabel> ();

@@ -6,13 +6,10 @@ public class FailurePanel : MonoBehaviour {
 
 	//有一个提示失败的图片
 	//private UISprite failNotice;
-
 	private string levelName;//记录当前的关卡名
 
 	private GameObject replayBtn;
-
 	private GameObject photoTakingPanel;
-
 	void Start () 
 	{
 		
@@ -26,20 +23,18 @@ public class FailurePanel : MonoBehaviour {
 		levelName= LevelManager.currentLevelData.LevelName;
 
 	}
-	
-	public void PanelOff()
-	{
-		this.gameObject.SetActive(false);
-		transform.parent.gameObject.SetActive (false);
-	}
 
 	void OnReplayBtnClick(GameObject btn)
 	{
 		//返回拍摄界面
-		PanelOff();
 		photoTakingPanel.SetActive (true);
+		PanelOff();
+	}
 
-
+	public void PanelOff()
+	{
+		this.gameObject.SetActive(false);
+		transform.parent.gameObject.SetActive (false);
 	}
 		
 }
