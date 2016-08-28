@@ -32,6 +32,7 @@ public class CircuitItemManager :MonoBehaviour
 		item1.ID = 0;
 		item1.name = "Battery";
 		item1.type = ItemType.Battery;
+		item1.theta = 30;
 		//Vector3 vec1 = new Vector3 (0.5f,-0.1f,0);
 		Vector3 vec1 = new Vector3 (188,-93,0);
 		List<Vector3> vecs1 = new List<Vector3> ();
@@ -43,6 +44,7 @@ public class CircuitItemManager :MonoBehaviour
 		item7.ID = 1;
 		item7.name = "Switch";
 		item7.type = ItemType.Switch;
+		item7.theta = 90;
 		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
 		Vector3 vec7 = new Vector3 (0,-75,0);
 		List<Vector3> vecs7 = new List<Vector3> ();
@@ -77,6 +79,7 @@ public class CircuitItemManager :MonoBehaviour
 		item5.ID = 4;
 		item5.name = "CircuitLine";
 		item5.type = ItemType.CircuitLine;
+		item5.powered = false;
 		Vector3 vec21 = new Vector3 (205, -46, 0);
 		Vector3 vec22 = new Vector3 (197, -24, 0);
 		Vector3 vec23 = new Vector3 (183, 1, 0);
@@ -100,6 +103,7 @@ public class CircuitItemManager :MonoBehaviour
 		item6.ID = 5;
 		item6.name = "CircuitLine";
 		item6.type = ItemType.CircuitLine;
+		item6.powered = false;
 		Vector3 vec31 = new Vector3 (-103, 92, 0);
 		Vector3 vec32 = new Vector3 (-129, 66, 0);
 		Vector3 vec33 = new Vector3 (-144, 48, 0);
@@ -122,6 +126,7 @@ public class CircuitItemManager :MonoBehaviour
 		item4.ID = 6;
 		item4.name = "CircuitLine";
 		item4.type = ItemType.CircuitLine;
+		item4.powered = false;
 		Vector3 vec01 = new Vector3 (-126, -77, 0);
 		Vector3 vec02 = new Vector3 (-103, -83, 0);
 		Vector3 vec03 = new Vector3 (-75, -88, 0);

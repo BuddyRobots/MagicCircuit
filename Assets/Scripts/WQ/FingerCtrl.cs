@@ -53,7 +53,7 @@ public class FingerCtrl : MonoBehaviour
 			transform.localPosition = Vector3.Lerp (transform.localPosition, end, speed * Time.deltaTime);
 			yield return new WaitForFixedUpdate ();
 		}
-//		yield return new WaitForSeconds (0.5f);
+		//yield return new WaitForSeconds (0.5f);
 
 		while (Vector3.Distance (transform.localPosition, start) > 1f) 
 		{

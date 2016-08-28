@@ -31,10 +31,13 @@ public class ArrowCtrl : MonoBehaviour
 	private Vector3 direction;
 
 
+
+
 	void Start()
 	{
 		
 		isAtDest = false;
+
 	}
 
 

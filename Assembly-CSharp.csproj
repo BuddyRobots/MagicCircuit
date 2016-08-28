@@ -392,6 +392,7 @@
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
      <Compile Include="Assets\testScripts\moveTest.cs" />
+     <Compile Include="Assets\testScripts\testFeil.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />

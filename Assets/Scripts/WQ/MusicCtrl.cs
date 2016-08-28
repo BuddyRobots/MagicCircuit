@@ -16,6 +16,7 @@ public class MusicCtrl : MonoBehaviour {
 		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
 		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
 	
+		//Application.persistentDataPath+"ggg.png"
 	}
 
 	void Update () 

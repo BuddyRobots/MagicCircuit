@@ -15,6 +15,7 @@ public class MoveCtrl : MonoBehaviour {
 
 	private ArrowCtrl arrowCtrl;
 
+	public bool isArrowDestroy;
 
 	void Start ()
 	{
@@ -28,7 +29,7 @@ public class MoveCtrl : MonoBehaviour {
 		arrowCtrl = transform.GetComponent<ArrowCtrl> ();
 
 		index = 0;
-
+		isArrowDestroy=false;
 	}
 	
 
@@ -44,12 +45,13 @@ public class MoveCtrl : MonoBehaviour {
 
 			}
 
-			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) {// 如果箭头移动到了线路的终点，就出队列，且销毁这个箭头
-			
-
-				//transform.parent.GetComponent<PhotoRecognizingPanel> ().arrowList.Dequeue();
+			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) 
+			{// 如果箭头移动到了线路的终点，就销毁这个箭头
 
 				Destroy (gameObject);
+				//箭头销毁，线上的bool值改变
+				isArrowDestroy=true;
+
 			}
 
 		}

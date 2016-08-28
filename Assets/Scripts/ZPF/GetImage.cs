@@ -46,6 +46,8 @@ public class GetImage : MonoBehaviour
 	/// a mark to judge if the thread of 10-photos-handling was over 
 	/// </summary>
 	private bool isFinishHandlePicture;
+	private List<Mat> tempImgs = new List<Mat>();
+	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
 
 
 	void Awake()
@@ -57,7 +59,6 @@ public class GetImage : MonoBehaviour
     void Start() 
 	{
 		rotateCamera = new RotateCamera ();  
-        //StartCoroutine(init());
 		// Intialize RecogniazeAlgo
 		recognizeAlgo = new RecognizeAlgo(light_tex,
 			battery_tex,
@@ -121,60 +122,58 @@ public class GetImage : MonoBehaviour
 
 
 
-//	void Update()
-//	{
-//		TakePhoto();
-//		if (!isFinishHandlePicture && tempImgs.Count >= 10) 
-//		{
-//			TakePicture_Start ();
-//			isFinishHandlePicture = true;
-//		}
-//	}
-//
-//	public void TakePicture()
-//	{
-//		isTakePicture = true; 
-//	}
-
-
-	void Update() 
+	void Update()
 	{
-		listItem = new List<CircuitItem>();
-		if (!initDone)
-			return;
-		if (webCamTexture.didUpdateThisFrame)
+		TakePhoto();
+		if (!isFinishHandlePicture && tempImgs.Count >= 10) 
 		{
-			
-//			Utils.webCamTextureToMat(webCamTexture, frameImg);
-//			Mat tmpImg = frameImg.clone ();
-//			rotateCamera.rotate (ref tmpImg);
-//			// Image Processing Codes
-//			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
-//			//itemLists.Add (listItem);
-//			texture.Resize(resultImg.cols(), resultImg.rows());
-//			Utils.matToTexture2D(resultImg, texture);
-
-
-
-			Utils.webCamTextureToMat(webCamTexture, frameImg);
-			Mat tmpImg = frameImg.clone ();
-			rotateCamera.rotate (ref tmpImg);
-			texture.Resize(tmpImg.cols(), tmpImg.rows());
-			Utils.matToTexture2D(tmpImg, texture);
-
-			  
-
-
-			if (!isShotTook) 
-			{
-				TakeSnapShot ();
-				isShotTook = true;
-			}
+			TakePicture_Start ();
+			isFinishHandlePicture = true;
 		}
 	}
 
-	private List<Mat> tempImgs = new List<Mat>();
-	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
+	public void TakePicture()
+	{
+		isTakePicture = true; 
+	}
+
+
+//	void Update() 
+//	{
+//		listItem = new List<CircuitItem>();
+//		if (!initDone)
+//			return;
+//		if (webCamTexture.didUpdateThisFrame)
+//		{
+//			
+////			Utils.webCamTextureToMat(webCamTexture, frameImg);
+////			Mat tmpImg = frameImg.clone ();
+////			rotateCamera.rotate (ref tmpImg);
+////			// Image Processing Codes
+////			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
+////			//itemLists.Add (listItem);
+////			texture.Resize(resultImg.cols(), resultImg.rows());
+////			Utils.matToTexture2D(resultImg, texture);
+//
+//
+//
+//			Utils.webCamTextureToMat(webCamTexture, frameImg);
+//			Mat tmpImg = frameImg.clone ();
+//			rotateCamera.rotate (ref tmpImg);
+//			texture.Resize(tmpImg.cols(), tmpImg.rows());
+//			Utils.matToTexture2D(tmpImg, texture);
+//
+//			  
+//
+//
+//			if (!isShotTook) 
+//			{
+//				TakeSnapShot ();
+//				isShotTook = true;
+//			}
+//		}
+//	}
+
 
 
 	/// <summary>

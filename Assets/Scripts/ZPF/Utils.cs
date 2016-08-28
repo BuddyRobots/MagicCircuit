@@ -110,6 +110,12 @@ namespace MagicCircuit
         Battery,
         Switch,
         Bulb,
+		Loudspeaker,
+		SPDTswitch,			//single pole double throw switch  单刀双掷开关
+		VOswitch,			//voice operated switch  声控开关
+		LAswitch,			//light activated switch
+		TDswitch,			//time-delay switch
+		InductionCooker,	//电磁炉
         CircuitLine                             //如果是线的话，则是点的集合
     }
     
@@ -122,6 +128,7 @@ namespace MagicCircuit
 		public double theta{ get; set; }        //图标的朝向（单位：角度）
 		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
 		public bool powered{ get; set; }        //元件是否通电
+		//private int appearTimes{get; set;}		//图标出现的次数
 
         public Vector2 connect_left;            //Connect point on card
         public Vector2 connect_right;
