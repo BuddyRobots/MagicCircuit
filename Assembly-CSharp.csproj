@@ -438,17 +438,17 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="UnityEngine.Networking">
- <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
  <Reference Include="DOTween">
- <HintPath>/Users/wang'qian/Documents/GitFile/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/GitFile/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/wang'qian/Documents/GitFile/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/GitFile/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
