@@ -238,10 +238,10 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			if (isItemShowDone && result == Result.Success) 
 			{
 
-				//如果图标显示完成且匹配成功，就在开关右下角出现小手，指向开关位置提示玩家点击开关，玩家点击开关闭合后，如果还有其他开关，则小手移动的下一个开关的右下角。。。
+				//如果图标显示完成且匹配成功，就在开关右下角出现小手，指向开关位置，
 				//依次把所有的开关都点击闭合后，小手消失，播放电流
-				// to do ...
-
+				//以下代码是只有在开关按钮第一次出现的时候出现小手，只要小手出现过一次了就不再出现
+				/*
 				if(switchList.Count >0)//如果有开关，则需要显示小手
 				{
 					for (int i = 0; i < switchList.Count; i++) 
@@ -251,7 +251,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 							//isEnergized=false;
 							int hasShownHand = PlayerPrefs.GetInt ("switchItem");
 							//if(LevelManager._instance.GetSingleLevelItem().Progress == LevelProgress.Doing){
-							//	ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置
+							//	ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置--------每一个开关位置依次显示小手
 							//}
 							if(hasShownHand == 0)
 							{
@@ -259,14 +259,13 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 								PlayerPrefs.SetInt ("switchItem",1);
 
 							}
+							if(hasShownHand == 1 && LevelManager.currentLevelData.LevelNumber==1)
+							{
+								ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置
+				
+							}
 							break;
 						}
-
-						/*if (i == switchList.Count - 1) {
-							Destroy(finger);
-							isFingerShow=true;
-							finger = null; 
-						}*/
 
 						if(switchList[i].GetComponent<SwitchCtrl>().isSwitchOn ==false)//如果点击了开关，开关闭合，就销毁小手
 						{
@@ -282,21 +281,52 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 					}
 
 				}
-				if (isArrowShowDone == false && isEnergized) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
+		*/
+
+				if(switchList.Count >0)//如果有开关，则需要显示小手
 				{
-					//StartCoroutine (ArrowShow ());
-					StartCoroutine (ArrowShowLineByLine1(lines , 0));
-					isArrowShowDone = true;
+					for (int i = 0; i < switchList.Count; i++) 
+					{
+						if (switchList[i].GetComponent<SwitchCtrl>().isSwitchOn) 
+						{
+							if(LevelManager.currentLevelData.LevelID==1)
+							{
+								ShowFinger(switchList[0].transform.localPosition);//显示小手，传入开关的位置
+							}
+							break;
+						}
+
+						if(switchList[i].GetComponent<SwitchCtrl>().isSwitchOn ==false)//如果点击了开关，开关闭合，就销毁小手
+						{
+							Destroy(finger);
+							finger = null;
+							if(i == switchList.Count - 1)//如果所有的开关都闭合了，就表示电路通电了，灯泡变亮，电流流动  to  do ...遍历灯泡，都变亮
+							{
+								isEnergized=true;
+							}
+						}
+					}
 				}
 
 
+				if (isArrowShowDone == false && isEnergized) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
+				{
+					StartCoroutine (ArrowShowLineByLine(lines , 0));
+					isArrowShowDone = true;
+				}
+
 				//如果已经播放了电流，玩家又点击了开关，开关断开，应该隐藏所有的箭头，灯变暗；直到玩家再次点击开关，开关闭合，显示所有的箭头，灯变亮
+
+
+
+
+				//后面的关卡中会出现新的开关，比如光敏开关，声控开关灯，（如果是串联电路的话）只有当所有的开关闭合后，电流才会走；（并联电路的话）一条电路上的所有开关都闭合后，这条线路的电流走动
 
 			}
 
 			#endregion
 
-			#region 如果结果是错误的，就跳转到失败界面
+			#region 如果匹配结果是错误的，就跳转到失败界面
 			else if (isItemShowDone && result == Result.Fail) 
 			{
 				Fail ();
@@ -327,22 +357,9 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		finger.name="finger";
 		finger.transform.parent = transform;
 		finger.transform.localScale = Vector3.one;
-
-
 		finger.GetComponent<FingerCtrl> ().FingerShow (switchPos + offSet);
 	}
 		
-
-
-
-	//小手逻辑   假设可以点击的图标有  开关，双闸开关，   
-	//规则是--(比如)第一关有开关（第一次出现），显示小手；第2关不显示小手；第三关有双闸开关（第一次出现），需要显示小手
-	//如果所有图标都显示完了，且开关（在所有关卡中）是第一次出现---也可以用关卡数字来判断是不是第一次出现，就需要出现小手，
-
-
-
-
-
 
 
 
@@ -393,12 +410,33 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			iconCount--;
 			break;
 
+		
+
+		case ItemType.SPDTswitch:
+			//to do...
+
+			break;
+		case ItemType.TDswitch:
+			//to do...
+			break;
+		case ItemType .VOswitch:
+			//to do...
+			break;
+		
+		case ItemType.LAswitch:
+			//to do...
+			break;
+
 		case ItemType.Loudspeaker:
 			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
 			item = GameObject.Instantiate (loudspeaker) as GameObject;
 			goList.Add (item);
 			item.name = "loudspeaker"; 
 			iconCount--;
+			break;
+
+		case  ItemType.InductionCooker:
+			//to do...
 			break;
 
 		case ItemType.CircuitLine:
@@ -497,7 +535,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	}
 
-	IEnumerator ArrowShowLineByLine1(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
+	IEnumerator ArrowShowLineByLine(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
 	{
 		bool hasStartCorout = false;//有没有开启协同的标志
 		GameObject temp = null;
@@ -520,7 +558,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			}
 			if (!hasStartCorout && temp == null && i < lines.Count - 1) 
 			{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
-				StartCoroutine (ArrowShowLineByLine1 (lines, i + 1));
+				StartCoroutine (ArrowShowLineByLine(lines, i + 1));
 				hasStartCorout = true;
 			}
 			arrow.GetComponent<MoveCtrl> ().Move (singleLine);

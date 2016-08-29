@@ -111,11 +111,29 @@ namespace MagicCircuit
         Switch,
         Bulb,
 		Loudspeaker,
-		SPDTswitch,			//single pole double throw switch  单刀双掷开关
-		VOswitch,			//voice operated switch  声控开关
-		LAswitch,			//light activated switch
-		TDswitch,			//time-delay switch
-		InductionCooker,	//电磁炉
+		/// <summary>
+		/// single pole double throw switch  单刀双掷开关
+		/// </summary>
+		SPDTswitch,		
+		/// <summary>
+		/// voice operated switch  声控开关
+		/// </summary>
+		VOswitch,			
+		/// <summary>
+		/// light activated switch  光敏开关
+		/// </summary>
+		LAswitch,		
+		/// <summary>
+		/// time-delay switch      延时开关
+		/// </summary>
+		TDswitch,		
+		/// <summary>
+		/// 电磁炉
+		/// </summary>
+		InductionCooker,	
+		/// <summary>
+		/// line 线
+		/// </summary>
         CircuitLine                             //如果是线的话，则是点的集合
     }
     
