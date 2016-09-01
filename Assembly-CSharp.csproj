@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MoonAndSunCtrl.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -362,6 +361,7 @@
      <Compile Include="Assets\Scripts\WQ\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelManager.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSelectPanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\MoonAndSunCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\MoveCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\MusicCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\PhotoRecognizingPanel.cs" />
@@ -444,10 +444,10 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="DOTween">
- <HintPath>/Users/WangQian/Documents/GitFile/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/WangQian/Documents/GitFile/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

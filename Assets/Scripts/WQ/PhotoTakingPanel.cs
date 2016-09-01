@@ -61,10 +61,13 @@ public class PhotoTakingPanel : MonoBehaviour {
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		//GetImage._instance.TakePicture ();
+		GetImage._instance.TakePicture ();
+		if (!noticeImg.gameObject.activeSelf) 
+		{
+			noticeImg.gameObject.SetActive (true);
+			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
+		}
 
-		noticeImg.gameObject.SetActive (true);
-		StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
 	}
 
 

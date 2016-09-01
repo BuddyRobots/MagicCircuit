@@ -33,21 +33,35 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private GameObject replayBtn;
 	private GameObject nextBtn;
 
-	private GameObject arrowPrefab;
-
 	//  items need to show
 	private GameObject bulb;
 	private GameObject battery;
 	private GameObject switchBtn;
 	private GameObject loudspeaker;
+	private GameObject voiceOperSwitch;
+	private GameObject lightActSwitch;
+	private GameObject voiceTimedelaySwitch;
+	private GameObject doubleDirSwitch;
+	private GameObject inductionCooker;
+
+
+	private GameObject sunAndMoon;
+	private GameObject microPhone;
 
 	//需要跳转连接的界面
 	private GameObject commonPanel02;
 	private GameObject failurePanel;
 
 	private GameObject labelBgTwinkle;//文字显示的发光背景
+	private GameObject lineParent;
+	private GameObject linePrefab;
+	private GameObject fingerPrefab;
+	private GameObject arrowPrefab;
 
 	private UILabel levelNameLabel;
+
+	private UISprite image;//拍摄截取的图像
+	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
 
 	/// <summary>
 	/// 判断图标是否显示完的标志
@@ -74,17 +88,28 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// </summary>
 	private bool isEnergized = false;
 
-
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
 	/// </summary>
 	private int iconCount = 1;
 
-	private UISprite image;//拍摄截取的图像
-	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
+	/// <summary>
+	/// the number of voiceOperSwitch 声控开关的个数，大于0时话筒按钮要伴随出现
+	/// </summary>
+	private int voiceOperSwitchNum = 0;
+
+	/// <summary>
+	/// the number of lightActSwitch 光敏开关的个数，大于0时太阳月亮切换按钮要伴随出现
+	/// </summary>
+	private int isLightActSwitchNum = 0;
 
 	private float  animationTimer=0;//电流动画播放计时器
 	private float animationTime=5f;//重玩按钮和下一步按钮在电流动画播放5秒后出现
+	private float distance = 0;
+	private float angle = 0;
+
+	private static float maskTimer = 0f;//蒙板渐变计时器
+	private float maskTime;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
 
 	//private Transform arrowOccurPos;
 	private LevelItemData data;
@@ -93,26 +118,15 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private Vector3 toPos;
 	private Vector3 centerPos;
 
-	private float distance = 0;
-	private float angle = 0;
 
-	private GameObject lineParent;
-	private GameObject linePrefab;
-	private GameObject fingerPrefab;
-
-
-	private static float maskTimer = 0f;//蒙板渐变计时器
-	private float maskTime;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
 
 	/// <summary>
 	/// 识别面板新创建出来的对象的集合（界面上新创建的对象需要在关闭面板的时候进行销毁，以保证重新打开界面时上一次操作中的新建的对象不会残留）
 	/// </summary>
 	private List<GameObject> goList=new List<GameObject>();
-
-	List<GameObject> switchList = new List<GameObject> ();
-
+	private List<GameObject> switchList = new List<GameObject> ();
 	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
-	List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
+	private List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
 	public  List<GameObject> arrowList=new List<GameObject>();
 
 	void Start()
@@ -125,6 +139,12 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		battery = Resources.Load ("Battery",typeof(GameObject))  as GameObject;
 		switchBtn = Resources.Load ("Switch",typeof(GameObject))  as GameObject;
 		loudspeaker = Resources.Load ("Loudspeaker", typeof(GameObject)) as GameObject;
+		voiceOperSwitch = Resources.Load ("VoiceOperSwitch", typeof(GameObject)) as GameObject;
+		lightActSwitch = Resources.Load ("LightActSwitch", typeof(GameObject)) as GameObject;
+		voiceTimedelaySwitch = Resources.Load ("VoiceTimedelaySwitch", typeof(GameObject)) as GameObject;
+		doubleDirSwitch = Resources.Load ("DoubleDirSwitch", typeof(GameObject)) as GameObject;
+		inductionCooker = Resources.Load ("InductionCooker", typeof(GameObject)) as GameObject;
+
 		arrowPrefab=Resources.Load("Arrow") as GameObject;
 		linePrefab = Resources.Load ("lineNew") as GameObject;
 		fingerPrefab= Resources.Load ("Finger",typeof(GameObject)) as GameObject;
@@ -143,9 +163,13 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
 		mask=transform.Find("Bg/Mask").GetComponent<UISprite> ();
-		replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
-		nextBtn=transform.Find("NextBtn").GetComponent<UIButton> ().gameObject;
-		labelBgTwinkle = transform.Find ("LevelNameBgT").GetComponent<UISprite> ().gameObject;
+		//replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
+		replayBtn=transform.Find("ReplayBtn").gameObject;
+		nextBtn=transform.Find("NextBtn").gameObject;
+		labelBgTwinkle = transform.Find ("LevelNameBgT").gameObject;
+
+		sunAndMoon = transform.Find ("SunAndMoonWidget").gameObject;
+		microPhone = transform.Find ("MicroPhoneBtn").gameObject;
 
 		lineParent = this.gameObject;
 
@@ -154,6 +178,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
 		labelBgTwinkle.SetActive (false);
+		sunAndMoon.SetActive (false);
+		microPhone.SetActive (false);
 
 		isItemShowDone=false;
 		isPhotoShowDone = false;
@@ -161,6 +187,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		isCreate_Update=false;
 		isEnergized = false;
 
+		voiceOperSwitchNum = 0;
+		isLightActSwitchNum = 0;
 
 		data = LevelManager.currentLevelData;
 
@@ -219,6 +247,18 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				maskTimer =maskTime;
 			}
 			mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
+
+			if(voiceOperSwitchNum>0)//如果有声控开关，需要伴随出现话筒按钮
+			{
+				microPhone.SetActive(true);   
+
+			}
+			if(isLightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
+			{
+				sunAndMoon.SetActive(true);
+
+			}
+
 
 			//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
 			if(isCreate_Update==false)
@@ -317,9 +357,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 				//如果已经播放了电流，玩家又点击了开关，开关断开，应该隐藏所有的箭头，灯变暗；直到玩家再次点击开关，开关闭合，显示所有的箭头，灯变亮
 
-
-
-
 				//后面的关卡中会出现新的开关，比如光敏开关，声控开关灯，（如果是串联电路的话）只有当所有的开关闭合后，电流才会走；（并联电路的话）一条电路上的所有开关都闭合后，这条线路的电流走动
 
 			}
@@ -333,6 +370,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			}
 			#endregion
 		}
+
 
 	}
 
@@ -384,12 +422,12 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	{
 
 		GameObject item = null;
+
 		switch (circuitItem.type) 
 		{
 		case ItemType.Battery://如果是电池，则克隆电池的图标
 			item = GameObject.Instantiate (battery) as GameObject;
 			goList.Add (item);//新创建一个对象的同时把这个对象加入到对象列表，方便关闭界面的时候销毁这些新创建的对象
-			//arrowOccurPos = item.transform;//箭头从电池的位置出来
 			item.name = "battery"; 
 			iconCount--;
 			break;
@@ -410,25 +448,38 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			iconCount--;
 			break;
 
-		
+		case ItemType.DoubleDirSwitch:
+			item = GameObject.Instantiate (doubleDirSwitch) as GameObject;
+			goList.Add (item);
+			item.name = "doubleDirSwitch";
+			iconCount--;
+			break;
 
-		case ItemType.SPDTswitch:
-			//to do...
+		case ItemType.VoiceTimedelaySwitch:
+			item = GameObject.Instantiate (voiceTimedelaySwitch) as GameObject;
+			goList.Add (item);
+			item.name = "voiceTimedelaySwitch";
+			voiceOperSwitchNum++;
+			iconCount--;
+			break;
 
-			break;
-		case ItemType.TDswitch:
-			//to do...
-			break;
-		case ItemType .VOswitch:
-			//to do...
+		case ItemType .VoiceOperSwitch:
+			item = GameObject.Instantiate (voiceOperSwitch) as GameObject;
+			goList.Add (item);
+			item.name = "voiceOperSwitch";
+			voiceOperSwitchNum++;//声控开关出现的时候记录一下，话筒按钮需要伴随出现
+			iconCount--;
 			break;
 		
-		case ItemType.LAswitch:
-			//to do...
+		case ItemType.LightActSwitch:
+			item = GameObject.Instantiate (lightActSwitch) as GameObject;
+			goList.Add (item);
+			item.name = "lightActSwitch";
+			isLightActSwitchNum++;//光敏开关出现的时候记录一下，太阳月亮切换按钮需要伴随出现
+			iconCount--;
 			break;
 
 		case ItemType.Loudspeaker:
-			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
 			item = GameObject.Instantiate (loudspeaker) as GameObject;
 			goList.Add (item);
 			item.name = "loudspeaker"; 
@@ -436,7 +487,10 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 
 		case  ItemType.InductionCooker:
-			//to do...
+			item = GameObject.Instantiate (inductionCooker) as GameObject;
+			goList.Add (item);
+			item.name = "inductionCooker";
+			iconCount--;
 			break;
 
 		case ItemType.CircuitLine:

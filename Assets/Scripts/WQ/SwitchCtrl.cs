@@ -22,14 +22,14 @@ public class SwitchCtrl : MonoBehaviour
 	{
 		if (isSwitchOn && switchOffBtn.activeSelf)
 		{
-			//如果状态是开，而当前下面的“关” 按钮开着的话，关闭它，并且打开 “开” 的按钮
+			//如果状态是断开，而当前下面的“闭合” 按钮开着的话，关闭它，并且打开 “断开” 的按钮
 			switchOnBtn.SetActive(true);
 			switchOffBtn.SetActive(false);
 
 		}
 		if (!isSwitchOn && switchOnBtn.activeSelf)
 		{
-			//如果状态是关，而当前下面的 “开” 按钮开着的话，关闭它，并且打开 “关” 的按钮
+			//如果状态是闭合，而当前下面的 “断开” 按钮开着的话，关闭它，并且打开 “闭合” 的按钮
 			switchOnBtn.SetActive(false);
 			switchOffBtn.SetActive(true);
 

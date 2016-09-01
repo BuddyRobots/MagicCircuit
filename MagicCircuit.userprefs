@@ -1,13 +1,9 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/Utils.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/PhotoRecognizingPanel.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/PhotoRecognizingPanel.cs" Line="340" Column="64" />
-      <File FileName="Assets/Scripts/WQ/MusicCtrl.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="118" Column="20" />
-      <File FileName="Assets/Scripts/WQ/LevelManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/FingerCtrl.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/SwitchCtrl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/PhotoRecognizingPanel.cs" Line="253" Column="35" />
+      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="232" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
