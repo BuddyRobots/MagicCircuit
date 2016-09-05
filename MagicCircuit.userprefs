@@ -1,9 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/PhotoRecognizingPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Btn/SwitchCtrl.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/PhotoRecognizingPanel.cs" Line="253" Column="35" />
-      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="232" Column="20" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/NormalSwitchOccur.cs" Line="28" Column="7" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="420" Column="23" />
+      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="22" Column="11" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Btn/SwitchCtrl.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

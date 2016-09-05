@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 
-
-
 public enum Result
 {
 	/// <summary>
@@ -20,10 +18,10 @@ public enum Result
 	/// </summary>
 	Fail
 }
-
-
-public class PhotoRecognizingPanel : MonoBehaviour {
-
+	
+public class PhotoRecognizingPanel : MonoBehaviour 
+{
+	public static PhotoRecognizingPanel _instance;
 	//匹配结果
 	[HideInInspector]
 	public Result result;
@@ -43,7 +41,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private GameObject voiceTimedelaySwitch;
 	private GameObject doubleDirSwitch;
 	private GameObject inductionCooker;
-
 
 	private GameObject sunAndMoon;
 	private GameObject microPhone;
@@ -66,7 +63,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// <summary>
 	/// 判断图标是否显示完的标志
 	/// </summary>
-	private bool isItemShowDone=false;
+	[HideInInspector]
+	public  bool isItemShowDone=false;
 
 	/// <summary>
 	/// 判断拍摄的照片是否显示完成的标志
@@ -76,7 +74,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// <summary>
 	/// 判断箭头电流动画是否完成的标志
 	/// </summary>
-	private bool isArrowShowDone=false;
+	[HideInInspector]
+	public  bool isArrowShowDone=false;
 
 	/// <summary>
 	/// 保证创建图标的协同只走一遍的标志
@@ -87,6 +86,8 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	/// 电路是否通电的标志
 	/// </summary>
 	private bool isEnergized = false;
+
+	private bool isHasSwitch=false;
 
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
@@ -111,14 +112,11 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private static float maskTimer = 0f;//蒙板渐变计时器
 	private float maskTime;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
 
-	//private Transform arrowOccurPos;
 	private LevelItemData data;
 
 	private Vector3 fromPos;
 	private Vector3 toPos;
 	private Vector3 centerPos;
-
-
 
 	/// <summary>
 	/// 识别面板新创建出来的对象的集合（界面上新创建的对象需要在关闭面板的时候进行销毁，以保证重新打开界面时上一次操作中的新建的对象不会残留）
@@ -126,8 +124,17 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 	private List<GameObject> goList=new List<GameObject>();
 	private List<GameObject> switchList = new List<GameObject> ();
 	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
-	private List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
+	[HideInInspector]
+	public List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
+	[HideInInspector]
 	public  List<GameObject> arrowList=new List<GameObject>();
+	[HideInInspector]
+	public  List<Vector3> linePointsList=new List<Vector3>();//线上的所有点的集合，方便第二关的消除线段的取点
+
+	void Awake()
+	{
+		_instance = this;
+	}
 
 	void Start()
 	{
@@ -186,6 +193,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		isArrowShowDone=false;
 		isCreate_Update=false;
 		isEnergized = false;
+		isHasSwitch=false;
 
 		voiceOperSwitchNum = 0;
 		isLightActSwitchNum = 0;
@@ -194,8 +202,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 	    itemsList=CircuitItemManager._instance.itemList;  // for test
 
-		//arrowOccurPos = gameObject.transform;
-
 		prePos = Vector3.zero; 
 		iconCount = 1;
 		mask.alpha = 0;
@@ -203,21 +209,10 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		foreach (var item in lines) 
 		{
 			maskTime += (float)((item.Count - 1) * 0.2);//显示一条线的总时间
-
 		}
-
 		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 	}
 		
-	void OnDisable()
-	{
-		if (finger) {
-			Destroy (finger);
-			finger = null;
-		}
-		switchList.Clear ();
-
-	}
 
 
 	/// <summary>
@@ -233,32 +228,25 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		isPhotoShowDone = true;
 	}
 
+	//private List<GameObject> allSwitches = new List<GameObject> ();
+	//识别完以后，播放电流之前，首先得判断有没有开关，如果没有开关，就直接显示电流；
 
-
+	/// <summary>
+	/// 整个电路图中有没有开关的标记
+	/// </summary>
 
 	void Update () 
 	{
 		if (isPhotoShowDone) 
 		{
-			#region 背景图片显示2秒后蒙板出现，透明度渐变，同时开始创建图标
+			#region 蒙板出现，透明度渐变
 			maskTimer += Time.deltaTime;
 			if (maskTimer >= maskTime) 
 			{
 				maskTimer =maskTime;
 			}
 			mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
-
-			if(voiceOperSwitchNum>0)//如果有声控开关，需要伴随出现话筒按钮
-			{
-				microPhone.SetActive(true);   
-
-			}
-			if(isLightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
-			{
-				sunAndMoon.SetActive(true);
-
-			}
-
+			#endregion
 
 			//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
 			if(isCreate_Update==false)
@@ -271,97 +259,68 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			{
 				isItemShowDone = true;
 			}
-			#endregion
-
-			#region  图标创建完成，如果结果是正确的，就播放电流
-			//如果所有图标都显示完了，且匹配成功，就播放动画，跳转到welldone界面
-			if (isItemShowDone && result == Result.Success) 
+			if(voiceOperSwitchNum>0)//如果有声控开关，需要伴随出现话筒按钮
 			{
+				microPhone.SetActive(true);   
 
-				//如果图标显示完成且匹配成功，就在开关右下角出现小手，指向开关位置，
-				//依次把所有的开关都点击闭合后，小手消失，播放电流
-				//以下代码是只有在开关按钮第一次出现的时候出现小手，只要小手出现过一次了就不再出现
-				/*
-				if(switchList.Count >0)//如果有开关，则需要显示小手
-				{
-					for (int i = 0; i < switchList.Count; i++) 
-					{
-						if (switchList[i].GetComponent<SwitchCtrl>().isSwitchOn) 
-						{
-							//isEnergized=false;
-							int hasShownHand = PlayerPrefs.GetInt ("switchItem");
-							//if(LevelManager._instance.GetSingleLevelItem().Progress == LevelProgress.Doing){
-							//	ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置--------每一个开关位置依次显示小手
-							//}
-							if(hasShownHand == 0)
-							{
-								ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置
-								PlayerPrefs.SetInt ("switchItem",1);
-
-							}
-							if(hasShownHand == 1 && LevelManager.currentLevelData.LevelNumber==1)
-							{
-								ShowFinger(switchList[i].transform.localPosition);//显示小手，传入开关的位置
-				
-							}
-							break;
-						}
-
-						if(switchList[i].GetComponent<SwitchCtrl>().isSwitchOn ==false)//如果点击了开关，开关闭合，就销毁小手
-						{
-
-							Destroy(finger);
-							//isFingerShow=true;
-							finger = null;
-							if(i == switchList.Count - 1)//如果所有的开关都闭合了，就表示电路通电了，灯泡变亮，电流流动  to  do ...遍历灯泡，都变亮
-							{
-								isEnergized=true;
-							}
-						}
-					}
-
-				}
-		*/
-
-				if(switchList.Count >0)//如果有开关，则需要显示小手
-				{
-					for (int i = 0; i < switchList.Count; i++) 
-					{
-						if (switchList[i].GetComponent<SwitchCtrl>().isSwitchOn) 
-						{
-							if(LevelManager.currentLevelData.LevelID==1)
-							{
-								ShowFinger(switchList[0].transform.localPosition);//显示小手，传入开关的位置
-							}
-							break;
-						}
-
-						if(switchList[i].GetComponent<SwitchCtrl>().isSwitchOn ==false)//如果点击了开关，开关闭合，就销毁小手
-						{
-							Destroy(finger);
-							finger = null;
-							if(i == switchList.Count - 1)//如果所有的开关都闭合了，就表示电路通电了，灯泡变亮，电流流动  to  do ...遍历灯泡，都变亮
-							{
-								isEnergized=true;
-							}
-						}
-					}
-				}
-
-
-				if (isArrowShowDone == false && isEnergized) //false表示电流动画没有播放过，true表示已经播放了，保证动画只播放一次
-				{
-					StartCoroutine (ArrowShowLineByLine(lines , 0));
-					isArrowShowDone = true;
-				}
-
-				//如果已经播放了电流，玩家又点击了开关，开关断开，应该隐藏所有的箭头，灯变暗；直到玩家再次点击开关，开关闭合，显示所有的箭头，灯变亮
-
-				//后面的关卡中会出现新的开关，比如光敏开关，声控开关灯，（如果是串联电路的话）只有当所有的开关闭合后，电流才会走；（并联电路的话）一条电路上的所有开关都闭合后，这条线路的电流走动
+			}
+			if(isLightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
+			{
+				sunAndMoon.SetActive(true);
 
 			}
 
-			#endregion
+			if (isItemShowDone && result == Result.Success) 
+			{
+				 
+//				if (!isArrowShowDone) 
+//				{
+				switch (LevelManager.currentLevelData.LevelID) 
+				{
+				case 1:
+					gameObject.GetComponent<PlayCircuitAnimation> ().isPlayCircuitAnimation = true;
+					break;
+				case 2:
+					gameObject.GetComponent<RemoveLine> ().isRemoveLine = true;
+					break;
+				case 3:
+					GetComponent<NormalSwitchOccur> ().isNormalSwitchOccur = true;
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				case 8:
+					break;
+				case 9:
+					break;
+				case 10:
+					break;
+				case 11:
+					break;
+				case 12:
+					break;
+				case 13:
+					break;
+				case 14:
+					break;
+				case 15:
+					break;
+				default:
+					break;
+					//如果是其他关卡（有开关的），如果是串联电路，应该把所有开关都闭合以后再显示电流；如果是并联电路，则...to do...
+					//并联的有些复杂，暂时假设都是串联电路
+					//需要一个所有开关的集合，遍历这个集合，如果所有开关都闭合了，就显示电流
+				}
+//				}
+
+			}
+
+
 
 			#region 如果匹配结果是错误的，就跳转到失败界面
 			else if (isItemShowDone && result == Result.Fail) 
@@ -373,19 +332,35 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 
 	}
+	   
+	public Vector3 ChooseRandomPoint()
+	{
+		int index=Random.Range(0,linePointsList.Count);
+		Vector3	pos=linePointsList[index];
+		return pos;
+	}
 
+	public void ShowFingerOnLine(Vector3 pos)
+	{
+		StartCoroutine (ShowFingerOnLineT (pos));
+	}
 
-
+	IEnumerator ShowFingerOnLineT(Vector3 pos)//需要传一个线上的随机坐标
+	{
+		yield return new WaitForSeconds (3f);
+		ShowFinger (pos);
+	}
+		
 	private Vector3 offSet = new Vector3 (113, -108, 0);
-	private GameObject finger;
+	[HideInInspector]
+	public GameObject finger;
 	private Vector3 prePos= Vector3.zero; // 记录当前指向的开关，如果没发生变化，不做任何操作
 
-	void ShowFinger(Vector3 switchPos)
+	public void ShowFinger(Vector3 switchPos)
 	{
 		if (prePos == switchPos) {
 			return;
 		}
-
 		prePos = switchPos;
 		if (finger) {
 			Destroy (finger);
@@ -397,9 +372,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		finger.transform.localScale = Vector3.one;
 		finger.GetComponent<FingerCtrl> ().FingerShow (switchPos + offSet);
 	}
-		
-
-
 
 	/// <summary>
 	/// 创建所有的图标
@@ -440,6 +412,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 
 		case ItemType.Switch:
+			isHasSwitch = true;
 			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
 			item = GameObject.Instantiate (switchBtn) as GameObject;
 			switchList.Add (item);
@@ -449,6 +422,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 
 		case ItemType.DoubleDirSwitch:
+			isHasSwitch = true;
 			item = GameObject.Instantiate (doubleDirSwitch) as GameObject;
 			goList.Add (item);
 			item.name = "doubleDirSwitch";
@@ -456,6 +430,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 
 		case ItemType.VoiceTimedelaySwitch:
+			isHasSwitch = true;
 			item = GameObject.Instantiate (voiceTimedelaySwitch) as GameObject;
 			goList.Add (item);
 			item.name = "voiceTimedelaySwitch";
@@ -464,6 +439,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 
 		case ItemType .VoiceOperSwitch:
+			isHasSwitch = true;
 			item = GameObject.Instantiate (voiceOperSwitch) as GameObject;
 			goList.Add (item);
 			item.name = "voiceOperSwitch";
@@ -472,6 +448,7 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			break;
 		
 		case ItemType.LightActSwitch:
+			isHasSwitch = true;
 			item = GameObject.Instantiate (lightActSwitch) as GameObject;
 			goList.Add (item);
 			item.name = "lightActSwitch";
@@ -496,6 +473,13 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		case ItemType.CircuitLine:
 			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			lines.Add (circuitItem.list);
+
+			for (int i = 0; i < circuitItem.list.Count; i++) 
+			{
+
+				linePointsList.Add (circuitItem.list [i]);
+
+			}
 			//开始画线
 			StartCoroutine(DrawCircuit(circuitItem.list));
 			break;
@@ -546,11 +530,11 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
 		lineSp.width = (int)(distance+6);//将连线图片的宽度设置为上面计算的距离  
 		lineGo.transform.localPosition = centerPos;//设置连线图片的坐标 ----@@@@@@@@@@@@@@@@@@@@#####这里用世界坐标还是本地坐标看测试代码中设定的坐标是根据什么来定的 
+
+		lineGo.GetComponent<BoxCollider>().size = lineGo.GetComponent<UISprite>().localSize;
+
 		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
 	}
-		
-
-
 
 	IEnumerator ArrowShow()
 	{
@@ -575,7 +559,6 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			arrow.GetComponent<MoveCtrl> ().Move (line);
 			yield return new WaitForSeconds(0.4f);
 
-
 			#region 重玩按钮和下一步按钮出现
 			animationTimer++;
 			if (animationTimer >= animationTime) 
@@ -584,21 +567,32 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				WellDone ();
 			}
 			#endregion
-
 		}
 
 	}
-
-	IEnumerator ArrowShowLineByLine(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
+	#region  箭头的生成和销毁
+	private bool isCreateArrow = true;
+	public void StopCreateArrows()
 	{
+		this.isCreateArrow = false;
+	}
+
+	public void ArrowShowLineByLine(List<List<Vector3>> lines ,int i)
+	{
+		StartCoroutine (ArrowShowLineByLineT (lines, i));
+
+	}
+	IEnumerator ArrowShowLineByLineT(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
+	{
+		isCreateArrow = true;
 		bool hasStartCorout = false;//有没有开启协同的标志
 		GameObject temp = null;
 
 		List<Vector3> singleLine = lines [i];
 
-		for (int k = 0; ; k++) 
+		for (int k = 0; isCreateArrow ; k++) 
 		{
-			
+
 			GameObject arrow = Instantiate (arrowPrefab) as GameObject;
 			arrowList.Add (arrow);
 			arrow.transform.parent = transform;
@@ -612,13 +606,12 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 			}
 			if (!hasStartCorout && temp == null && i < lines.Count - 1) 
 			{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
-				StartCoroutine (ArrowShowLineByLine(lines, i + 1));
+				StartCoroutine (ArrowShowLineByLineT(lines, i + 1));
 				hasStartCorout = true;
 			}
 			arrow.GetComponent<MoveCtrl> ().Move (singleLine);
 
 			yield return new WaitForSeconds(0.4f);
-
 
 			#region 重玩按钮和下一步按钮出现
 			animationTimer++;
@@ -628,10 +621,9 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 				WellDone ();
 			}
 			#endregion
-
 		}
 	}
-		
+	#endregion
 
 	public void Fail()
 	{
@@ -709,6 +701,16 @@ public class PhotoRecognizingPanel : MonoBehaviour {
 
 		gameObject.SetActive (false);
 	}
+
+	void OnDisable()
+	{
+		if (finger) {
+			Destroy (finger);
+			finger = null;
+		}
+		switchList.Clear ();
+	}
+
 }
 
 

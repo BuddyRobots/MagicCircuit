@@ -25,7 +25,7 @@ public class HomeBtn : MonoBehaviour {
 		//关闭父对象界面，打开主界面
 		transform.parent.gameObject.SetActive(false);
 		startPanel.SetActive (true);
-		Debug.Log ("Onclick===========");
+		//Debug.Log ("Onclick===========");
 
 	}
 }
