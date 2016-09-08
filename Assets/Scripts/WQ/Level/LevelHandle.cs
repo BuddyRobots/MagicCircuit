@@ -19,13 +19,38 @@ public class LevelHandle : MonoBehaviour
 		case 3:
 			transform.gameObject.AddComponent<NormalSwitchOccur> ();
 			break;
+		case 4:
+			transform.gameObject.AddComponent<LoudSpeakerInLevelFour> ();
+			break;
+		case 5:
+			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			break;
+		case 6:
+			//for test         to do .....
+			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();
+
+			break;
 		case  7:
+			//for test         to do .....
+			transform.gameObject.AddComponent<VOswitchOccur> ();
+			break;
+		case 8:
+			//for test         to do .....
+			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
 			break;
 		case  9:
+			//for test         to do .....
+			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			break;
+		case 10:
+			//for test         to do .....
+			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
 			break;
 		case 11:
+			transform.gameObject.AddComponent<VOswitchOccur> ();
 			break;
 		case 12:
+			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();
 			break;
 		case 13:
 			break;
@@ -55,14 +80,35 @@ public class LevelHandle : MonoBehaviour
 			Destroy (transform.GetComponent<RemoveLine> ());
 			break;
 		case 3:
+			Destroy (transform.GetComponent<NormalSwitchOccur> ());
 			break;
+		case 4:
+			Destroy (transform.GetComponent<LoudSpeakerInLevelFour> ());
+			break;
+		case 5:
+			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+			break;
+		case 6:
+			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
+			break;
+
 		case  7:
+			Destroy(transform.GetComponent<VOswitchOccur> ());
+			break;
+		case 8:
+			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
 		case  9:
+			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+			break;
+		case 10:
+			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
 		case 11:
+			Destroy(transform.GetComponent<VOswitchOccur> ());
 			break;
 		case 12:
+			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
 			break;
 		case 13:
 			break;

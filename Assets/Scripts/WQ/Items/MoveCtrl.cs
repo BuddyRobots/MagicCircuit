@@ -74,6 +74,7 @@ public class MoveCtrl : MonoBehaviour {
 	/// </summary>
 	public void Stop()
 	{
+		
 
 
 	}

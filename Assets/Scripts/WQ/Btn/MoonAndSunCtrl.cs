@@ -9,7 +9,7 @@ public class MoonAndSunCtrl : MonoBehaviour {
 	public static MoonAndSunCtrl _instance;
 
 	[HideInInspector]
-	public static bool isDaytime = true;
+	public  bool isDaytime = true;
 	private GameObject sunBtn;
 	private GameObject moonBtn;
 

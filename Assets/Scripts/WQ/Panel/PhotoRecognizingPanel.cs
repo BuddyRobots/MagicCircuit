@@ -55,10 +55,16 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private GameObject fingerPrefab;
 	private GameObject arrowPrefab;
 
+	[HideInInspector]
+	public GameObject voiceNoticeBg;//发声提示框
+
 	private UILabel levelNameLabel;
 
 	private UISprite image;//拍摄截取的图像
 	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
+
+
+
 
 	/// <summary>
 	/// 判断图标是否显示完的标志
@@ -122,7 +128,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// 识别面板新创建出来的对象的集合（界面上新创建的对象需要在关闭面板的时候进行销毁，以保证重新打开界面时上一次操作中的新建的对象不会残留）
 	/// </summary>
 	private List<GameObject> goList=new List<GameObject>();
-	private List<GameObject> switchList = new List<GameObject> ();
+	[HideInInspector]
+	public List<GameObject> switchList = new List<GameObject> ();
 	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
 	[HideInInspector]
 	public List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
@@ -169,12 +176,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
-		mask=transform.Find("Bg/Mask").GetComponent<UISprite> ();
+		mask=transform.Find("Bg/DayBgMask").GetComponent<UISprite> ();
 		//replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
 		replayBtn=transform.Find("ReplayBtn").gameObject;
 		nextBtn=transform.Find("NextBtn").gameObject;
 		labelBgTwinkle = transform.Find ("LevelNameBgT").gameObject;
-
+		voiceNoticeBg = transform.Find ("VoiceNotice").gameObject;
 		sunAndMoon = transform.Find ("SunAndMoonWidget").gameObject;
 		microPhone = transform.Find ("MicroPhoneBtn").gameObject;
 
@@ -185,8 +192,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
 		labelBgTwinkle.SetActive (false);
+		voiceNoticeBg.SetActive (false);
 		sunAndMoon.SetActive (false);
 		microPhone.SetActive (false);
+
+
 
 		isItemShowDone=false;
 		isPhotoShowDone = false;
@@ -270,7 +280,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 			}
 
-			if (isItemShowDone && result == Result.Success) 
+			if (isItemShowDone && result == Result.Success) //如果图标都显示完了且匹配成功
 			{
 				 
 //				if (!isArrowShowDone) 
@@ -287,22 +297,36 @@ public class PhotoRecognizingPanel : MonoBehaviour
 					GetComponent<NormalSwitchOccur> ().isNormalSwitchOccur = true;
 					break;
 				case 4:
+					GetComponent<LoudSpeakerInLevelFour> ().isLoudSpeakerOccur = true;
 					break;
 				case 5:
+					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
 					break;
 				case 6:
+					//for test        to do.....
+					GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
 					break;
 				case 7:
+					//for test        to do.....
+					GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
 					break;
 				case 8:
+					//for test        to do.....
+					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
 					break;
 				case 9:
+					//for test        to do.....
+					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
 					break;
 				case 10:
+					//for test        to do.....
+					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
 					break;
 				case 11:
+					GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
 					break;
 				case 12:
+					GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
 					break;
 				case 13:
 					break;
@@ -438,7 +462,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			iconCount--;
 			break;
 
-		case ItemType .VoiceOperSwitch:
+		case ItemType.VoiceOperSwitch:
 			isHasSwitch = true;
 			item = GameObject.Instantiate (voiceOperSwitch) as GameObject;
 			goList.Add (item);
