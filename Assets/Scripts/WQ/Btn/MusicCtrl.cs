@@ -15,8 +15,6 @@ public class MusicCtrl : MonoBehaviour {
 
 		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
 		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
-	
-		//Application.persistentDataPath+"ggg.png"
 	}
 
 	void Update () 
@@ -26,21 +24,19 @@ public class MusicCtrl : MonoBehaviour {
 			//如果状态是开，而当前下面的“音乐关” 按钮开着的话，关闭它，并且打开 “音乐开” 的按钮
 			musicOnBtn.SetActive(true);
 			musicOffBtn.SetActive(false);
-			if (!bgAudio.isPlaying) {
+			if (!bgAudio.isPlaying) 
+			{
 				bgAudio.Play ();
 			}
-
-
-
 		}
 		if (!isMusicOn && musicOnBtn.activeSelf)
 		{
 			//如果状态是关，而当前下面的 “音乐开” 按钮开着的话，关闭它，并且打开 “音乐关” 的按钮
 			musicOnBtn.SetActive(false);
 			musicOffBtn.SetActive(true);
-
-			//关闭音乐 to do...
-			if (bgAudio.isPlaying) {
+			//关闭音乐 
+			if (bgAudio.isPlaying) 
+			{
 				bgAudio.Pause ();
 			}
 		}

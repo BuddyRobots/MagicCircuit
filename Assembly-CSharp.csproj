@@ -348,6 +348,7 @@
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\SuperpixelSLIC.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\Ximgproc.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\xphoto\Xphoto.cs" />
+     <Compile Include="Assets\SPDTswitchCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtn.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInRecognizePanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\MoonAndSunCtrl.cs" />
@@ -368,10 +369,13 @@
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitsWithTwoSwitch.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\PlayCircuitAnimation.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\RemoveLine.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\SPDTswitchOccur.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\TwoSwitchInSeriesCircuit.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchAndLAswitchTogether.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchOccur.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\WQ\Manager\MicrophoneManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\CommonPanel02.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\DescriptionPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\FailurePanel.cs" />

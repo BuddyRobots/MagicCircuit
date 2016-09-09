@@ -1,12 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/LevelSpecial/SPDTswitchOccur.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="184" Column="47" />
-      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/VOswitchOccur.cs" Line="33" Column="5" />
-      <File FileName="Assets/Scripts/WQ/Manager/CircuitItemManager.cs" Line="108" Column="41" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/SPDTswitchOccur.cs" Line="39" Column="56" />
+      <File FileName="Assets/SPDTswitchCtrl.cs" Line="8" Column="2" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="315" Column="56" />
+      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="100" Column="50" />
+      <File FileName="Assets/Scripts/WQ/Manager/CircuitItemManager.cs" Line="59" Column="40" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/PlayCircuitAnimation.cs" Line="22" Column="60" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/NormalSwitchOccur.cs" Line="31" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

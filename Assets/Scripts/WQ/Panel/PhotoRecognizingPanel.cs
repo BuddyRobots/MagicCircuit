@@ -62,7 +62,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	private UISprite image;//拍摄截取的图像
 	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
-
+	[HideInInspector]
+	public UISprite nightBg;
 
 
 
@@ -129,7 +130,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	private List<GameObject> goList=new List<GameObject>();
 	[HideInInspector]
-	public List<GameObject> switchList = new List<GameObject> ();
+	public List<GameObject> switchList = new List<GameObject> ();//普通开关的集合
 	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
 	[HideInInspector]
 	public List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
@@ -184,6 +185,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		voiceNoticeBg = transform.Find ("VoiceNotice").gameObject;
 		sunAndMoon = transform.Find ("SunAndMoonWidget").gameObject;
 		microPhone = transform.Find ("MicroPhoneBtn").gameObject;
+		nightBg = transform.Find ("Bg/NightBg").GetComponent<UISprite> ();
+		nightBg.gameObject.SetActive (true);
+		nightBg.alpha = 0;
 
 		lineParent = this.gameObject;
 
@@ -312,11 +316,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 					break;
 				case 8:
 					//for test        to do.....
-					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
+					GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
 					break;
 				case 9:
 					//for test        to do.....
-					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
+					GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
 					break;
 				case 10:
 					//for test        to do.....
@@ -329,10 +333,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 					GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
 					break;
 				case 13:
+					GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
 					break;
 				case 14:
 					break;
 				case 15:
+					GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
 					break;
 				default:
 					break;
@@ -448,6 +454,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.DoubleDirSwitch:
 			isHasSwitch = true;
 			item = GameObject.Instantiate (doubleDirSwitch) as GameObject;
+			switchList.Add (item);
 			goList.Add (item);
 			item.name = "doubleDirSwitch";
 			iconCount--;

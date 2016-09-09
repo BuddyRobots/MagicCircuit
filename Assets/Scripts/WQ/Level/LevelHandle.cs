@@ -36,11 +36,11 @@ public class LevelHandle : MonoBehaviour
 			break;
 		case 8:
 			//for test         to do .....
-			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			transform.gameObject.AddComponent<SPDTswitchOccur> ();
 			break;
 		case  9:
 			//for test         to do .....
-			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();
 			break;
 		case 10:
 			//for test         to do .....
@@ -53,10 +53,12 @@ public class LevelHandle : MonoBehaviour
 			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();
 			break;
 		case 13:
+			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();
 			break;
 		case 14:
 			break;
 		case 15:
+			transform.gameObject.AddComponent<SPDTswitchOccur> ();
 			break;
 		default:
 			break;
@@ -88,20 +90,20 @@ public class LevelHandle : MonoBehaviour
 		case 5:
 			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
-		case 6:
+		case 6:// for test...
 			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
 			break;
 
-		case  7:
+		case 7:// for test...
 			Destroy(transform.GetComponent<VOswitchOccur> ());
 			break;
-		case 8:
-			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+		case 8:// for test...
+			Destroy(transform.GetComponent<SPDTswitchOccur> ());
 			break;
-		case  9:
-			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+		case  9:// for test...
+			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());
 			break;
-		case 10:
+		case 10:// for test...
 			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
 		case 11:
@@ -111,10 +113,12 @@ public class LevelHandle : MonoBehaviour
 			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
 			break;
 		case 13:
+			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());
 			break;
 		case 14:
 			break;
 		case 15:
+			Destroy (transform.GetComponent<SPDTswitchOccur> ());
 			break;
 		default:
 			break;

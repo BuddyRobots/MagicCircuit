@@ -8,16 +8,14 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 	[HideInInspector]
 	public bool isLAswitchOccur = false;
 
-	private UISprite nightBg;
+	private UISprite nightBg=null;
 	private float changeTime = 3f;//渐变的总时间
 	private  float changeTimer = 0;
 	private bool isCircuitWork = false;
 
 	void OnEnable () 
 	{
-		nightBg = transform.Find ("Bg/NightBg").GetComponent<UISprite> ();
-		nightBg.gameObject.SetActive (true);
-		nightBg.alpha = 0;
+		nightBg = PhotoRecognizingPanel._instance.nightBg;
 		changeTime = 3f;
 		changeTimer = 0;
 
@@ -51,8 +49,8 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 
 					if(isCircuitWork)
 					{
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulb-on";
-						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "switchOff";
+						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
+						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOn";
 						GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);
 						GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;
 						animationPlayedTimes=1;//电流播放一次
@@ -105,7 +103,7 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 					if (isCircuitWork) 
 					{
 
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulb-on";
+						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOn";
 
 
