@@ -17,7 +17,8 @@ public class MicroPhoneBtnCtrl : MonoBehaviour {
 	}
 	
 
-	void Update () {
+	void Update () 
+	{
 	
 	}
 

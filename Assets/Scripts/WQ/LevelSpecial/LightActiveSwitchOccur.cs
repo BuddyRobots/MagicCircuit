@@ -76,7 +76,7 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 					if (!isCircuitWork) 
 					{
 						//点击月亮，光敏开关断开，灯泡灭，电流消失
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbDark";
+						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOff";
 						foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList)
 						{

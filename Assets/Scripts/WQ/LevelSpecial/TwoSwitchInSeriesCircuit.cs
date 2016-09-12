@@ -10,10 +10,16 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour {
 	[HideInInspector]
 	public bool isTwoSwitchInSeriesCircuit = false;
 
+	/// <summary>
+	/// 电路是否接通的标志
+	/// </summary>
+	private bool isCircuitOpen = false;
+
 	void OnEnable () 
 	{
 		animationPlayedTimes=0;
 		isTwoSwitchInSeriesCircuit = false;
+		isCircuitOpen = false;
 	}
 
 
@@ -27,16 +33,11 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour {
 				
 				for (int i = 0; i <normalSwitchList .Count; i++) 
 				{
-					if (normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn==false && i==normalSwitchList.Count-1)//如果串联电路上的开关都闭合了
+					if (!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果串联电路上的开关都闭合了
 					{
-
-						//灯泡变亮
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulb-on";
 						//喇叭响  to do...
 						transform.Find("loudspeaker").GetComponent<AudioSource>().Play();
-						//走电流 
-						GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);
-						GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;
+						CommonFuncManager._instance.OpenCircuit ();
 						animationPlayedTimes=1;//电流播放一次
 					}
 				}
@@ -44,30 +45,34 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour {
 
 			if (animationPlayedTimes==1) //如果在播放电流的时候点击开关断开
 			{
+
+				CommonFuncManager._instance.CircuitOnOrOff (isCircuitOpen);
 				for (int i = 0; i < normalSwitchList.Count; i++) 
 				{
 					if (normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn )//只要有一个开关断开，就停止电流 
 					{
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbDark";
+						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
 						if (transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
 						{
 							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Pause ();
 						}
-						foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList) 
-						{
-							//电流应该隐藏而不是销毁    to do ..
-							//item.SetActive(false);
-							Destroy (item);
-						}
+//						foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList) 
+//						{
+//							//电流应该隐藏而不是销毁    to do ..
+//							//item.SetActive(false);
+//							Destroy (item);
+//						}
+						isCircuitOpen=false;
 					
 					}
-					else if(normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn==false && i==normalSwitchList.Count-1)
+					else if(!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果两个都是闭合的
 					{
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulb-on";
+						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
 						if (!transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
 						{
 							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Play ();
 						}
+						isCircuitOpen = true;
 					}
 				}
 			

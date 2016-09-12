@@ -3,7 +3,9 @@ using System.Collections;
 
 public class SwitchCtrl : MonoBehaviour
 {
-	
+	/// <summary>
+	/// 开关是否断开的标志，true为断开，false为闭合
+	/// </summary>
 	public  bool isSwitchOn=true;
 	private GameObject switchOnBtn;
 	private GameObject switchOffBtn;

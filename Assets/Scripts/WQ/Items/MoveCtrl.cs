@@ -39,10 +39,10 @@ public class MoveCtrl : MonoBehaviour {
 			
 		
 			isAtDest = arrowCtrl.IsAtDest ();
-			if (isAtDest) {//如果箭头移动到了目的地，重新设置目的地
+			if (isAtDest)
+			{//如果箭头移动到了目的地，重新设置目的地
 				index++;
 				arrowCtrl.SetDestination (line [index % line.Count], 2);
-
 			}
 
 			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) 
@@ -74,8 +74,14 @@ public class MoveCtrl : MonoBehaviour {
 	/// </summary>
 	public void Stop()
 	{
-		
+		arrowCtrl.Stop ();
+	}
 
-
+	/// <summary>
+	/// 线上箭头停止移动
+	/// </summary>
+	public void ContinueStart()
+	{
+		arrowCtrl.ContinueStart ();
 	}
 }

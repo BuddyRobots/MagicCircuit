@@ -54,7 +54,7 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour {
 					}
 
 					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);//蒙版渐变暗
-					if(changeTimer>=changeTime/2)//背景渐变到一半的时候
+					if(changeTimer>=changeTime*5/6)//背景渐变到一半的时候
 					{
 						isLAswitchOn = true;
 					}
@@ -88,6 +88,9 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour {
 			{
 
 
+				CommonFuncManager._instance.CircuitOnOrOff(isLAswitchOn);
+				//CircuitOnOrOff (isLAswitchOn);
+
 				//如果点击声控开关，没有反应
 				//如果点击光敏开关
 				if (transform.Find("SunAndMoonWidget").GetComponent<MoonAndSunCtrl>().isDaytime)
@@ -99,7 +102,7 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour {
 						changeTimer =0;
 					}
 					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-					if (changeTimer <= changeTime / 2) 
+					if (changeTimer <= changeTime* 1/6) 
 					{
 						isLAswitchOn = false;
 					}
@@ -109,33 +112,27 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour {
 						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
 						transform.Find("voiceOperSwitch").GetComponent<UISprite>().spriteName="VOswitchOff";
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOff";
-						transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;
-						foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList)
-						{
-							Destroy(item);
-							//item.GetComponent<UISprite>().alpha=0;
-						}
+						//transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;
+						//print (GetComponent<PhotoRecognizingPanel> ().arrowList.Count);
 					}
 				}
 				else
 				{//如果是晚上
 					//蒙版渐变暗  
 					changeTimer += Time.deltaTime;
-					if (changeTimer >= changeTime) {
-
+					if (changeTimer >= changeTime) 
+					{
 						changeTimer = changeTime;
 					}
 					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
 
-					if(changeTimer>=changeTime/2)
+					if(changeTimer>=changeTime*5/6)
 					{
 						isLAswitchOn = true;
 
 					}
 					if (isLAswitchOn) 
 					{
-
-
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOn";
 
 						//需要在话筒按钮出现小手提示玩家
@@ -149,23 +146,31 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour {
 
 							transform.Find("voiceOperSwitch").GetComponent<UISprite>().spriteName="VOswitchOn";//声控开关闭合
 							transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
+							print ("++++++ " + GetComponent<PhotoRecognizingPanel> ().arrowList.Count);
+
 							//GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);
 						}
 					}
 				}
-
-
-
-
-
-
 			}
-
-
-
-
-
 		}
-	
 	}
+
+//	private bool tempIsLaSwitch = false;
+//
+//	private void CircuitOnOrOff(bool isSwitch)
+//	{
+//		if (tempIsLaSwitch != isSwitch) 
+//		{
+//			if (!isSwitch) 
+//			{
+//				GetComponent<PhotoRecognizingPanel> ().StopCircuit ();
+//			}
+//			else
+//			{
+//				GetComponent<PhotoRecognizingPanel> ().ContinueCircuit ();
+//			}
+//			tempIsLaSwitch = isSwitch;
+//		} 
+//	}
 }

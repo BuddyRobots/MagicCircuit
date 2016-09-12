@@ -50,23 +50,17 @@ public class SPDTswitchOccur : MonoBehaviour {
 			if (animationPlayedTimes == 1) //如果电流播放一次了，
 			{
 
-				print (spdtSwitchList[0].GetComponent<SPDTswitchCtrl> ().isRightOn + "+" + spdtSwitchList[1].GetComponent<SPDTswitchCtrl> ().isRightOn);
+				//print (spdtSwitchList[0].GetComponent<SPDTswitchCtrl> ().isRightOn + "+" + spdtSwitchList[1].GetComponent<SPDTswitchCtrl> ().isRightOn);
 				//两个都是左闭合或者两个都是右闭合，电流不通
 				if (!(spdtSwitchList[0].GetComponent<SPDTswitchCtrl> ().isRightOn ^ spdtSwitchList[1].GetComponent<SPDTswitchCtrl> ().isRightOn)) 
 				{
-
-					//中断电流  to do...
-
 					CircuitBreak ();
 					Debug.Log("中断电流");
 
 				}
 				else 
 				{
-
-					//走电流  to do...
 					CircuitSuccess();
-
 					Debug.Log("走电流");
 
 				}
@@ -78,17 +72,14 @@ public class SPDTswitchOccur : MonoBehaviour {
 
 	private void CircuitSuccess()
 	{
-
 		transform.Find("bulb").GetComponent<UISprite>().spriteName="bulbOn";
-
-
-
 	}
 
 	private void CircuitBreak()
 	{
 		transform.Find("bulb").GetComponent<UISprite>().spriteName="bulbOff";
-		foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList) {
+		foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList) 
+		{
 			//电流应该隐藏而不是销毁    to do ..
 			//item.SetActive(false);
 			Destroy (item);

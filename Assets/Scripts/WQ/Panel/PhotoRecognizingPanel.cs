@@ -138,6 +138,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	public  List<GameObject> arrowList=new List<GameObject>();
 	[HideInInspector]
 	public  List<Vector3> linePointsList=new List<Vector3>();//线上的所有点的集合，方便第二关的消除线段的取点
+	[HideInInspector]
+	public  List<GameObject> batteryList = new List<GameObject> ();
+	[HideInInspector]
+	public  List<GameObject> bulbList = new List<GameObject> ();
+
 
 	void Awake()
 	{
@@ -200,8 +205,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		sunAndMoon.SetActive (false);
 		microPhone.SetActive (false);
 
-
-
 		isItemShowDone=false;
 		isPhotoShowDone = false;
 		isArrowShowDone=false;
@@ -225,9 +228,27 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			maskTime += (float)((item.Count - 1) * 0.2);//显示一条线的总时间
 		}
 		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
+
+		StartCoroutine (RemoveEmptyArrow ());
 	}
 		
+	IEnumerator RemoveEmptyArrow()
+	{
+		while (true) {
+			for (int i = 0; i < arrowList.Count; ) {
+				if (arrowList[i]) {
+					i++;
+				} else {
+					arrowList.RemoveAt (i);
+				}
+			}
+			print (arrowList.Count);
+			yield return new WaitForSeconds (0.5f);
+		}
 
+
+
+	}
 
 	/// <summary>
 	/// 显示拍摄的图片
@@ -281,77 +302,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if(isLightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
 			{
 				sunAndMoon.SetActive(true);
-
 			}
 
 			if (isItemShowDone && result == Result.Success) //如果图标都显示完了且匹配成功
 			{
-				 
-//				if (!isArrowShowDone) 
-//				{
-				switch (LevelManager.currentLevelData.LevelID) 
-				{
-				case 1:
-					gameObject.GetComponent<PlayCircuitAnimation> ().isPlayCircuitAnimation = true;
-					break;
-				case 2:
-					gameObject.GetComponent<RemoveLine> ().isRemoveLine = true;
-					break;
-				case 3:
-					GetComponent<NormalSwitchOccur> ().isNormalSwitchOccur = true;
-					break;
-				case 4:
-					GetComponent<LoudSpeakerInLevelFour> ().isLoudSpeakerOccur = true;
-					break;
-				case 5:
-					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
-					break;
-				case 6:
-					//for test        to do.....
-					GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
-					break;
-				case 7:
-					//for test        to do.....
-					GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
-					break;
-				case 8:
-					//for test        to do.....
-					GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
-					break;
-				case 9:
-					//for test        to do.....
-					GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
-					break;
-				case 10:
-					//for test        to do.....
-					GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
-					break;
-				case 11:
-					GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
-					break;
-				case 12:
-					GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
-					break;
-				case 13:
-					GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
-					break;
-				case 14:
-					break;
-				case 15:
-					GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
-					break;
-				default:
-					break;
-					//如果是其他关卡（有开关的），如果是串联电路，应该把所有开关都闭合以后再显示电流；如果是并联电路，则...to do...
-					//并联的有些复杂，暂时假设都是串联电路
-					//需要一个所有开关的集合，遍历这个集合，如果所有开关都闭合了，就显示电流
-				}
-//				}
-
+				LevelHandle._instance.CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
+				//CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
 			}
-
-
-
 			#region 如果匹配结果是错误的，就跳转到失败界面
 			else if (isItemShowDone && result == Result.Fail) 
 			{
@@ -359,9 +316,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			}
 			#endregion
 		}
-
-
 	}
+
 	   
 	public Vector3 ChooseRandomPoint()
 	{
@@ -430,6 +386,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.Battery://如果是电池，则克隆电池的图标
 			item = GameObject.Instantiate (battery) as GameObject;
 			goList.Add (item);//新创建一个对象的同时把这个对象加入到对象列表，方便关闭界面的时候销毁这些新创建的对象
+			batteryList.Add(item);
 			item.name = "battery"; 
 			iconCount--;
 			break;
@@ -437,6 +394,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.Bulb:
 			item = GameObject.Instantiate (bulb) as GameObject;
 			goList.Add (item);
+			bulbList.Add (item);
 			item.name = "bulb";
 			iconCount--;
 			break;
@@ -603,9 +561,45 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	}
 	#region  箭头的生成和销毁
 	private bool isCreateArrow = true;
+
 	public void StopCreateArrows()
 	{
-		this.isCreateArrow = false;
+		isCreateArrow = false;
+	}
+
+	public void ContinueCreateArrows()
+	{
+		isCreateArrow = true;
+	} 
+	/// <summary>
+	/// 电流停止移动
+	/// </summary>
+	public void StopCircuit()
+	{
+		StopCreateArrows ();
+		foreach (var item in arrowList) 
+		{
+			if (item) {
+				item.GetComponent<UISprite> ().alpha = 0;
+				item.GetComponent<MoveCtrl> ().Stop ();
+			}
+
+
+		}
+	}
+	/// <summary>
+	/// 电流继续移动
+	/// </summary>
+	public void ContinueCircuit()
+	{
+		foreach (var item in arrowList) {
+			if (item) {
+				item.GetComponent<UISprite> ().alpha = 1;
+				item.GetComponent<MoveCtrl> ().ContinueStart ();
+			}
+
+		}
+		ContinueCreateArrows ();
 	}
 
 	public void ArrowShowLineByLine(List<List<Vector3>> lines ,int i)
@@ -613,45 +607,50 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		StartCoroutine (ArrowShowLineByLineT (lines, i));
 
 	}
+
+
 	IEnumerator ArrowShowLineByLineT(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
 	{
-		isCreateArrow = true;
 		bool hasStartCorout = false;//有没有开启协同的标志
 		GameObject temp = null;
 
 		List<Vector3> singleLine = lines [i];
 
-		for (int k = 0; isCreateArrow ; k++) 
+		for (int k = 0;  ; k++) 
 		{
-
-			GameObject arrow = Instantiate (arrowPrefab) as GameObject;
-			arrowList.Add (arrow);
-			arrow.transform.parent = transform;
-			arrow.name="arrow";
-			arrow.transform.localPosition =singleLine[0];
-			arrow.transform.localScale = Vector3.one;
-
-			if (k == 0) 
+			if (isCreateArrow) 
 			{
-				temp = arrow;//保存第一个箭头
-			}
-			if (!hasStartCorout && temp == null && i < lines.Count - 1) 
-			{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
-				StartCoroutine (ArrowShowLineByLineT(lines, i + 1));
-				hasStartCorout = true;
-			}
-			arrow.GetComponent<MoveCtrl> ().Move (singleLine);
+				GameObject arrow = Instantiate (arrowPrefab) as GameObject;
+				arrowList.Add (arrow);
+				arrow.transform.parent = transform;
+				arrow.name="arrow";
+				arrow.transform.localPosition =singleLine[0];
+				arrow.transform.localScale = Vector3.one;
 
-			yield return new WaitForSeconds(0.4f);
+				if (k == 0) 
+				{
+					temp = arrow;//保存第一个箭头
+				}
+				if (!hasStartCorout && temp == null && i < lines.Count - 1) 
+				{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
+					StartCoroutine (ArrowShowLineByLineT(lines, i + 1));
+					hasStartCorout = true;
+				}
+				arrow.GetComponent<MoveCtrl> ().Move (singleLine);
 
-			#region 重玩按钮和下一步按钮出现
-			animationTimer++;
-			if (animationTimer >= animationTime) 
-			{
-				animationTimer = 0;
-				WellDone ();
+				yield return new WaitForSeconds(0.4f);
+
+				#region 重玩按钮和下一步按钮出现
+				animationTimer++;
+				if (animationTimer >= animationTime) 
+				{
+					animationTimer = 0;
+					WellDone ();
+				}
+				#endregion
+			} else {
+				yield return new WaitForFixedUpdate ();
 			}
-			#endregion
 		}
 	}
 	#endregion
