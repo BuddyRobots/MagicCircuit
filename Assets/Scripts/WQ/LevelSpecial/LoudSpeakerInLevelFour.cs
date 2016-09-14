@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//第4关
 public class LoudSpeakerInLevelFour : MonoBehaviour {
 
 	[HideInInspector]

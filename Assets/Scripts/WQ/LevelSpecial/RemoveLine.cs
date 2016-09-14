@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+// level 2
 public class RemoveLine : MonoBehaviour 
 {
 	[HideInInspector]

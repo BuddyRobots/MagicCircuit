@@ -10,6 +10,9 @@ public class GetImage : MonoBehaviour
 {
 	public static GetImage _instance;
 
+	/// <summary>
+	/// 用作识别界面显示的照片
+	/// </summary>
     [HideInInspector]
     public Texture2D texture;
 
@@ -46,6 +49,7 @@ public class GetImage : MonoBehaviour
 	/// a mark to judge if the thread of 10-photos-handling was over 
 	/// </summary>
 	private bool isFinishHandlePicture;
+
 	private List<Mat> tempImgs = new List<Mat>();
 	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
 
@@ -221,9 +225,10 @@ public class GetImage : MonoBehaviour
 	{
 		itemLists.Clear ();                                                                                                                                                                                                                                                                                                                         
 
-		for (int i = 0; i < tempImgs.Count; i++) {
+		for (int i = 0; i < tempImgs.Count; i++) 
+		{
 			
-			List<CircuitItem> temp = new List<CircuitItem>();
+			List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
 
 			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
 			img = resultImg;

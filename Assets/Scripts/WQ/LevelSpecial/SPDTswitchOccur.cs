@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//level 15
 public class SPDTswitchOccur : MonoBehaviour {
 
 	[HideInInspector]

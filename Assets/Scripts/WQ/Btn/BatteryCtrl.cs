@@ -10,6 +10,14 @@ public class BatteryCtrl : MonoBehaviour {
 	[HideInInspector]
 	public bool isSemiTrans = false;
 
+	[HideInInspector]
+	public int clickCount = 0;
+
+	void OnEnable()
+	{
+
+		clickCount = 0;
+	}
 
 	
 
@@ -33,8 +41,10 @@ public class BatteryCtrl : MonoBehaviour {
 
 	void OnClick()
 	{
-
+		
 		isSemiTrans = !isSemiTrans;
+		clickCount++;
+		//点奇数次的时候是透明，点偶数次的时候是 不透明
 
 	}
 }

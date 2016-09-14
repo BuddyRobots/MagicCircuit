@@ -232,12 +232,12 @@ public class LevelManager : MonoBehaviour
 	public void UpdateLevelItemDataList(int levelID,int levelPro)
 	{
 		//Debug.Log ("updateLevelItemDataList==");
-		if (levelID == 0) 
-		{//表示一关都没有玩过，是第一次玩
-
+		if (levelID == 0) //表示一关都没有玩过，是第一次玩
+		{
 			//Debug.Log ("updateLevelItemDataListAA");
 			levelItemDataList [0].Progress = LevelProgress.Doing;
-			for (int i = 1; i < levelItemDataList.Count; ++i) {
+			for (int i = 1; i < levelItemDataList.Count; ++i) 
+			{
 
 				levelItemDataList [i].Progress = LevelProgress.Todo;
 
@@ -245,19 +245,22 @@ public class LevelManager : MonoBehaviour
 
 		} 
 		else 
-		{//有关卡记录，不是第一次玩
-			//Debug.Log ("updateLevelItemDataListBB");
+		{	//有关卡记录，不是第一次玩
 			//修改已完成的最高关卡之前的所有关卡进度---都是已完成
-			for (int i = 0; i < levelID; ++i) {
+			for (int i = 0; i < levelID; ++i) 
+			{
 
 				levelItemDataList [i].Progress = LevelProgress.Done;
 
 			}
 
 			//设置当前要完成的关卡进度
-			if (levelID < 15) {
+			if (levelID < 15) 
+			{
 				levelItemDataList [levelID].Progress = LevelProgress.Doing;
-			} else {
+			} 
+			else 
+			{
 				levelItemDataList [levelID - 1].Progress = LevelProgress.Done;
 			}
 
@@ -282,17 +285,19 @@ public class LevelManager : MonoBehaviour
 		JsonData jdLevelItems = jd["levelData"]; 
 
 		if (jdLevelItems.IsArray) 
-		for (int i = 0; i < jdLevelItems.Count; i++)
 		{
-			LevelItemData levelItemData = new LevelItemData ();
-			levelItemData.LevelID = (int)jdLevelItems [i] ["levelID"];
-			levelItemData.LevelName = (string)jdLevelItems [i] ["levelName"];
-			levelItemData.LevelDescription = (string)jdLevelItems [i] ["levelDescription"];
-			levelItemData.Progress = (LevelProgress)((int)jdLevelItems [i] ["progress"]);
-			levelItemData.PrelevelID = (int)jdLevelItems [i] ["preLevelID"];
-			levelItemData.NextLevelID = (int)jdLevelItems [i] ["nextLevelID"];
-			levelItemDataList.Add (levelItemData);
+			for (int i = 0; i < jdLevelItems.Count; i++) 
+			{
+				LevelItemData levelItemData = new LevelItemData ();
+				levelItemData.LevelID = (int)jdLevelItems [i] ["levelID"];
+				levelItemData.LevelName = (string)jdLevelItems [i] ["levelName"];
+				levelItemData.LevelDescription = (string)jdLevelItems [i] ["levelDescription"];
+				levelItemData.Progress = (LevelProgress)((int)jdLevelItems [i] ["progress"]);
+				levelItemData.PrelevelID = (int)jdLevelItems [i] ["preLevelID"];
+				levelItemData.NextLevelID = (int)jdLevelItems [i] ["nextLevelID"];
+				levelItemDataList.Add (levelItemData);
 
+			}
 		}
 	}
 

@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-//第九关
+// level 9
 public class ParallelCircuitWithTwoBulb : MonoBehaviour 
 {
 	public bool isParallelCircuitWithTwoBulb = false;

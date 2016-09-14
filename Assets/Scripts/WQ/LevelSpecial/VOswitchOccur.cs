@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//level 11
 public class VOswitchOccur : MonoBehaviour 
 {
-
-
-
 	[HideInInspector]
 	public bool isVOswitchOccur=false;
 
@@ -76,4 +75,6 @@ public class VOswitchOccur : MonoBehaviour
 //
 //		return false;
 //	}
+
+
 }

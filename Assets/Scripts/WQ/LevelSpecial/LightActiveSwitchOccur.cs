@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//第12关
 public class LightActiveSwitchOccur : MonoBehaviour {
 
 

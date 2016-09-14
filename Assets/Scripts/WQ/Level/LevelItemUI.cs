@@ -4,7 +4,8 @@ using System.Collections;
 /// <summary>
 /// 该类负责控制关卡按钮
 /// </summary>
-public class LevelItemUI : MonoBehaviour {
+public class LevelItemUI : MonoBehaviour 
+{
 
 
 	public LevelItemData data;

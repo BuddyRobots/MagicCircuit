@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//第3关
 public class NormalSwitchOccur : MonoBehaviour {
 
 

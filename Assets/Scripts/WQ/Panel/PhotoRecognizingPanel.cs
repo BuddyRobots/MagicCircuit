@@ -61,6 +61,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private UILabel levelNameLabel;
 
 	private UISprite image;//拍摄截取的图像
+	private UITexture photoImage;
 	//private UISprite mask;
 	private UITexture dayMask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
 //	[HideInInspector]
@@ -186,6 +187,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
+		//photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();
+
 		//mask=transform.Find("Bg/DayBgMask").GetComponent<UISprite> ();
 		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
 
@@ -208,7 +211,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		lineParent = this.gameObject;
 
 		image.gameObject.SetActive (false);
-		//mask.gameObject.SetActive (true);
+		//photoImage.gameObject.SetActive (false);
+
 		dayMask.gameObject.SetActive (true);
 
 		replayBtn.SetActive(false);
@@ -230,7 +234,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		data = LevelManager.currentLevelData;
 
-	    itemsList=CircuitItemManager._instance.itemList;  // for test
+	    itemsList=CircuitItemManager._instance.itemList;  // for test...
+		//itemsList=CircuitItemManager._instance.itemList;//real code
 
 		prePos = Vector3.zero; 
 		iconCount = 1;
@@ -271,8 +276,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	IEnumerator PhotoShow()
 	{
 		//这里需要调用图像识别的一个函数，该函数返回的是一个UItexture
+		//这里显示的照片是从拍摄界面拍到的照片，GetImage中的tempImgs中的texture
 		// to do...
 		image.gameObject.SetActive (true);
+		//photoImage=GetImage._instance.texture;
+		//photoImage.gameObject.SetActive (true);//  ---real code
+
+
 		yield return new WaitForSeconds (2f);
 		isPhotoShowDone = true;
 	}
@@ -387,6 +397,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			yield return new WaitForSeconds (0.5f);//隔0.5秒创建一个图标
 		}
 	}
+
+	//public Dictionary<CircuitItem,GameObject> itemAndGoList = new Dictionary<CircuitItem, GameObject> ();//每一个item对应界面上面的一个GameObject
+
 	/// <summary>
 	/// 创建单个图标
 	/// </summary>

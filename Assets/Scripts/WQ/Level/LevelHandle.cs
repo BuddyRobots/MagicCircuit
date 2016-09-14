@@ -34,25 +34,24 @@ public class LevelHandle : MonoBehaviour
 			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
 			break;
 		case 6:
-			//for test         to do .....
-			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();
-
+			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();//for test        
+			//transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//real code
 			break;
 		case  7:
-			//for test         to do .....
-			transform.gameObject.AddComponent<VOswitchOccur> ();
+			transform.gameObject.AddComponent<VOswitchOccur> ();//for test        
+			//transform.gameObject.AddComponent<ParallelCircuitWithTwoBattery> ();//real code
 			break;
 		case 8:
-			//for test         to do .....
-			transform.gameObject.AddComponent<SPDTswitchOccur> ();
+			transform.gameObject.AddComponent<SPDTswitchOccur> ();//for test
+			//transform.gameObject.AddComponent<LevelEight> ();//real code
 			break;
 		case  9:
-			//for test         to do .....
-			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();
+			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();//for test        
+			//transform.gameObject.AddComponent<ParallelCircuitWithTwoBulb> ();//real code
 			break;
 		case 10:
-			//for test         to do .....
-			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();//for test       
+			//transform.gameObject.AddComponent<LevelTen> ();//real code
 			break;
 		case 11:
 			transform.gameObject.AddComponent<VOswitchOccur> ();
@@ -97,24 +96,27 @@ public class LevelHandle : MonoBehaviour
 			GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
 			break;
 		case 6:
-			//for test        to do.....
-			GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
+			
+			GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;//for test  
+			//GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//real code
 			break;
 		case 7:
-			//for test        to do.....
-			GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
+			
+			GetComponent<VOswitchOccur> ().isVOswitchOccur = true;//for test  
+			//GetComponent<ParallelCircuitWithTwoBattery>().isParallelCircuitWithTwoBattery=true;//real code
+
 			break;
 		case 8:
-			//for test        to do.....
-			GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
+			GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;//for test   
+			//GetComponent<LevelEight>().isLevelEight=true;//real code 
 			break;
 		case 9:
-			//for test        to do.....
-			GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
+			GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;//for test 
+			//GetComponent<ParallelCircuitWithTwoBulb>().isParallelCircuitWithTwoBulb=true;//real code
 			break;
 		case 10:
-			//for test        to do.....
-			GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
+			GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;//for test  
+			//GetComponent<LevelTen>().isLevelTen=true;//real code
 			break;
 		case 11:
 			GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
@@ -158,21 +160,27 @@ public class LevelHandle : MonoBehaviour
 		case 5:
 			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
-		case 6:// for test...
-			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
+		case 6:
+			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());// for test...
+			//Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());//real code 
 			break;
 
-		case 7:// for test...
-			Destroy(transform.GetComponent<VOswitchOccur> ());
+		case 7:
+			Destroy(transform.GetComponent<VOswitchOccur> ());// for test...
+			//Destroy(transform.GetComponent<ParallelCircuitWithTwoBattery> ());
+
 			break;
-		case 8:// for test...
-			Destroy(transform.GetComponent<SPDTswitchOccur> ());
+		case 8:
+			Destroy(transform.GetComponent<SPDTswitchOccur> ());// for test...
+			//Destroy(transform.GetComponent<LevelEight> ());//real code 
 			break;
-		case  9:// for test...
-			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());
+		case  9:
+			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());// for test...
+			//Destroy (transform.GetComponent<ParallelCircuitWithTwoBulb> ());
 			break;
-		case 10:// for test...
-			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+		case 10:
+			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());// for test...
+			//Destroy(transform.GetComponent<LevelTen> ());
 			break;
 		case 11:
 			Destroy(transform.GetComponent<VOswitchOccur> ());

@@ -152,10 +152,12 @@ namespace MagicCircuit
 		public double theta{ get; set; }        //图标的朝向（单位：角度）
 		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
 		public bool powered{ get; set; }        //元件是否通电
+		public int controlSwitchID{ get; set;}  //控制元件的开关的ID
 		//private int appearTimes{get; set;}		//图标出现的次数
 
         public Vector2 connect_left;            //Connect point on card
         public Vector2 connect_right;
+
 
         private double x_shift;                 //Parameters for changing cordinates
         private double y_shift;

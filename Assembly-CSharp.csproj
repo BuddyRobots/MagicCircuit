@@ -353,6 +353,7 @@
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtn.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInPhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInRecognizePanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\Btn\MicroPhoneBtnCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\MoonAndSunCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\MusicCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\SPDTswitchCtrl.cs" />
@@ -365,11 +366,11 @@
      <Compile Include="Assets\Scripts\WQ\Level\LevelHandle.cs" />
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemData.cs" />
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemUI.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelEight.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTen.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LightActiveSwitchOccur.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LoudSpeakerInLevelFour.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\MicroPhoneBtnCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\NormalSwitchOccur.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuit.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBattery.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBulb.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitsWithTwoSwitch.cs" />

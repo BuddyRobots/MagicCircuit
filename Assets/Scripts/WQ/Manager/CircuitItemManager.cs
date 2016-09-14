@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using MagicCircuit;
 public class CircuitItemManager :MonoBehaviour
 {
+	//该脚本应该挂载在识别界面，因为图标是在拍摄界面后被识别的
+
 	//坐标管理类
 
 	public static CircuitItemManager _instance;
@@ -11,7 +13,7 @@ public class CircuitItemManager :MonoBehaviour
 	//private CircuitItem item;
 
 	public List<CircuitItem> itemList=new List<CircuitItem>();//所有图标的集合
-	public List<CircuitItem> itemListTest=new List<CircuitItem>();
+	public List<CircuitItem> itemListTest=new List<CircuitItem>();//for test...
 
 	void Awake()
 	{
@@ -39,6 +41,7 @@ public class CircuitItemManager :MonoBehaviour
 		vecs1.Add (vec1);
 		item1.list=vecs1;
 		item1.showOrder = 0;
+		item1.controlSwitchID = 0;
 
 //		CircuitItem item7 = new CircuitItem();
 //		item7.ID = 1;

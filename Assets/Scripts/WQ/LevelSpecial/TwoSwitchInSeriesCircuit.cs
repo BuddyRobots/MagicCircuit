@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//第五关
+//level 5
 public class TwoSwitchInSeriesCircuit : MonoBehaviour 
 {
 	private List<GameObject> normalSwitchList =null;
