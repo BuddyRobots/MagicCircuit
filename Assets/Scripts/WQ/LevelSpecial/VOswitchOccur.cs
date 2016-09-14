@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class VOswitchOccur : MonoBehaviour {
+public class VOswitchOccur : MonoBehaviour 
+{
 
 
 
 	[HideInInspector]
 	public bool isVOswitchOccur=false;
+
+	//const int SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
 
 
 	void OnEnable () 
@@ -34,22 +37,22 @@ public class VOswitchOccur : MonoBehaviour {
 					if (!isStartRecord) 
 					{
 						//收集声音  to do...
-						MicrophoneManager._instance.StartRecord();
+						MicroPhoneInput.getInstance().StartRecord();
 						isStartRecord = true;
 					}
-
-					if (MicrophoneManager._instance.isVoiceCollected) 
+						
+					//收集到声音后，播放声音收集完成音效，提示框消失， to do...
+					//if(MicroPhoneInput.getInstance().isSoundLoudEnough())
+					if(CommonFuncManager._instance.isSoundLoudEnough())
 					{
+						MicroPhoneInput.getInstance().StopRecord();
 						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive(false);
 						transform.Find("voiceOperSwitch").GetComponent<UISprite>().spriteName="VOswitchOn";
 						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
 						GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);
 						GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;
-
 					}
 
-
-					//收集到声音后，播放声音收集完成音效，提示框消失， to do...
 
 				}
 
@@ -58,4 +61,19 @@ public class VOswitchOccur : MonoBehaviour {
 		}
 
 	}
+		
+
+
+
+
+//	public bool isSoundLoudEnough()
+//	{
+//		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
+//		if(volume > SOUND_CRITERION)
+//		{
+//			return true;
+//		}
+//
+//		return false;
+//	}
 }

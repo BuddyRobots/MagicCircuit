@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TwoSwitchInSeriesCircuit : MonoBehaviour {
-
+//第五关
+public class TwoSwitchInSeriesCircuit : MonoBehaviour 
+{
 	private List<GameObject> normalSwitchList =null;
 	private int animationPlayedTimes=0;
 
@@ -56,12 +57,6 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour {
 						{
 							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Pause ();
 						}
-//						foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList) 
-//						{
-//							//电流应该隐藏而不是销毁    to do ..
-//							//item.SetActive(false);
-//							Destroy (item);
-//						}
 						isCircuitOpen=false;
 					
 					}

@@ -348,6 +348,8 @@
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\SuperpixelSLIC.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\Ximgproc.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\xphoto\Xphoto.cs" />
+     <Compile Include="Assets\Scripts\WQ\Btn\BatteryCtrl.cs" />
+     <Compile Include="Assets\Scripts\WQ\Btn\BulbCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtn.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInPhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInRecognizePanel.cs" />
@@ -367,7 +369,9 @@
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LoudSpeakerInLevelFour.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\MicroPhoneBtnCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\NormalSwitchOccur.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuit.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBattery.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBulb.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitsWithTwoSwitch.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\PlayCircuitAnimation.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\RemoveLine.cs" />
@@ -378,7 +382,7 @@
      <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CommonFuncManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\LevelManager.cs" />
-     <Compile Include="Assets\Scripts\WQ\Manager\MicrophoneManager.cs" />
+     <Compile Include="Assets\Scripts\WQ\Manager\MicrophoneInput.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\CommonPanel02.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\DescriptionPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\FailurePanel.cs" />
@@ -386,7 +390,7 @@
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
-     <Compile Include="Assets\Scripts\WQ\WebCam.cs" />
+     <Compile Include="Assets\Scripts\WQ\Panel\WebCam.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
      <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />

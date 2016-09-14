@@ -51,4 +51,20 @@ public class CommonFuncManager : MonoBehaviour {
 			tempIsLaSwitch = isSwitch;
 		} 
 	}
+
+
+	const int SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
+
+	public bool isSoundLoudEnough()
+	{
+		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
+		if(volume > SOUND_CRITERION)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
 }

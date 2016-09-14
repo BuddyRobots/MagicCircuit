@@ -61,9 +61,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private UILabel levelNameLabel;
 
 	private UISprite image;//拍摄截取的图像
-	private UISprite mask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
+	//private UISprite mask;
+	private UITexture dayMask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
+//	[HideInInspector]
+//	public UISprite nightBg;
+
 	[HideInInspector]
-	public UISprite nightBg;
+	public UITexture nightMask;
 
 
 
@@ -182,7 +186,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
-		mask=transform.Find("Bg/DayBgMask").GetComponent<UISprite> ();
+		//mask=transform.Find("Bg/DayBgMask").GetComponent<UISprite> ();
+		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
+
 		//replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
 		replayBtn=transform.Find("ReplayBtn").gameObject;
 		nextBtn=transform.Find("NextBtn").gameObject;
@@ -190,14 +196,21 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		voiceNoticeBg = transform.Find ("VoiceNotice").gameObject;
 		sunAndMoon = transform.Find ("SunAndMoonWidget").gameObject;
 		microPhone = transform.Find ("MicroPhoneBtn").gameObject;
-		nightBg = transform.Find ("Bg/NightBg").GetComponent<UISprite> ();
-		nightBg.gameObject.SetActive (true);
-		nightBg.alpha = 0;
+//		nightBg = transform.Find ("Bg/NightBg").GetComponent<UISprite> ();
+//		nightBg.gameObject.SetActive (true);
+//		nightBg.alpha = 0;
+
+		nightMask = transform.Find ("Bg/NightBgT").GetComponent<UITexture> ();
+		nightMask.gameObject.SetActive (true);
+		nightMask.alpha = 0;
+
 
 		lineParent = this.gameObject;
 
 		image.gameObject.SetActive (false);
-		mask.gameObject.SetActive (true);
+		//mask.gameObject.SetActive (true);
+		dayMask.gameObject.SetActive (true);
+
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
 		labelBgTwinkle.SetActive (false);
@@ -221,7 +234,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		prePos = Vector3.zero; 
 		iconCount = 1;
-		mask.alpha = 0;
+		//mask.alpha = 0;
+		dayMask.alpha = 0;
 		maskTime = itemsList.Count  * 1;//显示图标的总时间=图标个数*每个图标隔的时间
 		foreach (var item in lines) 
 		{
@@ -280,7 +294,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			{
 				maskTimer =maskTime;
 			}
-			mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
+			//mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
+			dayMask.alpha=Mathf.Lerp (0, 1f, maskTimer/maskTime);
 			#endregion
 
 			//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
@@ -389,6 +404,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			batteryList.Add(item);
 			item.name = "battery"; 
 			iconCount--;
+
+
 			break;
 	
 		case ItemType.Bulb:
@@ -397,6 +414,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			bulbList.Add (item);
 			item.name = "bulb";
 			iconCount--;
+
+
 			break;
 
 		case ItemType.Switch:
