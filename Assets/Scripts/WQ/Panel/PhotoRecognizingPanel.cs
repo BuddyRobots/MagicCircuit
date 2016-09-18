@@ -97,10 +97,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// <summary>
 	/// 电路是否通电的标志
 	/// </summary>
-	private bool isEnergized = false;
-
-	private bool isHasSwitch=false;
-
+//	private bool isEnergized = false;
+//
+//	private bool isHasSwitch=false;
+//
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
 	/// </summary>
@@ -110,7 +110,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// the number of voiceOperSwitch 声控开关的个数，大于0时话筒按钮要伴随出现
 	/// </summary>
 	private int voiceOperSwitchNum = 0;
-
 	/// <summary>
 	/// the number of lightActSwitch 光敏开关的个数，大于0时太阳月亮切换按钮要伴随出现
 	/// </summary>
@@ -226,8 +225,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		isPhotoShowDone = false;
 		isArrowShowDone=false;
 		isCreate_Update=false;
-		isEnergized = false;
-		isHasSwitch=false;
+//		isEnergized = false;
+//		isHasSwitch=false;
 
 		voiceOperSwitchNum = 0;
 		isLightActSwitchNum = 0;
@@ -253,20 +252,22 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	IEnumerator RemoveEmptyArrow()
 	{
-		while (true) {
-			for (int i = 0; i < arrowList.Count; ) {
-				if (arrowList[i]) {
+		while (true) 
+		{
+			for (int i = 0; i < arrowList.Count; ) 
+			{
+				if (arrowList[i]) 
+				{
 					i++;
-				} else {
+				} 
+				else 
+				{
 					arrowList.RemoveAt (i);
 				}
 			}
-			print (arrowList.Count);
+			//print (arrowList.Count);
 			yield return new WaitForSeconds (0.5f);
 		}
-
-
-
 	}
 
 	/// <summary>
@@ -279,20 +280,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		//这里显示的照片是从拍摄界面拍到的照片，GetImage中的tempImgs中的texture
 		// to do...
 		image.gameObject.SetActive (true);
-		//photoImage=GetImage._instance.texture;
-		//photoImage.gameObject.SetActive (true);//  ---real code
-
-
+		//photoImage=GetImage._instance.texture;//real code 
+		//photoImage.gameObject.SetActive (true);// real code
 		yield return new WaitForSeconds (2f);
 		isPhotoShowDone = true;
 	}
-
-	//private List<GameObject> allSwitches = new List<GameObject> ();
-	//识别完以后，播放电流之前，首先得判断有没有开关，如果没有开关，就直接显示电流；
-
-	/// <summary>
-	/// 整个电路图中有没有开关的标记
-	/// </summary>
 
 	void Update () 
 	{
@@ -304,15 +296,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			{
 				maskTimer =maskTime;
 			}
-			//mask.alpha = Mathf.Lerp (0, 1f, maskTimer/maskTime);
 			dayMask.alpha=Mathf.Lerp (0, 1f, maskTimer/maskTime);
 			#endregion
 
-			//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
-			if(isCreate_Update==false)
+			if(isCreate_Update==false)//当一个函数要放在update里面时， 又要保证只执行一次，可以在这个函数之前加一个bool值来标志
 			{
-				//创建图标
-				StartCoroutine (CreateAllItem ());
+				StartCoroutine (CreateAllItem ());//创建图标
 				isCreate_Update =true;
 			}
 			if (iconCount == 0) 
@@ -332,7 +321,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if (isItemShowDone && result == Result.Success) //如果图标都显示完了且匹配成功
 			{
 				LevelHandle._instance.CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
-				//CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
 			}
 			#region 如果匹配结果是错误的，就跳转到失败界面
 			else if (isItemShowDone && result == Result.Fail) 
@@ -343,7 +331,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		}
 	}
 
-	   
+	/// <summary>
+	/// 从所有的线中选一个随机点
+	/// </summary>
+	/// <returns>The random point.</returns>
 	public Vector3 ChooseRandomPoint()
 	{
 		int index=Random.Range(0,linePointsList.Count);
@@ -369,11 +360,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void ShowFinger(Vector3 switchPos)
 	{
-		if (prePos == switchPos) {
+		if (prePos == switchPos) 
+		{
 			return;
 		}
 		prePos = switchPos;
-		if (finger) {
+		if (finger) 
+		{
 			Destroy (finger);
 			finger = null;
 		}
@@ -416,9 +409,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			goList.Add (item);//新创建一个对象的同时把这个对象加入到对象列表，方便关闭界面的时候销毁这些新创建的对象
 			batteryList.Add(item);
 			item.name = "battery"; 
+			//item.tag = circuitItem.controlSwitchID.ToString ();//把标签与控制开关的ID配对，方便并联电路判断哪个开关控制哪个元件
 			iconCount--;
-
-
 			break;
 	
 		case ItemType.Bulb:
@@ -426,53 +418,54 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			goList.Add (item);
 			bulbList.Add (item);
 			item.name = "bulb";
+			//item.tag = circuitItem.controlSwitchID.ToString ();
 			iconCount--;
-
-
 			break;
 
 		case ItemType.Switch:
-			isHasSwitch = true;
 			//item = GameObject.Instantiate (switchOn, circuitItem.list[0], Quaternion.identity) as GameObject;
 			item = GameObject.Instantiate (switchBtn) as GameObject;
 			switchList.Add (item);
 			goList.Add (item);
 			item.name = "switch"; 
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 
 		case ItemType.DoubleDirSwitch:
-			isHasSwitch = true;
 			item = GameObject.Instantiate (doubleDirSwitch) as GameObject;
 			switchList.Add (item);
 			goList.Add (item);
 			item.name = "doubleDirSwitch";
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 
 		case ItemType.VoiceTimedelaySwitch:
-			isHasSwitch = true;
 			item = GameObject.Instantiate (voiceTimedelaySwitch) as GameObject;
 			goList.Add (item);
 			item.name = "voiceTimedelaySwitch";
+			item.tag = circuitItem.ID.ToString ();
 			voiceOperSwitchNum++;
 			iconCount--;
 			break;
 
 		case ItemType.VoiceOperSwitch:
-			isHasSwitch = true;
+			//isHasSwitch = true;
 			item = GameObject.Instantiate (voiceOperSwitch) as GameObject;
 			goList.Add (item);
 			item.name = "voiceOperSwitch";
+			item.tag = circuitItem.ID.ToString ();
 			voiceOperSwitchNum++;//声控开关出现的时候记录一下，话筒按钮需要伴随出现
 			iconCount--;
 			break;
 		
 		case ItemType.LightActSwitch:
-			isHasSwitch = true;
+			//isHasSwitch = true;
 			item = GameObject.Instantiate (lightActSwitch) as GameObject;
 			goList.Add (item);
 			item.name = "lightActSwitch";
+			item.tag = circuitItem.ID.ToString ();
 			isLightActSwitchNum++;//光敏开关出现的时候记录一下，太阳月亮切换按钮需要伴随出现
 			iconCount--;
 			break;
@@ -481,6 +474,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item = GameObject.Instantiate (loudspeaker) as GameObject;
 			goList.Add (item);
 			item.name = "loudspeaker"; 
+			//item.tag = circuitItem.controlSwitchID.ToString ();
 			iconCount--;
 			break;
 
@@ -488,6 +482,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item = GameObject.Instantiate (inductionCooker) as GameObject;
 			goList.Add (item);
 			item.name = "inductionCooker";
+			//item.tag = circuitItem.controlSwitchID.ToString ();
 			iconCount--;
 			break;
 
@@ -515,6 +510,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item.transform.localScale = new Vector3 (1, 1, 1); 
 			//根据图标数据的旋转角度进行旋转，旋转的是Z上的弧度
 			item.transform.Rotate(new Vector3(0,0,(float)circuitItem.theta));
+
+
 		}
 	}
 
@@ -723,9 +720,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	void OnNextBtnClick(GameObject btn)
 	{
 		//记录通关的关卡
-		if(data.Progress != LevelProgress.Done){
+		if(data.Progress != LevelProgress.Done)
+		{
 			PlayerPrefs.SetInt ("LevelID",data.LevelID);
-			Debug.Log ("data.LevelID====" + data.LevelID);
+			//Debug.Log ("data.LevelID====" + data.LevelID);
 			PlayerPrefs.SetInt ("LevelProgress",2);
 			LevelManager._instance.LoadLocalLevelProgressData ();
 		}
@@ -752,21 +750,31 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void PanelOff()
 	{
-		foreach (GameObject item in goList) 
-		{
-			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
-		}
-		foreach (GameObject item in arrowList) 
-		{
-			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
-		}
+//		foreach (GameObject item in goList) 
+//		{
+//			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
+//		}
+//		foreach (GameObject item in arrowList) 
+//		{
+//			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
+//		}
 
+
+		for (int i = 0; i < goList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
+		{
+			Destroy (goList [i]);
+		}
+		for (int i = 0; i < arrowList.Count; i++) 
+		{
+			Destroy (arrowList [i]);
+		}
 		gameObject.SetActive (false);
 	}
 
 	void OnDisable()
 	{
-		if (finger) {
+		if (finger) 
+		{
 			Destroy (finger);
 			finger = null;
 		}

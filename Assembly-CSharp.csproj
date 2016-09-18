@@ -367,6 +367,7 @@
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemData.cs" />
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelEight.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFourteen.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTen.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LightActiveSwitchOccur.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LoudSpeakerInLevelFour.cs" />
@@ -429,7 +430,6 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
-     <None Include="Assets\DOTween\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
@@ -464,9 +464,6 @@
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="DOTween">
- <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/DOTween/DOTween.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
  <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>

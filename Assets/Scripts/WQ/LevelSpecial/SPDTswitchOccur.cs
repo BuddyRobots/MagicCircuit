@@ -27,7 +27,7 @@ public class SPDTswitchOccur : MonoBehaviour {
 			if (!PhotoRecognizingPanel._instance.isArrowShowDone) 
 			{
 				//在第一个单刀双掷开关出现小手，点击开关闭合，小手消失
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(spdtSwitchList[0].transform.localPosition);
+				GetComponent<PhotoRecognizingPanel> ().ShowFinger(spdtSwitchList[0].transform.localPosition);
 
 				for (int i = 0; i < spdtSwitchList.Count; i++) 
 				{

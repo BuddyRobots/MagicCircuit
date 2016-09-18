@@ -2,9 +2,8 @@
 using System.Collections;
 
 //第12关
-public class LightActiveSwitchOccur : MonoBehaviour {
-
-
+public class LightActiveSwitchOccur : MonoBehaviour 
+{
 	private int animationPlayedTimes=0;
 	[HideInInspector]
 	public bool isLAswitchOccur = false;
@@ -33,7 +32,7 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 			{
 				
 			//在太阳月亮按钮位置出现小手，点击太阳，蒙版渐变暗，小手消失，光敏开关闭合，灯泡亮，电流走起
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(transform.Find("SunAndMoonWidget").localPosition);
+				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("SunAndMoonWidget").localPosition);
 				if(!transform.Find("SunAndMoonWidget").GetComponent<MoonAndSunCtrl>().isDaytime)
 				{	//如果是晚上
 					Destroy (PhotoRecognizingPanel._instance.finger);
@@ -48,8 +47,6 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 					{
 						isCircuitWork = true;
 					}
-
-
 					if(isCircuitWork)
 					{
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOn";
@@ -64,8 +61,8 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 
 				CommonFuncManager._instance.CircuitOnOrOff (isCircuitWork);
 	
-				if (transform.Find("SunAndMoonWidget").GetComponent<MoonAndSunCtrl>().isDaytime)
-				{	//如果是白天
+				if (transform.Find("SunAndMoonWidget").GetComponent<MoonAndSunCtrl>().isDaytime)//如果是白天
+				{
 					changeTimer -= Time.deltaTime;
 					if (changeTimer <= 0) 
 					{
@@ -83,11 +80,12 @@ public class LightActiveSwitchOccur : MonoBehaviour {
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOff";
 					}
 				}
-				else 
-				{//如果是晚上
+				else //如果是晚上
+				{
 					//蒙版渐变暗  
 					changeTimer += Time.deltaTime;
-					if (changeTimer >= changeTime) {
+					if (changeTimer >= changeTime) 
+					{
 
 						changeTimer = changeTime;
 					}

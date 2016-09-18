@@ -25,7 +25,7 @@ public class VOswitchOccur : MonoBehaviour
 			if (!GetComponent<PhotoRecognizingPanel>().isArrowShowDone) 
 			{
 				//在话筒按钮出现小手
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(transform.Find("MicroPhoneBtn").localPosition);
+				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("MicroPhoneBtn").localPosition);
 				//点击话筒按钮，
 				if (transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice) 
 				{

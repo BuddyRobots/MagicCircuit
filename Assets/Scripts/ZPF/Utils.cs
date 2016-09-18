@@ -152,7 +152,7 @@ namespace MagicCircuit
 		public double theta{ get; set; }        //图标的朝向（单位：角度）
 		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
 		public bool powered{ get; set; }        //元件是否通电
-		public int controlSwitchID{ get; set;}  //控制元件的开关的ID
+		//public int controlSwitchID{ get; set;}  //控制元件的开关的ID
 		//private int appearTimes{get; set;}		//图标出现的次数
 
         public Vector2 connect_left;            //Connect point on card
@@ -248,6 +248,21 @@ namespace MagicCircuit
         {            
             return new Vector3((float)(x - x_shift), (float)(y_shift - y));
         }
+
+
+
+
+		public List<CircuitItem> switchOnOff(int ID, bool state)
+		{
+			List<CircuitItem> itemlist = null;
+
+
+			return itemlist;
+		}
+
+
+
+
     }
 }
  

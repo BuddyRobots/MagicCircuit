@@ -22,7 +22,7 @@ public class NormalSwitchOccur : MonoBehaviour {
 		{
 			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
 			{
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(transform.Find("switch").localPosition);//在开关位置出现小手
+				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("switch").localPosition);//在开关位置出现小手
 
 				if(transform.Find("switch").GetComponent<SwitchCtrl>().isSwitchOn==false)//开关闭合
 				{

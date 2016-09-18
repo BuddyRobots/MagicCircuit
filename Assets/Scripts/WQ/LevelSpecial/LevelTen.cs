@@ -6,13 +6,16 @@ public class LevelTen : MonoBehaviour {
 	public bool isLevelTen=false;
 
 
-	void OnEnable () {
+	void OnEnable () 
+	{
 		isLevelTen=false;
 	}
 	
 
-	void Update () {
-		if (isLevelTen) {
+	void Update () 
+	{
+		if (isLevelTen) 
+		{
 
 
 			if (!PhotoRecognizingPanel._instance.isArrowShowDone) 

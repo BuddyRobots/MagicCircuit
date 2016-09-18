@@ -2,23 +2,18 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Btn/BulbCtrl.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="710" Column="2" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitWithTwoBattery.cs" Line="64" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LightActiveSwitchOccur.cs" Line="32" Column="5" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LoudSpeakerInLevelFour.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/MicroPhoneBtnCtrl.cs" Line="7" Column="2" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/NormalSwitchOccur.cs" Line="24" Column="16" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitsWithTwoSwitch.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/VOswitchAndLAswitchTogether.cs" Line="24" Column="3" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/TwoSwitchInSeriesCircuit.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/SPDTswitchOccur.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/PlayCircuitAnimation.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/Btn/BatteryCtrl.cs" Line="27" Column="4" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitWithTwoBattery.cs" Line="6" Column="10" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Btn/BatteryCtrl.cs" Line="4" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="483" Column="28" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTen.cs" Line="10" Column="2" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Btn/BulbCtrl.cs" Line="13" Column="3" NotebookId="1" />
     </Files>
     <FloatingWindows>
-      <FloatingWindow WindowId="1" X="756" Y="83" Width="1082" Height="800">
+      <FloatingWindow WindowId="1" X="36" Y="73" Width="1374" Height="920">
         <Files>
-          <File FileName="Assets/Scripts/WQ/Btn/BulbCtrl.cs" Line="21" Column="58" />
+          <File FileName="Assets/Scripts/WQ/Manager/CircuitItemManager.cs" Line="264" Column="43" />
+          <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="59" Column="32" />
+          <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="198" Column="46" />
         </Files>
       </FloatingWindow>
     </FloatingWindows>

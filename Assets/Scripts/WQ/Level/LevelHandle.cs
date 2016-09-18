@@ -63,6 +63,7 @@ public class LevelHandle : MonoBehaviour
 			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();
 			break;
 		case 14:
+			transform.gameObject.AddComponent<LevelFourteen> ();
 			break;
 		case 15:
 			transform.gameObject.AddComponent<SPDTswitchOccur> ();
@@ -128,6 +129,7 @@ public class LevelHandle : MonoBehaviour
 			GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
 			break;
 		case 14:
+			GetComponent<LevelFourteen> ().isLevelFourteen = true;
 			break;
 		case 15:
 			GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
@@ -192,6 +194,7 @@ public class LevelHandle : MonoBehaviour
 			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());
 			break;
 		case 14:
+			Destroy (transform.GetComponent<LevelFourteen> ());
 			break;
 		case 15:
 			Destroy (transform.GetComponent<SPDTswitchOccur> ());

@@ -9,7 +9,8 @@ public class BulbCtrl : MonoBehaviour {
 
 	
 
-	void Update () {
+	void Update () 
+	{
 		
 		if (isSemiTrans) 
 		{//如果是半透明状态

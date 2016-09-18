@@ -12,11 +12,17 @@ public class FingerCtrl : MonoBehaviour
 	//手指出现的位置到开关的偏移距离-----posFrom-switchPos  = （113,-108,0）
 	//手指需要移动的距离--------posFrom-posTo  = (67,-68,0)
 
-	private Vector3 offSet = new Vector3 (113, -108, 0);//手指出现的位置到开关的偏移距离
-	private Vector3 moveOffset = new Vector3 (67, -68, 0);//手指需要移动的距离
-	private Vector3 direction;
+	Vector3 itemPos=new Vector3(17, 211, 0);
+	Vector3 posTo = new Vector3 (64, 179, 0);
+	Vector3 posFrom = new Vector3 (108,130,0);
+
+
+	//private Vector3 offSet = new Vector3 (113, -108, 0);//手指出现的位置到开关的偏移距离
+	//private Vector3 moveOffset = new Vector3 (67, -68, 0);//手指需要移动的距离
+	//private Vector3 direction;
 	private Vector3 dest;
 	private Vector3 startPos;
+	Vector3 moveOffset;
 
 	private Vector3 dir;
 
@@ -32,9 +38,10 @@ public class FingerCtrl : MonoBehaviour
 	void OnEnable()
 	{
 		//isMove = false;
+		moveOffset=new Vector3((posFrom-posTo).x,(posFrom-posTo).y,0);
 	} 
 
-	//出现手指，需要传入开关的坐标
+	//出现手指，需要传入坐标
 	public void FingerShow(Vector3 fingerPos)
 	{
 		transform.localPosition = fingerPos;

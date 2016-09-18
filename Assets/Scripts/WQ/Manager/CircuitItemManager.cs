@@ -41,25 +41,11 @@ public class CircuitItemManager :MonoBehaviour
 		vecs1.Add (vec1);
 		item1.list=vecs1;
 		item1.showOrder = 0;
-		item1.controlSwitchID = 0;
 
-//		CircuitItem item7 = new CircuitItem();
-//		item7.ID = 1;
-//		item7.name = "Switch";
-//		item7.type = ItemType.Switch;
-//		item7.theta = 90;
-//		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
-//		Vector3 vec7 = new Vector3 (0,-75,0);
-//		List<Vector3> vecs7 = new List<Vector3> ();
-//		vecs7.Add (vec7);
-//		item7.list=vecs7;
-//		item7.showOrder = 1;
-
-		#region 声控光敏开关测试--声控开关
 		CircuitItem item7 = new CircuitItem();
 		item7.ID = 1;
-		item7.name = "VOswitch";
-		item7.type = ItemType.VoiceOperSwitch;
+		item7.name = "Switch";
+		item7.type = ItemType.Switch;
 		item7.theta = 90;
 		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
 		Vector3 vec7 = new Vector3 (0,-75,0);
@@ -67,6 +53,19 @@ public class CircuitItemManager :MonoBehaviour
 		vecs7.Add (vec7);
 		item7.list=vecs7;
 		item7.showOrder = 1;
+
+		#region 声控光敏开关测试--声控开关
+//		CircuitItem item7 = new CircuitItem();
+//		item7.ID = 1;
+//		item7.name = "VOswitch";
+//		item7.type = ItemType.VoiceOperSwitch;
+//		item7.theta = 90;
+//		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
+//		Vector3 vec7 = new Vector3 (0,-75,0);
+//		List<Vector3> vecs7 = new List<Vector3> ();
+//		vecs7.Add (vec7);
+//		item7.list=vecs7;
+//		item7.showOrder = 1;
 		#endregion
 
 		#region 单刀双掷开关测试1
