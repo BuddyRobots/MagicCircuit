@@ -38,6 +38,10 @@ public class ParallelCircuitsWithTwoSwitch : MonoBehaviour
 							//调用接口，返回值为list<CircuitItem>
 							//CurrentFlow cf = new CurrentFlow ();
 							//cf.switchOnOff(switchList[i].tag, true);
+							//获得新的List<CircuitItem> circuitItems;判断
+
+
+
 
 							//灯亮，走电流
 							switchList[i].GetComponent<UISprite>().spriteName="bulbOn";

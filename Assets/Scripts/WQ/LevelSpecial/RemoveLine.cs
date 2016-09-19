@@ -7,6 +7,11 @@ public class RemoveLine : MonoBehaviour
 	[HideInInspector]
 	public bool isRemoveLine=false;
 
+	/// <summary>
+	/// 有没有线段被擦除的标志
+	/// </summary>
+	private bool isLineRemove = false;
+
 	void OnEnable()
 	{
 		isRemoveLine=false;
@@ -21,11 +26,16 @@ public class RemoveLine : MonoBehaviour
 			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
 			{
 				CommonFuncManager._instance.OpenCircuit ();	
-				Vector3	randomPos = GetComponent<PhotoRecognizingPanel> ().ChooseRandomPoint ();
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
 
 			}
+			Vector3	randomPos = GetComponent<PhotoRecognizingPanel> ().ChooseRandomPoint ();
 			TouchToDestroyLine ();
+			if (!isLineRemove) 
+			{
+				Debug.Log ("fingershow  before  isLineRemove value===" + isLineRemove);
+				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
+			}
+			//TouchToDestroyLine ();
 
 		}
 	}
@@ -52,7 +62,8 @@ public class RemoveLine : MonoBehaviour
 				if (go.name.Contains ("line")) 
 				{ //如果碰到的是线，线就消失，电流消失
 					Destroy (go);
-					//isLineRemove=true;
+					isLineRemove=true;
+					Debug.Log("islineRemove value==="+isLineRemove);
 					Destroy (GetComponent<PhotoRecognizingPanel> ().finger);
 					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
 					GetComponent<PhotoRecognizingPanel> ().StopCreateArrows();
