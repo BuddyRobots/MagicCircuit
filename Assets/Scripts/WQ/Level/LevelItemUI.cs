@@ -6,8 +6,6 @@ using System.Collections;
 /// </summary>
 public class LevelItemUI : MonoBehaviour 
 {
-
-
 	public LevelItemData data;
 
 	private GameObject levelSelectPanel;
@@ -20,12 +18,11 @@ public class LevelItemUI : MonoBehaviour
 		levelDescriptionPanel =transform.parent.parent.parent.parent.Find("DescriptionPanel").gameObject;
 	}
 
-	//如果对象有collider，可以这样实现点击事件
+		//如果对象有collider，可以这样实现点击事件
 	public void OnClick()
 	{
 		levelDescriptionPanel.SetActive (true);
 		int levelID = GetLevel (this.name);//得到关卡数字
-		//int levelID = Common._instance.GetLevel(this.name);
 		data = LevelManager._instance.GetSingleLevelItem (levelID);//根据关卡数字拿到关卡数据
 		if (data!=null) 
 		{

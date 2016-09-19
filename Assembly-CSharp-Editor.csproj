@@ -134,7 +134,6 @@
      <Compile Include="Assets\OpenCVForUnity\Editor\WSA_BuildPostprocessor.cs" />
      <Compile Include="Assets\OpenCVForUnity\Editor\iOS_BuildPostprocessor.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
-     <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />

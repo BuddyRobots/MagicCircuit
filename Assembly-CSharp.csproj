@@ -392,7 +392,6 @@
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
-     <Compile Include="Assets\Scripts\WQ\Panel\WebCam.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
      <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
@@ -416,7 +415,6 @@
      <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
      <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
-     <None Include="Assets\NGUI\ReadMe - 3.9.0.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />

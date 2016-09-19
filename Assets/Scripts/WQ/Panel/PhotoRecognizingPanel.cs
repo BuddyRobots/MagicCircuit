@@ -186,22 +186,18 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
 		image = transform.Find ("Bg/Image").GetComponent<UISprite> ();//for test..调用图像识别部分的一个接口（该接口返回的是一个UITexture）
-		//photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();
+		//photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
 
-		//mask=transform.Find("Bg/DayBgMask").GetComponent<UISprite> ();
-		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
-
-		//replayBtn=transform.Find("ReplayBtn").GetComponent<UIButton> ().gameObject;
 		replayBtn=transform.Find("ReplayBtn").gameObject;
 		nextBtn=transform.Find("NextBtn").gameObject;
 		labelBgTwinkle = transform.Find ("LevelNameBgT").gameObject;
 		voiceNoticeBg = transform.Find ("VoiceNotice").gameObject;
 		sunAndMoon = transform.Find ("SunAndMoonWidget").gameObject;
 		microPhone = transform.Find ("MicroPhoneBtn").gameObject;
-//		nightBg = transform.Find ("Bg/NightBg").GetComponent<UISprite> ();
-//		nightBg.gameObject.SetActive (true);
-//		nightBg.alpha = 0;
 
+		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
+		dayMask.gameObject.SetActive (true);
+		dayMask.alpha = 0;
 		nightMask = transform.Find ("Bg/NightBgT").GetComponent<UITexture> ();
 		nightMask.gameObject.SetActive (true);
 		nightMask.alpha = 0;
@@ -209,10 +205,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		lineParent = this.gameObject;
 
-		image.gameObject.SetActive (false);
+		image.gameObject.SetActive (false);// for test ...
 		//photoImage.gameObject.SetActive (false);
-
-		dayMask.gameObject.SetActive (true);
 
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
@@ -225,8 +219,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		isPhotoShowDone = false;
 		isArrowShowDone=false;
 		isCreate_Update=false;
-//		isEnergized = false;
-//		isHasSwitch=false;
 
 		voiceOperSwitchNum = 0;
 		isLightActSwitchNum = 0;
@@ -238,8 +230,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		prePos = Vector3.zero; 
 		iconCount = 1;
-		//mask.alpha = 0;
-		dayMask.alpha = 0;
+
 		maskTime = itemsList.Count  * 1;//显示图标的总时间=图标个数*每个图标隔的时间
 		foreach (var item in lines) 
 		{
@@ -331,15 +322,50 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		}
 	}
 
+
+
 	/// <summary>
 	/// 从所有的线中选一个随机点
 	/// </summary>
 	/// <returns>The random point.</returns>
 	public Vector3 ChooseRandomPoint()
 	{
-		int index=Random.Range(0,linePointsList.Count);
-		Vector3	pos=linePointsList[index];
+		
+		int maxNum = 0;//点的最大数量
+		int longestLineIndex = 0;//最长线段的下标
+		for (int i = 0; i < lines.Count; i++) 
+		{
+			if (lines [i].Count > maxNum) 
+			{
+				maxNum=lines [i].Count;
+				longestLineIndex = i;
+			
+			}	
+		}
+		//最长的线段是lines[longestLineIndex],该线段上的点的个数是maxNum；
+		//需要取这条线段的中点
+
+		int index = 0;
+		if (maxNum % 2 == 0) 
+		{
+			index = maxNum / 2;
+			
+		} 
+		else 
+		{
+			index = (maxNum + 1) / 2;
+		
+		}
+		Vector3 pos = (lines [longestLineIndex]) [index];
+		//Debug.Log (pos);
 		return pos;
+
+
+//		int index=Random.Range(0,linePointsList.Count);
+//		Vector3	pos=linePointsList[index];
+//		return pos;
+
+
 	}
 
 	public void ShowFingerOnLine(Vector3 pos)
@@ -554,40 +580,42 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
 	}
 
-	IEnumerator ArrowShow()
-	{
-		List<Vector3> line = new List<Vector3> ();//整个线路上的点
-		for (int i = 0; i < lines.Count; i++)
-		{
-			List<Vector3> singleLine = lines [i];
-			for (int j = 0; j <singleLine.Count; j++) 
-			{
-				line.Add (singleLine [j]);
-			}
-		}
-		for (int j = 0; /*j <line.Count*/; j++) {
+//	IEnumerator ArrowShow()
+//	{
+//		List<Vector3> line = new List<Vector3> ();//整个线路上的点
+//		for (int i = 0; i < lines.Count; i++)
+//		{
+//			List<Vector3> singleLine = lines [i];
+//			for (int j = 0; j <singleLine.Count; j++) 
+//			{
+//				line.Add (singleLine [j]);
+//			}
+//		}
+//		for (int j = 0; /*j <line.Count*/; j++) {
+//
+//			GameObject arrow = Instantiate (arrowPrefab) as GameObject;//应该是在第一条线的第一个点创建一个箭头
+//			arrowList.Add (arrow);
+//
+//			arrow.transform.parent = transform;
+//			arrow.name="arrow";
+//			arrow.transform.localPosition =line[0];
+//			arrow.transform.localScale = Vector3.one;
+//			arrow.GetComponent<MoveCtrl> ().Move (line);
+//			yield return new WaitForSeconds(0.4f);
+//
+//			#region 重玩按钮和下一步按钮出现
+//			animationTimer++;
+//			if (animationTimer >= animationTime) 
+//			{
+//				animationTimer = 0;
+//				WellDone ();
+//			}
+//			#endregion
+//		}
+//
+//	}
 
-			GameObject arrow = Instantiate (arrowPrefab) as GameObject;//应该是在第一条线的第一个点创建一个箭头
-			arrowList.Add (arrow);
 
-			arrow.transform.parent = transform;
-			arrow.name="arrow";
-			arrow.transform.localPosition =line[0];
-			arrow.transform.localScale = Vector3.one;
-			arrow.GetComponent<MoveCtrl> ().Move (line);
-			yield return new WaitForSeconds(0.4f);
-
-			#region 重玩按钮和下一步按钮出现
-			animationTimer++;
-			if (animationTimer >= animationTime) 
-			{
-				animationTimer = 0;
-				WellDone ();
-			}
-			#endregion
-		}
-
-	}
 	#region  箭头的生成和销毁
 	private bool isCreateArrow = true;
 
@@ -608,7 +636,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		StopCreateArrows ();
 		foreach (var item in arrowList) 
 		{
-			if (item) {
+			if (item) 
+			{
 				item.GetComponent<UISprite> ().alpha = 0;
 				item.GetComponent<MoveCtrl> ().Stop ();
 			}
@@ -621,8 +650,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	public void ContinueCircuit()
 	{
-		foreach (var item in arrowList) {
-			if (item) {
+		foreach (var item in arrowList) 
+		{
+			if (item) 
+			{
 				item.GetComponent<UISprite> ().alpha = 1;
 				item.GetComponent<MoveCtrl> ().ContinueStart ();
 			}
@@ -640,6 +671,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	IEnumerator ArrowShowLineByLineT(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
 	{
+
+		Debug.Log ("show arrow");
 		bool hasStartCorout = false;//有没有开启协同的标志
 		GameObject temp = null;
 
@@ -660,7 +693,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				{
 					temp = arrow;//保存第一个箭头
 				}
-				if (!hasStartCorout && temp == null && i < lines.Count - 1) 
+				if (!hasStartCorout && temp == null && i < lines.Count - 1) //第一条线上有箭头被销毁时，第二条线产生箭头，第二条线上有箭头被销毁时，第三条线上产生箭头。。。
 				{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
 					StartCoroutine (ArrowShowLineByLineT(lines, i + 1));
 					hasStartCorout = true;
@@ -677,7 +710,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 					WellDone ();
 				}
 				#endregion
-			} else {
+			} 
+			else 
+			{
 				yield return new WaitForFixedUpdate ();
 			}
 		}
