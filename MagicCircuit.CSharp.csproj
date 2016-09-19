@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -412,11 +406,11 @@
     <Compile Include="Assets\Scripts\WQ\TimerManager.cs" />
     <Compile Include="Assets\Scripts\WQ\WebCam.cs" />
     <Compile Include="Assets\Scripts\WQ\WelldonePanel.cs" />
-    <Compile Include="Assets\Scripts\ZPF\CardDetection.cs" />
+    <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
     <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
     <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
     <Compile Include="Assets\Scripts\ZPF\GetImage.cs" />
-    <Compile Include="Assets\Scripts\ZPF\LineDetection.cs" />
+    <Compile Include="Assets\Scripts\ZPF\LineDetector.cs" />
     <Compile Include="Assets\Scripts\ZPF\RecognizeAlgo.cs" />
     <Compile Include="Assets\Scripts\ZPF\RotateCamera.cs" />
     <Compile Include="Assets\Scripts\ZPF\Utils.cs" />
