@@ -1,0 +1,627 @@
+fileFormatVersion: 2
+guid: 7c1f2be6c31e34676a6f71548c5ebd87
+timeCreated: 1473762318
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: FinalAtalas_0
+    21300002: FinalAtalas_1
+    21300004: FinalAtalas_2
+    21300006: FinalAtalas_3
+    21300008: FinalAtalas_4
+    21300010: FinalAtalas_5
+    21300012: FinalAtalas_6
+    21300014: FinalAtalas_7
+    21300016: FinalAtalas_8
+    21300018: FinalAtalas_9
+    21300020: FinalAtalas_10
+    21300022: FinalAtalas_11
+    21300024: FinalAtalas_12
+    21300026: FinalAtalas_13
+    21300028: FinalAtalas_14
+    21300030: FinalAtalas_15
+    21300032: FinalAtalas_16
+    21300034: FinalAtalas_17
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: 5
+  maxTextureSize: 4096
+  textureSettings:
+    filterMode: 2
+    aniso: 4
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 1
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: FinalAtalas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1070
+        width: 298
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 130, y: 43}
+        - {x: 124, y: 47}
+        - {x: -127, y: 47}
+        - {x: -149, y: 28}
+        - {x: -149, y: -23}
+        - {x: -141, y: -34}
+        - {x: -127, y: -47}
+        - {x: 127, y: -47}
+        - {x: 147, y: -39}
+        - {x: 149, y: -30}
+        - {x: 149, y: 25}
+    - name: FinalAtalas_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 919
+        width: 256
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 116, y: 75}
+        - {x: 66, y: 75}
+        - {x: 46, y: 72}
+        - {x: -25, y: 48}
+        - {x: -66, y: 70}
+        - {x: -119, y: 54}
+        - {x: -128, y: 40}
+        - {x: -128, y: -67}
+        - {x: -121, y: -75}
+        - {x: 118, y: -75}
+        - {x: 128, y: -61}
+        - {x: 128, y: 66}
+        - {x: 118, y: 74}
+    - name: FinalAtalas_2
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 919
+        width: 255
+        height: 147
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 127.5, y: 65.5}
+        - {x: 124.5, y: 73.5}
+        - {x: 48.5, y: 73.5}
+        - {x: -45.5, y: 51.5}
+        - {x: -64.5, y: 65.5}
+        - {x: -125.5, y: 49.5}
+        - {x: -127.5, y: 45.5}
+        - {x: -127.5, y: -69.5}
+        - {x: -117.5, y: -73.5}
+        - {x: 116.5, y: -73.5}
+        - {x: 126.5, y: -58.5}
+        - {x: 124.5, y: 29.5}
+        - {x: 127.5, y: 34.5}
+    - name: FinalAtalas_3
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 919
+        width: 241
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30.5, y: 62.5}
+        - {x: -67.5, y: 60.5}
+        - {x: -118.5, y: 41.5}
+        - {x: -120.5, y: 35.5}
+        - {x: -120.5, y: -60.5}
+        - {x: -117.5, y: -62.5}
+        - {x: 107.5, y: -62.5}
+        - {x: 120.5, y: -9.5}
+        - {x: 120.5, y: 62.5}
+    - name: FinalAtalas_4
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 919
+        width: 239
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 56.5, y: 62.5}
+        - {x: -119.5, y: 62.5}
+        - {x: -119.5, y: -44.5}
+        - {x: -117.5, y: -58.5}
+        - {x: -107.5, y: -62.5}
+        - {x: 119.5, y: -62.5}
+        - {x: 119.5, y: 43.5}
+        - {x: 80.5, y: 58.5}
+      - - {x: 93.5, y: 59.5}
+        - {x: 87.5, y: 57.5}
+        - {x: 87.5, y: 46.5}
+        - {x: 89.5, y: 45.5}
+        - {x: 93.5, y: 45.5}
+        - {x: 96.5, y: 48.5}
+        - {x: 96.5, y: 58.5}
+    - name: FinalAtalas_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 662
+        width: 184
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 55, y: 107}
+        - {x: 29, y: 128}
+        - {x: -61, y: 128}
+        - {x: -78, y: 114}
+        - {x: -92, y: 91}
+        - {x: -92, y: 30}
+        - {x: -59, y: -13}
+        - {x: -50, y: -58}
+        - {x: -39, y: -70}
+        - {x: -76, y: -70}
+        - {x: -90, y: -79}
+        - {x: -92, y: -85}
+        - {x: -92, y: -128}
+        - {x: 92, y: -128}
+        - {x: 92, y: 113}
+        - {x: 64, y: 114}
+    - name: FinalAtalas_6
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 662
+        width: 184
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -92, y: -128}
+        - {x: -81, y: -128}
+        - {x: -81, y: -87}
+        - {x: -87, y: -79}
+        - {x: -92, y: -77}
+      - - {x: 92, y: 51}
+        - {x: 92, y: 128}
+        - {x: -32, y: 128}
+        - {x: -32, y: -128}
+        - {x: 92, y: -128}
+        - {x: 92, y: -31}
+        - {x: 83, y: -24}
+      - - {x: -92, y: 113}
+        - {x: -92, y: -75}
+        - {x: -51, y: -75}
+        - {x: -43, y: -62}
+        - {x: -43, y: 43}
+        - {x: -62, y: 113}
+    - name: FinalAtalas_7
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 662
+        width: 184
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32, y: -123}
+        - {x: -1, y: -47}
+        - {x: -80, y: -34}
+        - {x: -92, y: -34}
+        - {x: -92, y: -128}
+        - {x: -72, y: -128}
+        - {x: -71, y: -127}
+        - {x: -68, y: -128}
+        - {x: 32, y: -128}
+      - - {x: 52, y: 114}
+        - {x: 36, y: 109}
+        - {x: 36, y: -123}
+        - {x: 38, y: -128}
+        - {x: 92, y: -128}
+        - {x: 92, y: 114}
+      - - {x: -50, y: 41}
+        - {x: -67, y: 17}
+        - {x: -67, y: 9}
+        - {x: -66, y: 6}
+        - {x: -46, y: -21}
+        - {x: -32, y: -21}
+        - {x: -9, y: 1}
+        - {x: -9, y: 18}
+        - {x: -23, y: 41}
+      - - {x: -64, y: 128}
+        - {x: -92, y: 128}
+        - {x: -92, y: 59}
+        - {x: -90, y: 59}
+        - {x: -80, y: 68}
+        - {x: -71, y: 81}
+        - {x: -64, y: 92}
+    - name: FinalAtalas_8
+      rect:
+        serializedVersion: 2
+        x: 555
+        y: 662
+        width: 256
+        height: 150
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 112, y: -11}
+        - {x: 81, y: 8}
+        - {x: 80, y: 57}
+        - {x: 74, y: 66}
+        - {x: -103, y: 66}
+        - {x: -91, y: 73}
+        - {x: -92, y: 75}
+        - {x: -128, y: 75}
+        - {x: -128, y: -75}
+        - {x: 110, y: -75}
+        - {x: 112, y: -74}
+        - {x: 117, y: -68}
+        - {x: 117, y: -31}
+    - name: FinalAtalas_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 442
+        width: 250
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 70, y: -86.5}
+        - {x: 63, y: -87.5}
+        - {x: 60, y: -88.5}
+        - {x: 39, y: -101.5}
+        - {x: 32, y: -107.5}
+        - {x: 32, y: -109.5}
+        - {x: 99, y: -109.5}
+        - {x: 100, y: -108.5}
+        - {x: 100, y: -95.5}
+        - {x: 90, y: -86.5}
+      - - {x: 120, y: -31.5}
+        - {x: 120, y: -109.5}
+        - {x: 125, y: -109.5}
+        - {x: 125, y: -24.5}
+        - {x: 122, y: -25.5}
+      - - {x: -125, y: 109.5}
+        - {x: -125, y: -75.5}
+        - {x: -118, y: -89.5}
+        - {x: 63, y: -89.5}
+        - {x: 71, y: -84.5}
+        - {x: 71, y: 109.5}
+    - name: FinalAtalas_10
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 442
+        width: 250
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 19, y: 109.5}
+        - {x: 19, y: 19.5}
+        - {x: -81, y: -2.5}
+        - {x: -89, y: -6.5}
+        - {x: -115, y: -16.5}
+        - {x: -123, y: -19.5}
+        - {x: -125, y: -22.5}
+        - {x: -125, y: -109.5}
+        - {x: 120, y: -109.5}
+        - {x: 125, y: -66.5}
+        - {x: 125, y: 108.5}
+        - {x: 122, y: 109.5}
+      - - {x: 122, y: -102.5}
+        - {x: 124, y: -104.5}
+        - {x: 125, y: -104.5}
+        - {x: 125, y: -61.5}
+        - {x: 122, y: -62.5}
+      - - {x: 12, y: 109.5}
+        - {x: -121, y: 109.5}
+        - {x: -121, y: 93.5}
+        - {x: -79, y: 9.5}
+        - {x: -40, y: 9.5}
+        - {x: -27, y: 19.5}
+        - {x: -13, y: 46.5}
+        - {x: 12, y: 107.5}
+    - name: FinalAtalas_11
+      rect:
+        serializedVersion: 2
+        x: 502
+        y: 442
+        width: 250
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 125, y: 49.5}
+        - {x: 125, y: 109.5}
+        - {x: -120, y: 109.5}
+        - {x: -118, y: 104.5}
+        - {x: -108, y: 94.5}
+        - {x: -97, y: 90.5}
+        - {x: -90, y: 88.5}
+        - {x: 58, y: 84.5}
+        - {x: 19, y: 74.5}
+        - {x: -8, y: 86.5}
+        - {x: -38, y: 83.5}
+        - {x: -92, y: 79.5}
+        - {x: -120, y: 61.5}
+        - {x: -125, y: 57.5}
+        - {x: -125, y: -109.5}
+        - {x: 125, y: -109.5}
+        - {x: 125, y: -33.5}
+        - {x: 99, y: -23.5}
+    - name: FinalAtalas_12
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 442
+        width: 252
+        height: 167
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 98, y: 79.5}
+        - {x: 94, y: 83.5}
+        - {x: -126, y: 83.5}
+        - {x: -126, y: -83.5}
+        - {x: -75, y: -83.5}
+        - {x: -68, y: -32.5}
+        - {x: 91, y: -13.5}
+        - {x: 98, y: -3.5}
+    - name: FinalAtalas_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 562
+        height: 439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -53, y: -172.5}
+        - {x: -35, y: -169.5}
+        - {x: -33, y: -205.5}
+        - {x: -25, y: -219.5}
+        - {x: 281, y: -219.5}
+        - {x: 281, y: -82.5}
+        - {x: 257, y: -85.5}
+        - {x: 204, y: -96.5}
+        - {x: 147, y: -92.5}
+        - {x: 132, y: -81.5}
+        - {x: 188, y: -60.5}
+        - {x: 194, y: -45.5}
+        - {x: 203, y: -24.5}
+        - {x: 196, y: 2.5}
+        - {x: 156, y: 0.5}
+        - {x: 122, y: -23.5}
+        - {x: 98, y: -52.5}
+        - {x: 48, y: -85.5}
+        - {x: 33, y: -81.5}
+        - {x: 8, y: -87.5}
+        - {x: -19, y: -95.5}
+        - {x: -27, y: -64.5}
+        - {x: -78, y: -23.5}
+        - {x: -104, y: -11.5}
+        - {x: -114, y: 15.5}
+        - {x: -47, y: 20.5}
+        - {x: -15, y: 26.5}
+        - {x: 182, y: 25.5}
+        - {x: 202, y: 40.5}
+        - {x: 222, y: 25.5}
+        - {x: 281, y: 24.5}
+        - {x: 281, y: 163.5}
+        - {x: 262, y: 166.5}
+        - {x: 211, y: 149.5}
+        - {x: 205, y: 177.5}
+        - {x: 216, y: 209.5}
+        - {x: 215, y: 219.5}
+        - {x: -36, y: 219.5}
+        - {x: -37, y: 209.5}
+        - {x: -33, y: 201.5}
+        - {x: -36, y: 181.5}
+        - {x: -45, y: 148.5}
+        - {x: -108, y: 151.5}
+        - {x: -116, y: 159.5}
+        - {x: -91, y: 174.5}
+        - {x: -62, y: 193.5}
+        - {x: -57, y: 219.5}
+        - {x: -133, y: 219.5}
+        - {x: -143, y: 202.5}
+        - {x: -190, y: 171.5}
+        - {x: -241, y: 159.5}
+        - {x: -272, y: 148.5}
+        - {x: -281, y: 140.5}
+        - {x: -281, y: 37.5}
+        - {x: -274, y: 28.5}
+        - {x: -265, y: 25.5}
+        - {x: -209, y: 20.5}
+        - {x: -263, y: -36.5}
+        - {x: -281, y: -61.5}
+        - {x: -281, y: -97.5}
+        - {x: -273, y: -105.5}
+        - {x: -252, y: -110.5}
+        - {x: -253, y: -165.5}
+        - {x: -251, y: -190.5}
+        - {x: -233, y: -209.5}
+        - {x: -204, y: -219.5}
+        - {x: -114, y: -219.5}
+        - {x: -99, y: -217.5}
+        - {x: -63, y: -191.5}
+        - {x: -68, y: -162.5}
+      - - {x: 218, y: 219.5}
+        - {x: 219, y: 206.5}
+        - {x: 221, y: 193.5}
+        - {x: 281, y: 193.5}
+        - {x: 281, y: 219.5}
+    - name: FinalAtalas_14
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 253
+        width: 252
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 62, y: 63.5}
+        - {x: -2, y: 63.5}
+        - {x: -19, y: 62.5}
+        - {x: -56, y: 46.5}
+        - {x: -126, y: 45.5}
+        - {x: -126, y: -82.5}
+        - {x: 55, y: -82.5}
+        - {x: 63, y: -72.5}
+        - {x: 64, y: -33.5}
+        - {x: 64, y: 55.5}
+      - - {x: 63, y: 45.5}
+        - {x: 61, y: 35.5}
+        - {x: 61, y: -82.5}
+        - {x: 126, y: -82.5}
+        - {x: 126, y: 45.5}
+      - - {x: -126, y: 82.5}
+        - {x: -126, y: 77.5}
+        - {x: 99, y: 77.5}
+        - {x: 99, y: 82.5}
+    - name: FinalAtalas_15
+      rect:
+        serializedVersion: 2
+        x: 820
+        y: 260
+        width: 145
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 1, z: 0, w: 0}
+      outline:
+      - - {x: 51.5, y: 60.5}
+        - {x: -65.5, y: 40.5}
+        - {x: -72.5, y: 43.5}
+        - {x: -72.5, y: -75.5}
+        - {x: 72.5, y: -75.5}
+        - {x: 72.5, y: 60.5}
+    - name: FinalAtalas_16
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 0
+        width: 254
+        height: 250
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 113, y: 115}
+        - {x: 68, y: 88}
+        - {x: 58, y: 52}
+        - {x: 56, y: -2}
+        - {x: 58, y: -2}
+        - {x: 58, y: -14}
+        - {x: 59, y: -18}
+        - {x: 58, y: -14}
+        - {x: 53, y: -3}
+        - {x: 50, y: 85}
+        - {x: 4, y: 107}
+        - {x: -49, y: 63}
+        - {x: -127, y: 9}
+        - {x: -127, y: -125}
+        - {x: 127, y: -125}
+        - {x: 127, y: 115}
+      - - {x: -127, y: 125}
+        - {x: -127, y: 121}
+        - {x: 41, y: 121}
+        - {x: 45, y: 122}
+        - {x: 47, y: 124}
+        - {x: 47, y: 125}
+      - - {x: 72, y: 125}
+        - {x: 73, y: 121}
+        - {x: 127, y: 121}
+        - {x: 127, y: 125}
+    - name: FinalAtalas_17
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 0
+        width: 195
+        height: 254
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 36.5, y: 83}
+        - {x: 21.5, y: 100}
+        - {x: -18.5, y: 117}
+        - {x: -93.5, y: 117}
+        - {x: -97.5, y: 115}
+        - {x: -97.5, y: -112}
+        - {x: -78.5, y: -127}
+        - {x: -37.5, y: -127}
+        - {x: 13.5, y: -101}
+        - {x: 52.5, y: -37}
+        - {x: 52.5, y: 47}
+      - - {x: -97.5, y: 127}
+        - {x: -97.5, y: 119}
+        - {x: 64.5, y: 119}
+        - {x: 68.5, y: 120}
+        - {x: 76.5, y: 125}
+        - {x: 76.5, y: 127}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

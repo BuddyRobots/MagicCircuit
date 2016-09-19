@@ -110,6 +110,36 @@ namespace MagicCircuit
         Battery,
         Switch,
         Bulb,
+		Loudspeaker,
+
+		/// <summary>
+		/// single pole double throw switch  单刀双掷开关
+		/// </summary>
+		DoubleDirSwitch,
+
+		/// <summary>
+		/// voice operated switch  声控开关
+		/// </summary>
+		VoiceOperSwitch,
+
+		/// <summary>
+		/// light activated switch  光敏开关
+		/// </summary>
+		LightActSwitch,	
+
+		/// <summary>
+		/// time-delay switch      声控延时开关
+		/// </summary>
+		VoiceTimedelaySwitch,	
+
+		/// <summary>
+		/// 电磁炉
+		/// </summary>
+		InductionCooker,
+
+		/// <summary>
+		/// line 线
+		/// </summary>
         CircuitLine                             //如果是线的话，则是点的集合
     }
     
@@ -122,9 +152,12 @@ namespace MagicCircuit
 		public double theta{ get; set; }        //图标的朝向（单位：角度）
 		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
 		public bool powered{ get; set; }        //元件是否通电
+		//public int controlSwitchID{ get; set;}  //控制元件的开关的ID
+		//private int appearTimes{get; set;}		//图标出现的次数
 
         public Vector2 connect_left;            //Connect point on card
         public Vector2 connect_right;
+
 
         private double x_shift;                 //Parameters for changing cordinates
         private double y_shift;
@@ -215,6 +248,21 @@ namespace MagicCircuit
         {            
             return new Vector3((float)(x - x_shift), (float)(y_shift - y));
         }
+
+
+
+
+		public List<CircuitItem> switchOnOff(int ID, bool state)
+		{
+			List<CircuitItem> itemlist = null;
+
+
+			return itemlist;
+		}
+
+
+
+
     }
 }
  

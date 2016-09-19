@@ -10,6 +10,9 @@ public class GetImage : MonoBehaviour
 {
 	public static GetImage _instance;
 
+	/// <summary>
+	/// 用作识别界面显示的照片
+	/// </summary>
     [HideInInspector]
     public Texture2D texture;
 
@@ -33,10 +36,22 @@ public class GetImage : MonoBehaviour
 
 	public List<CircuitItem> listItem;
 
+	/// <summary>
+	/// this is a mark to judge if the snapshot is done
+	/// </summary>
 	private bool isShotTook=false;
 	private bool initDone = false;
-	private bool isTakePicture;//用于控制取十张图片
-	private bool isFinishHandlePicture;//用于线程是否处理完10张图片
+	/// <summary>
+	/// this is a mark to judge if 10 photos were save
+	/// </summary>
+	private bool isTakePicture;
+	/// <summary>
+	/// a mark to judge if the thread of 10-photos-handling was over 
+	/// </summary>
+	private bool isFinishHandlePicture;
+
+	private List<Mat> tempImgs = new List<Mat>();
+	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
 
 
 	void Awake()
@@ -47,10 +62,7 @@ public class GetImage : MonoBehaviour
 		
     void Start() 
 	{
-		rotateCamera = new RotateCamera ();
-
-        
-        //StartCoroutine(init());
+		rotateCamera = new RotateCamera ();  
 		// Intialize RecogniazeAlgo
 		recognizeAlgo = new RecognizeAlgo(light_tex,
 			battery_tex,
@@ -83,22 +95,13 @@ public class GetImage : MonoBehaviour
             frameImg.Dispose();
         }
 		WebCamDevice[] devices = WebCamTexture.devices;
+
 		#if UNITY_EDITOR  
 		webCamDevice = WebCamTexture.devices [0];
 		#elif UNITY_IPHONE 
 		webCamDevice = WebCamTexture.devices [1];
 		#endif 
 
-//		if(devices.Length <=1 && devices.Length >0 )
-//		{
-//
-//			webCamDevice = WebCamTexture.devices [0];
-//		}
-//		else if (devices.Length > 1) 
-//		{
-//			webCamDevice = WebCamTexture.devices [1];
-//
-//		}
 		webCamTexture = new WebCamTexture (webCamDevice.name, cam_width, cam_height);
 		webCamTexture.Play ();
 
@@ -125,7 +128,7 @@ public class GetImage : MonoBehaviour
 
 	void Update()
 	{
-		TakePhoto ();
+		TakePhoto();
 		if (!isFinishHandlePicture && tempImgs.Count >= 10) 
 		{
 			TakePicture_Start ();
@@ -175,8 +178,8 @@ public class GetImage : MonoBehaviour
 //		}
 //	}
 
-	private List<Mat> tempImgs = new List<Mat>();
-	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
+
+
 	/// <summary>
 	/// Take photos 
 	/// </summary>
@@ -195,22 +198,10 @@ public class GetImage : MonoBehaviour
 			if (isTakePicture && tempImgs.Count < 10) {
 				tempImgs.Add (tmpImg);
 			}
-
-
+				
 			texture.Resize(tmpImg.cols(), tmpImg.rows());
 			Utils.matToTexture2D(tmpImg, texture);
-
-
-//            Utils.webCamTextureToMat(webCamTexture, frameImg);
-//			Mat tmpImg = frameImg.clone ();
-//			rotateCamera.rotate (ref tmpImg);
-//			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
-
-
-
-
-//			texture.Resize(resultImg.cols(), resultImg.rows());
-//			Utils.matToTexture2D(resultImg, texture);
+			        
 			if (!isShotTook) 
 			{
 				TakeSnapShot ();
@@ -224,7 +215,7 @@ public class GetImage : MonoBehaviour
 		Thread takePicture = new Thread (ThreadTakePicture);
 		takePicture.IsBackground = true;
 		takePicture.Start ();
-		Debug.Log ("itemList.count : " + itemLists.Count);
+		//Debug.Log ("itemList.count : " + itemLists.Count);
 	}
 
 	Mat img=new Mat();
@@ -234,9 +225,10 @@ public class GetImage : MonoBehaviour
 	{
 		itemLists.Clear ();                                                                                                                                                                                                                                                                                                                         
 
-		for (int i = 0; i < tempImgs.Count; i++) {
+		for (int i = 0; i < tempImgs.Count; i++) 
+		{
 			
-			List<CircuitItem> temp = new List<CircuitItem>();
+			List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
 
 			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
 			img = resultImg;
@@ -245,7 +237,7 @@ public class GetImage : MonoBehaviour
 			//texture.Resize(resultImg.cols(), resultImg.rows());
 			//Utils.matToTexture2D(resultImg, texture);
 		}
-		Debug.Log ("itemList.count : " + itemLists[4].Count);
+		//Debug.Log ("itemList.count : " + itemLists[4].Count);
 	}
 		
 	public void SavePic()
@@ -254,7 +246,7 @@ public class GetImage : MonoBehaviour
 		Utils.matToTexture2D (img, tex2D);
 		tex2D.Apply ();
 		#if UNITY_EDITOR  
-		string path = Application.dataPath +"/Pic/" +Time.time+ ".jpg";
+		string path = Application.dataPath +"/Pic/" + "pic.jpg";
 		#elif UNITY_IPHONE 
 		string path =Application.persistentDataPath+"/b.jpg";
 		#endif 
