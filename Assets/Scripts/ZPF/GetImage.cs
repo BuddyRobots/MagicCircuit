@@ -20,7 +20,7 @@ public class GetImage : MonoBehaviour
     private WebCamDevice webCamDevice;
     private Mat frameImg;
 
-	private const int cam_width = 640;
+	private const int cam_width  = 640;
 	private const int cam_height = 480;
 	private const int tex_width  = 640;//1120;//640;
 	private const int tex_height = 480;

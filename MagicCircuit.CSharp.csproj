@@ -67,9 +67,6 @@
     <Reference Include="UnityEditor.iOS.Extensions.Common">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
-    <Reference Include="DOTween">
-      <HintPath>Assets\DOTween\DOTween.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>Assets\Plugins\LitJson.dll</HintPath>
     </Reference>
@@ -384,36 +381,61 @@
     <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\SuperpixelSLIC.cs" />
     <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\Ximgproc.cs" />
     <Compile Include="Assets\OpenCVForUnity\org\opencv\xphoto\Xphoto.cs" />
-    <Compile Include="Assets\Scripts\WQ\ArrowCtrl.cs" />
-    <Compile Include="Assets\Scripts\WQ\CircuitItemManager.cs" />
-    <Compile Include="Assets\Scripts\WQ\CommonPanel02.cs" />
-    <Compile Include="Assets\Scripts\WQ\DescriptionPanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\FailurePanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\HomeBtn.cs" />
-    <Compile Include="Assets\Scripts\WQ\HomeBtnInRecognizePanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\LevelItemData.cs" />
-    <Compile Include="Assets\Scripts\WQ\LevelItemUI.cs" />
-    <Compile Include="Assets\Scripts\WQ\LevelManager.cs" />
-    <Compile Include="Assets\Scripts\WQ\LevelSelectPanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\MoveCtrl.cs" />
-    <Compile Include="Assets\Scripts\WQ\MusicCtrl.cs" />
-    <Compile Include="Assets\Scripts\WQ\PhotoRecognizingPanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\PhotoTakingPanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\PlayerData.cs" />
-    <Compile Include="Assets\Scripts\WQ\StartPanel.cs" />
-    <Compile Include="Assets\Scripts\WQ\SwitchCtrl.cs" />
-    <Compile Include="Assets\Scripts\WQ\TimerItem.cs" />
-    <Compile Include="Assets\Scripts\WQ\TimerManager.cs" />
-    <Compile Include="Assets\Scripts\WQ\WebCam.cs" />
-    <Compile Include="Assets\Scripts\WQ\WelldonePanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\BatteryCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\BulbCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\HomeBtn.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInPhotoTakingPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\HomeBtnInRecognizePanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\MicroPhoneBtnCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\MoonAndSunCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\MusicCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\SPDTswitchCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Btn\SwitchCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Items\ArrowCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Items\FingerCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Items\LabelCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Items\MoveCtrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Items\Sliderctrl.cs" />
+    <Compile Include="Assets\Scripts\WQ\Level\LevelHandle.cs" />
+    <Compile Include="Assets\Scripts\WQ\Level\LevelItemData.cs" />
+    <Compile Include="Assets\Scripts\WQ\Level\LevelItemUI.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelEight.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFourteen.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTen.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\LightActiveSwitchOccur.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\LoudSpeakerInLevelFour.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\NormalSwitchOccur.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBattery.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBulb.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitsWithTwoSwitch.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\PlayCircuitAnimation.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\RemoveLine.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\SPDTswitchOccur.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\TwoSwitchInSeriesCircuit.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchAndLAswitchTogether.cs" />
+    <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchOccur.cs" />
+    <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
+    <Compile Include="Assets\Scripts\WQ\Manager\CommonFuncManager.cs" />
+    <Compile Include="Assets\Scripts\WQ\Manager\LevelManager.cs" />
+    <Compile Include="Assets\Scripts\WQ\Manager\MicrophoneInput.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\CommonPanel02.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\DescriptionPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\FailurePanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\LevelSelectPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\PhotoRecognizingPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
+    <Compile Include="Assets\Scripts\WQ\Panel\WebCam.cs" />
     <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
     <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
+    <Compile Include="Assets\Scripts\ZPF\CurrentFlow.cs" />
     <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
     <Compile Include="Assets\Scripts\ZPF\GetImage.cs" />
     <Compile Include="Assets\Scripts\ZPF\LineDetector.cs" />
     <Compile Include="Assets\Scripts\ZPF\RecognizeAlgo.cs" />
     <Compile Include="Assets\Scripts\ZPF\RotateCamera.cs" />
     <Compile Include="Assets\Scripts\ZPF\Utils.cs" />
+    <Compile Include="Assets\Scripts\ZPF\Xml.cs" />
     <Compile Include="Assets\Scripts\ZPF\tuneThres.cs" />
     <Compile Include="Assets\ScriptsCV\CvUtil\Card.cs" />
     <Compile Include="Assets\ScriptsCV\CvUtil\Segmentation.cs" />
@@ -428,24 +450,8 @@
     <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
     <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
     <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
-    <Compile Include="Assets\sliderctrl.cs" />
-    <Compile Include="Assets\testScripts\DrawLineTest.cs" />
-    <Compile Include="Assets\testScripts\EventTriggerListener.cs" />
-    <Compile Include="Assets\testScripts\FingerSpriteMove.cs" />
-    <Compile Include="Assets\testScripts\LineManager.cs" />
-    <Compile Include="Assets\testScripts\Move.cs" />
-    <Compile Include="Assets\testScripts\UIMain.cs" />
-    <Compile Include="Assets\testScripts\UIManager.cs" />
-    <Compile Include="Assets\testScripts\UIResourceDefine.cs" />
-    <Compile Include="Assets\testScripts\drawTrianglr.cs" />
-    <Compile Include="Assets\testScripts\moveTest.cs" />
-    <Compile Include="Assets\testScripts\panelTest.cs" />
-    <Compile Include="Assets\testScripts\test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\DOTween\DOTween.XML" />
-    <None Include="Assets\DOTween\Editor\DOTweenEditor.XML" />
-    <None Include="Assets\DOTween\readme.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
     <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
@@ -490,6 +496,13 @@
     <None Include="Assets\OpenCVForUnity\StreamingAssets\haarcascade_frontalface_alt.xml" />
     <None Include="Assets\OpenCVForUnity\StreamingAssets\lbpcascade_frontalface.xml" />
     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
+    <None Include="Assets\Xmls\CircuitItems.xml" />
+    <None Include="Assets\Xmls\CircuitItems_1.xml" />
+    <None Include="Assets\Xmls\CircuitItems_6.xml" />
+    <None Include="Assets\Xmls\CircuitItems_6_wrong.xml" />
+    <None Include="Assets\Xmls\CircuitItems_7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_old.xml" />
+    <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

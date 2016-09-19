@@ -91,9 +91,7 @@ namespace MagicCircuit
 
             for (var i = 0; i < 3; i++)
                 for (var j = 0; j < 3; j++)
-                {
                     H[i, j] = h.get(i, j)[0];
-                }
 
             for (var i = 0; i < src.Count; i++)
             {
@@ -109,7 +107,7 @@ namespace MagicCircuit
     {
         Battery,
         Switch,
-        Bulb,
+        Bulb,		
 		Loudspeaker,
 
 		/// <summary>
@@ -156,15 +154,16 @@ namespace MagicCircuit
 		//private int appearTimes{get; set;}		//图标出现的次数
 
         public Vector2 connect_left;            //Connect point on card
-        public Vector2 connect_right;
+        public Vector2 connect_right;			//For lines : connect_left == start, connect_right == end
 
 
-        private double x_shift;                 //Parameters for changing cordinates
+        private double x_shift;                 //Private Parameters for changing cordinates
         private double y_shift;
 
-		public CircuitItem(){
-		}
+		public CircuitItem()
+        {}
 
+        // @Override
         public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, Size _frameSize, bool _p = false)
         {
             ID = _id;
@@ -200,16 +199,24 @@ namespace MagicCircuit
             y_shift = _frameSize.height / 2;
         }
 
-        private List<Vector3> points2vector3(List<Point> src)
+        // @Override  
+        // Constructor for reading in Xml		
+        public CircuitItem(XmlCircuitItem src)
         {
-            List<Vector3> res = new List<Vector3>();
-            for (var i = 0; i < src.Count; i++)
-            {
-                res.Add(cordinateMat2Tex(src[i].x, src[i].y));
-            }
-            return res;
-        }
+            ID = src.ID;
 
+            name = src.name;
+            type = src.type;
+            list = src.list;
+
+            theta = src.theta;
+            showOrder = src.showOrder;
+            powered = src.powered;
+            connect_left = src.connect_left;
+            connect_right = src.connect_right;
+        }		
+
+        // Previous version for back up. Use the Override function!
         public void extractCard(List<Point> bb, OpenCVForUnity.Rect rect)
         {
             Point center = new Point((rect.tl().x + rect.br().x) / 2, (rect.tl().y + rect.br().y) / 2);
@@ -219,19 +226,34 @@ namespace MagicCircuit
 
             Point right = new Point((center.x + _x), (center.y + _y));
 
-            theta = Mathf.Atan2((float)(right.y - center.y), (float)(right.x - center.x)); // thera in radians
-            
+            theta = Mathf.Atan2((float)(right.y - center.y), (float)(right.x - center.x));
+            theta = theta * 180.0 / Mathf.PI; // -180 < theta < 180
+
+            list.Add(cordinateMat2Tex(center.x, center.y));
+        }
+
+        // @Override
+        public void extractCard(int direction, List<Point> square)
+        {
+            Point center = new Point((square[0].x + square[2].x) / 2, (square[0].y + square[2].y) / 2);
+
+
             list.Add(cordinateMat2Tex(center.x, center.y));
 
-            // Compute the cordinate of connect points
-            // Make sure rect is a square in detect part to make this work right.
-            _x = rect.width / (1 + Mathf.Tan((float)theta)) / 2;
-            _y = _x * Mathf.Tan((float)theta);
+            double angle = Mathf.Atan2((float)(square[0].y - square[1].y), (float)(square[0].x - square[1].x));
+            theta = Mathf.PI / 2 * direction + angle; // 0 < theta < PI
 
-            connect_left = new Vector2((float)(center.x - _x), (float)(center.y - _y));
-            connect_right = new Vector2((float)(center.x + _x), (float)(center.y + _y));
+            // Calculate connect_left & connect_right
+            double width = Mathf.Sqrt(Mathf.Pow((float)(square[0].x - square[1].x), 2) + Mathf.Pow((float)(square[0].y - square[1].y), 2));
 
-            theta = theta * 180.0 / Mathf.PI; // theta in degrees
+
+            double x = width / 2 / (1 + Mathf.Tan((float)theta));
+            double y = x * Mathf.Tan((float)theta);
+
+            connect_left = new Vector2((float)(center.x - x), (float)(center.y - y));
+            connect_right = new Vector2((float)(center.x + x), (float)(center.y + y));
+
+            theta = theta * Mathf.Rad2Deg; // 0 < theta < 360
         }
 
         public void extractLine(List<Point> line, OpenCVForUnity.Rect rect)
@@ -242,27 +264,24 @@ namespace MagicCircuit
             {
                 list.Add(cordinateMat2Tex((line[i].x + center.x), (line[i].y + center.y)));
             }
-        }        
+			connect_left = new Vector2(list[0].x, list[0].y);
+            connect_right = new Vector2(list[list.Count - 1].x, list[list.Count - 1].y);
+        } 
+
+		private List<Vector3> points2vector3(List<Point> src)
+        {
+            List<Vector3> res = new List<Vector3>();
+            for (var i = 0; i < src.Count; i++)
+            {
+                res.Add(cordinateMat2Tex(src[i].x, src[i].y));
+            }
+            return res;
+        }		
 
         private Vector3 cordinateMat2Tex(double x, double y)
         {            
             return new Vector3((float)(x - x_shift), (float)(y_shift - y));
         }
-
-
-
-
-		public List<CircuitItem> switchOnOff(int ID, bool state)
-		{
-			List<CircuitItem> itemlist = null;
-
-
-			return itemlist;
-		}
-
-
-
-
     }
 }
  
