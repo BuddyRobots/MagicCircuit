@@ -28,7 +28,7 @@
       <type>Battery</type>
       <list>
         <Vector3>
-          <x>-100</x>
+          <x>-150</x>
           <y>-100</y>
           <z>0</z>
         </Vector3>
@@ -37,11 +37,11 @@
       <showOrder>0</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-150</x>
+		<x>-200</x>
 		<y>-100</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-50</x>
+		<x>-100</x>
 		<y>-100</y>
 	  </connect_right>	  
     </XmlCircuitItem>
@@ -207,12 +207,12 @@
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-80</x>
+          <x>-100</x>
           <y>0</y>
           <z>0</z>
         </Vector3>
         <Vector3>
-          <x>-150</x>
+          <x>-200</x>
           <y>-100</y>
           <z>0</z>
         </Vector3>
@@ -225,7 +225,7 @@
 		<y>50</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-150</x>
+		<x>-200</x>
 		<y>-100</y>
 	  </connect_right>
     </XmlCircuitItem>
@@ -239,8 +239,8 @@
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-80</x>
-          <y>0</y>
+          <x>0</x>
+          <y>200</y>
           <z>0</z>
         </Vector3>
         <Vector3>
@@ -271,8 +271,8 @@
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-80</x>
-          <y>0</y>
+          <x>0</x>
+          <y>100</y>
           <z>0</z>
         </Vector3>
         <Vector3>
@@ -303,8 +303,8 @@
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-80</x>
-          <y>0</y>
+          <x>290</x>
+          <y>100</y>
           <z>0</z>
         </Vector3>
         <Vector3>
@@ -335,8 +335,8 @@
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-80</x>
-          <y>0</y>
+          <x>240</x>
+          <y>80</y>
           <z>0</z>
         </Vector3>
         <Vector3>
@@ -362,13 +362,13 @@
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>-50</x>
-          <y>-100</y>
+          <x>-100</x>
+          <y>-80</y>
           <z>0</z>
         </Vector3>        
         <Vector3>
           <x>-80</x>
-          <y>0</y>
+          <y>-70</y>
           <z>0</z>
         </Vector3>
         <Vector3>
@@ -381,8 +381,8 @@
       <showOrder>5</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-50</x>
-		<y>-100</y>
+		<x>-100</x>
+		<y>-80</y>
 	  </connect_left>
 	  <connect_right>
 		<x>-50</x>
