@@ -9,7 +9,6 @@ public class LevelHandle : MonoBehaviour
 	void Awake()
 	{
 		_instance = this;
-
 	}
 
 
@@ -34,12 +33,13 @@ public class LevelHandle : MonoBehaviour
 			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
 			break;
 		case 6:
-			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();//for test        
-			//transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//real code
+			//transform.gameObject.AddComponent<LightActiveSwitchOccur> ();//for test        
+			transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//real code
 			break;
 		case  7:
-			transform.gameObject.AddComponent<VOswitchOccur> ();//for test        
-			//transform.gameObject.AddComponent<ParallelCircuitWithTwoBattery> ();//real code
+			//transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//for test     
+			//transform.gameObject.AddComponent<VOswitchOccur> ();//for test        
+			transform.gameObject.AddComponent<ParallelCircuitWithTwoBattery> ();//real code
 			break;
 		case 8:
 			transform.gameObject.AddComponent<SPDTswitchOccur> ();//for test
@@ -98,13 +98,13 @@ public class LevelHandle : MonoBehaviour
 			break;
 		case 6:
 			
-			GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;//for test  
-			//GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//real code
+			//GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;//for test  
+			GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//real code
 			break;
 		case 7:
-			
-			GetComponent<VOswitchOccur> ().isVOswitchOccur = true;//for test  
-			//GetComponent<ParallelCircuitWithTwoBattery>().isParallelCircuitWithTwoBattery=true;//real code
+			//GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//for test 
+			//GetComponent<VOswitchOccur> ().isVOswitchOccur = true;//for test  
+			GetComponent<ParallelCircuitWithTwoBattery>().isParallelCircuitWithTwoBattery=true;//real code
 
 			break;
 		case 8:
@@ -163,13 +163,15 @@ public class LevelHandle : MonoBehaviour
 			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
 			break;
 		case 6:
-			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());// for test...
-			//Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());//real code 
+			//Destroy(transform.GetComponent<LightActiveSwitchOccur> ());// for test...
+			Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());//real code 
 			break;
 
 		case 7:
-			Destroy(transform.GetComponent<VOswitchOccur> ());// for test...
-			//Destroy(transform.GetComponent<ParallelCircuitWithTwoBattery> ());
+			//Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());// for test...
+
+			//Destroy(transform.GetComponent<VOswitchOccur> ());// for test...
+			Destroy(transform.GetComponent<ParallelCircuitWithTwoBattery> ());
 
 			break;
 		case 8:

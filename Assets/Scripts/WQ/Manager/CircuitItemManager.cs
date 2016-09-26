@@ -108,30 +108,30 @@ public class CircuitItemManager :MonoBehaviour
 		#endregion
 
 		#region 小喇叭测试
-//		CircuitItem item3 = new CircuitItem();
-//		item3.ID = 3;
-//		item3.name = "loudSpeaker";
-//		item3.type = ItemType.Loudspeaker;//ItemType.Switch;
-//		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
-//		Vector3 vec3 = new Vector3 (3,140,0);
-//		List<Vector3> vecs3 = new List<Vector3> ();
-//		vecs3.Add (vec3);
-//		item3.list=vecs3;
-//		item3.showOrder = 3;
-		#endregion
-
-
-		#region 光敏开关测试
 		CircuitItem item3 = new CircuitItem();
 		item3.ID = 3;
-		item3.name = "lightActSwitch";
-		item3.type = ItemType.LightActSwitch;
+		item3.name = "loudSpeaker";
+		item3.type = ItemType.Loudspeaker;//ItemType.Switch;
 		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
 		Vector3 vec3 = new Vector3 (3,140,0);
 		List<Vector3> vecs3 = new List<Vector3> ();
 		vecs3.Add (vec3);
 		item3.list=vecs3;
 		item3.showOrder = 3;
+		#endregion
+
+
+		#region 光敏开关测试
+//		CircuitItem item3 = new CircuitItem();
+//		item3.ID = 3;
+//		item3.name = "lightActSwitch";
+//		item3.type = ItemType.LightActSwitch;
+//		//Vector3 vec3 = new Vector3 (0.1f,0.4f,0);
+//		Vector3 vec3 = new Vector3 (3,140,0);
+//		List<Vector3> vecs3 = new List<Vector3> ();
+//		vecs3.Add (vec3);
+//		item3.list=vecs3;
+//		item3.showOrder = 3;
 		#endregion
 
 		#region 声控开关测试

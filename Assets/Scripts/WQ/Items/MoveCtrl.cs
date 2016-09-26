@@ -2,9 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MoveCtrl : MonoBehaviour {
-
-
+public class MoveCtrl : MonoBehaviour 
+{
 
 	private bool isAtDest=false;
 	private int index;
@@ -15,13 +14,8 @@ public class MoveCtrl : MonoBehaviour {
 
 	private ArrowCtrl arrowCtrl;
 
-	public bool isArrowDestroy;
+	//public bool isArrowDestroy;
 
-	void Start ()
-	{
-		
-
-	}
 
 	void OnEnable()
 	{
@@ -29,7 +23,7 @@ public class MoveCtrl : MonoBehaviour {
 		arrowCtrl = transform.GetComponent<ArrowCtrl> ();
 
 		index = 0;
-		isArrowDestroy=false;
+		//isArrowDestroy=false;
 	}
 	
 
@@ -47,15 +41,25 @@ public class MoveCtrl : MonoBehaviour {
 
 			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) 
 			{// 如果箭头移动到了线路的终点，就销毁这个箭头
-
+				
 				Destroy (gameObject);
 				//箭头销毁，线上的bool值改变
-				isArrowDestroy=true;
+				//isArrowDestroy=true;
 
 			}
 
 		}
 	}
+
+	//private bool isTimeToDestroyArrow=false;
+
+
+//	IEnumerator StopForAwhile()
+//	{
+//
+//		yield return new WaitForSeconds (0.4f);
+//		isTimeToDestroyArrow = true;
+//	}
 
 	/// <summary>
 	/// 沿着线移动

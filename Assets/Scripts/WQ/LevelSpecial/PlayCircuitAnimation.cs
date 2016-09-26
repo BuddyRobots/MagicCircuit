@@ -10,27 +10,17 @@ public class PlayCircuitAnimation : MonoBehaviour
 	[HideInInspector]
 	public bool isPlayCircuitAnimation=false;
 
-
 	void Update () 
 	{
 		
 		if (isPlayCircuitAnimation)
 		{
-			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone)//如果没有播放过电流
+			//if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone)//如果没有播放过电流
 			{
 				CommonFuncManager._instance.OpenCircuit ();
-				//OpenCircuit ();
+
 			}
 		}
 	}
 
-	/// <summary>
-	/// 接通电路
-	/// </summary>
-//	public void OpenCircuit()
-//	{
-//		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";//灯亮 
-//		GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);//走电流
-//		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
-//	}
 }

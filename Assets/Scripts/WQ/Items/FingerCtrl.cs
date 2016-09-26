@@ -13,8 +13,8 @@ public class FingerCtrl : MonoBehaviour
 	//手指需要移动的距离--------posFrom-posTo  = (67,-68,0)
 
 	Vector3 itemPos=new Vector3(17, 211, 0);
-	Vector3 posTo = new Vector3 (64, 179, 0);
-	Vector3 posFrom = new Vector3 (108,130,0);
+	Vector3 posTo = new Vector3 (64, 171, 0);
+	Vector3 posFrom = new Vector3 (130,103,0);
 
 
 	//private Vector3 offSet = new Vector3 (113, -108, 0);//手指出现的位置到开关的偏移距离

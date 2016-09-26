@@ -10,8 +10,10 @@ public class RemoveLine : MonoBehaviour
 	/// <summary>
 	/// 有没有线段被擦除的标志
 	/// </summary>
-	private bool isLineRemove = false;
+	//private bool isLineRemove = false;
 
+
+	private bool isFingerShow = false;
 	void OnEnable()
 	{
 		isRemoveLine=false;
@@ -29,21 +31,32 @@ public class RemoveLine : MonoBehaviour
 
 			}
 			Vector3	randomPos = GetComponent<PhotoRecognizingPanel> ().ChooseRandomPoint ();
-			TouchToDestroyLine ();
-			if (!isLineRemove) 
-			{
-				Debug.Log ("fingershow  before  isLineRemove value===" + isLineRemove);
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
-			}
+
 			//TouchToDestroyLine ();
+			//if (!isLineRemove) 
+			//{
+				//Debug.Log ("fingershow  before  isLineRemove value===" + isLineRemove);
+//			if (!isFingerShow) 
+//			{
+				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
+//				isFingerShow=true;
+//			}	
+			//GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
+			//}
+			//TouchToDestroyLine ();
+//			if (isFingerShow) {
+//				TouchToDestroyLine ();
+//			}
+			StartCoroutine (TouchLineAfterAwhile ());
 
 		}
 	}
-
-
-
-
-	//private bool isLineRemove = false;
+		
+	IEnumerator TouchLineAfterAwhile()
+	{
+		yield return new WaitForSeconds (3f);
+		TouchToDestroyLine ();
+	}
 
 
 	/// <summary>
@@ -51,6 +64,7 @@ public class RemoveLine : MonoBehaviour
 	/// </summary>
 	void TouchToDestroyLine()
 	{
+		PhotoRecognizingPanel temp = GetComponent<PhotoRecognizingPanel> ();
 		#if UNITY_EDITOR 
 		if (Input.GetMouseButtonDown(0)) 
 		{
@@ -59,17 +73,18 @@ public class RemoveLine : MonoBehaviour
 			if (Physics.Raycast (ray, out hit)) 
 			{
 				GameObject go = hit.collider.gameObject;
-				if (go.name.Contains ("line")) 
-				{ //如果碰到的是线，线就消失，电流消失
+				if (go.name.Contains ("line")) //如果碰到的是线，线就消失，电流消失
+				{ 
 					Destroy (go);
-					isLineRemove=true;
-					Debug.Log("islineRemove value==="+isLineRemove);
-					Destroy (GetComponent<PhotoRecognizingPanel> ().finger);
-					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-					GetComponent<PhotoRecognizingPanel> ().StopCreateArrows();
-					foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList)
+					if (temp.finger)
 					{
-						Destroy (item);
+						Destroy (temp.finger);
+					}
+					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+					temp.StopCreateArrows();
+					for (int i = 0; i < temp.arrowList.Count; i++) 
+					{
+						Destroy (temp.arrowList[i]);
 					}
 				}
 			}
@@ -85,12 +100,12 @@ public class RemoveLine : MonoBehaviour
 		if (go.name.Contains ("line")) 
 		{ 
 		Destroy (go);
-		Destroy (GetComponent<PhotoRecognizingPanel> ().finger);
+		Destroy (temp.finger);
 		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-		GetComponent<PhotoRecognizingPanel> ().StopCreateArrows();
-		foreach (GameObject item in GetComponent<PhotoRecognizingPanel> ().arrowList)
+		temp.StopCreateArrows();
+		for (int i = 0; i < temp.arrowList.Count; i++) 
 		{
-		Destroy (item);
+		Destroy (temp.arrowList[i]);
 		}
 		}
 		}

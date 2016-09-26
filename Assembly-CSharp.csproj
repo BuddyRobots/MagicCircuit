@@ -381,6 +381,7 @@
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\TwoSwitchInSeriesCircuit.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchAndLAswitchTogether.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchOccur.cs" />
+     <Compile Include="Assets\Scripts\WQ\Manager\BussinessLogic.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CommonFuncManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\LevelManager.cs" />
@@ -394,33 +395,24 @@
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
+     <Compile Include="Assets\Scripts\ZPF\CurrentFlow.cs" />
      <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
      <Compile Include="Assets\Scripts\ZPF\GetImage.cs" />
      <Compile Include="Assets\Scripts\ZPF\LineDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\RecognizeAlgo.cs" />
      <Compile Include="Assets\Scripts\ZPF\RotateCamera.cs" />
      <Compile Include="Assets\Scripts\ZPF\Utils.cs" />
+     <Compile Include="Assets\Scripts\ZPF\Xml.cs" />
      <Compile Include="Assets\Scripts\ZPF\tuneThres.cs" />
-     <Compile Include="Assets\ScriptsCV\CvUtil\Card.cs" />
-     <Compile Include="Assets\ScriptsCV\CvUtil\Segmentation.cs" />
-     <Compile Include="Assets\ScriptsCV\CvUtil\Track.cs" />
-     <Compile Include="Assets\ScriptsCV\Features\Axis.cs" />
-     <Compile Include="Assets\ScriptsCV\Features\CircularDist.cs" />
-     <Compile Include="Assets\ScriptsCV\Features\Feature.cs" />
-     <Compile Include="Assets\ScriptsCV\Features\HorizonLine.cs" />
-     <Compile Include="Assets\ScriptsCV\Objects\Apple.cs" />
-     <Compile Include="Assets\ScriptsCV\Objects\House.cs" />
-     <Compile Include="Assets\ScriptsCV\Objects\MyObject.cs" />
-     <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
-     <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
-     <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
+     <None Include="Assets\Xmls\CircuitItems_lv6.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />
      <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo20.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
+     <None Include="Assets\Xmls\CircuitItems_lv8.xml" />
      <None Include="Assets\OpenCVForUnity\StreamingAssets\haarcascade_frontalface_alt.xml" />
      <None Include="Assets\OpenCVForUnity\StreamingAssets\lbpcascade_frontalface.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
@@ -430,8 +422,10 @@
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
+     <None Include="Assets\Xmls\CircuitItems_lv3.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 3.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
@@ -439,15 +433,22 @@
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
+     <None Include="Assets\Xmls\CircuitItems_1.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
+     <None Include="Assets\Xmls\CircuitItems_6_wrong.xml" />
+     <None Include="Assets\Xmls\CircuitItems_lv5.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
-     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
+     <None Include="Assets\Xmls\CircuitItems_7.xml" />
+     <None Include="Assets\Xmls\CircuitItems_6.xml" />
+     <None Include="Assets\Xmls\CircuitItems.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
+     <None Include="Assets\Xmls\CircuitItems_lv7.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
+     <None Include="Assets\Xmls\CircuitItems_lv8second.xml" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
@@ -455,8 +456,10 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text (TextureClip).shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+     <None Include="Assets\Xmls\CircuitItems_lv2.xml" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
+     <None Include="Assets\Xmls\CircuitItems_old.xml" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
@@ -466,10 +469,6 @@
  <Reference Include="LitJson">
  <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{D83EF54E-5E83-E09C-8DD3-50F2503F2AAC}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="gb2312"?>
 <XmlCircuitItemCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <XmlCircuitItems>
+  <!--
+  <XmlCircuitItem ID="0">
+      <name>Battery</name>
+      <type>Battery</type>
+      <list>
+        <Vector3>
+          <x>-150</x>
+          <y>-100</y>
+          <z>0</z>
+        </Vector3>
+      </list>
+      <theta>0</theta>
+      <showOrder>0</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-200</x>
+		<y>-100</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-100</x>
+		<y>-100</y>
+	  </connect_right>	  
+    </XmlCircuitItem>
+  -->
     <XmlCircuitItem ID="0">
       <name>Battery</name>
       <type>Battery</type>
@@ -23,29 +47,7 @@
 		<y>-100</y>
 	  </connect_right>	  
     </XmlCircuitItem>
-	<XmlCircuitItem ID="1">
-      <name>Battery</name>
-      <type>Battery</type>
-      <list>
-        <Vector3>
-          <x>-150</x>
-          <y>-100</y>
-          <z>0</z>
-        </Vector3>
-      </list>
-      <theta>0</theta>
-      <showOrder>0</showOrder>
-      <powered>false</powered>
-	  <connect_left>
-		<x>-200</x>
-		<y>-100</y>
-	  </connect_left>
-	  <connect_right>
-		<x>-100</x>
-		<y>-100</y>
-	  </connect_right>	  
-    </XmlCircuitItem>
-    <XmlCircuitItem ID="2">
+    <XmlCircuitItem ID="1">
       <name>Bulb</name>
       <type>Bulb</type>
       <list>
@@ -67,7 +69,7 @@
 		<y>230</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="3">
+	<XmlCircuitItem ID="2">
       <name>Loudspeaker</name>
       <type>Loudspeaker</type>
       <list>
@@ -89,7 +91,7 @@
 		<y>70</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="4">
+    <XmlCircuitItem ID="3">
       <name>Switch</name>
       <type>Switch</type>
       <list>
@@ -111,7 +113,7 @@
 		<y>90</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="5">
+	<XmlCircuitItem ID="4">
       <name>Switch</name>
       <type>Switch</type>
       <list>
@@ -133,7 +135,7 @@
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="6">
+    <XmlCircuitItem ID="5">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -180,7 +182,7 @@
 		<y>58</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="7">
+    <XmlCircuitItem ID="6">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -212,7 +214,7 @@
 		<y>70</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="8">
+    <XmlCircuitItem ID="7">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -244,7 +246,7 @@
 		<y>90</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="9">
+	<XmlCircuitItem ID="8">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -269,7 +271,7 @@
           <z>0</z>
         </Vector3>
         <Vector3>
-          <x>-200</x>
+          <x>-50</x>
           <y>-100</y>
           <z>0</z>
         </Vector3>
@@ -282,10 +284,11 @@
 		<y>90</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-200</x>
+		<x>-50</x>
 		<y>-100</y>
 	  </connect_right>
     </XmlCircuitItem>
+    <!--
 	<XmlCircuitItem ID="10">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -313,7 +316,8 @@
 		<y>-100</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="11">
+    -->
+	<XmlCircuitItem ID="9">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -355,7 +359,7 @@
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="12">
+	<XmlCircuitItem ID="10">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -392,7 +396,7 @@
 		<y>230</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="13">
+	<XmlCircuitItem ID="11">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -427,7 +431,7 @@
           <z>0</z>
         </Vector3>
         <Vector3>
-          <x>-200</x>
+          <x>-50</x>
           <y>-100</y>
           <z>0</z>
         </Vector3>
@@ -440,7 +444,7 @@
 		<y>230</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-200</x>
+		<x>-50</x>
 		<y>-100</y>
 	  </connect_right>
     </XmlCircuitItem>

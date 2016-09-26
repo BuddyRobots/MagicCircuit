@@ -15,6 +15,8 @@ namespace MagicCircuit
 
     public class CurrentFlow : MonoBehaviour
     {
+		public static CurrentFlow _instance;
+
         public List<CircuitItem> circuitItems;
         public List<List<int>> circuitBranch;   // Store the branches of the whole circuit for CircuitCompare
 
@@ -30,11 +32,14 @@ namespace MagicCircuit
 
         private const int region = 30;          // Region for checking whether line is connected to card. Need to test & tune this.
 
-
+		void Awake()
+		{
+			_instance = this;
+		}
         // Use this for initialization
         void Start()
         {
-            circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems.xml")).toCircuitItems();
+			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 
             /// Process
             if (computeCircuitBranch())
@@ -50,13 +55,13 @@ namespace MagicCircuit
             //@ Use CurrentFlow.circuitBranch here
 
             /// Display CircuitBranch
-            Debug.Log("=========CircuitBranch============");
-            for (var i = 0; i < circuitBranch.Count; i++)
-            {
-                for (var j = 0; j < circuitBranch[i].Count; j++)
-                    Debug.Log(circuitBranch[i][j]);
-                Debug.Log("----");
-            }
+//            Debug.Log("=========CircuitBranch============");
+//            for (var i = 0; i < circuitBranch.Count; i++)
+//            {
+//                for (var j = 0; j < circuitBranch[i].Count; j++)
+//                    Debug.Log(circuitBranch[i][j]);
+//                Debug.Log("----");
+//            }
 
             /////////////////////////////////////
 
@@ -88,10 +93,10 @@ namespace MagicCircuit
             //@ Use CurrentFlow.circuitItems here
 
             /// Display circuitItems.list
-            for (var i = boundary; i < count; i++)
-            {
-                Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
-            }
+//            for (var i = boundary; i < count; i++)
+//            {
+//                Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
+//            }
 
             /////////////////////////////////////                        
         }
@@ -150,6 +155,8 @@ namespace MagicCircuit
 
         public void switchOnOff(int ID, bool state) // State true: on false: off
         {
+
+			//Debug.Log ("switchOnOff(int ID, bool state)");
             // Restore connectivity to current state
             Array.Copy(currentConn, connectivity, currentConn.Length);
 

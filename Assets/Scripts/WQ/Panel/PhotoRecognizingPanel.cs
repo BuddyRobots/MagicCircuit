@@ -22,6 +22,13 @@ public enum Result
 public class PhotoRecognizingPanel : MonoBehaviour 
 {
 	public static PhotoRecognizingPanel _instance;
+
+
+	private const float lineItemInterval = 0.1f;
+	private const float itemInterval = 0.5f;
+	[HideInInspector]
+	public  float arrowGenInterval = 0.8f;
+
 	//匹配结果
 	[HideInInspector]
 	public Result result;
@@ -62,15 +69,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	private UISprite image;//拍摄截取的图像
 	private UITexture photoImage;
-	//private UISprite mask;
 	private UITexture dayMask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
-//	[HideInInspector]
-//	public UISprite nightBg;
 
 	[HideInInspector]
 	public UITexture nightMask;
-
-
 
 	/// <summary>
 	/// 判断图标是否显示完的标志
@@ -93,14 +95,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// 保证创建图标的协同只走一遍的标志
 	/// </summary>
 	private bool isCreate_Update=false;
-
-	/// <summary>
-	/// 电路是否通电的标志
-	/// </summary>
-//	private bool isEnergized = false;
-//
-//	private bool isHasSwitch=false;
-//
+	private bool isArrowCreated=false;
+	private bool isCreateArrowSingleLine=false;
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
 	/// </summary>
@@ -120,8 +116,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private float distance = 0;
 	private float angle = 0;
 
-	private static float maskTimer = 0f;//蒙板渐变计时器
-	private float maskTime;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
+	private float maskTimer = 0f;//蒙板渐变计时器
+	private float maskTime=0f;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
 
 	private LevelItemData data;
 
@@ -135,7 +131,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private List<GameObject> goList=new List<GameObject>();
 	[HideInInspector]
 	public List<GameObject> switchList = new List<GameObject> ();//普通开关的集合
-	private List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
+	[HideInInspector]
+	public List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
 	[HideInInspector]
 	public List< List<Vector3> > lines=new List<List<Vector3>>();//所有线条的集合
 	[HideInInspector]
@@ -146,6 +143,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	public  List<GameObject> batteryList = new List<GameObject> ();
 	[HideInInspector]
 	public  List<GameObject> bulbList = new List<GameObject> ();
+	public List<List<Vector3>> circuitLines = new List<List<Vector3>> ();
+	[HideInInspector]
+	public List<int> tags=new List<int>();
 
 
 	void Awake()
@@ -159,28 +159,34 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
 		failurePanel=transform.parent.Find ("CommonPanel02/FailurePanel").gameObject;
 
-		bulb = Resources.Load ("Bulb",typeof(GameObject))  as GameObject;
-		battery = Resources.Load ("Battery",typeof(GameObject))  as GameObject;
-		switchBtn = Resources.Load ("Switch",typeof(GameObject))  as GameObject;
-		loudspeaker = Resources.Load ("Loudspeaker", typeof(GameObject)) as GameObject;
-		voiceOperSwitch = Resources.Load ("VoiceOperSwitch", typeof(GameObject)) as GameObject;
-		lightActSwitch = Resources.Load ("LightActSwitch", typeof(GameObject)) as GameObject;
-		voiceTimedelaySwitch = Resources.Load ("VoiceTimedelaySwitch", typeof(GameObject)) as GameObject;
-		doubleDirSwitch = Resources.Load ("DoubleDirSwitch", typeof(GameObject)) as GameObject;
-		inductionCooker = Resources.Load ("InductionCooker", typeof(GameObject)) as GameObject;
+		bulb = Resources.Load ("Prefabs/Items/Bulb",typeof(GameObject))  as GameObject;
+		battery = Resources.Load ("Prefabs/Items/Battery",typeof(GameObject))  as GameObject;
+		switchBtn = Resources.Load ("Prefabs/Items/Switch",typeof(GameObject))  as GameObject;
+		loudspeaker = Resources.Load ("Prefabs/Items/Loudspeaker", typeof(GameObject)) as GameObject;
+		voiceOperSwitch = Resources.Load ("Prefabs/Items/VoiceOperSwitch", typeof(GameObject)) as GameObject;
+		lightActSwitch = Resources.Load ("Prefabs/Items/LightActSwitch", typeof(GameObject)) as GameObject;
+		voiceTimedelaySwitch = Resources.Load ("Prefabs/Items/VoiceTimedelaySwitch", typeof(GameObject)) as GameObject;
+		doubleDirSwitch = Resources.Load ("Prefabs/Items/DoubleDirSwitch", typeof(GameObject)) as GameObject;
+		inductionCooker = Resources.Load ("Prefabs/Items/InductionCooker", typeof(GameObject)) as GameObject;
 
-		arrowPrefab=Resources.Load("Arrow") as GameObject;
-		linePrefab = Resources.Load ("lineNew") as GameObject;
-		fingerPrefab= Resources.Load ("Finger",typeof(GameObject)) as GameObject;
+		arrowPrefab=Resources.Load("Prefabs/Items/Arrow") as GameObject;
+		linePrefab = Resources.Load ("Prefabs/Items/lineNew") as GameObject;
+		fingerPrefab= Resources.Load ("Prefabs/Items/Finger",typeof(GameObject)) as GameObject;
 
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
+
+		//CreateArrow ();
 	}
 
 		
 	void OnEnable()
 	{
+		maskTimer = 0;
+		maskTime = 0;
+		arrowGenInterval = 0.8f;
+		transValue = 0;
 		result = Result.Success;//for test..
 
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
@@ -202,11 +208,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		nightMask.gameObject.SetActive (true);
 		nightMask.alpha = 0;
 
-
 		lineParent = this.gameObject;
 
 		image.gameObject.SetActive (false);// for test ...
-		//photoImage.gameObject.SetActive (false);
+		//photoImage.gameObject.SetActive (false);//real code 
 
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
@@ -219,28 +224,41 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		isPhotoShowDone = false;
 		isArrowShowDone=false;
 		isCreate_Update=false;
+		isArrowCreated=false;
+		isCreateArrowSingleLine=false;
 
 		voiceOperSwitchNum = 0;
 		isLightActSwitchNum = 0;
 
 		data = LevelManager.currentLevelData;
 
-	    itemsList=CircuitItemManager._instance.itemList;  // for test...
+	    //itemsList=CircuitItemManager._instance.itemList;  // for test...
+		itemsList=CurrentFlow._instance.circuitItems;//for test
 		//itemsList=CircuitItemManager._instance.itemList;//real code
 
 		prePos = Vector3.zero; 
 		iconCount = 1;
 
-		maskTime = itemsList.Count  * 1;//显示图标的总时间=图标个数*每个图标隔的时间
-		foreach (var item in lines) 
-		{
-			maskTime += (float)((item.Count - 1) * 0.2);//显示一条线的总时间
-		}
-		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 
+
+		maskTime = (itemsList.Count-1)  * itemInterval;//显示图标的总时间=(图标个数-1)*图标间隔时间
+		//Debug.Log("itemsList.Count==="+itemsList.Count);
+		foreach (var item in circuitLines) 
+		{
+			maskTime += (float)((item.Count - 1) * lineItemInterval);//显示一条线的总时间
+		}
+//		Debug.Log ("circuitLines.Count====" + circuitLines.Count);
+//		for (int i = 0; i < lines.Count; i++) 
+//		{
+//			maskTime += (float)((lines [i].Count - 1) * lineItemInterval);
+//		}
+//		Debug.Log ("maskTime====="+maskTime);
+		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 		StartCoroutine (RemoveEmptyArrow ());
+		GetCircuitLines ();
+//		CreateArrow ();
 	}
-		
+
 	IEnumerator RemoveEmptyArrow()
 	{
 		while (true) 
@@ -257,7 +275,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				}
 			}
 			//print (arrowList.Count);
-			yield return new WaitForSeconds (0.5f);
+			yield return new WaitForSeconds (itemInterval);
 		}
 	}
 
@@ -273,14 +291,17 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		image.gameObject.SetActive (true);
 		//photoImage=GetImage._instance.texture;//real code 
 		//photoImage.gameObject.SetActive (true);// real code
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (1f);
 		isPhotoShowDone = true;
 	}
+
+
 
 	void Update () 
 	{
 		if (isPhotoShowDone) 
 		{
+			
 			#region 蒙板出现，透明度渐变
 			maskTimer += Time.deltaTime;
 			if (maskTimer >= maskTime) 
@@ -295,6 +316,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				StartCoroutine (CreateAllItem ());//创建图标
 				isCreate_Update =true;
 			}
+			if (!isArrowCreated) 
+			{
+				CreateArrow ();
+				isArrowCreated = true;
+			}
+
 			if (iconCount == 0) 
 			{
 				isItemShowDone = true;
@@ -319,6 +346,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				Fail ();
 			}
 			#endregion
+
+
+
 		}
 	}
 
@@ -413,8 +443,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		for (int i = 0; i < itemsList.Count; i++) 
 		{
 			CreateSingleItem (itemsList [i]);
-			yield return new WaitForSeconds (0.5f);//隔0.5秒创建一个图标
+			yield return new WaitForSeconds (itemInterval);//隔0.5秒创建一个图标
 		}
+
 	}
 
 	//public Dictionary<CircuitItem,GameObject> itemAndGoList = new Dictionary<CircuitItem, GameObject> ();//每一个item对应界面上面的一个GameObject
@@ -435,7 +466,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			goList.Add (item);//新创建一个对象的同时把这个对象加入到对象列表，方便关闭界面的时候销毁这些新创建的对象
 			batteryList.Add(item);
 			item.name = "battery"; 
-			//item.tag = circuitItem.controlSwitchID.ToString ();//把标签与控制开关的ID配对，方便并联电路判断哪个开关控制哪个元件
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 	
@@ -444,7 +475,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			goList.Add (item);
 			bulbList.Add (item);
 			item.name = "bulb";
-			//item.tag = circuitItem.controlSwitchID.ToString ();
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 
@@ -500,7 +531,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item = GameObject.Instantiate (loudspeaker) as GameObject;
 			goList.Add (item);
 			item.name = "loudspeaker"; 
-			//item.tag = circuitItem.controlSwitchID.ToString ();
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 
@@ -508,7 +539,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item = GameObject.Instantiate (inductionCooker) as GameObject;
 			goList.Add (item);
 			item.name = "inductionCooker";
-			//item.tag = circuitItem.controlSwitchID.ToString ();
+			item.tag = circuitItem.ID.ToString ();
 			iconCount--;
 			break;
 
@@ -523,7 +554,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 			}
 			//开始画线
-			StartCoroutine(DrawCircuit(circuitItem.list));
+			StartCoroutine (DrawCircuit (circuitItem.list));
+
+			//isArrowCreated = true;
+
+
 			break;
 		default:
 			break;
@@ -541,6 +576,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		}
 	}
 
+
+
+
+
+
 	/// <summary>
 	/// 画线路
 	/// </summary>
@@ -551,7 +591,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 
 			DrawLine (pos [i], pos [i + 1]);
-			yield return new WaitForSeconds (0.1f);//画一条线，隔0.1秒再画一条
+			yield return new WaitForSeconds (lineItemInterval);//画一条线，隔0.1秒再画一条
 
 		}
 		iconCount--;
@@ -567,8 +607,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		distance = Vector3.Distance (posFrom, posTo);
 		centerPos = Vector3.Lerp (posFrom, posTo, 0.5f);
-		angle = TanAngle (posFrom, posTo);
-
+		//angle = TanAngle (posFrom, posTo);
+		angle = CommonFuncManager._instance.TanAngle (posFrom, posTo);
 		GameObject lineGo = NGUITools.AddChild(lineParent, linePrefab);//生成新的连线  
 		goList.Add(lineGo);
 		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
@@ -579,42 +619,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
 	}
-
-//	IEnumerator ArrowShow()
-//	{
-//		List<Vector3> line = new List<Vector3> ();//整个线路上的点
-//		for (int i = 0; i < lines.Count; i++)
-//		{
-//			List<Vector3> singleLine = lines [i];
-//			for (int j = 0; j <singleLine.Count; j++) 
-//			{
-//				line.Add (singleLine [j]);
-//			}
-//		}
-//		for (int j = 0; /*j <line.Count*/; j++) {
-//
-//			GameObject arrow = Instantiate (arrowPrefab) as GameObject;//应该是在第一条线的第一个点创建一个箭头
-//			arrowList.Add (arrow);
-//
-//			arrow.transform.parent = transform;
-//			arrow.name="arrow";
-//			arrow.transform.localPosition =line[0];
-//			arrow.transform.localScale = Vector3.one;
-//			arrow.GetComponent<MoveCtrl> ().Move (line);
-//			yield return new WaitForSeconds(0.4f);
-//
-//			#region 重玩按钮和下一步按钮出现
-//			animationTimer++;
-//			if (animationTimer >= animationTime) 
-//			{
-//				animationTimer = 0;
-//				WellDone ();
-//			}
-//			#endregion
-//		}
-//
-//	}
-
 
 	#region  箭头的生成和销毁
 	private bool isCreateArrow = true;
@@ -631,7 +635,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// <summary>
 	/// 电流停止移动
 	/// </summary>
-	public void StopCircuit()
+	public void StopCircuit()//先停止创建箭头，再隐藏箭头
 	{
 		StopCreateArrows ();
 		foreach (var item in arrowList) 
@@ -648,7 +652,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// <summary>
 	/// 电流继续移动
 	/// </summary>
-	public void ContinueCircuit()
+	public void ContinueCircuit()//隐藏的箭头先出现，再继续创建箭头
 	{
 		foreach (var item in arrowList) 
 		{
@@ -669,10 +673,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	}
 
 
+
+
+
 	IEnumerator ArrowShowLineByLineT(List<List<Vector3>> lines ,int i)//递归协同，三条线一起循环，但又是有顺序的
 	{
 
-		Debug.Log ("show arrow");
+		//Debug.Log ("show arrow");
 		bool hasStartCorout = false;//有没有开启协同的标志
 		GameObject temp = null;
 
@@ -694,13 +701,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 					temp = arrow;//保存第一个箭头
 				}
 				if (!hasStartCorout && temp == null && i < lines.Count - 1) //第一条线上有箭头被销毁时，第二条线产生箭头，第二条线上有箭头被销毁时，第三条线上产生箭头。。。
-				{//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
+				{															//当第一个箭头为空，也就是箭头被销毁时，而且后面的协同没有开启时，而且保证有几条线就只有几个协同
 					StartCoroutine (ArrowShowLineByLineT(lines, i + 1));
 					hasStartCorout = true;
 				}
 				arrow.GetComponent<MoveCtrl> ().Move (singleLine);
 
-				yield return new WaitForSeconds(0.4f);
+				yield return new WaitForSeconds(arrowGenInterval);
 
 				#region 重玩按钮和下一步按钮出现
 				animationTimer++;
@@ -719,19 +726,99 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	}
 	#endregion
 
+	//获得线路上的所有线-----用来创建电流
+	void GetCircuitLines()
+	{
+
+		for (int i = 0; i < itemsList.Count; i++) 
+		{
+			if (itemsList[i].type==ItemType.CircuitLine) 
+			{
+				circuitLines.Add (itemsList [i].list);
+				//itemsList[i].ID//equals to tag of arrow
+				tags.Add (itemsList[i].ID);
+			}
+		}
+
+	}
+
+
+	/// <summary>
+	/// create arrow around the circuit
+	/// </summary>
+	public void CreateArrow()
+	{
+		
+		Debug.Log ("createarrow");
+		for (int i = 0; i < circuitLines.Count; i++) 
+		{
+			isCreateArrowSingleLine = true;
+			if (isCreateArrowSingleLine) 
+			{
+				//create arrows on every single line
+				StartCoroutine (CreateArrowOnSingleLine(circuitLines[i],tags[i]));
+			}
+			
+
+		}
+	}
+
+
+	[HideInInspector]
+	public int transValue = 0;
+
+	IEnumerator CreateArrowOnSingleLine(List<Vector3> line,int tag)
+	{
+		isCreateArrowSingleLine = false;
+		Debug.Log ("CreateArrowOnSingleLine");
+		for (int k = 0;; k++) 
+		{
+			if (isCreateArrow) 
+			{
+				//从线的第一个点出箭头，一直往前移动，移动到最后一个销毁
+
+				GameObject arrow = Instantiate (arrowPrefab) as GameObject;
+				arrow.tag = tag.ToString ();
+				arrow.GetComponent<UISprite> ().alpha = transValue;
+				arrowList.Add (arrow);
+				arrow.transform.parent = transform;
+				arrow.name = "arrow";
+				arrow.transform.localPosition = line [0];
+				arrow.transform.localScale = Vector3.one;
+				arrow.GetComponent<MoveCtrl> ().Move (line);
+
+				yield return new WaitForSeconds (arrowGenInterval);
+				//Debug.Log ("before ---arrowGenInterval===="+arrowGenInterval);
+
+				#region 重玩按钮和下一步按钮出现
+				//应该是电路接通后3秒后出现
+				animationTimer++;
+				if (animationTimer >= animationTime) 
+				{
+					animationTimer = 0;
+					WellDone ();
+				}
+				#endregion
+			} 
+			else 
+			{
+				yield return new WaitForFixedUpdate ();
+			}
+		}
+
+	}
+
 	public void Fail()
 	{
 		commonPanel02.SetActive (true);
 		failurePanel.SetActive (true);
 		PanelOff ();
 	}
-
-
+		
 	public void WellDone()
 	{
 		levelNameLabel.text="Congratulations!";
 		labelBgTwinkle.SetActive (true);
-
 		replayBtn.SetActive (true);
 		nextBtn.SetActive (true);
 
@@ -758,7 +845,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		if(data.Progress != LevelProgress.Done)
 		{
 			PlayerPrefs.SetInt ("LevelID",data.LevelID);
-			//Debug.Log ("data.LevelID====" + data.LevelID);
 			PlayerPrefs.SetInt ("LevelProgress",2);
 			LevelManager._instance.LoadLocalLevelProgressData ();
 		}
@@ -766,15 +852,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		PanelOff();
 
-	}
-		
-	private float TanAngle(Vector2 from, Vector2 to)
-	{
-		float xdis = to.x - from.x;//计算临边长度  
-		float ydis = to.y - from.y;//计算对边长度  
-		float tanValue = Mathf.Atan2(ydis, xdis);//反正切得到弧度  
-		float angle = tanValue * Mathf.Rad2Deg;//弧度转换为角度  
-		return angle;  
 	}
 
 	void OnHelpBtnClick(GameObject btn)
@@ -785,16 +862,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void PanelOff()
 	{
-//		foreach (GameObject item in goList) 
-//		{
-//			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
-//		}
-//		foreach (GameObject item in arrowList) 
-//		{
-//			Destroy (item);//销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
-//		}
-
-
 		for (int i = 0; i < goList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 		{
 			Destroy (goList [i]);
@@ -803,6 +870,19 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			Destroy (arrowList [i]);
 		}
+		//for (int i = 0; i < lines.Count; i++) 
+		{
+			lines.Clear ();
+
+		}
+
+
+		//for (int i = 0; i < circuitLines.Count; i++)
+		{
+			circuitLines.Clear ();
+		}
+
+
 		gameObject.SetActive (false);
 	}
 

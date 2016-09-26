@@ -246,9 +246,9 @@ public class GetImage : MonoBehaviour
 		Utils.matToTexture2D (img, tex2D);
 		tex2D.Apply ();
 		#if UNITY_EDITOR  
-		string path = Application.dataPath +"/Pic/" + "pic.jpg";
+		string path = Application.dataPath +"/PaiZhao/" + "savepic.jpg";
 		#elif UNITY_IPHONE 
-		string path =Application.persistentDataPath+"/b.jpg";
+		string path =Application.persistentDataPath+"/savepic.jpg";
 		#endif 
 		File.WriteAllBytes(path, tex2D.EncodeToJPG ());
 

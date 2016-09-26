@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using MagicCircuit;
+
 
 //level 5
 public class TwoSwitchInSeriesCircuit : MonoBehaviour 
@@ -29,49 +31,60 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour
 		if (isTwoSwitchInSeriesCircuit) 
 		{
 			normalSwitchList = GetComponent<PhotoRecognizingPanel> ().switchList;
-			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
-			{
-				
-				for (int i = 0; i <normalSwitchList .Count; i++) 
-				{
-					if (!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果串联电路上的开关都闭合了
-					{
-						//喇叭响  to do...
-						transform.Find("loudspeaker").GetComponent<AudioSource>().Play();
-						CommonFuncManager._instance.OpenCircuit ();
-						animationPlayedTimes=1;//电流播放一次
-					}
-				}
-			}
 
-			if (animationPlayedTimes==1) //如果在播放电流的时候点击开关断开
-			{
 
-				CommonFuncManager._instance.CircuitOnOrOff (isCircuitOpen);
-				for (int i = 0; i < normalSwitchList.Count; i++) 
-				{
-					if (normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn )//只要有一个开关断开，就停止电流 
-					{
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-						if (transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
-						{
-							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Pause ();
-						}
-						isCircuitOpen=false;
-					
-					}
-					else if(!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果两个都是闭合的
-					{
-						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
-						if (!transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
-						{
-							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Play ();
-						}
-						isCircuitOpen = true;
-					}
-				}
+			for (int i = 0; i < normalSwitchList.Count; i++) 
+			{
+				CurrentFlow._instance.switchOnOff (int.Parse(normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+	
+				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
 			
 			}
+
+
+//			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
+//			{
+//				
+//				for (int i = 0; i <normalSwitchList .Count; i++) 
+//				{
+//					if (!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果串联电路上的开关都闭合了
+//					{
+//						//喇叭响  to do...
+//						transform.Find("loudspeaker").GetComponent<AudioSource>().Play();
+//						CommonFuncManager._instance.OpenCircuit ();
+//						animationPlayedTimes=1;//电流播放一次
+//					}
+//				}
+//			}
+//
+//			if (animationPlayedTimes==1) //如果在播放电流的时候点击开关断开
+//			{
+//
+//				CommonFuncManager._instance.CircuitOnOrOff (isCircuitOpen);
+//				for (int i = 0; i < normalSwitchList.Count; i++) 
+//				{
+//					if (normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn )//只要有一个开关断开，就停止电流 
+//					{
+//						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+//						if (transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
+//						{
+//							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Pause ();
+//						}
+//						isCircuitOpen=false;
+//					
+//					}
+//					else if(!normalSwitchList[i].GetComponent<SwitchCtrl>().isSwitchOn && i==normalSwitchList.Count-1)//如果两个都是闭合的
+//					{
+//						transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
+//						if (!transform.Find ("loudspeaker").GetComponent<AudioSource> ().isPlaying) 
+//						{
+//							transform.Find ("loudspeaker").GetComponent<AudioSource> ().Play ();
+//						}
+//						isCircuitOpen = true;
+//					}
+//				}
+//			
+//			}
 			
 		}
 	
