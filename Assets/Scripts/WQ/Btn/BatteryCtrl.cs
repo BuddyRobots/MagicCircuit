@@ -1,21 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BatteryCtrl : MonoBehaviour {
-
-
-
-
+public class BatteryCtrl : MonoBehaviour 
+{
 
 	[HideInInspector]
 	public bool isSemiTrans = false;
+	private UISprite batterySprite;
 
 	[HideInInspector]
 	public int clickCount = 0;
 
-	void OnEnable()
+	void Start()
 	{
 
+		batterySprite = GetComponent<UISprite> ();
+	}
+
+	void OnEnable()
+	{
 		clickCount = 0;
 	}
 
@@ -23,22 +26,19 @@ public class BatteryCtrl : MonoBehaviour {
 
 	void Update () 
 	{
-		if (isSemiTrans) 
-		{//如果是半透明状态
-			gameObject.GetComponent<UISprite>().spriteName="semiTransBattery";
+		if (isSemiTrans) //如果是半透明状态
+		{
+			batterySprite.spriteName="semiTransBattery";
+
 
 		} 
 		else//如果是正常状态 
 		{
-			gameObject.GetComponent<UISprite>().spriteName="battery";
+			batterySprite.spriteName="battery";
 		
 		}
-	
 	}
-
-
-
-
+		
 	void OnClick()
 	{
 		

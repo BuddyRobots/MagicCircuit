@@ -24,16 +24,6 @@ public class ParallelCircuitsWithTwoSwitch : MonoBehaviour
 			switchList = PhotoRecognizingPanel._instance.switchList;	
 			for (int i = 0; i < switchList.Count; i++) //点击开关，调用方法，circuitItems更新powered属性
 			{
-				
-//				if (!switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn) //开关闭合
-//				{
-//					CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), true);
-//				} 
-//				else 
-//				{
-//					CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), false);
-//				}
-
 				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
 				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);//使用新的circuititems

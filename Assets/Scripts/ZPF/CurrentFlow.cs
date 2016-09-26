@@ -39,7 +39,7 @@ namespace MagicCircuit
         // Use this for initialization
         void Start()
         {
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv7.xml")).toCircuitItems();
 
             /// Process
             if (computeCircuitBranch())

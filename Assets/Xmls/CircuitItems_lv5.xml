@@ -34,7 +34,7 @@
         </Vector3>
       </list>
       <theta>180</theta>
-      <showOrder>0</showOrder>
+      <showOrder>1</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-250</x>
@@ -56,7 +56,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>0</showOrder>
+      <showOrder>2</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>120</x>
@@ -78,7 +78,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>2</showOrder>
+      <showOrder>3</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-70</x>
@@ -100,7 +100,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>2</showOrder>
+      <showOrder>4</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>20</x>
@@ -127,7 +127,7 @@
 		</Vector3>		
       </list>
       <theta>0</theta>
-      <showOrder>3</showOrder>
+      <showOrder>5</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-90</x>
@@ -159,7 +159,7 @@
 		</Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>3</showOrder>
+      <showOrder>6</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>120</x>
@@ -186,7 +186,7 @@
         </Vector3>        
       </list>
       <theta>0</theta>
-      <showOrder>4</showOrder>
+      <showOrder>7</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>220</x>
@@ -213,7 +213,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>5</showOrder>
+      <showOrder>8</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-70</x>
@@ -240,7 +240,7 @@
         </Vector3>        
       </list>
       <theta>0</theta>
-      <showOrder>5</showOrder>
+      <showOrder>9</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-250</x>

@@ -45,7 +45,29 @@
 		<y>30</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="2">
+	<XmlCircuitItem ID="2">
+      <name>Loudspeaker</name>
+      <type>Loudspeaker</type>
+      <list>
+        <Vector3>
+          <x>170</x>
+          <y>10</y>
+          <z>0</z>
+        </Vector3>
+      </list>
+      <theta>0</theta>
+      <showOrder>2</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>120</x>
+		<y>10</y>
+	  </connect_left>
+	  <connect_right>
+		<x>220</x>
+		<y>10</y>
+	  </connect_right>
+    </XmlCircuitItem>
+    <XmlCircuitItem ID="3">
       <name>Switch</name>
       <type>Switch</type>
       <list>
@@ -56,7 +78,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>2</showOrder>
+      <showOrder>3</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-70</x>
@@ -67,7 +89,7 @@
 		<y>150</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="3">
+    <XmlCircuitItem ID="4">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -77,24 +99,51 @@
           <z>0</z> 
 		</Vector3>	
 		<Vector3>
-          <x>30</x>
-          <y>150</y>
+          <x>120</x>
+          <y>10</y>
           <z>0</z> 
 		</Vector3>		
       </list>
       <theta>0</theta>
-      <showOrder>3</showOrder>
+      <showOrder>4</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-90</x>
 		<y>-150</y>
 	  </connect_left>
 	  <connect_right>
+		<x>120</x>
+		<y>10</y>
+	  </connect_right>
+    </XmlCircuitItem>
+    <XmlCircuitItem ID="5">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+      <Vector3>
+          <x>220</x>
+          <y>10</y>
+          <z>0</z> 
+		</Vector3>
+        <Vector3>
+          <x>30</x>
+          <y>150</y>
+          <z>0</z>
+        </Vector3>        
+      </list>
+      <theta>0</theta>
+      <showOrder>5</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>220</x>
+		<y>10</y>
+	  </connect_left>
+	  <connect_right>
 		<x>30</x>
 		<y>150</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="4">
+    <XmlCircuitItem ID="6">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -110,7 +159,7 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>4</showOrder>
+      <showOrder>6</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-70</x>
@@ -121,7 +170,7 @@
 		<y>30</y>
 	  </connect_right>
     </XmlCircuitItem>
-	<XmlCircuitItem ID="5">
+	<XmlCircuitItem ID="7">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -137,7 +186,7 @@
         </Vector3>        
       </list>
       <theta>0</theta>
-      <showOrder>5</showOrder>
+      <showOrder>7</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>-250</x>

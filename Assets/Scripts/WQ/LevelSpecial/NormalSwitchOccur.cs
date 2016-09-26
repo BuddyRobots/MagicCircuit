@@ -3,43 +3,56 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 //第3关
-public class NormalSwitchOccur : MonoBehaviour {
+public class NormalSwitchOccur : MonoBehaviour 
+{
 
 	private List<GameObject> normalSwitchList =null;
 	[HideInInspector]
 	public bool isNormalSwitchOccur = false;
 
-	private int animationPlayedTimes=0;
+
 
 	void OnEnable()
 	{
-		animationPlayedTimes=0;
-
+		
+		isNormalSwitchOccur = false;
 	}
 
 	void Update () 
 	{
 		if (isNormalSwitchOccur) 
 		{
+
+
 			normalSwitchList = GetComponent<PhotoRecognizingPanel> ().switchList;
 			GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("switch").localPosition);//在开关位置出现小手
 
 			if (transform.Find ("switch").GetComponent<SwitchCtrl> ().isSwitchOn == false) //开关闭合
-			{
+			{ 
 				if (PhotoRecognizingPanel._instance.finger) 
 				{
 					Destroy (PhotoRecognizingPanel._instance.finger);
 					Debug.Log ("finger destroyed");
 				}
+				CurrentFlow._instance.switchOnOff (int.Parse (transform.Find ("switch").tag), true );
 			} 
-
-			for (int i = 0; i < normalSwitchList.Count; i++) 
+			else 
 			{
-				CurrentFlow._instance.switchOnOff (int.Parse (normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-
-				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
-
+				CurrentFlow._instance.switchOnOff (int.Parse (transform.Find ("switch").tag), false);
 			}
+
+
+
+
+			//CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+
+//			for (int i = 0; i < normalSwitchList.Count; i++) 
+//			{
+//				CurrentFlow._instance.switchOnOff (int.Parse (normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+//
+//				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+//
+//			}
 
 
 //			else 

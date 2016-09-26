@@ -8,7 +8,7 @@ using MagicCircuit;
 public class TwoSwitchInSeriesCircuit : MonoBehaviour 
 {
 	private List<GameObject> normalSwitchList =null;
-	private int animationPlayedTimes=0;
+//	private int animationPlayedTimes=0;
 
 	[HideInInspector]
 	public bool isTwoSwitchInSeriesCircuit = false;
@@ -16,13 +16,13 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour
 	/// <summary>
 	/// 电路是否接通的标志
 	/// </summary>
-	private bool isCircuitOpen = false;
+//	private bool isCircuitOpen = false;
 
 	void OnEnable () 
 	{
-		animationPlayedTimes=0;
+		//animationPlayedTimes=0;
 		isTwoSwitchInSeriesCircuit = false;
-		isCircuitOpen = false;
+		//isCircuitOpen = false;
 	}
 
 

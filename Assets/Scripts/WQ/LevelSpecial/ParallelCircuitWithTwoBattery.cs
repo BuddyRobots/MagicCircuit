@@ -35,14 +35,7 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 			switchList = PhotoRecognizingPanel._instance.switchList;
 			for (int i = 0; i < switchList.Count; i++) 
 			{
-				if (!switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn) //开关闭合
-				{
-					CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), true);
-				} 
-				else 
-				{
-					CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), false);
-				}
+				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);//使用新的circuititems
 			}
 
@@ -50,19 +43,19 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 			{
 				isCircuitAnimationPlayed = true;
 			}
-			if (isCircuitAnimationPlayed) 
+			if (isCircuitAnimationPlayed) //电池可以被点击
 			{
-				//电池可以被点击
+				
 				clickBattery = batteryList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
 				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(clickBattery.transform.localPosition);
 				clickBattery.AddComponent<UIButton> ();//给随机的电池添加button组件和BatteryCtrl组件来实现点击事件
 				clickBattery.AddComponent<BatteryCtrl> ();
 
 				BussinessLogic BL = new BussinessLogic ();
-				if (clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) 
-				{ //电池变成半透明，1个电池工作
+				if (clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池变成半透明，1个电池工作
+				{ 
 					
-					BL.BatteryClick (CurrentFlow._instance.circuitItems, true);
+					BL.BatteryClick (CurrentFlow._instance.circuitItems, true);// for test
 					if (PhotoRecognizingPanel._instance.finger) 
 					{
 						Destroy (PhotoRecognizingPanel._instance.finger);

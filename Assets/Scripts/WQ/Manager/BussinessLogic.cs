@@ -16,7 +16,7 @@ public class BussinessLogic
 		{
 			if (!item.powered)//如果元件没有电，则不做任何操作
 			{
-				Debug.Log ("item [" + item.ID + "] has no power, no need to change");
+				//Debug.Log ("item [" + item.ID + "] has no power, no need to change");
 				return;
 			} 
 			else //如果元件有电-----根据isBatteryTrans的值来做处理
@@ -39,7 +39,7 @@ public class BussinessLogic
 	/// </summary>
 	public void AllItemFlush()
 	{
-		foreach (var item in PhotoRecognizingPanel._instance.itemsList) 
+		foreach (var item in CurrentFlow._instance.circuitItems) 
 		{
 			SingleItemFlush (item);
 		}
@@ -47,6 +47,7 @@ public class BussinessLogic
 		
 	public void SingleItemFlush(CircuitItem item)
 	{
+		Debug.Log ("SingleItemFlush");
 		string tag = item.ID.ToString();//save the ID as tag of gameObject
 		GameObject tempGo = GameObject.FindWithTag (tag);
 		UISprite tempSprite = GameObject.FindWithTag (tag).GetComponent<UISprite> ();
@@ -59,10 +60,12 @@ public class BussinessLogic
 				tempSprite.spriteName="bulbOff";
 				break;
 			case CircuitItem.PowerStatus.E1:
-				tempSprite.spriteName="bulbOn";
+				tempSprite.spriteName = "bulbOn";
+				Debug.Log ("one battery works, bulb is on");
 				break;
 			case CircuitItem.PowerStatus.E2:
 				tempSprite.spriteName="bulbSpark";
+				Debug.Log ("two battery work, bulb is spark");
 				break;
 			default:
 				break;
@@ -83,7 +86,7 @@ public class BussinessLogic
 				tempAni.Play ("steam01");
 				break;
 			case CircuitItem.PowerStatus.E2://播放蒸汽动画2 
-				tempAni.Play ("steam01");
+				tempAni.Play ("steam02");
 				break;
 			default:
 				break;
