@@ -17,6 +17,11 @@ public class RemoveLine : MonoBehaviour
 	void OnEnable()
 	{
 		isRemoveLine=false;
+		if (PhotoRecognizingPanel._instance) 
+		{
+			PhotoRecognizingPanel._instance.isCreateArrow = true;
+		}
+
 	}
 
 
@@ -31,24 +36,8 @@ public class RemoveLine : MonoBehaviour
 
 			}
 			Vector3	randomPos = GetComponent<PhotoRecognizingPanel> ().ChooseRandomPoint ();
-
-			//TouchToDestroyLine ();
-			//if (!isLineRemove) 
-			//{
-				//Debug.Log ("fingershow  before  isLineRemove value===" + isLineRemove);
-//			if (!isFingerShow) 
-//			{
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
-//				isFingerShow=true;
-//			}	
-			//GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
-			//}
-			//TouchToDestroyLine ();
-//			if (isFingerShow) {
-//				TouchToDestroyLine ();
-//			}
+			GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
 			StartCoroutine (TouchLineAfterAwhile ());
-
 		}
 	}
 		

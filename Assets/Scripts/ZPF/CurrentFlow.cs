@@ -36,10 +36,51 @@ namespace MagicCircuit
 		{
 			_instance = this;
 		}
+
+
+
+		string pathForDocumentsFile( string filename ) 
+		{ 
+			if (Application.platform == RuntimePlatform.IPhonePlayer)
+			{
+				string path = Application.dataPath.Substring( 0, Application.persistentDataPath.Length - 5 );
+				path = path.Substring( 0, path.LastIndexOf( '/' ) );
+				return Path.Combine( Path.Combine( path, "Documents" ), filename );
+			}       
+			else if(Application.platform == RuntimePlatform.Android)
+			{
+				string path = Application.persistentDataPath;   
+				path = path.Substring(0, path.LastIndexOf( '/' ) ); 
+				return Path.Combine (path, filename);
+			}   
+			else 
+			{
+				string path = Application.dataPath; 
+				path = path.Substring(0, path.LastIndexOf( '/' ) );
+				return Path.Combine (path, filename);
+			}
+		}   
+
         // Use this for initialization
         void Start()
         {
+			Debug.Log ("Application.datapath" + Application.dataPath);
+			Debug.Log ("Application.streamingAssetsPath"+Application.streamingAssetsPath);
+			Debug.Log ("Application.persistentDataPath" + Application.persistentDataPath);
+
+			#if UNITY_EDITOR  
 			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv7.xml")).toCircuitItems();
+			#elif UNITY_IPHONE 
+			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+			#endif 
+
+
+
+		
+
+			//circuitItems = XmlCircuitItemCollection.Load(pathForDocumentsFile("Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+
+
 
             /// Process
             if (computeCircuitBranch())

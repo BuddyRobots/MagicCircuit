@@ -95,8 +95,16 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// 保证创建图标的协同只走一遍的标志
 	/// </summary>
 	private bool isCreate_Update=false;
+	/// <summary>
+	/// mark to judge whether arrows are created or not
+	/// </summary>
 	private bool isArrowCreated=false;
 	private bool isCreateArrowSingleLine=false;
+	/// <summary>
+	/// make to judge if it's necessary to create arrow
+	/// </summary>
+	[HideInInspector]
+	public bool isCreateArrow = true;
 	/// <summary>
 	/// 记录图标数量的信号量，为0时表示所有图标都显示完，可以显示箭头了
 	/// </summary>
@@ -176,8 +184,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
-
-		//CreateArrow ();
 	}
 
 		
@@ -232,8 +238,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		data = LevelManager.currentLevelData;
 
-	    //itemsList=CircuitItemManager._instance.itemList;  // for test...
-		itemsList=CurrentFlow._instance.circuitItems;//for test
+	    itemsList=CircuitItemManager._instance.itemList;  // for test...
+		//itemsList=CurrentFlow._instance.circuitItems;//for test
 		//itemsList=CircuitItemManager._instance.itemList;//real code
 
 		prePos = Vector3.zero; 
@@ -621,7 +627,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	}
 
 	#region  箭头的生成和销毁
-	private bool isCreateArrow = true;
+
 
 	public void StopCreateArrows()
 	{
@@ -748,8 +754,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	public void CreateArrow()
 	{
-		
-		Debug.Log ("createarrow");
 		for (int i = 0; i < circuitLines.Count; i++) 
 		{
 			isCreateArrowSingleLine = true;
@@ -770,7 +774,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	IEnumerator CreateArrowOnSingleLine(List<Vector3> line,int tag)
 	{
 		isCreateArrowSingleLine = false;
-		Debug.Log ("CreateArrowOnSingleLine");
 		for (int k = 0;; k++) 
 		{
 			if (isCreateArrow) 
@@ -788,7 +791,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				arrow.GetComponent<MoveCtrl> ().Move (line);
 
 				yield return new WaitForSeconds (arrowGenInterval);
-				//Debug.Log ("before ---arrowGenInterval===="+arrowGenInterval);
 
 				#region 重玩按钮和下一步按钮出现
 				//应该是电路接通后3秒后出现

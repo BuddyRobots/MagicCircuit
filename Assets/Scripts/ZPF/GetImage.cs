@@ -5,6 +5,11 @@ using System.IO;
 using System.Collections.Generic;
 using MagicCircuit;
 using System.Threading;
+using System.Runtime.InteropServices;
+
+
+
+
 
 public class GetImage : MonoBehaviour
 {
@@ -141,45 +146,6 @@ public class GetImage : MonoBehaviour
 		isTakePicture = true; 
 	}
 
-
-//	void Update() 
-//	{
-//		listItem = new List<CircuitItem>();
-//		if (!initDone)
-//			return;
-//		if (webCamTexture.didUpdateThisFrame)
-//		{
-//			
-////			Utils.webCamTextureToMat(webCamTexture, frameImg);
-////			Mat tmpImg = frameImg.clone ();
-////			rotateCamera.rotate (ref tmpImg);
-////			// Image Processing Codes
-////			Mat resultImg = recognizeAlgo.process(tmpImg, ref listItem);
-////			//itemLists.Add (listItem);
-////			texture.Resize(resultImg.cols(), resultImg.rows());
-////			Utils.matToTexture2D(resultImg, texture);
-//
-//
-//
-//			Utils.webCamTextureToMat(webCamTexture, frameImg);
-//			Mat tmpImg = frameImg.clone ();
-//			rotateCamera.rotate (ref tmpImg);
-//			texture.Resize(tmpImg.cols(), tmpImg.rows());
-//			Utils.matToTexture2D(tmpImg, texture);
-//
-//			  
-//
-//
-//			if (!isShotTook) 
-//			{
-//				TakeSnapShot ();
-//				isShotTook = true;
-//			}
-//		}
-//	}
-
-
-
 	/// <summary>
 	/// Take photos 
 	/// </summary>
@@ -240,19 +206,7 @@ public class GetImage : MonoBehaviour
 		//Debug.Log ("itemList.count : " + itemLists[4].Count);
 	}
 		
-	public void SavePic()
-	{
-		Texture2D tex2D = new Texture2D (img.cols(), img.rows());
-		Utils.matToTexture2D (img, tex2D);
-		tex2D.Apply ();
-		#if UNITY_EDITOR  
-		string path = Application.dataPath +"/PaiZhao/" + "savepic.jpg";
-		#elif UNITY_IPHONE 
-		string path =Application.persistentDataPath+"/savepic.jpg";
-		#endif 
-		File.WriteAllBytes(path, tex2D.EncodeToJPG ());
 
-	}
 
 	/// <summary>
 	/// Take a snap shot.
@@ -273,4 +227,42 @@ public class GetImage : MonoBehaviour
 
 
 	}
+
+
+
+	[DllImport("__Internal")]
+	private static extern void _SavePhoto (string readAddr);
+	//private string _cptrAddr;
+
+
+
+	public void SavePic()
+	{
+		Debug.Log ("SavePic()");
+
+		Texture2D tex2D = new Texture2D (img.cols(), img.rows());
+		Utils.matToTexture2D (img, tex2D);
+		tex2D.Apply ();
+
+		#if UNITY_EDITOR  
+		string path = Application.dataPath +"/PaiZhao/" + "savepic.jpg";
+		#elif UNITY_IPHONE 
+		string path =Application.persistentDataPath+"/savepic.jpg";
+		_SavePhoto (path);
+		#endif 
+
+
+		File.WriteAllBytes(path, tex2D.EncodeToJPG ());
+
+		Debug.Log ("path===" + path);
+
+
+
+
+	}
+
+
+
+
+
 }

@@ -7,8 +7,8 @@ public class ParallelCircuitsWithTwoSwitch : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isParrallelCircuit = false;
-	private bool isCircuitAnimationPlayed=false;
-	private GameObject clickBattery =null;
+	//private bool isCircuitAnimationPlayed=false;
+	//private GameObject clickBattery =null;
 	private List<GameObject> switchList = null; 
 
 	void OnEnable ()
