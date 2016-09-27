@@ -1,160 +1,133 @@
-﻿using UnityEngine;
-using OpenCVForUnity;
+﻿using OpenCVForUnity;
 using MagicCircuit;
-using System.Collections;
 using System.Collections.Generic;
 
-public class RecognizeAlgo {
+public class RecognizeAlgo
+{
 
-    // parameters for card detection
-    private CardDetector light_detector;
-    private CardDetector battery_detector;
-    private CardDetector switch_detector;
+    // Size of input image 1*28*28
+    private const int imageSize = 28;
 
-    // parameters for line detection
     private LineDetector line_detector;
-
     private myUtils util;
 
-    public RecognizeAlgo(Texture2D light_tex,
-                         Texture2D battery_tex,
-                         Texture2D switch_tex,
-                         Texture2D line_tex)
+    public RecognizeAlgo()
     {
-        // Initialize detectors
-        light_detector = new CardDetector(light_tex);
-        battery_detector = new CardDetector(battery_tex);
-        switch_detector = new CardDetector(switch_tex);
-
-        line_detector = new LineDetector(line_tex);
-
+        line_detector = new LineDetector();
         util = new myUtils();
-
-        // Set default hsv thresholds
-        if (!PlayerPrefs.HasKey("battery_h_min"))
-            saveDefault();
     }
 
     public Mat process(Mat frameImg, ref List<CircuitItem> listItem)
     {
+        Mat grayImg = new Mat();
+        Mat binaryImg = new Mat();
+        Mat cardTransImg = new Mat();
         Mat resultImg = frameImg.clone();
 
         int ID = 0;
         CircuitItem tmpItem;
 
-        List<List<Point>> bb = new List<List<Point>>();
-        List<OpenCVForUnity.Rect> rect = new List<OpenCVForUnity.Rect>();
-
         /// Detect Cards =============================================================
-        // Detect batteries
-        battery_detector.detectCard(frameImg, ref bb, ref rect);
+        MatOfPoint2f point = new MatOfPoint2f(new Point[4]
+            { new Point(0, 0), new Point(imageSize, 0), new Point(imageSize, imageSize), new Point(0, imageSize) });
 
-        for (var i = 0; i < bb.Count; i++)
+        // Thresholding
+        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
+
+        // Get all the squares
+        List<List<Point>> squares = new List<List<Point>>();
+        List<List<Point>> outer_squares = new List<List<Point>>();
+        squares = CardDetector.findSquares(binaryImg);
+        outer_squares = CardDetector.computeOuterSquare(squares);
+
+        for (int i = 0; i < squares.Count; i++)
         {
-            if (bb[i].Count < 4) break;
-            util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(0, 0, 255));
+            // Draw lines on resultImg
+            for (int j = 0; j < squares[i].Count - 1; j++)
+                Imgproc.line(resultImg, squares[i][j], squares[i][j + 1], new Scalar(255, 0, 0), 3);
+            Imgproc.line(resultImg, squares[i][squares[i].Count - 1], squares[i][0], new Scalar(255, 0, 0), 3);
 
-            // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Battery", ItemType.Battery, ID++, frameImg.size());
-            tmpItem.extractCard(bb[i], rect[i]);
+            // Perspective transform
+            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
+            Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
+            Imgproc.cvtColor(cardTransImg, cardTransImg, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.adaptiveThreshold(cardTransImg, cardTransImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 9);
+
+            // TODO
+            // @@Classification
+            // @Input  : Mat cardTransImg.submat(0, imageSize, 0, imageSize);
+            // @Output : string name,
+            //           ItemType type,
+            //           int direction;
+            string name = "name";
+            ItemType type = new ItemType();
+            int direction = 0;
+            Mat cardImg = cardTransImg.submat(0, imageSize, 0, imageSize);
+            //int class = predict(cardTransImg.submat(0, imageSize, 0, imageSize))
+
+
+            // Add to listItem
+            tmpItem = new CircuitItem(ID, name, type, ID++, frameImg.size());
+            tmpItem.extractCard(direction, outer_squares[i]);
             listItem.Add(tmpItem);
         }
 
-        battery_detector.removeCard(ref frameImg, rect);
-        bb.Clear();
-        rect.Clear();
+        // Substract all outer_squares from frameImg
+        CardDetector.removeCard(ref frameImg, outer_squares);
 
-        // Detect lights
-        light_detector.detectCard(frameImg, ref bb, ref rect);
-
-        for (var i = 0; i < bb.Count; i++)
-        {
-            if (bb[i].Count < 4) break;
-            util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(0, 255, 0));
-
-            // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Bulb", ItemType.Bulb, ID++, frameImg.size());
-            tmpItem.extractCard(bb[i], rect[i]);
-            listItem.Add(tmpItem);
-        }
-
-        light_detector.removeCard(ref frameImg, rect);
-        bb.Clear();
-        rect.Clear();
-
-        // Detect switches
-        switch_detector.detectCard(frameImg, ref bb, ref rect);
-
-        for (var i = 0; i < bb.Count; i++)
-        {
-            if (bb[i].Count < 4) break;
-            util.drawBoundingBox(resultImg, bb[i], rect[i], new Scalar(255, 255, 0));
-
-            // Add to CircuitItem
-            tmpItem = new CircuitItem(ID, "Switch", ItemType.Switch, ID++, frameImg.size());
-            tmpItem.extractCard(bb[i], rect[i]);
-            listItem.Add(tmpItem);
-        }
-
-        switch_detector.removeCard(ref frameImg, rect);
-        bb.Clear();
-        rect.Clear();
 
         /// Detect Lines =============================================================
         List<List<List<Point>>> listLine = new List<List<List<Point>>>();
+        List<Rect> rect = new List<Rect>();
         line_detector.detectLine(frameImg, ref listLine, ref rect);
 
         for (var i = 0; i < listLine.Count; i++)
-        {
             util.drawPoint(resultImg, listLine[i], rect[i]);
-        }
 
         // Add to CircuitItem
-        for(var i = 0; i < listLine.Count; i++)
-            for(var j = 0; j < listLine[i].Count; j++)
+        for (var i = 0; i < listLine.Count; i++)
+            for (var j = 0; j < listLine[i].Count; j++)
             {
                 tmpItem = new CircuitItem(ID, "CircuitLine", ItemType.CircuitLine, ID++, frameImg.size());
                 tmpItem.extractLine(listLine[i][j], rect[i]);
                 listItem.Add(tmpItem);
             }
-
-        rect.Clear();
-
         return resultImg;
     }
 
-    void saveDefault()
+    public void createDataSet(Mat frameImg, string path)
     {
-        PlayerPrefs.SetInt("battery_h_min", 84);
-        PlayerPrefs.SetInt("battery_h_max", 150);
-        PlayerPrefs.SetInt("battery_s_min", 84);
-        PlayerPrefs.SetInt("battery_s_max", 255);
-        PlayerPrefs.SetInt("battery_v_min", 54);
-        PlayerPrefs.SetInt("battery_v_max", 255);
-        PlayerPrefs.SetInt("battery_area", 10000);
+        Mat grayImg = new Mat();
+        Mat binaryImg = new Mat();
+        Mat cardTransImg = new Mat();
+        Mat cardImg = new Mat();
 
-        PlayerPrefs.SetInt("light_h_min", 34);
-        PlayerPrefs.SetInt("light_h_max", 82);
-        PlayerPrefs.SetInt("light_s_min", 68);
-        PlayerPrefs.SetInt("light_s_max", 255);
-        PlayerPrefs.SetInt("light_v_min", 7);
-        PlayerPrefs.SetInt("light_v_max", 227);
-        PlayerPrefs.SetInt("light_area", 10000);
+        /// Detect Cards =============================================================
+        MatOfPoint2f point = new MatOfPoint2f(new Point[4]
+            { new Point(0, 0), new Point(imageSize, 0), new Point(imageSize, imageSize), new Point(0, imageSize) });
 
-        PlayerPrefs.SetInt("switch_h_min", 0);
-        PlayerPrefs.SetInt("switch_h_max", 57);
-        PlayerPrefs.SetInt("switch_s_min", 38);
-        PlayerPrefs.SetInt("switch_s_max", 255);
-        PlayerPrefs.SetInt("switch_v_min", 34);
-        PlayerPrefs.SetInt("switch_v_max", 194);
-        PlayerPrefs.SetInt("switch_area", 10000);
+        // Thresholding
+        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
 
-        PlayerPrefs.SetInt("line_h_min", 0);
-        PlayerPrefs.SetInt("line_h_max", 180);
-        PlayerPrefs.SetInt("line_s_min", 0);
-        PlayerPrefs.SetInt("line_s_max", 255);
-        PlayerPrefs.SetInt("line_v_min", 0);
-        PlayerPrefs.SetInt("line_v_max", 100);
-        PlayerPrefs.SetInt("line_area", 500);
+        // Get all the squares
+        List<List<Point>> squares = new List<List<Point>>();
+        squares = CardDetector.findSquares(binaryImg);
+
+        for (int i = 0; i < squares.Count; i++)
+        {
+            // Perspective transform
+            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
+            Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
+            Imgproc.cvtColor(cardTransImg, cardTransImg, Imgproc.COLOR_BGR2GRAY);
+            Imgproc.adaptiveThreshold(cardTransImg, cardTransImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 9);
+
+            cardImg = cardTransImg.submat(0, imageSize, 0, imageSize);
+
+            path = path + "/" + System.DateTime.Now.Ticks + ".jpg";
+
+            Imgcodecs.imwrite(path, cardImg);
+        }
     }
 }

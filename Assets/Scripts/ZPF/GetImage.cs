@@ -69,10 +69,7 @@ public class GetImage : MonoBehaviour
 	{
 		rotateCamera = new RotateCamera ();  
 		// Intialize RecogniazeAlgo
-		recognizeAlgo = new RecognizeAlgo(light_tex,
-			battery_tex,
-			switch_tex,
-			line_tex);
+		recognizeAlgo = new RecognizeAlgo();
 
 		listItem = new List<CircuitItem>();
     }

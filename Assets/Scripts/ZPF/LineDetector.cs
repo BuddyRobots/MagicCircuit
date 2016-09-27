@@ -13,9 +13,9 @@ namespace MagicCircuit
         private const int delta_large = 20;
         private const int point_num = 3;
 
-        public LineDetector(Texture2D _component)
+        public LineDetector()
         {
-            colorThreshold = new ColorThreshold(_component.name);
+            colorThreshold = new ColorThreshold("line");
         }
 
         public void detectLine(Mat frame, ref List<List<List<Point>>> listLine, ref List<OpenCVForUnity.Rect> rect)
@@ -364,32 +364,4 @@ namespace MagicCircuit
         public Point first;
         public Point last;
     }
-
-    /*public enum From { left, right, up, down, none };
-
-    public class MyPoint
-    {
-        public From from;
-        public int x;
-        public int y;
-
-        public MyPoint()
-        {
-            x = 0;
-            y = 0;
-            from = From.none;
-        }
-
-        public MyPoint(int _x, int _y, From _from)
-        {
-            x = _x;
-            y = _y;
-            from = _from;
-        }
-
-        public Point toPoint()
-        {
-            return new Point(x, y);
-        }
-    }*/
 }
