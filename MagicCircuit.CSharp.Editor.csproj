@@ -111,10 +111,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MagicCircuit.CSharp.Plugins.csproj">
-      <Project>{77065733-C8BA-A965-6D80-2156A1952C9B}</Project>
-      <Name>MagicCircuit.CSharp.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="MagicCircuit.CSharp.csproj">
       <Project>{177E5DA5-B3CF-A7C1-7FFE-CA6BAF58EC65}</Project>
       <Name>MagicCircuit.CSharp</Name>
@@ -253,12 +249,18 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\OpenCVForUnity\StreamingAssets\haarcascade_frontalface_alt.xml" />
     <None Include="Assets\OpenCVForUnity\StreamingAssets\lbpcascade_frontalface.xml" />
-    <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
     <None Include="Assets\Xmls\CircuitItems.xml" />
     <None Include="Assets\Xmls\CircuitItems_1.xml" />
     <None Include="Assets\Xmls\CircuitItems_6.xml" />
     <None Include="Assets\Xmls\CircuitItems_6_wrong.xml" />
     <None Include="Assets\Xmls\CircuitItems_7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv2.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv3.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv5.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv6.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv8.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv8second.xml" />
     <None Include="Assets\Xmls\CircuitItems_old.xml" />
     <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
   </ItemGroup>

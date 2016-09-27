@@ -72,12 +72,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="MagicCircuit.CSharp.Plugins.csproj">
-      <Project>{77065733-C8BA-A965-6D80-2156A1952C9B}</Project>
-      <Name>MagicCircuit.CSharp.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
     <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -414,6 +408,7 @@
     <Compile Include="Assets\Scripts\WQ\LevelSpecial\TwoSwitchInSeriesCircuit.cs" />
     <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchAndLAswitchTogether.cs" />
     <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchOccur.cs" />
+    <Compile Include="Assets\Scripts\WQ\Manager\BussinessLogic.cs" />
     <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
     <Compile Include="Assets\Scripts\WQ\Manager\CommonFuncManager.cs" />
     <Compile Include="Assets\Scripts\WQ\Manager\LevelManager.cs" />
@@ -436,19 +431,6 @@
     <Compile Include="Assets\Scripts\ZPF\Utils.cs" />
     <Compile Include="Assets\Scripts\ZPF\Xml.cs" />
     <Compile Include="Assets\Scripts\ZPF\tuneThres.cs" />
-    <Compile Include="Assets\ScriptsCV\CvUtil\Card.cs" />
-    <Compile Include="Assets\ScriptsCV\CvUtil\Segmentation.cs" />
-    <Compile Include="Assets\ScriptsCV\CvUtil\Track.cs" />
-    <Compile Include="Assets\ScriptsCV\Features\Axis.cs" />
-    <Compile Include="Assets\ScriptsCV\Features\CircularDist.cs" />
-    <Compile Include="Assets\ScriptsCV\Features\Feature.cs" />
-    <Compile Include="Assets\ScriptsCV\Features\HorizonLine.cs" />
-    <Compile Include="Assets\ScriptsCV\Objects\Apple.cs" />
-    <Compile Include="Assets\ScriptsCV\Objects\House.cs" />
-    <Compile Include="Assets\ScriptsCV\Objects\MyObject.cs" />
-    <Compile Include="Assets\ScriptsCV\Objects\Tree.cs" />
-    <Compile Include="Assets\ScriptsCV\Utility\BaseParams.cs" />
-    <Compile Include="Assets\ScriptsCV\Utility\FigProc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
@@ -493,12 +475,18 @@
     <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
     <None Include="Assets\OpenCVForUnity\StreamingAssets\haarcascade_frontalface_alt.xml" />
     <None Include="Assets\OpenCVForUnity\StreamingAssets\lbpcascade_frontalface.xml" />
-    <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
     <None Include="Assets\Xmls\CircuitItems.xml" />
     <None Include="Assets\Xmls\CircuitItems_1.xml" />
     <None Include="Assets\Xmls\CircuitItems_6.xml" />
     <None Include="Assets\Xmls\CircuitItems_6_wrong.xml" />
     <None Include="Assets\Xmls\CircuitItems_7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv2.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv3.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv5.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv6.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv8.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv8second.xml" />
     <None Include="Assets\Xmls\CircuitItems_old.xml" />
     <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
   </ItemGroup>
