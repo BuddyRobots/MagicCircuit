@@ -51,8 +51,6 @@ public class RecognizeAlgo
             // Perspective transform
             Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
             Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
-            Imgproc.cvtColor(cardTransImg, cardTransImg, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.adaptiveThreshold(cardTransImg, cardTransImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 9);
 
             // TODO
             // @@Classification
@@ -60,6 +58,7 @@ public class RecognizeAlgo
             // @Output : string name,
             //           ItemType type,
             //           int direction;
+            // FIXME: cardImg BGR2RGB ????
             string name = "name";
             ItemType type = new ItemType();
             int direction = 0;
@@ -96,12 +95,13 @@ public class RecognizeAlgo
         return resultImg;
     }
 
-    public void createDataSet(Mat frameImg, string path)
+    public List<Mat> createDataSet(Mat frameImg/*, string path*/)
     {
         Mat grayImg = new Mat();
         Mat binaryImg = new Mat();
         Mat cardTransImg = new Mat();
         Mat cardImg = new Mat();
+        List<Mat> result = new List<Mat>();
 
         /// Detect Cards =============================================================
         MatOfPoint2f point = new MatOfPoint2f(new Point[4]
@@ -120,14 +120,14 @@ public class RecognizeAlgo
             // Perspective transform
             Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
             Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
-            Imgproc.cvtColor(cardTransImg, cardTransImg, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.adaptiveThreshold(cardTransImg, cardTransImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 9);
 
             cardImg = cardTransImg.submat(0, imageSize, 0, imageSize);
 
-            path = path + "/" + System.DateTime.Now.Ticks + ".jpg";
+            result.Add(cardImg);
+            //path = path + "/" + System.DateTime.Now.Ticks + ".jpg";
 
-            Imgcodecs.imwrite(path, cardImg);
+            //Imgcodecs.imwrite(path, cardImg);
         }
+        return result;
     }
 }

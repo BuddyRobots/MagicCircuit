@@ -480,13 +480,18 @@
     <None Include="Assets\Xmls\CircuitItems_6.xml" />
     <None Include="Assets\Xmls\CircuitItems_6_wrong.xml" />
     <None Include="Assets\Xmls\CircuitItems_7.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv11.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv12.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv13.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv14.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv2.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv3.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv4.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv5.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv6.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv7.xml" />
     <None Include="Assets\Xmls\CircuitItems_lv8.xml" />
-    <None Include="Assets\Xmls\CircuitItems_lv8second.xml" />
+    <None Include="Assets\Xmls\CircuitItems_lv9.xml" />
     <None Include="Assets\Xmls\CircuitItems_old.xml" />
     <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
   </ItemGroup>
