@@ -21,13 +21,19 @@ public class MoonAndSunCtrl : MonoBehaviour {
 
 	}
 
+	void OnEnable()
+	{
+
+
+	}
 
 	void Start () 
 	{
 	
 		sunBtn = transform.Find ("SunBtn").gameObject;
 		moonBtn = transform.Find ("MoonBtn").gameObject;
-
+		sunBtn.SetActive (true);
+		moonBtn.SetActive (false);
 		UIEventListener.Get (sunBtn).onClick = OnSunBtnClick;
 		UIEventListener.Get (moonBtn).onClick = OnMoonBtnClick;
 

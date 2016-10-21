@@ -56,7 +56,7 @@ namespace MagicCircuit
         public static XmlCircuitItemCollection Load(string path)
         {
             var serializer = new XmlSerializer(typeof(XmlCircuitItemCollection));
-            using (var stream = new FileStream(path, FileMode.Open))
+			using (var stream = new FileStream(path, FileMode.Open,FileAccess.Read))
             {
                 return serializer.Deserialize(stream) as XmlCircuitItemCollection;
             }

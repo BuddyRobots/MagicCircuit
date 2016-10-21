@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using MagicCircuit;
 
 // level 14-------声控延时开关+光敏  
 public class LevelFourteen : MonoBehaviour
@@ -37,11 +37,15 @@ public class LevelFourteen : MonoBehaviour
 	{
 		if (isLevelFourteen) 
 		{
+			Transform LAswitch = transform.Find ("lightActSwitch");
+			Transform VoiceDelaySwitch = transform.Find ("voiceTimedelaySwitch");
+
 			nightBg = PhotoRecognizingPanel._instance.nightMask;
 			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
 			{
 				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("SunAndMoonWidget").localPosition);
-				if (!transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime) {
+				if (!transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime) //如果点击了太阳，是晚上模式
+				{
 				
 					Destroy (PhotoRecognizingPanel._instance.finger);//小手消失
 
@@ -50,7 +54,6 @@ public class LevelFourteen : MonoBehaviour
 					{
 						changeTimer = changeTime;
 					}
-
 					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);//蒙板渐变暗
 					if(changeTimer>=changeTime*5/6)//蒙板快变暗时
 					{
@@ -58,7 +61,6 @@ public class LevelFourteen : MonoBehaviour
 					}
 					if(isLAswitchOn)
 					{
-
 						transform.Find ("lightActSwitch").GetComponent<UISprite> ().spriteName = "LAswitchOn";//光敏开关闭合
 						GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("MicroPhoneBtn").localPosition);//在话筒按钮出现小手
 						if (transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice) 

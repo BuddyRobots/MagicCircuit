@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
-//level 6
+
+//level 6-----并联电路，1个电池+2个开关+1个灯泡+1个音响（两个开关分别控制灯泡和音响）
 public class ParallelCircuitsWithTwoSwitch : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isParrallelCircuit = false;
-	//private bool isCircuitAnimationPlayed=false;
-	//private GameObject clickBattery =null;
 	private List<GameObject> switchList = null; 
 
 	void OnEnable ()
@@ -28,13 +27,6 @@ public class ParallelCircuitsWithTwoSwitch : MonoBehaviour
 
 				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);//使用新的circuititems
 
-//				foreach (var item in CurrentFlow._instance.circuitItems) 
-//				{
-//					if (item.type == ItemType.CircuitLine) 
-//					{
-//						print (item.ID + ":" + item.powered);
-//					}
-//				}
 			}
 		}
 	}

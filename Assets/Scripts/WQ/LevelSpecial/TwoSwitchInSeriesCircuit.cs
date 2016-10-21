@@ -28,6 +28,7 @@ public class TwoSwitchInSeriesCircuit : MonoBehaviour
 
 	void Update () 
 	{
+		
 		if (isTwoSwitchInSeriesCircuit) 
 		{
 			normalSwitchList = GetComponent<PhotoRecognizingPanel> ().switchList;

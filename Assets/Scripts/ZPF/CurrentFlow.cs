@@ -43,8 +43,11 @@ namespace MagicCircuit
 		{ 
 			if (Application.platform == RuntimePlatform.IPhonePlayer)
 			{
+				Debug.Log ("CurrentFlow_documents_filename==" + filename);
 				string path = Application.dataPath.Substring( 0, Application.persistentDataPath.Length - 5 );
+				Debug.Log ("CurrentFlow_documents_path==" + path);
 				path = path.Substring( 0, path.LastIndexOf( '/' ) );
+				Debug.Log ("CurrentFlow_documents_path2==" + path);
 				return Path.Combine( Path.Combine( path, "Documents" ), filename );
 			}       
 			else if(Application.platform == RuntimePlatform.Android)
@@ -64,23 +67,36 @@ namespace MagicCircuit
         // Use this for initialization
         void Start()
         {
-			Debug.Log ("Application.datapath" + Application.dataPath);
-			Debug.Log ("Application.streamingAssetsPath"+Application.streamingAssetsPath);
-			Debug.Log ("Application.persistentDataPath" + Application.persistentDataPath);
+			//Debug.Log ("Application.datapath" + Application.dataPath);
+			//Debug.Log ("Application.streamingAssetsPath"+Application.streamingAssetsPath);
+			//Debug.Log ("Application.persistentDataPath" + Application.persistentDataPath);
 
 			#if UNITY_EDITOR  
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv7.xml")).toCircuitItems();
+			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv13.xml")).toCircuitItems();
 			#elif UNITY_IPHONE 
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+
+			string xmlPath4 = Application.dataPath.Substring( 0,  Application.dataPath.Length - 4);
+			Debug.Log("xmlPath4==" + xmlPath4);
+			string xmlPath5 = Path.Combine(xmlPath4, "Xmls/CircuitItems_lv2.xml");
+			Debug.Log("xmlPath5==" + xmlPath5);
+
+			 if (File.Exists(xmlPath5))
+			{
+				Debug.Log("Great! I have found the file!");
+			}
+			else
+			{
+				Debug.Log("Sorry!");
+			}
+			circuitItems = XmlCircuitItemCollection.Load(xmlPath5).toCircuitItems();
+
+			Debug.Log("circuitItems_size == " + circuitItems.Count);
+
+			foreach(CircuitItem ci in circuitItems )
+			{
+				Debug.Log("CircuitItem_info == " + ci.name);
+			}
 			#endif 
-
-
-
-		
-
-			//circuitItems = XmlCircuitItemCollection.Load(pathForDocumentsFile("Xmls/CircuitItems_lv2.xml")).toCircuitItems();
-
-
 
             /// Process
             if (computeCircuitBranch())

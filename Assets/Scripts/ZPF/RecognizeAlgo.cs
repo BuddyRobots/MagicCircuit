@@ -97,6 +97,7 @@ public class RecognizeAlgo
 
     public List<Mat> createDataSet(Mat frameImg/*, string path*/)
     {
+		
         Mat grayImg = new Mat();
         Mat binaryImg = new Mat();
         Mat cardTransImg = new Mat();

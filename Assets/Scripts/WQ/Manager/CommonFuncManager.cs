@@ -87,22 +87,40 @@ public class CommonFuncManager : MonoBehaviour
 		return angle;  
 	}
 
-	//遍历新的circuitItem，根据其powered属性值来改变UI
+	/// <summary>
+	///1个电池的情况下刷新items 遍历新的circuitItem，根据其powered属性值来刷新UI
+	/// </summary>
+	/// <param name="circuitItems">Circuit items.</param>
 	public void CircuitReset(List<CircuitItem> circuitItems)
 	{
 		//Debug.Log ("CircuitReset");
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
-			string tag = circuitItems [i].ID.ToString ();
-			GameObject temp = GameObject.FindGameObjectWithTag (tag);
-			switch (circuitItems [i].type) //找到tag与这个item的ID相等的对象，修改sprite
+			string tag = circuitItems [i].ID.ToString ();//获取每一个item的ID，
+			GameObject temp = GameObject.FindGameObjectWithTag (tag);//对应界面上的Tag来找到对应的图标对象
+			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
 			{
 				case ItemType.Bulb:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbOn":"bulbOff");
 					break;
 
+				case ItemType.VoiceOperSwitch:
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
+					break;
+
+				case ItemType.LightActSwitch:
+				//Debug.Log ("powered===" + circuitItems [i].powered);
+				//print (temp.name);
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
+					break;
+
+				case ItemType.VoiceTimedelaySwitch:
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
+					break;
+
 				case ItemType.InductionCooker:
 					//电磁炉通电/冒蒸汽的切换  to do ...
+					//如果通电则播放动画，没通电则不播放动画  to do...
 					break;
 				case ItemType.Loudspeaker:
 					AudioSource tempAudio = temp.GetComponent<AudioSource> ();
@@ -111,6 +129,7 @@ public class CommonFuncManager : MonoBehaviour
 						if (!tempAudio.isPlaying) 
 						{
 							tempAudio.Play ();
+							tempAudio.volume = 0.5f;
 						}
 
 					} 
@@ -129,6 +148,7 @@ public class CommonFuncManager : MonoBehaviour
 					{ 
 						if (item) 
 						{
+							//Debug.Log ("CommonFuncMgr_circuitItems [i].powered==" + circuitItems [i].powered);
 							item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
 						}
 					}
@@ -142,4 +162,69 @@ public class CommonFuncManager : MonoBehaviour
 		}
 
 	}
+
+
+
+
+	/// <summary>
+	/// 两个电池的情况下刷新items
+	/// </summary>
+	/// <param name="circuitItems">Circuit items.</param>
+	public void CircuitResetWithTwoBattery(List<CircuitItem> circuitItems)
+	{
+		for (int i = 0; i < circuitItems.Count ; i++) 
+		{
+			string tag = circuitItems [i].ID.ToString ();//获取每一个item的ID，
+			GameObject temp = GameObject.FindGameObjectWithTag (tag);//对应界面上的Tag来找到对应的图标对象
+			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
+			{
+			case ItemType.Bulb:
+				temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbSpark":"bulbOff");
+				break;
+
+			case ItemType.InductionCooker:
+				//电磁炉通电/冒蒸汽的切换  to do ...
+				//如果通电则播放动画，没通电则不播放动画  to do...
+				break;
+			case ItemType.Loudspeaker:
+				AudioSource tempAudio = temp.GetComponent<AudioSource> ();
+				if (circuitItems [i].powered) // this item is power on
+				{
+					if (!tempAudio.isPlaying) 
+					{
+						tempAudio.Play ();
+						tempAudio.volume = 1f;
+					}
+
+				} 
+				else // this item is power off
+				{
+					if (tempAudio.isPlaying) 
+					{
+						tempAudio.Stop ();
+					}
+				}
+				break;
+			case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
+				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
+				foreach (var item in temps) 
+				{ 
+					if (item) 
+					{
+						//Debug.Log ("CommonFuncMgr_circuitItems [i].powered==" + circuitItems [i].powered);
+						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
+					}
+				}
+				break;
+			default:
+				break;
+
+			}
+		}
+
+	}
+
+
+
+
 }

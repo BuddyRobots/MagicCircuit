@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="gb2312"?>
+<?xml version="1.0" encoding="utf-8"?>
 <XmlCircuitItemCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <XmlCircuitItems>
     <XmlCircuitItem ID="0">
@@ -68,8 +68,8 @@
 	  </connect_right>
     </XmlCircuitItem>
     <XmlCircuitItem ID="3">
-      <name>VoiceTimedelaySwitch</name>
-      <type>VoiceTimedelaySwitch</type>
+      <name>VoiceOperSwitch</name>
+      <type>VoiceOperSwitch</type>
       <list>
         <Vector3>
           <x>-20</x>

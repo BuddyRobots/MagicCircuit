@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-public class PhotoTakingPanel : MonoBehaviour {
-
+public class PhotoTakingPanel : MonoBehaviour 
+{
 	public static PhotoTakingPanel _instance;
 
 	private GameObject helpBtn;
@@ -43,6 +43,7 @@ public class PhotoTakingPanel : MonoBehaviour {
 	void OnEnable()
 	{
 		levelLabel.text = LevelManager.currentLevelData.LevelName;
+		HomeBtn.Instance.panelOff = PanelOff;
 	}
 
 	#region 计算按钮的点击事件
@@ -86,15 +87,16 @@ public class PhotoTakingPanel : MonoBehaviour {
 		GetImage._instance.SavePic ();
 
 		PanelOff ();
+		photoRecognizingPanel.SetActive (true);
 	}
 	#endregion
 
 	public void PanelOff()
 	{
+
 		countDown.text="3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
-		photoRecognizingPanel.SetActive (true);
 		gameObject.SetActive (false);
 
 	}

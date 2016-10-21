@@ -97,20 +97,20 @@ public class BussinessLogic
 			switch (item.power) 
 			{
 			case CircuitItem.PowerStatus.E0:
-				if (tempAudio.isPlaying) //如果在播放声音，则停止播放声音   to do..
+				if (tempAudio.isPlaying) //如果在播放声音，则停止播放声音  
 				{
 					tempAudio.Stop ();
 				}
 				break;
 			case CircuitItem.PowerStatus.E1:
-				if (!tempAudio.isPlaying) //如果没有播放声音，则播放声音   音量小  to do...
+				if (!tempAudio.isPlaying) //如果没有播放声音，则播放声音   音量小 
 				{
 					tempAudio.Play ();
 				} 
 				tempAudio.volume = 0.5f;
 
 				break;
-			case CircuitItem.PowerStatus.E2://如果没有播放声音，则播放声音   音量大  to do...
+			case CircuitItem.PowerStatus.E2://如果没有播放声音，则播放声音   音量大  
 				if (!tempAudio.isPlaying) 
 				{
 					tempAudio.Play ();

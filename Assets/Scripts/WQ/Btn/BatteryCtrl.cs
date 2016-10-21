@@ -8,8 +8,8 @@ public class BatteryCtrl : MonoBehaviour
 	public bool isSemiTrans = false;
 	private UISprite batterySprite;
 
-	[HideInInspector]
-	public int clickCount = 0;
+	//[HideInInspector]
+	//public int clickCount = 0;
 
 	void Start()
 	{
@@ -19,7 +19,7 @@ public class BatteryCtrl : MonoBehaviour
 
 	void OnEnable()
 	{
-		clickCount = 0;
+		//clickCount = 0;
 	}
 
 	
@@ -37,13 +37,15 @@ public class BatteryCtrl : MonoBehaviour
 			batterySprite.spriteName="battery";
 		
 		}
+		//Debug.Log ("batterySprite.spriteName====="+batterySprite.spriteName);
 	}
 		
 	void OnClick()
 	{
 		
 		isSemiTrans = !isSemiTrans;
-		clickCount++;
+		//Debug.Log ("battery semiTransparent------" + isSemiTrans);
+		//clickCount++;
 		//点奇数次的时候是透明，点偶数次的时候是 不透明
 
 	}

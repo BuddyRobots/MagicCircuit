@@ -1,22 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HomeBtn : MonoBehaviour 
+
+public class HomeBtn : SceneSinglton<HomeBtn>
 {
-
 	private GameObject startPanel;
+	public VoidDelegate panelOff;
 
-	void Start () 
+	void Awake () 
 	{
-		startPanel = transform.parent.parent.Find ("StartPanel").gameObject;
-	
+		startPanel = GameObject.Find("UI Root").transform.Find ("StartPanel").gameObject;
+		UIEventListener.Get (gameObject).onClick += onClick1;
 	}
 
-	void OnClick()
+	void onClick1(GameObject go)
 	{
-		//关闭父对象界面，打开主界面
+		//打开主界面,关闭父对象界面
 		startPanel.SetActive (true);
-		transform.parent.gameObject.SetActive(false);
-
+		Instance.panelOff();
 	}
 }
+	
+

@@ -138,7 +138,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	private List<GameObject> goList=new List<GameObject>();
 	[HideInInspector]
-	public List<GameObject> switchList = new List<GameObject> ();//普通开关的集合
+	public List<GameObject> switchList = new List<GameObject> ();//开关的集合
 	[HideInInspector]
 	public List<CircuitItem> itemsList=new List<CircuitItem>();//图标的集合
 	[HideInInspector]
@@ -189,6 +189,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnEnable()
 	{
+		HomeBtn.Instance.panelOff = PanelOff;
 		maskTimer = 0;
 		maskTime = 0;
 		arrowGenInterval = 0.8f;
@@ -238,8 +239,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		data = LevelManager.currentLevelData;
 
-	    itemsList=CircuitItemManager._instance.itemList;  // for test...
-		//itemsList=CurrentFlow._instance.circuitItems;//for test
+	    //itemsList=CircuitItemManager._instance.itemList;  // for test...
+		itemsList=CurrentFlow._instance.circuitItems;//for test
 		//itemsList=CircuitItemManager._instance.itemList;//real code
 
 		prePos = Vector3.zero; 
@@ -506,6 +507,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 		case ItemType.VoiceTimedelaySwitch:
 			item = GameObject.Instantiate (voiceTimedelaySwitch) as GameObject;
+			switchList.Add (item);
 			goList.Add (item);
 			item.name = "voiceTimedelaySwitch";
 			item.tag = circuitItem.ID.ToString ();
@@ -516,6 +518,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.VoiceOperSwitch:
 			//isHasSwitch = true;
 			item = GameObject.Instantiate (voiceOperSwitch) as GameObject;
+			switchList.Add (item);
 			goList.Add (item);
 			item.name = "voiceOperSwitch";
 			item.tag = circuitItem.ID.ToString ();
@@ -526,6 +529,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.LightActSwitch:
 			//isHasSwitch = true;
 			item = GameObject.Instantiate (lightActSwitch) as GameObject;
+			switchList.Add (item);
 			goList.Add (item);
 			item.name = "lightActSwitch";
 			item.tag = circuitItem.ID.ToString ();

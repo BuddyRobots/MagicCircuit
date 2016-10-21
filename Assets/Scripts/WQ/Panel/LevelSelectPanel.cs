@@ -131,7 +131,7 @@ public class LevelSelectPanel : MonoBehaviour {
 	{
 		//界面刷新
 		RefreshLevelUI ();
-
+		HomeBtn.Instance.panelOff = PanelOff;
 	}
 
 	//refresh UI

@@ -18,7 +18,12 @@ public class DescriptionPanel : MonoBehaviour {
 	{
 		_instance = this;
 	}
+	void OnEnable()
+	{
 
+		HomeBtn.Instance.panelOff = PanelOff;
+
+	}
 	void Start () 
 	{
 		nextBtn = transform.Find ("NextBtn").GetComponent<UIButton> ().gameObject;
@@ -59,8 +64,9 @@ public class DescriptionPanel : MonoBehaviour {
 	/// <param name="btn">Button.</param>
 	void OnNextBtnClick(GameObject btn)
 	{
-		photoTakingPanel.SetActive(true);
 		PanelOff ();
+		photoTakingPanel.SetActive(true);
+
 	}
 
 	public void PanelOff()

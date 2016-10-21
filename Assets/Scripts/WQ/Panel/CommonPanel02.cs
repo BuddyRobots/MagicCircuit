@@ -15,13 +15,19 @@ public class CommonPanel02 : MonoBehaviour {
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 
 	}
-		
+
+	void OnEnable()
+	{
+		HomeBtn.Instance.panelOff = PanelOff;
+	}	
 
 	void OnHelpBtnClick(GameObject btn)
 	{
 		//跳转到帮助界面
-		Debug.Log("GameObject: "+btn.name);
+		//Debug.Log("GameObject: "+btn.name);
 	}
+
+
 
 	public void PanelOff()
 	{

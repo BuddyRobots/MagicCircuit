@@ -6,31 +6,26 @@ public class MicroPhoneBtnCtrl : MonoBehaviour {
 	[HideInInspector]
 	public bool isCollectVoice = false;
 
-	private int clickCount = 0;
 
 	void OnEnable () 
 	{
 
-		clickCount = 0;
 		isCollectVoice = false;
 	
 	}
-	
 
 	void Update () 
 	{
 	
 	}
 
-
-
-
 	void OnClick()
 	{
-		clickCount = 1;
-		//if (clickCount == 1) 
-		//{
+		//只有光敏开关闭合的时候，点击小话筒按钮才会出现提示框，开始收集声音
+		//如果光敏开关没有闭合，点击小话筒按钮，没有反应
+
+
 			isCollectVoice = true;
-		//}
+
 	}
 }
