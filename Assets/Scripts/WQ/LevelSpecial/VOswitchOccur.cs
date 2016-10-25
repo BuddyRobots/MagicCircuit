@@ -48,6 +48,7 @@ public class VOswitchOccur : MonoBehaviour
 					if (isAnimationPlay) 
 					{
 						CurrentFlow._instance.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
+						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOff";
 						CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);	
 					}
 				}	

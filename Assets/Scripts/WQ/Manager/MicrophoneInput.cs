@@ -70,7 +70,7 @@ public class MicroPhoneInput : MonoBehaviour {
 		GetComponent<AudioSource>().Play ();  
 		Debug.Log("StartRecord");  
 		//倒计时   
-		StartCoroutine(TimeDown());  
+		//StartCoroutine(TimeDown());  
 
 	}  
 

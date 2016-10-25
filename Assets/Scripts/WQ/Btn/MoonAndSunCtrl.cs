@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoonAndSunCtrl : MonoBehaviour {
-
-
-
-
+public class MoonAndSunCtrl : MonoBehaviour 
+{
 	public static MoonAndSunCtrl _instance;
 
 	[HideInInspector]
@@ -23,17 +20,16 @@ public class MoonAndSunCtrl : MonoBehaviour {
 
 	void OnEnable()
 	{
-
+		isDaytime = true;
+		sunBtn = transform.Find ("SunBtn").gameObject;
+		moonBtn = transform.Find ("MoonBtn").gameObject;
+		sunBtn.SetActive (true);
+		moonBtn.SetActive (false);
 
 	}
 
 	void Start () 
 	{
-	
-		sunBtn = transform.Find ("SunBtn").gameObject;
-		moonBtn = transform.Find ("MoonBtn").gameObject;
-		sunBtn.SetActive (true);
-		moonBtn.SetActive (false);
 		UIEventListener.Get (sunBtn).onClick = OnSunBtnClick;
 		UIEventListener.Get (moonBtn).onClick = OnMoonBtnClick;
 
@@ -44,14 +40,13 @@ public class MoonAndSunCtrl : MonoBehaviour {
 	{
 		if (isDaytime && moonBtn.activeSelf) 
 		{
-		
 			moonBtn.SetActive (false);
 			sunBtn.SetActive (true);
 		}
-		if (!isDaytime && sunBtn.activeSelf) {
+		if (!isDaytime && sunBtn.activeSelf) 
+		{
 			moonBtn.SetActive (true);
 			sunBtn.SetActive (false);
-		
 		}
 	
 	}

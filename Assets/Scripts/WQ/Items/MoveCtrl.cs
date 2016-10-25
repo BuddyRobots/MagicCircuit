@@ -67,7 +67,11 @@ public class MoveCtrl : MonoBehaviour
 	/// <param name="line">Line.</param>
 	public void Move(List<Vector3> line)
 	{
-
+//		Debug.Log("-----move---pos on line-----");
+//		for (int i = 0; i < line.Count; i++) 
+//		{
+//			Debug.Log (""+line [i]);
+//		}
 		this.line = line;
 		arrowCtrl.SetDestination (line [++index]);
 

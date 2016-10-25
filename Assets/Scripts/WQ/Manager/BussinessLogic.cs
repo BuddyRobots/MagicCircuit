@@ -29,7 +29,7 @@ public class BussinessLogic
 				{
 					item.power = CircuitItem.PowerStatus.E2;
 				}
-				AllItemFlush ();
+				AllItemFlush (circuititems);
 			}
 		}
 
@@ -37,9 +37,9 @@ public class BussinessLogic
 	/// <summary>
 	/// refresh all the items on UI
 	/// </summary>
-	public void AllItemFlush()
+	public void AllItemFlush(List<CircuitItem> circuitItems)
 	{
-		foreach (var item in CurrentFlow._instance.circuitItems) 
+		foreach (var item in circuitItems) 
 		{
 			SingleItemFlush (item);
 		}

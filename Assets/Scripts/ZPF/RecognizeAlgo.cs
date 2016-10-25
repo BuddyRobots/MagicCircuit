@@ -17,6 +17,7 @@ public class RecognizeAlgo
         util = new myUtils();
     }
 
+
     public Mat process(Mat frameImg, ref List<CircuitItem> listItem)
     {
         Mat grayImg = new Mat();

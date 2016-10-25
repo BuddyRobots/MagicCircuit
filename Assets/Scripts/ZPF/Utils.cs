@@ -113,7 +113,7 @@ namespace MagicCircuit
 		/// <summary>
 		/// single pole double throw switch  单刀双掷开关
 		/// </summary>
-		DoubleDirSwitch,
+		SPDTSwitch,
 
 		/// <summary>
 		/// voice operated switch  声控开关
@@ -152,6 +152,8 @@ namespace MagicCircuit
 		public bool powered{ get; set; }        //元件是否通电
 		[HideInInspector]
 		public PowerStatus power = PowerStatus.E0;
+
+
 		//public int controlSwitchID{ get; set;}  //控制元件的开关的ID
 		//private int appearTimes{get; set;}		//图标出现的次数
 		public enum PowerStatus
@@ -173,7 +175,7 @@ namespace MagicCircuit
 
         public Vector2 connect_left;            //Connect point on card
         public Vector2 connect_right;			//For lines : connect_left == start, connect_right == end
-
+		public Vector2 connect_middle;	
 
         private double x_shift;                 //Private Parameters for changing cordinates
         private double y_shift;
@@ -194,6 +196,7 @@ namespace MagicCircuit
 
             connect_left = new Vector2();
             connect_right = new Vector2();
+			connect_middle= new Vector2();
 
 			x_shift = _frameSize.width / 2;
             y_shift = _frameSize.height / 2;
@@ -212,6 +215,7 @@ namespace MagicCircuit
 
             connect_left = new Vector2();
             connect_right = new Vector2();
+			connect_middle= new Vector2();
 
             x_shift = _frameSize.width / 2;
             y_shift = _frameSize.height / 2;
@@ -232,6 +236,7 @@ namespace MagicCircuit
             powered = src.powered;
             connect_left = src.connect_left;
             connect_right = src.connect_right;
+			connect_middle= src.connect_middle;
         }		
 
         // Previous version for back up. Use the Override function!

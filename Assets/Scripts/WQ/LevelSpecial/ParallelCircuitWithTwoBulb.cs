@@ -10,15 +10,30 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 	public bool isParallelCircuitWithTwoBulb = false;
 	private List<GameObject> switchList = null; 
 	private bool isCircuitAnimationPlayed=false;
+	private bool isBulbClicked=false;
 	private GameObject clickBulb =null;
 	private List<GameObject> bulbList = null;
+	private bool isBulbAddComponent = false;
+	/// <summary>
+	/// 记录小手最多出现的次数，小于0时销毁小手
+	/// </summary>
+	private int singnal=2;
+	/// <summary>
+	/// 标记能被点击的灯泡是否是半透明，false是不透明，true为透明
+	/// </summary>
+	private bool preClickBulbSemiStatus=false;
+	/// </summary>
 
 	void OnEnable ()
 	{
+		isBulbClicked=false;
 		isParallelCircuitWithTwoBulb = false;
 		isCircuitAnimationPlayed=false;
+		isBulbAddComponent = false;
+		singnal=2;
+		preClickBulbSemiStatus=false;
+		clickBulb = null;
 	}
-	
 
 	//电流播放一会后，在灯泡的位置出现小手提示灯泡是可以点击的，（两个灯泡要确保有一个是在工作的，只能有一个能被点击变成半透明），
 	//点击灯泡后，小手消失，灯泡变成半透明，另外一个灯泡变得更亮；再点击透明灯泡，灯泡复原成不透明，另外一个灯泡变正常亮
@@ -32,48 +47,67 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 			for (int i = 0; i < switchList.Count; i++) //点击开关，调用方法，circuitItems更新powered属性
 			{
 				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitResetWithTwoBattery (CurrentFlow._instance.circuitItems);//使用新的circuititems
+				CommonFuncManager._instance.CircuitReset(CurrentFlow._instance.circuitItems);//使用新的circuititems
 			}
 			isCircuitAnimationPlayed = CircuitPowerdOrNot ();
 			if (isCircuitAnimationPlayed) //灯泡可以被点击
 			{
 				clickBulb = bulbList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(clickBulb.transform.localPosition);//show finger
-				clickBulb.AddComponent<UIButton> ();//给随机的电池添加button组件和BatteryCtrl组件来实现点击事件
-				clickBulb.AddComponent<BatteryCtrl> ();
+		
+				if (!isBulbAddComponent) //保证只给bulb加一次脚本
+				{
+					clickBulb.AddComponent<UIButton> ();//给随机的灯泡添加button组件和BulbCtrl组件来实现点击事件
+					clickBulb.AddComponent<BulbCtrl> ();
+					isBulbAddComponent = true;
+				}
 
-				BussinessLogic BL = new BussinessLogic ();
+
 				if (clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) //1个灯泡变成半透明
 				{ 
-					if (PhotoRecognizingPanel._instance.finger) 
-					{
-						Destroy (PhotoRecognizingPanel._instance.finger);
-					}
-					bulbList[0].GetComponent<UISprite>().spriteName="bulbOn";
-
-
+					bulbList[0].GetComponent<UISprite>().spriteName="bulbSpark";
+					clickBulb.GetComponent<UISprite> ().depth = 1;//透明灯泡在电线下面显示，不遮挡电线和箭头
+					isBulbClicked = true; 
 				} 
+				if (isBulbClicked && !clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
+				{
+					bulbList [1].GetComponent<UISprite> ().depth = 3;
+				}
+
+			}
+			if (singnal <=0) 
+			{
+				if (PhotoRecognizingPanel._instance.finger) 
+				{
+					Destroy (PhotoRecognizingPanel._instance.finger);
+				}
+
+			} 
+			else 
+			{
+				if (clickBulb) 
+				{
+					GetComponent<PhotoRecognizingPanel> ().ShowFinger (clickBulb.transform.localPosition);//show finger
+					if (preClickBulbSemiStatus != clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
+					{
+						singnal--;
+						preClickBulbSemiStatus = clickBulb.GetComponent<BulbCtrl> ().isSemiTrans;
+					}
+				}
 			}
 		}
 	}
-
-
-
 	/// <summary>
 	/// if the circuit is powerd and show animation
 	/// </summary>
 	/// <returns><c>true</c>, if powerd or not was circuited, <c>false</c> otherwise.</returns>
 	public bool CircuitPowerdOrNot()
 	{
-
 		foreach (var item in CurrentFlow._instance.circuitItems) 
 		{
 			if (item.powered && item.type==ItemType.Bulb)
 			{
 				return true;
-				//break;
 			}
-
 		}
 		return false;
 	}

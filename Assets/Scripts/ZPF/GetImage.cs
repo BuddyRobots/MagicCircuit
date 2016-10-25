@@ -52,7 +52,10 @@ public class GetImage : MonoBehaviour
 
 	private List<Mat> tempImgs = new List<Mat>();
 	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
-	//public List<CircuitItem> listItem;
+	/// <summary>
+	/// 所有items的集合
+	/// </summary>
+	public List<CircuitItem> listItem=new List<CircuitItem>();
 	private List<Mat> matList=new List<Mat>();
 
 	private byte[] arr=new byte[28*28*3];
@@ -294,8 +297,12 @@ public class GetImage : MonoBehaviour
 		{
 			List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
 			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
+			listItem = temp;
+
 			img = resultImg;
 			itemLists.Add (temp);
+
+
 			//Debug.Log ("----------");
 			//Debug.Log (tempImgs [i]);
 

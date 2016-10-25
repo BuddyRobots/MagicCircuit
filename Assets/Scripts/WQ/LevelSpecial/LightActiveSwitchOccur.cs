@@ -16,6 +16,9 @@ public class LightActiveSwitchOccur : MonoBehaviour
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 
+
+
+
 	void OnEnable () 
 	{
 		changeTime = 3f;
@@ -72,8 +75,8 @@ public class LightActiveSwitchOccur : MonoBehaviour
 					isCircuitWork = false;
 				}
 			}	
-
 			CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
+			LAswitch.GetComponent<UISprite>().spriteName=isCircuitWork? "LAswitchOn":"LAswitchOff";
 			CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);	
 		}
 	}

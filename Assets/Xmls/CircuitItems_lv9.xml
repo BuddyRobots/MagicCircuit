@@ -23,6 +23,7 @@
 		<y>-220</y>
 	  </connect_right>	  
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="1">
       <name>Battery</name>
       <type>Battery</type>
@@ -45,12 +46,13 @@
 		<y>-220</y>
 	  </connect_right>	  
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="2">
       <name>Bulb</name>
       <type>Bulb</type>
       <list>
         <Vector3>
-          <x>90</x>
+          <x>60</x>
           <y>240</y>
           <z>0</z>
         </Vector3>
@@ -59,14 +61,15 @@
       <showOrder>2</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>40</x>
+		<x>10</x>
 		<y>240</y>
 	  </connect_left>
 	  <connect_right>
-		<x>140</x>
+		<x>110</x>
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="3">
       <name>Loudspeaker</name>
       <type>Loudspeaker</type>
@@ -89,6 +92,7 @@
 		<y>70</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="4">
       <name>Switch</name>
       <type>Switch</type>
@@ -111,6 +115,7 @@
 		<y>260</y>
 	  </connect_right>
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="5">
       <name>Switch</name>
       <type>Switch</type>
@@ -133,6 +138,7 @@
 		<y>100</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="6">
       <name>Switch</name>
       <type>Switch</type>
@@ -155,6 +161,7 @@
 		<y>-50</y>
 	  </connect_right>
     </XmlCircuitItem>
+
      <XmlCircuitItem ID="7">
       <name>InductionCooker</name>
       <type>InductionCooker</type>
@@ -177,6 +184,7 @@
 		<y>-70</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="8">
       <name>Bulb</name>
       <type>Bulb</type>
@@ -199,6 +207,7 @@
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="9">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -231,6 +240,7 @@
 		<y>-100</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="10">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -258,6 +268,7 @@
 		<y>-70</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="11">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -344,6 +355,7 @@
 		<y>-220</y>
 	  </connect_right>
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="14">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -371,6 +383,7 @@
 		<y>-220</y>
 	  </connect_right>
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="15">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -398,6 +411,7 @@
 		<y>60</y>
 	  </connect_right>
     </XmlCircuitItem>
+
 	<XmlCircuitItem ID="16">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -479,6 +493,8 @@
 		<y>93</y>
 	  </connect_right>
     </XmlCircuitItem>
+
+
     <XmlCircuitItem ID="19">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -506,6 +522,7 @@
 		<y>-85</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="20">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -515,14 +532,14 @@
           <y>60</y>
           <z>0</z>
         </Vector3>       
-        <Vector3>
+         <Vector3>
           <x>250</x>
           <y>240</y>
           <z>0</z>
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>20</showOrder>
+      <showOrder>19</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>268</x>
@@ -533,6 +550,7 @@
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
+
     <XmlCircuitItem ID="21">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
@@ -543,29 +561,31 @@
           <z>0</z>
         </Vector3>       
         <Vector3>
-          <x>140</x>
+          <x>110</x>
           <y>240</y>
           <z>0</z>
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>21</showOrder>
+      <showOrder>20</showOrder>
       <powered>false</powered>
 	  <connect_left>
 		<x>150</x>
 		<y>240</y>
 	  </connect_left>
 	  <connect_right>
-		<x>140</x>
+		<x>110</x>
 		<y>240</y>
 	  </connect_right>
     </XmlCircuitItem>
+
+   
     <XmlCircuitItem ID="22">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>40</x>
+          <x>10</x>
           <y>240</y>
           <z>0</z>
         </Vector3>       
@@ -576,10 +596,10 @@
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>22</showOrder>
+      <showOrder>20</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>40</x>
+		<x>10</x>
 		<y>240</y>
 	  </connect_left>
 	  <connect_right>
@@ -587,7 +607,9 @@
 		<y>260</y>
 	  </connect_right>
     </XmlCircuitItem>
-    <XmlCircuitItem ID="23">
+
+
+     <XmlCircuitItem ID="23">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
@@ -601,45 +623,24 @@
           <y>252</y>
           <z>0</z>
         </Vector3>
-      </list>
-      <theta>0</theta>
-      <showOrder>23</showOrder>
-      <powered>false</powered>
-	  <connect_left>
-		<x>-170</x>
-		<y>60</y>
-	  </connect_left>
-	  <connect_right>
-		<x>-283</x>
-		<y>252</y>
-	  </connect_right>
-    </XmlCircuitItem>
-    <XmlCircuitItem ID="24">
-      <name>CircuitLine</name>
-      <type>CircuitLine</type>
-      <list>
-        <Vector3>
-          <x>-283</x>
-          <y>252</y>
-          <z>0</z>
-        </Vector3>       
-        <Vector3>
+         <Vector3>
           <x>-283</x>
           <y>93</y>
           <z>0</z>
         </Vector3>
       </list>
       <theta>0</theta>
-      <showOrder>24</showOrder>
+      <showOrder>21</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-283</x>
-		<y>252</y>
+		<x>-170</x>
+		<y>260</y>
 	  </connect_left>
 	  <connect_right>
 		<x>-283</x>
 		<y>93</y>
 	  </connect_right>
     </XmlCircuitItem>
+
   </XmlCircuitItems>
 </XmlCircuitItemCollection>

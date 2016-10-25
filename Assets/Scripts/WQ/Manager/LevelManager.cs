@@ -156,15 +156,14 @@ public class LevelManager : MonoBehaviour
 		_instance = this;
 
 		//code for test...
-		//PlayerPrefs.SetInt ("LevelID",7);
-		//PlayerPrefs.SetInt ("LevelProgress",2);
+		PlayerPrefs.SetInt ("LevelID",11);
+		PlayerPrefs.SetInt ("LevelProgress",2);
 	}
 
 	void Start() 
 	{
 		ParseLevelItemInfo();
 		LoadLocalLevelProgressData ();
-		//
 		initNeedShowHandData();
 	}
 
@@ -257,6 +256,11 @@ public class LevelManager : MonoBehaviour
 			//设置当前要完成的关卡进度
 			if (levelID < 15) 
 			{
+				/*if (levelID==11) 
+				{
+					Debug.Log ("level_12_Progress" + levelItemDataList [levelID].Progress);
+
+				}*/
 				levelItemDataList [levelID].Progress = LevelProgress.Doing;
 			} 
 			else 

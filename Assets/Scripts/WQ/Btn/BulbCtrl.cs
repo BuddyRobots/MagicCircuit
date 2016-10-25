@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BulbCtrl : MonoBehaviour {
+public class BulbCtrl : MonoBehaviour 
+{
 
 	[HideInInspector]
 	public bool isSemiTrans = false;
-
-
-	
 
 	void Update () 
 	{
@@ -20,14 +18,11 @@ public class BulbCtrl : MonoBehaviour {
 		else//如果是正常状态 
 		{
 			gameObject.GetComponent<UISprite>().spriteName="bulbOn";
-
 		}
 	}
 
 	void OnClick()
 	{
-
 		isSemiTrans = !isSemiTrans;
-
 	}
 }

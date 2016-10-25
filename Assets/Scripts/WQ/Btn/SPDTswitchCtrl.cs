@@ -3,25 +3,32 @@ using System.Collections;
 
 public class SPDTswitchCtrl : MonoBehaviour 
 {
-
+	/// <summary>
+	/// 记录开关当前的状态
+	/// </summary>
 	[HideInInspector]
-	public bool isRightOn = true;
+	public bool isRightOn = true;//默认右闭合
+	/// <summary>
+	/// 记录点击开关前的状态，
+	/// </summary>
+	[HideInInspector]
+	public bool preStatus=true;
 	private UISprite SPDTsprite;
 
 
 	void Start () 
 	{
 		SPDTsprite = GetComponent<UISprite> ();
-	
+		preStatus=true;
 	}
 
 	void Update () 
 	{
-		if (isRightOn) 
+		if (isRightOn && SPDTsprite.spriteName != "SPDTRight" ) 
 		{
 			SPDTsprite.spriteName = "SPDTRight";
 		}
-		if (!isRightOn) 
+		if (!isRightOn && SPDTsprite.spriteName != "SPDTLeft") 
 		{
 			SPDTsprite.spriteName = "SPDTLeft";
 		
@@ -30,8 +37,7 @@ public class SPDTswitchCtrl : MonoBehaviour
 
 	void OnClick()
 	{
-
-
+		preStatus = isRightOn;
 		isRightOn = !isRightOn;
 	}
 }

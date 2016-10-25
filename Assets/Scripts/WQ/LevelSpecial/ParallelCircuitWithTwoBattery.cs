@@ -9,15 +9,26 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 	[HideInInspector]
 	public bool isParallelCircuitWithTwoBattery=false;
 	private bool isCircuitAnimationPlayed=false;
+	private bool isBatteryClick=false;
 	private List<GameObject> batteryList = null;
 	private List<GameObject> switchList = null;
 	private GameObject clickBattery =null;
-
+	private bool isBatteryAddComponent = false;
+	/// <summary>
+	/// 标记小手最多出现的次数，小于0时销毁
+	/// </summary>
+	private int singnal = 2;
+	private bool preClickBatterySemiStatus = false;
 
 	void OnEnable () 
 	{
+		isBatteryClick=false;
 		isParallelCircuitWithTwoBattery=false;
 		isCircuitAnimationPlayed=false;
+		singnal = 2;
+		isBatteryAddComponent = false;
+		preClickBatterySemiStatus = false;
+		clickBattery =null;
 	}
 
 	void Update () 
@@ -29,29 +40,77 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 			for (int i = 0; i < switchList.Count; i++) 
 			{
 				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);//使用新的circuititems
+				CommonFuncManager._instance.CircuitResetWithTwoBattery (CurrentFlow._instance.circuitItems);//使用新的circuititems
 			}
 			isCircuitAnimationPlayed=CircuitPowerdOrNot();
-			//isCircuitAnimationPlayed = CommonFuncManager._instance.CircuitPowerdOrNot ();
 			if (isCircuitAnimationPlayed) //电池可以被点击
 			{
 				clickBattery = batteryList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
-				GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(clickBattery.transform.localPosition);//show finger
-				clickBattery.AddComponent<UIButton> ();//给随机的电池添加button组件和BatteryCtrl组件来实现点击事件
-				clickBattery.AddComponent<BatteryCtrl> ();
-
-				BussinessLogic BL = new BussinessLogic ();
+				if (!isBatteryAddComponent)//保证只给battery加一次脚本
+				{
+					clickBattery.AddComponent<UIButton> ();//给随机的电池添加button组件和BatteryCtrl组件来实现点击事件
+					clickBattery.AddComponent<BatteryCtrl> ();
+					isBatteryAddComponent = true;
+				}
 				if (clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //点击了电池，电池变成半透明，1个电池工作
 				{ 
-					BL.BatteryClick (CurrentFlow._instance.circuitItems, true);// for test
-					if (PhotoRecognizingPanel._instance.finger) 
+					foreach (var item in CurrentFlow._instance.circuitItems) 
 					{
-						Destroy (PhotoRecognizingPanel._instance.finger);
+						switch (item.type) 
+						{
+						case ItemType.Bulb:
+							transform.Find("bulb").GetComponent<UISprite>().spriteName=item.powered ? "bulbOn":"bulbOff";
+							break;
+						case ItemType.Loudspeaker:
+							AudioSource audio = transform.Find ("loudspeaker").GetComponent<AudioSource> ();
+							if (item.powered) 
+							{
+								if (!audio .isPlaying)
+								{
+									audio.Play ();
+
+								}
+								audio.volume = 0.5f;
+							} 
+							else 
+							{
+								if (audio .isPlaying)
+								{
+									audio.Stop ();
+								}
+							}
+							break;
+						default:
+							break;
+						}
 					}
+					clickBattery.GetComponent<UISprite>().depth=1;
+					isBatteryClick=true;
 				} 
-				else 
+				if (isBatteryClick && !clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池回归到正常
 				{
-					BL.BatteryClick (CurrentFlow._instance.circuitItems, false);
+					CommonFuncManager._instance.CircuitResetWithTwoBattery (CurrentFlow._instance.circuitItems);
+					batteryList [1].GetComponent<UISprite> ().depth = 3;
+				}
+			}
+
+			if (singnal <=0) 
+			{
+				if (PhotoRecognizingPanel._instance.finger) 
+				{
+					Destroy (PhotoRecognizingPanel._instance.finger);
+				}
+			} 
+			else 
+			{
+				if (clickBattery) 
+				{
+					GetComponent<PhotoRecognizingPanel> ().ShowFinger (clickBattery.transform.localPosition);//show finger
+					if (preClickBatterySemiStatus != clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) 
+					{
+						singnal--;
+						preClickBatterySemiStatus = clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans;
+					}
 				}
 			}
 		}

@@ -5,19 +5,12 @@ using System.Collections.Generic;
 
 namespace MagicCircuit
 {
-    public enum Connectivity
-    {
-        // Card: l = left,  r = right
-        // Line: s = start, e = end
-        zero,
-        l, r, s, e
-    }
-
     public class CurrentFlow : MonoBehaviour
     {
 		public static CurrentFlow _instance;
 
         public List<CircuitItem> circuitItems;
+
         public List<List<int>> circuitBranch;   // Store the branches of the whole circuit for CircuitCompare
 
         private Connectivity[,] connectivity;   // Will modify this when handling switch on/off
@@ -36,8 +29,6 @@ namespace MagicCircuit
 		{
 			_instance = this;
 		}
-
-
 
 		string pathForDocumentsFile( string filename ) 
 		{ 
@@ -62,23 +53,19 @@ namespace MagicCircuit
 				path = path.Substring(0, path.LastIndexOf( '/' ) );
 				return Path.Combine (path, filename);
 			}
-		}   
+		}  
 
-        // Use this for initialization
-        void Start()
+       
+        void OnEnable()
         {
-			//Debug.Log ("Application.datapath" + Application.dataPath);
-			//Debug.Log ("Application.streamingAssetsPath"+Application.streamingAssetsPath);
-			//Debug.Log ("Application.persistentDataPath" + Application.persistentDataPath);
-
 			#if UNITY_EDITOR  
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv13.xml")).toCircuitItems();
+			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 			#elif UNITY_IPHONE 
 
 			string xmlPath4 = Application.dataPath.Substring( 0,  Application.dataPath.Length - 4);
-			Debug.Log("xmlPath4==" + xmlPath4);
+//			Debug.Log("xmlPath4==" + xmlPath4);
 			string xmlPath5 = Path.Combine(xmlPath4, "Xmls/CircuitItems_lv2.xml");
-			Debug.Log("xmlPath5==" + xmlPath5);
+//			Debug.Log("xmlPath5==" + xmlPath5);
 
 			 if (File.Exists(xmlPath5))
 			{
@@ -90,28 +77,40 @@ namespace MagicCircuit
 			}
 			circuitItems = XmlCircuitItemCollection.Load(xmlPath5).toCircuitItems();
 
-			Debug.Log("circuitItems_size == " + circuitItems.Count);
+//			Debug.Log("circuitItems_size == " + circuitItems.Count);
 
-			foreach(CircuitItem ci in circuitItems )
-			{
-				Debug.Log("CircuitItem_info == " + ci.name);
-			}
+//			foreach(CircuitItem ci in circuitItems )
+//			{
+//				Debug.Log("CircuitItem_info == " + ci.name);
+//			}
 			#endif 
-
+		
             /// Process
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
             else
             {
-                Debug.Log("Wrong Circuit!");
+                Debug.Log("not working Circuit!");
                 return;
             }
 
+
+			Debug.Log("--------------current flow CircuitItems  after  computeCircuitBranch------------");
+			for (var i = 0; i < count; i++)
+			{
+				Debug.Log(i + ": ----------------");
+				Debug.Log(circuitItems[i].powered);
+				for (int j = 0; j <circuitItems[i].list.Count ; j++) 
+				{
+					Debug.Log(circuitItems[i].list[j]);
+				}
+			}
             /////////////////////////////////////
             //@ Code for determining correctness of circuit here
             //@ Use CurrentFlow.circuitBranch here
 
             /// Display CircuitBranch
+		
 //            Debug.Log("=========CircuitBranch============");
 //            for (var i = 0; i < circuitBranch.Count; i++)
 //            {
@@ -157,6 +156,9 @@ namespace MagicCircuit
 
             /////////////////////////////////////                        
         }
+
+
+
 
         // Only call this method once!
         public bool computeCircuitBranch()
@@ -283,7 +285,6 @@ namespace MagicCircuit
             for (var i = 0; i < count; i++)
                 if (isOpened[i])
                     circuitItems[i].powered = false;
-
             return true;
         }
 
@@ -674,6 +675,9 @@ namespace MagicCircuit
                     if (flip > dont_flip)
                         flipLine(i);
                 }
+
+
+
             return modified;
         }
 

@@ -18,6 +18,7 @@ namespace MagicCircuit
         public bool powered;                    //元件是否通电
         public Vector2 connect_left;            //Connect point on card
         public Vector2 connect_right;
+		public Vector2 connect_middle;
 
         public XmlCircuitItem()
         {}
@@ -33,6 +34,7 @@ namespace MagicCircuit
             powered = src.powered;
             connect_left = src.connect_left;
             connect_right = src.connect_right;
+			connect_middle = src.connect_middle;
         }
     }
 

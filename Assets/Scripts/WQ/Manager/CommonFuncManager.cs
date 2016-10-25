@@ -66,9 +66,9 @@ public class CommonFuncManager : MonoBehaviour
 		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
 		if(volume > SOUND_CRITERION)
 		{
+			Debug.Log ("volume > SOUND_CRITERION");
 			return true;
 		}
-
 		return false;
 	}
 
@@ -88,7 +88,7 @@ public class CommonFuncManager : MonoBehaviour
 	}
 
 	/// <summary>
-	///1个电池的情况下刷新items 遍历新的circuitItem，根据其powered属性值来刷新UI
+	///1个电池的情况下刷新items 遍历新的circuitItem，根据其powered属性值来刷新（譬如灯泡，音响这种受开关控制的item）UI
 	/// </summary>
 	/// <param name="circuitItems">Circuit items.</param>
 	public void CircuitReset(List<CircuitItem> circuitItems)
@@ -100,20 +100,10 @@ public class CommonFuncManager : MonoBehaviour
 			GameObject temp = GameObject.FindGameObjectWithTag (tag);//对应界面上的Tag来找到对应的图标对象
 			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
 			{
+			//这里只需要刷新受开关控制的item（灯泡，音响，电磁炉）的显示，开关的更新不在这里进行
 				case ItemType.Bulb:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbOn":"bulbOff");
 					break;
-
-				case ItemType.VoiceOperSwitch:
-					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
-					break;
-
-				case ItemType.LightActSwitch:
-				//Debug.Log ("powered===" + circuitItems [i].powered);
-				//print (temp.name);
-					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
-					break;
-
 				case ItemType.VoiceTimedelaySwitch:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
 					break;
@@ -142,7 +132,8 @@ public class CommonFuncManager : MonoBehaviour
 					}
 					//喇叭有无声音的切换   to do...
 					break;
-			case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
+
+				case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
 					GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
 					foreach (var item in temps) 
 					{ 
@@ -155,16 +146,9 @@ public class CommonFuncManager : MonoBehaviour
 					break;
 				default:
 					break;
-
 			}
-
-
 		}
-
 	}
-
-
-
 
 	/// <summary>
 	/// 两个电池的情况下刷新items
@@ -195,7 +179,6 @@ public class CommonFuncManager : MonoBehaviour
 						tempAudio.Play ();
 						tempAudio.volume = 1f;
 					}
-
 				} 
 				else // this item is power off
 				{
@@ -223,8 +206,5 @@ public class CommonFuncManager : MonoBehaviour
 		}
 
 	}
-
-
-
 
 }
