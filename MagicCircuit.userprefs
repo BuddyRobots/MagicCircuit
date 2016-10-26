@@ -1,29 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/CurrentFlow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Test/AnimationMakeTest.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Items/ArrowCtrl.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="248" Column="67" NotebookId="1" />
-      <File FileName="Assets/Scripts/ZPF/CurrentFlow.cs" Line="269" Column="37" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitWithTwoBattery.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/ZPF/CurrentFlow_SPDTSwitch.cs" Line="114" Column="9" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/SPDTswitchOccur.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Xmls/CircuitItems_lv15.xml" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Xmls/CircuitItems_lv2.xml" Line="1" Column="1" NotebookId="1" />
-      <File FileName="Assets/Xmls/CircuitItems_lv3.xml" Line="1" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/ZPF/CurrentFlow.cs" Line="55" Column="5" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="764" Column="5" />
+      <File FileName="Assets/Scripts/WQ/Items/ArrowCtrl.cs" Line="27" Column="4" />
+      <File FileName="Assets/Scripts/ZPF/Correctness.cs" Line="12" Column="9" />
+      <File FileName="Assets/Scripts/Test/AnimationMakeTest.cs" Line="14" Column="19" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LoudSpeakerInLevelFour.cs" Line="28" Column="41" />
+      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="130" Column="52" />
+      <File FileName="Assets/Xmls/CircuitItems_lv4.xml" Line="49" Column="24" />
+      <File FileName="Assets/HourGlassPlayAni.cs" Line="17" Column="2" />
     </Files>
-    <FloatingWindows>
-      <FloatingWindow WindowId="1" X="0" Y="23" Width="963" Height="955">
-        <Files>
-          <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFourteen.cs" Line="134" Column="7" />
-        </Files>
-      </FloatingWindow>
-    </FloatingWindows>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Scripts/ZPF/GetImage.cs" line="295" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

@@ -99,7 +99,7 @@ public class LevelFourteen : MonoBehaviour
 				}
 				if (isLAswitchOn)//如果光敏开光闭合了
 				{	
-					CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
 					LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
 					//只有晚上光敏开关闭合的时候，小话筒才可以被点击
 					transform.Find("MicroPhoneBtn").gameObject.GetComponent<BoxCollider>().enabled=true;
@@ -121,7 +121,7 @@ public class LevelFourteen : MonoBehaviour
 						isVOswitchOn=true;
 						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (false);//提示框消失
 						MicroPhoneInput.getInstance().StopRecord();
-						CurrentFlow._instance.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
+						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 					}
 					if (isVOswitchOn) 
@@ -131,14 +131,14 @@ public class LevelFourteen : MonoBehaviour
 						{
 							//声控延时开关断开，灯变暗
 							VOTimer = 0;
-							CurrentFlow._instance.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
+							GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
 							VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = "VoiceDelayOff";
 							transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;
 							isStartRecord = false;
 						}
 					}
 				}
-				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
 			}
 			#endregion
 			#region 如果是白天
@@ -158,16 +158,16 @@ public class LevelFourteen : MonoBehaviour
 					if (changeTimer <= changeTime* 1/6) 
 					{
 						isLAswitchOn = false;
-						CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
+					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
 						LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
 
 						isVOswitchOn=false;
-						CurrentFlow._instance.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), isVOswitchOn);
+					GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), isVOswitchOn);
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 
 
 					}
-					CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);	
+					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
 				}
 			}
 			#endregion

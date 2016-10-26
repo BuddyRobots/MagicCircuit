@@ -46,8 +46,8 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 
 			for (int i = 0; i < switchList.Count; i++) //点击开关，调用方法，circuitItems更新powered属性
 			{
-				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitReset(CurrentFlow._instance.circuitItems);//使用新的circuititems
+				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+				CommonFuncManager._instance.CircuitReset(GetImage._instance.itemList);//使用新的circuititems
 			}
 			isCircuitAnimationPlayed = CircuitPowerdOrNot ();
 			if (isCircuitAnimationPlayed) //灯泡可以被点击
@@ -102,7 +102,7 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 	/// <returns><c>true</c>, if powerd or not was circuited, <c>false</c> otherwise.</returns>
 	public bool CircuitPowerdOrNot()
 	{
-		foreach (var item in CurrentFlow._instance.circuitItems) 
+		foreach (var item in GetImage._instance.itemList) 
 		{
 			if (item.powered && item.type==ItemType.Bulb)
 			{

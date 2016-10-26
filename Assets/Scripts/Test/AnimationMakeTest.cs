@@ -4,66 +4,66 @@ using System.Collections.Generic;
 
 public class AnimationMakeTest : MonoBehaviour
 {
-	public bool ActivateWait = true ;
+	float fireRate = 0.1f;
+	/// <summary>
+	/// 图片的下标，默认为0，最大为 图片数量-1
+	/// </summary>
+	int index = 0;
 
-	float fireRate = 0.2f;
-	int i = 0;
 	float nextFire=0;
 	// player0001  -- 0023
 	private List<string> spriteNameList=new List<string>();
+	[HideInInspector]
+	public  bool isPlayAni=false;
 
-	string[] ActivatorTexture = new string[] { "player0001", "player0002", "player0003", "player0004", "player0005", "player0006",
-		"player0007", "player0008", "player0009", "player0010", "player0011", "player0012" };      
+	private UIAtlas atlas_pre;
+	private UIAtlas atlas_ani;
+	//public UIAtlas atlas;
+	public string atlasPath = "";
+	public string sname = "player00";
+	public int spriteNum = 0;
+	public float speed = 1;
+	public bool isLoop = true;
+	public List<float> time;
 
-	void Awake()
-	{
-		//this.GetComponent<UISprite>().enabled = false;
-	}
+	private int currentSpriteID = 0;
 
-	// Use this for initialization
 	void Start()
 	{
-		for (int i = 0; i < 24; i++) {
-			string temp = null;
-			if (i < 10) 
-			{
-				temp = "player000" + i.ToString ();
-			} 
-			else 
-			{
-				 temp = "player00" + i.ToString ();
-			}
-
-			spriteNameList.Add (temp);
-		}
-
+		atlas_pre = transform.GetComponent<UISprite> ().atlas;
+		atlas_ani = Resources.Load<GameObject> (atlasPath).GetComponent<UIAtlas>();
 	}
 
-	// Update is called once per frame
+
 	void Update()
 	{
-		if (ActivateWait)
+		if (isPlayAni) 
 		{
-			
-			if (i < spriteNameList.Count)
+			atlas_pre = atlas_ani;
+			for (int i = 0; i < spriteNum; i++) 
+			{
+				string currentSpriteName = sname + i;
+			}
+
+			if (isLoop )//如果循环播放
+			{
+				if (Time.time > time[index])
+				{
+					nextFire = Time.time + fireRate;
+					this.GetComponent<UISprite>().spriteName= spriteNameList[index % spriteNum];
+					index++;
+				}
+			} 
+			else if(index < spriteNum)//如果不循环播放
 			{
 				if (Time.time > nextFire)
 				{
 					nextFire = Time.time + fireRate;
-					this.GetComponent<UISprite>().spriteName= spriteNameList[i];
-					i++;
+					this.GetComponent<UISprite>().spriteName= spriteNameList[index];
+					index++;
 				}
 			}
-			else
-			{
-				i = 0;
-			}
-		}
-		else
-		{
-			//this.GetComponent<UISprite>().enabled = false;
+
 		}
 	}
-
-
 }

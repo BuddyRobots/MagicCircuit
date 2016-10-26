@@ -13,10 +13,11 @@ namespace MagicCircuit
         l, r, m, s, e
     }
 
-    public class CurrentFlow_SPDTSwitch : MonoBehaviour
+    public class CurrentFlow_SPDTSwitch 
     {
-		public static CurrentFlow_SPDTSwitch _instance;
-        public List<CircuitItem> circuitItems;
+        private List<CircuitItem> circuitItems;
+
+        private Correctness_SPDTSwitch correctness;
 
         private Connectivity[,] connectivity;
         private Connectivity[,] originalConn;
@@ -28,40 +29,38 @@ namespace MagicCircuit
 
         private const int region = 30;
 
-		void Awake()
-		{
-			_instance=this;
-		}
    
-        void Start()
+
+        public bool compute(ref List<CircuitItem> itemList)
         {
-            computeCircuitBranchOfLevel_15();
-                      
-//            switchOnOff(3, false);
-//            switchOnOff(2, false);
-			Debug.Log("--------------current flow CircuitItems------------");
-            for (var i = 0; i < count; i++)
+
+			circuitItems = itemList;
+            correctness = new Correctness_SPDTSwitch();
+
+            if (!computeCircuitBranch())
+            {                
+                Debug.Log("Wrong Circuit!");
+                return false;
+            }
+
+            //switchOnOff(3, false);
+            //switchOnOff(2, false);
+
+            // Display circuitItems
+            /*for (var i = 0; i < count; i++)
             {
                 Debug.Log(i + ": ----------------");
                 Debug.Log(circuitItems[i].powered);
-				for (int j = 0; j <circuitItems[i].list.Count ; j++) 
-				{
-					Debug.Log(circuitItems[i].list[j]);
-				}
-                
-            }
+                Debug.Log(circuitItems[i].list[0]);
+            }*/
+
+            return true;
         }
 
-		public void computeCircuitBranchOfLevel_15()
+        private bool computeCircuitBranch()
         {
-			Debug.Log ("computeCircuitBranchOfLevel_15");
-			#if UNITY_EDITOR  
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv15.xml")).toCircuitItems();
-			#elif UNITY_IPHONE 
-			string xmlPath4 = Application.dataPath.Substring( 0,  Application.dataPath.Length - 4);
-			string xmlPath5 = Path.Combine(xmlPath4, "Xmls/CircuitItems_lv2.xml");
-			circuitItems = XmlCircuitItemCollection.Load(xmlPath5).toCircuitItems();
-			#endif 
+//            circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "CircuitItems.xml")).toCircuitItems();
+
             count = circuitItems.Count;
 
             // Find boundary between cards & lines
@@ -85,12 +84,22 @@ namespace MagicCircuit
             Array.Copy(connectivity, originalConn, connectivity.Length);
             Array.Copy(connectivity, modifiedConn, connectivity.Length);
 
+            /////////////////////////
+            //@ computeCorrectness here
+            if (!correctness.computeCorrectness(circuitItems, originalConn))
+                return false;
+            //correctness.computeCorrectness(circuitItems, originalConn);
+            /////////////////////////
+
             removeSwitches();
 
             if (!computeCurrentFlow())
+            {
                 Debug.Log("Error when computing CurrentFlow");
-			
-				//Debug.Log("Correct when computing CurrentFlow");
+                return false;
+            }
+
+            return true;
         }
 
         public void switchOnOff(int ID, bool state) // State true: right false: left
@@ -108,13 +117,12 @@ namespace MagicCircuit
                     circuitItems[i].powered = false;
             else
                 for (var i = 0; i < count; i++)
-					if (circuitItems[i].type == ItemType.SPDTSwitch)
+                    if (circuitItems[i].type == ItemType.SPDTSwitch)
                         circuitItems[i].powered = true;              
         }
 
         private bool computeCurrentFlow()
         {
-			Debug.Log ("computeCurrentFlow()");
             // Traverse all the components to get current flow direction
             Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
 
@@ -132,20 +140,6 @@ namespace MagicCircuit
                 if (modifiedConn[(int)next.x, (int)next.y] == Connectivity.e)
                     flipLine((int)next.x);
 
-                /*for (var j = 0; j < count; j++)
-                {
-                    Debug.Log(j + " ---");
-                    if (j == (int)next.y) continue;
-
-                    if (modifiedConn[(int)next.x, j] != Connectivity.zero)
-                    {
-                        next.y = next.x;
-                        next.x = j;
-                        break;
-                    }
-                    Debug.Log(j + " =========flag1===========" + (int)next.x);
-                    //return true; // Open Circuit
-                }*/
                 if (!findNext(ref next))
                     return false;
 
@@ -165,42 +159,42 @@ namespace MagicCircuit
                     {
                         connectivity[i, j] = Connectivity.l;
                         connectivity[j, i] = Connectivity.s;
-                       // circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
                         continue;
                     }
                     if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_left))
                     {
                         connectivity[i, j] = Connectivity.r;
                         connectivity[j, i] = Connectivity.s;
-                       // circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
                         continue;
                     }
                     if (inRegion(circuitItems[i].connect_middle, circuitItems[j].connect_left))
                     {
                         connectivity[i, j] = Connectivity.m;
                         connectivity[j, i] = Connectivity.s;
-                       // circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
                         continue;
                     }
                     if (inRegion(circuitItems[i].connect_left, circuitItems[j].connect_right))
                     {
                         connectivity[i, j] = Connectivity.l;
                         connectivity[j, i] = Connectivity.e;
-                       // circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
                         continue;
                     }
                     if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_right))
                     {
                         connectivity[i, j] = Connectivity.r;
                         connectivity[j, i] = Connectivity.e;
-                        //circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
                         continue;
                     }
                     if (inRegion(circuitItems[i].connect_middle, circuitItems[j].connect_right))
                     {
                         connectivity[i, j] = Connectivity.m;
                         connectivity[j, i] = Connectivity.e;
-                        //circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
                         continue;
                     }
                 };
@@ -231,7 +225,7 @@ namespace MagicCircuit
         private void removeSwitches()
         {
             for (var i = 0; i < boundary; i++)
-				if (circuitItems[i].type == ItemType.SPDTSwitch)
+                if (circuitItems[i].type == ItemType.SPDTSwitch)
                 {
                     circuitItems[i].powered = true;
                     int m = 0;
@@ -314,7 +308,7 @@ namespace MagicCircuit
             bool haveMiddel = false;
 
             // Check if SPDTSwitch's middle point is connected
-			if (circuitItems[i].type == ItemType.SPDTSwitch)
+            if (circuitItems[i].type == ItemType.SPDTSwitch)
             {
                 for (var j = boundary; j < count; j++)
                     if (connectivity[i, j] == Connectivity.m)
@@ -369,8 +363,7 @@ namespace MagicCircuit
             modifiedConn[r, m] = Connectivity.zero;
 
             modifiedConn[m, l] = originalConn[m, ID];
-			modifiedConn[l, m] = originalConn[l, ID];
-			//modifiedConn[l, m] = originalConn[ID, m];
+            modifiedConn[l, m] = originalConn[l, ID];
         }
 
         private void switchRight(int ID)
@@ -388,8 +381,7 @@ namespace MagicCircuit
             modifiedConn[l, m] = Connectivity.zero;
 
             modifiedConn[m, r] = originalConn[m, ID];
-			modifiedConn[r, m] = originalConn[r, ID];
-			//modifiedConn[r, m] = originalConn[ID, m];
+            modifiedConn[r, m] = originalConn[r, ID];
         }
 
         private bool findNext(ref Vector2 next)

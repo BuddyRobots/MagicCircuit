@@ -38,8 +38,8 @@ public class SPDTswitchOccur : MonoBehaviour
 				}
 
 				//第15关特定
-				CurrentFlow_SPDTSwitch._instance.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
-				CommonFuncManager._instance.CircuitReset (CurrentFlow_SPDTSwitch._instance.circuitItems);
+				GetImage._instance.cf_SPDT.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
+				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
 			}
 		}
 	}

@@ -39,8 +39,8 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 			switchList = PhotoRecognizingPanel._instance.switchList;
 			for (int i = 0; i < switchList.Count; i++) 
 			{
-				CurrentFlow._instance.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitResetWithTwoBattery (CurrentFlow._instance.circuitItems);//使用新的circuititems
+				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+				CommonFuncManager._instance.CircuitResetWithTwoBattery (GetImage._instance.itemList);//使用新的circuititems
 			}
 			isCircuitAnimationPlayed=CircuitPowerdOrNot();
 			if (isCircuitAnimationPlayed) //电池可以被点击
@@ -54,7 +54,7 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 				}
 				if (clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //点击了电池，电池变成半透明，1个电池工作
 				{ 
-					foreach (var item in CurrentFlow._instance.circuitItems) 
+					foreach (var item in GetImage._instance.itemList) 
 					{
 						switch (item.type) 
 						{
@@ -89,7 +89,7 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 				} 
 				if (isBatteryClick && !clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池回归到正常
 				{
-					CommonFuncManager._instance.CircuitResetWithTwoBattery (CurrentFlow._instance.circuitItems);
+					CommonFuncManager._instance.CircuitResetWithTwoBattery (GetImage._instance.itemList);
 					batteryList [1].GetComponent<UISprite> ().depth = 3;
 				}
 			}
@@ -123,7 +123,7 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 	public bool CircuitPowerdOrNot()
 	{
 
-		foreach (var item in CurrentFlow._instance.circuitItems) 
+		foreach (var item in GetImage._instance.itemList) 
 		{
 			if (item.powered && item.type==ItemType.Switch)
 			{

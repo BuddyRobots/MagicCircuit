@@ -23,9 +23,9 @@ public class LoudSpeakerInLevelFour : MonoBehaviour
 
 			for (int i = 0; i < normalSwitchList.Count; i++) 
 			{
-				CurrentFlow._instance.switchOnOff (int.Parse (normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+				GetImage._instance.cf.switchOnOff (int.Parse (normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
-				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
 			}
 		}
 	}

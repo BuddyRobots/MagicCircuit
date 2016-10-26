@@ -90,7 +90,7 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour
 				}
 				if (isLAswitchOn)//如果光敏开光闭合了
 				{	
-					CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
 					LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
 					//只有晚上光敏开关闭合的时候，小话筒才可以被点击
 					transform.Find("MicroPhoneBtn").gameObject.GetComponent<BoxCollider>().enabled=true;
@@ -112,11 +112,11 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour
 						isVOswitchOn=true;
 						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (false);//提示框消失
 						MicroPhoneInput.getInstance().StopRecord();
-						CurrentFlow._instance.switchOnOff (int.Parse (VOswitch.gameObject.tag), true);
+						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), true);
 						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
 					}
 				}
-				CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
 			}
 			#endregion
 			#region 如果是白天
@@ -136,14 +136,14 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour
 					if (changeTimer <= changeTime* 1/6) 
 					{
 						isLAswitchOn = false;
-						CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
+						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
 						LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
 
 						isVOswitchOn=false;
-						CurrentFlow._instance.switchOnOff (int.Parse (VOswitch.gameObject.tag), isVOswitchOn);
+						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), isVOswitchOn);
 						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
 					}
-					CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);	
+					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
 				}
 			}
 			#endregion

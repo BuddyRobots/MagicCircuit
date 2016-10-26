@@ -33,10 +33,10 @@ public class LevelHandle : MonoBehaviour
 			break;
 		case 6:
 			//transform.gameObject.AddComponent<LevelFourteen> ();// 14
-			transform.gameObject.AddComponent<SPDTswitchOccur> ();//for test 15
+			//transform.gameObject.AddComponent<SPDTswitchOccur> ();//for test 15
 			//transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();//for test    13
 			//transform.gameObject.AddComponent<LightActiveSwitchOccur> ();//for test        12
-			//transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//real code
+			transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();//real code
 			break;
 		case  7:      
 			transform.gameObject.AddComponent<ParallelCircuitWithTwoBattery> ();
@@ -91,10 +91,10 @@ public class LevelHandle : MonoBehaviour
 			break;
 		case 6:
 			//GetComponent<LevelFourteen> ().isLevelFourteen = true;//  14
-			GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;//for test  15
+			//GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;//for test  15
 			//GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;//level 13
 			//GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;//for test //level 12 
-			//GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//real code
+			GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;//real code
 			break;
 		case 7:
 			GetComponent<ParallelCircuitWithTwoBattery>().isParallelCircuitWithTwoBattery=true;
@@ -151,10 +151,10 @@ public class LevelHandle : MonoBehaviour
 			break;
 		case 6:
 			//Destroy(transform.GetComponent<LevelFourteen> ());// for test...  14
-			Destroy (transform.GetComponent<SPDTswitchOccur> ());// for test...15
+			//Destroy (transform.GetComponent<SPDTswitchOccur> ());// for test...15
 			//Destroy(transform.GetComponent<VOswitchAndLAswitchTogether> ());// for test...  13
 			//Destroy(transform.GetComponent<LightActiveSwitchOccur> ());// for test...   12
-			//Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());//real code 
+			Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());//real code 
 			break;
 		case 7:
 			Destroy(transform.GetComponent<ParallelCircuitWithTwoBattery> ());

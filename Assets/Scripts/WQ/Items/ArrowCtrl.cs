@@ -24,7 +24,7 @@ public class ArrowCtrl : MonoBehaviour
 	/// <summary>
 	/// 目标点
 	/// </summary>
-	[HideInInspector]
+	//[HideInInspector]
 	public Vector3 dest;
 
 

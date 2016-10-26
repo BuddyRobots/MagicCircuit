@@ -51,32 +51,36 @@ public class GetImage : MonoBehaviour
 	private bool isFinishHandlePicture;
 
 	private List<Mat> tempImgs = new List<Mat>();
-	public List<List<CircuitItem>> itemLists=new List<List<CircuitItem>>(); //多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
+	/// <summary>
+	/// itemsList的集合，多个图标集合的集合，之后会根据这个集合提炼出最终的一个List<CircuitItem>（），用来做识别界面取图标的依据
+	/// </summary>
+	public List<List<CircuitItem>> imageList=new List<List<CircuitItem>>(); 
 	/// <summary>
 	/// 所有items的集合
 	/// </summary>
-	public List<CircuitItem> listItem=new List<CircuitItem>();
+	public List<CircuitItem> itemList=new List<CircuitItem>();
+	public List<CircuitItem> itemList_temp=new List<CircuitItem>();//for test..
+
 	private List<Mat> matList=new List<Mat>();
 
 	private byte[] arr=new byte[28*28*3];
 	private	double[] sample=new double[28*28*3];
-
+	public CurrentFlow cf;
+	public CurrentFlow_SPDTSwitch cf_SPDT;
+	/// <summary>
+	/// 判断电路是否正确的标记,默认为false，这个结果用于识别界面做判断是跳转到welldone界面还是failure界面
+	/// </summary>
+	public bool result=false;
 
 	void Awake()
 	{
 		_instance = this;
 
 	}
-		
-    void Start() 
-	{
-		rotateCamera = new RotateCamera ();  
-		// Intialize RecogniazeAlgo
-		recognizeAlgo = new RecognizeAlgo();
-    }
 
 	void OnEnable()
 	{
+		result = false;
 		isShotTook=false;
 		isTakePicture = false;
 		isFinishHandlePicture = false;
@@ -85,6 +89,60 @@ public class GetImage : MonoBehaviour
 		tempImgs.Clear ();
 		StartCoroutine(init());
 	}
+
+
+    void Start() 
+	{
+		
+		cf_SPDT = new CurrentFlow_SPDTSwitch ();
+			
+
+		cf = new CurrentFlow ();
+
+
+		rotateCamera = new RotateCamera ();  
+		// Intialize RecogniazeAlgo
+		recognizeAlgo = new RecognizeAlgo();
+	
+
+		#if UNITY_EDITOR  
+
+		itemList_temp = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv15.xml")).toCircuitItems();
+
+		#elif UNITY_IPHONE 
+
+		string xmlPath4 = Application.dataPath.Substring( 0,  Application.dataPath.Length - 4);
+		//			Debug.Log("xmlPath4==" + xmlPath4);
+		string xmlPath5 = Path.Combine(xmlPath4, "Xmls/CircuitItems_lv2.xml");
+		//			Debug.Log("xmlPath5==" + xmlPath5);
+
+		if (File.Exists(xmlPath5))
+		{
+		Debug.Log("Great! I have found the file!");
+		}
+		else
+		{
+		Debug.Log("Sorry!");
+		}
+		itemList = XmlCircuitItemCollection.Load(xmlPath5).toCircuitItems();
+
+		//			Debug.Log("circuitItems_size == " + itemList.Count);
+
+		//			foreach(CircuitItem ci in itemList )
+		//			{
+		//				Debug.Log("CircuitItem_info == " + ci.name);
+		//			}
+		#endif
+
+		Debug.Log ("=========");
+
+		for (int i = 0; i < itemList_temp.Count; i++) {
+			Debug.Log ("item["+i+"]:"+itemList_temp [i].name+"  item["+i+"].connect_left:"+itemList_temp[i].connect_left+"  item["+i+"].connect_right:"+itemList_temp[i].connect_right);
+		}
+
+		Debug.Log ("======end===");
+    }
+
 
     private IEnumerator init()
     {
@@ -144,6 +202,7 @@ public class GetImage : MonoBehaviour
 	/// </summary>
 	public void TakePhoto() 
 	{
+		//Debug.Log ("takephoto");
         if (!initDone)
             return;
         if (webCamTexture.didUpdateThisFrame)
@@ -236,6 +295,7 @@ public class GetImage : MonoBehaviour
 	//开启线程的地方
 	private void TakePicture_Start()
 	{
+		Debug.Log ("TakePicture_Start");
 		Thread takePicture = new Thread (ThreadTakePicture);
 		takePicture.IsBackground = true;
 		takePicture.Start ();
@@ -292,20 +352,21 @@ public class GetImage : MonoBehaviour
 	private void ThreadTakePicture()
 	{
 		Debug.Log ("ThreadTakePicture()");
-		itemLists.Clear ();       
-		for (int i = 0; i < tempImgs.Count; i++) 
+		imageList.Clear ();       
+		for (int i = 0; i < 5/*tempImgs.Count*/; i++) 
 		{
-			List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
-			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref temp);
-			listItem = temp;
-
+			itemList.Clear (); 
+			//List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
+			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref itemList);
+			//////// for test ...should be deleted when distribute
+			/// 
+			Debug.Log ("itemList_temp count:" + itemList_temp.Count);
+			for (int j= 0; j < itemList_temp.Count; j++) {
+				itemList.Add(itemList_temp[j]);
+			}
+			Debug.Log ("itemlist count:" + itemList.Count);   
 			img = resultImg;
-			itemLists.Add (temp);
-
-
-			//Debug.Log ("----------");
-			//Debug.Log (tempImgs [i]);
-
+			imageList.Add (itemList);
 //			matList=recognizeAlgo.createDataSet(tempImgs[i]);//把拍摄到的图片切成小图片
 //			Debug.Log("matList.Count==="+matList.Count);
 //			Debug.Log("------createDataSet()------");
@@ -331,6 +392,33 @@ public class GetImage : MonoBehaviour
 //			}
 
 		}
+
+		bool compute_result;
+
+		if (LevelManager.currentLevelData.LevelID == 15) 
+		{
+			compute_result = cf_SPDT.compute (ref itemList);
+		} 
+		else 
+		{
+			compute_result = cf.compute (ref itemList,LevelManager.currentLevelData.LevelID);
+		}
+
+		result = compute_result;//这个结果用于识别界面做判断是跳转到welldone界面还是failure界面
+
+		Debug.Log ("-----compute_result---:" + compute_result);
+
+		Debug.Log ("after compute ----$$$$$$ " + itemList.Count+" $$$$$$$$");
+
+		Debug.Log ("&&&&&&&&");
+
+		for (int k = 0; k < itemList.Count; k++) 
+		{
+			
+			Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
+		}
+
+		Debug.Log ("&&&&&&&&&&&");
 	}
 		
 

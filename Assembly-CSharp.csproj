@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\HourGlassPlayAni.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -348,6 +349,7 @@
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\SuperpixelSLIC.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\Ximgproc.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\xphoto\Xphoto.cs" />
+     <Compile Include="Assets\Scripts\ConfirmBtnCtrl.cs" />
      <Compile Include="Assets\Scripts\Test\AnimationMakeTest.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\BatteryCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\BulbCtrl.cs" />
@@ -395,6 +397,8 @@
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
+     <Compile Include="Assets\Scripts\ZPF\Correctness.cs" />
+     <Compile Include="Assets\Scripts\ZPF\Correctness_SPDTSwitch.cs" />
      <Compile Include="Assets\Scripts\ZPF\CurrentFlow.cs" />
      <Compile Include="Assets\Scripts\ZPF\CurrentFlow_SPDTSwitch.cs" />
      <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
@@ -462,6 +466,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text (TextureClip).shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
+     <None Include="Assets\Xmls\CircuitItems_lv4_reverse.xml" />
      <None Include="Assets\Xmls\CircuitItems_lv2.xml" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />

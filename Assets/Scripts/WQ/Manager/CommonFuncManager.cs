@@ -116,6 +116,8 @@ public class CommonFuncManager : MonoBehaviour
 					AudioSource tempAudio = temp.GetComponent<AudioSource> ();
 					if (circuitItems [i].powered) // this item is power on
 					{
+						//temp.GetComponent<AnimationMakeTest> ().isPlayAni = true;
+					
 						if (!tempAudio.isPlaying) 
 						{
 							tempAudio.Play ();
@@ -125,6 +127,7 @@ public class CommonFuncManager : MonoBehaviour
 					} 
 					else // this item is power off
 					{
+						//temp.GetComponent<AnimationMakeTest> ().isPlayAni = false;
 						if (tempAudio.isPlaying) 
 						{
 							tempAudio.Stop ();

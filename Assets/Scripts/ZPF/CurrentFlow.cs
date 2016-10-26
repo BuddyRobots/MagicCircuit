@@ -7,136 +7,93 @@ namespace MagicCircuit
 {
     public class CurrentFlow : MonoBehaviour
     {
-		public static CurrentFlow _instance;
+        private List<CircuitItem> circuitItems;
+        private List<List<int>> circuitBranch;  // Store the branches of the whole circuit for CircuitCompare
 
-        public List<CircuitItem> circuitItems;
-
-        public List<List<int>> circuitBranch;   // Store the branches of the whole circuit for CircuitCompare
+        private Correctness correctness;        // Determine whether circuit is correct
 
         private Connectivity[,] connectivity;   // Will modify this when handling switch on/off
         private Connectivity[,] L_Matrix;
         private Connectivity[,] R_Matrix;
         private Connectivity[,] originalConn;   // Connectivity for the whole circuit when all switches on
-        private Connectivity[,] currentConn;    // Store the current state of connectivit
+        private Connectivity[,] currentConn;    // Store the current state of connectivity for switchOn/Off
 
         private bool[] isOpened;                // Store information of which item is open circuited
         private int count;
         private int boundary;                   // ID of the first CircuitLine
 
+        //@TODO
         private const int region = 30;          // Region for checking whether line is connected to card. Need to test & tune this.
 
-		void Awake()
+
+
+		public 	CurrentFlow()
 		{
-			_instance = this;
+			
+			circuitBranch = new List<List<int>> ();
+			correctness = new Correctness ();
+
 		}
 
-		string pathForDocumentsFile( string filename ) 
-		{ 
-			if (Application.platform == RuntimePlatform.IPhonePlayer)
-			{
-				Debug.Log ("CurrentFlow_documents_filename==" + filename);
-				string path = Application.dataPath.Substring( 0, Application.persistentDataPath.Length - 5 );
-				Debug.Log ("CurrentFlow_documents_path==" + path);
-				path = path.Substring( 0, path.LastIndexOf( '/' ) );
-				Debug.Log ("CurrentFlow_documents_path2==" + path);
-				return Path.Combine( Path.Combine( path, "Documents" ), filename );
-			}       
-			else if(Application.platform == RuntimePlatform.Android)
-			{
-				string path = Application.persistentDataPath;   
-				path = path.Substring(0, path.LastIndexOf( '/' ) ); 
-				return Path.Combine (path, filename);
-			}   
-			else 
-			{
-				string path = Application.dataPath; 
-				path = path.Substring(0, path.LastIndexOf( '/' ) );
-				return Path.Combine (path, filename);
-			}
-		}  
 
-       
-        void OnEnable()
+
+        public bool compute(ref List<CircuitItem> itemList, int level)
         {
-			#if UNITY_EDITOR  
-			circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
-			#elif UNITY_IPHONE 
+            //@FIXME
+            // Deep copy itemList to circuitItems
+            circuitItems = itemList;
 
-			string xmlPath4 = Application.dataPath.Substring( 0,  Application.dataPath.Length - 4);
-//			Debug.Log("xmlPath4==" + xmlPath4);
-			string xmlPath5 = Path.Combine(xmlPath4, "Xmls/CircuitItems_lv2.xml");
-//			Debug.Log("xmlPath5==" + xmlPath5);
-
-			 if (File.Exists(xmlPath5))
-			{
-				Debug.Log("Great! I have found the file!");
-			}
-			else
-			{
-				Debug.Log("Sorry!");
-			}
-			circuitItems = XmlCircuitItemCollection.Load(xmlPath5).toCircuitItems();
-
-//			Debug.Log("circuitItems_size == " + circuitItems.Count);
-
-//			foreach(CircuitItem ci in circuitItems )
-//			{
-//				Debug.Log("CircuitItem_info == " + ci.name);
-//			}
-			#endif 
-		
-            /// Process
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
             else
             {
-                Debug.Log("not working Circuit!");
-                return;
+                Debug.Log("Not working Circuit!");
+                return false;
             }
 
-
-			Debug.Log("--------------current flow CircuitItems  after  computeCircuitBranch------------");
-			for (var i = 0; i < count; i++)
-			{
-				Debug.Log(i + ": ----------------");
-				Debug.Log(circuitItems[i].powered);
-				for (int j = 0; j <circuitItems[i].list.Count ; j++) 
-				{
-					Debug.Log(circuitItems[i].list[j]);
-				}
-			}
-            /////////////////////////////////////
-            //@ Code for determining correctness of circuit here
-            //@ Use CurrentFlow.circuitBranch here
+            // Determine whether circuit is correct
+            if (!correctness.computeCorrectness(itemList, level, circuitBranch))
+                return false;
 
             /// Display CircuitBranch
-		
-//            Debug.Log("=========CircuitBranch============");
-//            for (var i = 0; i < circuitBranch.Count; i++)
-//            {
-//                for (var j = 0; j < circuitBranch[i].Count; j++)
-//                    Debug.Log(circuitBranch[i][j]);
-//                Debug.Log("----");
-//            }
+            Debug.Log("=========CircuitBranch============");
+            for (var i = 0; i < circuitBranch.Count; i++)
+            {
+                for (var j = 0; j < circuitBranch[i].Count; j++)
+                    Debug.Log(circuitBranch[i][j]);
+                Debug.Log("----");
+            }
 
             /////////////////////////////////////
-
-            // Restore connectivity to compute circuitItems
-            Array.Copy(originalConn, connectivity, originalConn.Length);
-
-            // Reset all circuitItems.powered to false
-            for (var i = 0; i < count; i++)
-            {
-                circuitItems[i].powered = false;
-            }            
-
-            // Turn all the switches off 
+            // Return if no switches
+            bool haveSwitch = false;
             for (var i = 0; i < boundary; i++)
                 if (circuitItems[i].type == ItemType.Switch ||
                     circuitItems[i].type == ItemType.LightActSwitch ||
                     circuitItems[i].type == ItemType.VoiceOperSwitch ||
                     circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
-                    switchOff(i);                      
+                {
+                    haveSwitch = true;
+                    break;
+                }                    
+            if (!haveSwitch) return true;
+
+            /////////////////////////////////////
+            // Deal with switches
+            // Restore connectivity to compute circuitItems
+            Array.Copy(originalConn, connectivity, originalConn.Length);
+
+            // Reset all circuitItems.powered to false
+            for (var i = 0; i < count; i++)
+                circuitItems[i].powered = false;
+
+            // Turn all the switches off
+            for (var i = 0; i < boundary; i++)
+                if (circuitItems[i].type == ItemType.Switch ||
+                    circuitItems[i].type == ItemType.LightActSwitch ||
+                    circuitItems[i].type == ItemType.VoiceOperSwitch ||
+                    circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
+                    switchOff(i);
 
             // Save to currentConn
             Array.Copy(connectivity, currentConn, connectivity.Length);
@@ -148,21 +105,48 @@ namespace MagicCircuit
             //@ Result is the start state of circuit when all the switches are off
             //@ Use CurrentFlow.circuitItems here
 
-            /// Display circuitItems.list
-//            for (var i = boundary; i < count; i++)
-//            {
-//                Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
-//            }
+            //@FIXME
+            // Deep Copy circuitItems to itemList
+            itemList = circuitItems;
 
-            /////////////////////////////////////                        
+            /// Display circuitItems.list
+            for (var i = boundary; i < count; i++)
+            {
+                Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
+            }
+
+			/////////////////////////////////////  
+			return true;                 
+		}
+
+        public void switchOnOff(int ID, bool state) // State true: on false: off
+        {
+            // Restore connectivity to current state
+            Array.Copy(currentConn, connectivity, currentConn.Length);
+
+            // Reset all circuitItems.powered to false
+            for (var i = 0; i < count; i++)
+            {
+                circuitItems[i].powered = false;
+            }
+
+            if (state)
+                switchOn(ID);
+            else
+                switchOff(ID);
+
+            // Save new current state
+            Array.Copy(connectivity, currentConn, connectivity.Length);
+
+            // Will modify connectivity & generate circuitItems as result
+            process();
         }
 
-
-
-
         // Only call this method once!
-        public bool computeCircuitBranch()
-        {        
+        private bool computeCircuitBranch()
+        {
+            //circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "CircuitItems.xml")).toCircuitItems();
+
             circuitBranch = new List<List<int>>();
             circuitBranch.Add(new List<int>());
 
@@ -212,31 +196,6 @@ namespace MagicCircuit
             return true;
         }
 
-        public void switchOnOff(int ID, bool state) // State true: on false: off
-        {
-
-			//Debug.Log ("switchOnOff(int ID, bool state)");
-            // Restore connectivity to current state
-            Array.Copy(currentConn, connectivity, currentConn.Length);
-
-            // Reset all circuitItems.powered to false
-            for (var i = 0; i < count; i++)
-            {
-                circuitItems[i].powered = false;
-            }
-
-            if (state)
-                switchOn(ID);
-            else
-                switchOff(ID);
-
-            // Save new current state
-            Array.Copy(connectivity, currentConn, connectivity.Length);
-
-            // Will modify connectivity & generate circuitItems as result
-            process();
-        }
-
         private bool process()
         {
             // Remove open circuit
@@ -280,11 +239,12 @@ namespace MagicCircuit
 
             // Determine current flow direcion of lines
             flipLineFromComponent();
-            while (flipLineFromLine());
+            while (flipLineFromLine()) ;
 
             for (var i = 0; i < count; i++)
                 if (isOpened[i])
                     circuitItems[i].powered = false;
+
             return true;
         }
 

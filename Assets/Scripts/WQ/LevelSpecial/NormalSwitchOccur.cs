@@ -27,8 +27,8 @@ public class NormalSwitchOccur : MonoBehaviour
 					Destroy (PhotoRecognizingPanel._instance.finger);
 				}
 			} 
-			CurrentFlow._instance.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-			CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);
+				GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
 		}
 	}
 

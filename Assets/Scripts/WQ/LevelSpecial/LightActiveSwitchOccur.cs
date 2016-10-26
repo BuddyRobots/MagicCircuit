@@ -5,7 +5,6 @@ using MagicCircuit;
 //第12关----光敏开关
 public class LightActiveSwitchOccur : MonoBehaviour 
 {
-	private int animationPlayedTimes=0;
 	[HideInInspector]
 	public bool isLAswitchOccur = false;
 
@@ -23,8 +22,6 @@ public class LightActiveSwitchOccur : MonoBehaviour
 	{
 		changeTime = 3f;
 		changeTimer = 0;
-
-		animationPlayedTimes=0;
 		isLAswitchOccur = false;
 		isCircuitWork = false;
 
@@ -75,9 +72,9 @@ public class LightActiveSwitchOccur : MonoBehaviour
 					isCircuitWork = false;
 				}
 			}	
-			CurrentFlow._instance.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
+			GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
 			LAswitch.GetComponent<UISprite>().spriteName=isCircuitWork? "LAswitchOn":"LAswitchOff";
-			CommonFuncManager._instance.CircuitReset (CurrentFlow._instance.circuitItems);	
+			CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
 		}
 	}
 
