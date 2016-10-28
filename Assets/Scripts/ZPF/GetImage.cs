@@ -99,18 +99,6 @@ public class GetImage : MonoBehaviour
 		isHandleDone_ItemList = false;
 
 		StartCoroutine(init());
-
-
-	}
-
-
-    void Start() 
-	{
-		cf_SPDT = new CurrentFlow_SPDTSwitch ();
-		cf = new CurrentFlow ();
-		rotateCamera = new RotateCamera ();  
-		// Intialize RecogniazeAlgo
-		recognizeAlgo = new RecognizeAlgo();
 		//////////////////////////////////
 		/// for test..
 		#if UNITY_EDITOR  
@@ -142,15 +130,28 @@ public class GetImage : MonoBehaviour
 		//			}
 		#endif
 
-//		Debug.Log ("=========");
-//
-//		for (int i = 0; i < itemList_temp.Count; i++) {
-//			Debug.Log ("item["+i+"]:"+itemList_temp [i].name+"  item["+i+"].connect_left:"+itemList_temp[i].connect_left+"  item["+i+"].connect_right:"+itemList_temp[i].connect_right);
-//		}
-//
-//		Debug.Log ("======end===");
+		//		Debug.Log ("=========");
+		//
+		//		for (int i = 0; i < itemList_temp.Count; i++) {
+		//			Debug.Log ("item["+i+"]:"+itemList_temp [i].name+"  item["+i+"].connect_left:"+itemList_temp[i].connect_left+"  item["+i+"].connect_right:"+itemList_temp[i].connect_right);
+		//		}
+		//
+		//		Debug.Log ("======end===");
 		/////////////////////////////////////////
+
+	}
+
+
+    void Start() 
+	{
+		cf_SPDT = new CurrentFlow_SPDTSwitch ();
+		cf = new CurrentFlow ();
+		rotateCamera = new RotateCamera ();  
+		// Intialize RecogniazeAlgo
+		recognizeAlgo = new RecognizeAlgo();
+
     }
+
 
 
     private IEnumerator init()
@@ -402,15 +403,27 @@ public class GetImage : MonoBehaviour
 			compute_result = cf.compute (ref itemList,LevelManager.currentLevelData.LevelID);
 		}
 		result = compute_result;//这个结果用于识别界面做判断是跳转到welldone界面还是failure界面
-		Debug.Log ("-----compute_result---:" + compute_result);
-		Debug.Log ("after compute ----$$$$$$ " + itemList.Count+" $$$$$$$$");
-		Debug.Log ("&&&&&&&&");
-		for (int k = 0; k < itemList.Count; k++) 
-		{
-			Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
-		}
-		Debug.Log ("&&&&&&&&&&&");
+//		Debug.Log ("-----compute_result---:" + compute_result);
+//		Debug.Log ("after compute ----$$$$$$ " + itemList.Count+" $$$$$$$$");
+//		Debug.Log ("&&&&&&&&");
+//		for (int k = 0; k < itemList.Count; k++) 
+//		{
+//			Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
+//		}
+//		Debug.Log ("&&&&&&&&&&&");
 		isHandleDone_ItemList = true;
+
+
+
+		//打印拍摄界面数据处理完后获取到的线上的点的个数和坐标
+		for (int i = 3; i < itemList.Count; i++) {
+			Debug.Log("itemList["+i+"] count==="+itemList[i].list.Count);
+			Debug.Log("￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥after comute pos ￥￥￥￥￥￥￥￥￥￥￥￥￥￥");
+			for (int pi = 0; pi < itemList[i].list.Count; pi++) {
+				Debug.Log(itemList[i].list[pi]);
+			}
+		}
+
 	}
 		
 
@@ -432,7 +445,4 @@ public class GetImage : MonoBehaviour
 
 		File.WriteAllBytes(filepath, snap.EncodeToJPG ());
 	}
-
-
-
 }

@@ -171,8 +171,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	[HideInInspector]
 	public  List<GameObject> arrowList=new List<GameObject>();
 	[HideInInspector]
-	public  List<Vector3> linePointsList=new List<Vector3>();//线上的所有点的集合，方便第二关的消除线段的取点
-	[HideInInspector]
 	public  List<GameObject> batteryList = new List<GameObject> ();
 	[HideInInspector]
 	public  List<GameObject> bulbList = new List<GameObject> ();
@@ -287,17 +285,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		circuitLines=new List<List<Vector3>>();
 
 		jianBianShiJian = false;
-//		itemList=GetImage._instance.itemList;
-//		result = GetImage._instance.result;//real code
-//		GetCircuitLines ();
-//		maskTime = (itemList.Count-1)  * itemInterval;//显示图标的总时间=(图标个数-1)*图标间隔时间
-//		foreach (var item in circuitLines) 
-//		{
-//			maskTime += (float)((item.Count - 1) * lineItemInterval);//显示一条线的总时间
-//		}
 
-
-
+		testpos=false;
+	
 		StartCoroutine (PhotoShow ());//进入识别界面的第一步是显示拍摄的照片
 		StartCoroutine (RemoveEmptyArrow ());
 	}
@@ -339,13 +329,32 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	//渐变时间开关
 	private bool jianBianShiJian = false;
+
+	private bool testpos=false;//for test...
+
 	void Update () 
 	{
 		
-		print ("GetImage._instance.isHandleDone_ItemList====" + GetImage._instance.isHandleDone_ItemList);
+		//print ("GetImage._instance.isHandleDone_ItemList====" + GetImage._instance.isHandleDone_ItemList);
 		if ( GetImage._instance.isHandleDone_ItemList) //如果数据处理完了，还没有取数据，就取数据
 		{
 			itemList=GetImage._instance.itemList;
+
+			//打印识别界面获取到的线上的点的个数和坐标
+			if (!testpos) 
+			{
+				for (int i = 3; i < itemList.Count; i++)
+				{
+					Debug.Log("itemList["+i+"] count==="+itemList[i].list.Count);
+					Debug.Log("##############recognize pos#################");
+					for (int pi = 0; pi < itemList[i].list.Count; pi++) {
+						Debug.Log(itemList[i].list[pi]);
+					}
+				}
+				testpos=true;
+			}
+
+
 			//Debug.Log ("****************final itemList******");
 			for (int k = 0; k < itemList.Count; k++) 
 			{
@@ -369,8 +378,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				jianBianShiJian = true;
 			}
 			//----------------------------
-			Debug.Log("maskTime==="+maskTime);
-
+			//Debug.Log("maskTime==="+maskTime);
 
 		} 
 		else 
@@ -532,13 +540,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	IEnumerator CreateAllItem()
 	{
-		//itemsList=GetImage._instance.itemLists[0];//for test
-		//itemsList=CurrentFlow._instance.circuitItems;
 		iconCount = itemList.Count;
-		print(itemList.Count + "*************");
+	//	print(itemList.Count + "*************");//打印每一次itemList的数量，看有没有变化----已经测试过，每一次的数量都是一样的
 		for (int i = 0; i < itemList.Count; i++) 
 		{
-			
 			CreateSingleItem (itemList [i]);
 			yield return new WaitForSeconds (itemInterval);//隔0.5秒创建一个图标
 		}
@@ -640,11 +645,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.CircuitLine:
 			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			lines.Add (circuitItem.list);
-			print(circuitItem.list.Count + "..........");
-			for (int i = 0; i < circuitItem.list.Count; i++) 
-			{
-				linePointsList.Add (circuitItem.list [i]);
-			}
+			print(circuitItem.list.Count + ".......line count..........");
 			//开始画线
 			StartCoroutine (DrawCircuit (circuitItem.list));
 			break;
@@ -760,6 +761,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if (itemList[i].type==ItemType.CircuitLine) 
 			{
 				circuitLines.Add (itemList[i].list);
+				Debug.Log("-----------------GetCircuitLines---------------------------");
+				Debug.Log("itemList["+i+"] points count: "+itemList[i].list.Count);//已经测试过，只有第一次的数据是对的，一条线有4个点，重玩后只有两个点，而且不是xml中的坐标点，是图标的中心点
+				for (int m = 0; m < itemList[i].list.Count; m++) {
+					Debug.Log(itemList[i].list[m]);
+					
+				}
 				//itemsList[i].ID//equals to tag of arrow
 				tags.Add (itemList[i].ID);
 			}
@@ -777,17 +784,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			isCreateArrowSingleLine = true;
 			if (isCreateArrowSingleLine) 
 			{
-//				Debug.Log ("-----before CreateArrowOnSingleLine---");
-//				for (int k = 0; k <circuitLines[i].Count; k++) {
-//					Debug.Log ("circuitLines[" + i + "][" + k + "]:" + circuitLines [i][k]);
-//					
-//				}
 				//create arrows on every single line
 				List<Vector3> templine = new List<Vector3>();
-				for (int n = 0; n < circuitLines[i].Count; n++) {
+				for (int n = 0; n < circuitLines[i].Count; n++) 
+				{
 					templine.Add (circuitLines[i] [n]);
 				}
-
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}
 		}
@@ -891,8 +893,19 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			Destroy (arrowList [i]);
 		}
+
+		for (int i = 0; i < lines.Count; i++) 
+		{
+			lines[i].Clear();
+		}
 		lines.Clear ();
+
+		for (int i = 0; i < circuitLines.Count; i++) 
+		{
+			circuitLines[i].Clear();
+		}
 		circuitLines.Clear ();
+
 		gameObject.SetActive (false);
 		successShow.gameObject.SetActive (false);
 		failureShow.gameObject.SetActive (false);

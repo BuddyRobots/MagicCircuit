@@ -56,13 +56,13 @@ namespace MagicCircuit
                 return false;
 
             /// Display CircuitBranch
-            Debug.Log("=========CircuitBranch============");
-            for (var i = 0; i < circuitBranch.Count; i++)
-            {
-                for (var j = 0; j < circuitBranch[i].Count; j++)
-                    Debug.Log(circuitBranch[i][j]);
-                Debug.Log("----");
-            }
+//            Debug.Log("=========CircuitBranch============");
+//            for (var i = 0; i < circuitBranch.Count; i++)
+//            {
+//                for (var j = 0; j < circuitBranch[i].Count; j++)
+//                    Debug.Log(circuitBranch[i][j]);
+//                Debug.Log("----");
+//            }
 
             /////////////////////////////////////
             // Return if no switches
