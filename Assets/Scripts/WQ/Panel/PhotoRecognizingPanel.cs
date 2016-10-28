@@ -339,20 +339,32 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		if ( GetImage._instance.isHandleDone_ItemList) //如果数据处理完了，还没有取数据，就取数据
 		{
 			itemList=GetImage._instance.itemList;
-
+			////////for test
 			//打印识别界面获取到的线上的点的个数和坐标
-			if (!testpos) 
-			{
-				for (int i = 3; i < itemList.Count; i++)
-				{
-					Debug.Log("itemList["+i+"] count==="+itemList[i].list.Count);
-					Debug.Log("##############recognize pos#################");
-					for (int pi = 0; pi < itemList[i].list.Count; pi++) {
-						Debug.Log(itemList[i].list[pi]);
-					}
-				}
-				testpos=true;
-			}
+//			if (!testpos) 
+//			{
+//				
+//				for (int i = 0; i <itemList.Count; i++)
+//				{
+//					if (itemList[i].type==ItemType.CircuitLine) 
+//					{
+//						Debug.Log("^^^^^^^^^^^^^^^^^^^^^^^  recognize line pos ^^^^^^^^^^^^^^^^^^^^^^^^");
+//						Debug.Log("itemList["+i+"] count==="+itemList[i].list.Count);
+//
+//						for (int pi = 0; pi < itemList[i].list.Count; pi++) 
+//						{
+//							Debug.Log(itemList[i].list[pi]);
+//						}
+//
+//					}
+//
+//				}
+//
+//
+//				testpos=true;
+//			}
+
+			////////////////////////////
 
 
 			//Debug.Log ("****************final itemList******");
@@ -380,14 +392,21 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			//----------------------------
 			//Debug.Log("maskTime==="+maskTime);
 
+			if (!isArrowCreated) 
+			{
+				CreateArrow ();
+				isArrowCreated = true;
+			}
+
 		} 
 		else 
 		{
 			return;
 		}
 			
+
 		//如果图片显示完了，且取到了数据，就进行后面的显示
-		if (isPhotoShowDone )//&& GetItemList) 
+		if (isPhotoShowDone )
 		{
 			
 			#region 蒙板出现，透明度渐变
@@ -404,11 +423,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				StartCoroutine (CreateAllItem ());//创建图标
 				isCreate_Update =true;
 			}
-			if (!isArrowCreated) 
-			{
-				CreateArrow ();
-				isArrowCreated = true;
-			}
+
+//			if (!isArrowCreated) 
+//			{
+//				CreateArrow ();
+//				isArrowCreated = true;
+//			}
 
 
 			if (iconCount == 0) 
@@ -432,9 +452,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			// 结果展示逻辑
 			if (isItemShowDone && !isShowResult)
 			{
-				if (result) {
+				if (result) 
+				{
 					WellDone ();
-				} else {
+				}
+				else
+				{
 					Fail ();
 				}
 				isShowResult = true;
@@ -761,12 +784,18 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if (itemList[i].type==ItemType.CircuitLine) 
 			{
 				circuitLines.Add (itemList[i].list);
-				Debug.Log("-----------------GetCircuitLines---------------------------");
-				Debug.Log("itemList["+i+"] points count: "+itemList[i].list.Count);//已经测试过，只有第一次的数据是对的，一条线有4个点，重玩后只有两个点，而且不是xml中的坐标点，是图标的中心点
-				for (int m = 0; m < itemList[i].list.Count; m++) {
-					Debug.Log(itemList[i].list[m]);
-					
-				}
+
+
+				///////////////////////
+//				Debug.Log("-----------------GetCircuitLines---------------------------");
+//				Debug.Log("itemList["+i+"] points count: "+itemList[i].list.Count);
+//				for (int m = 0; m < itemList[i].list.Count; m++) 
+//				{
+//					Debug.Log(itemList[i].list[m]);
+//					
+//				}
+				////////////////////////
+
 				//itemsList[i].ID//equals to tag of arrow
 				tags.Add (itemList[i].ID);
 			}
@@ -781,6 +810,13 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		for (int i = 0; i < circuitLines.Count; i++) 
 		{
+			Debug.Log("---------------circuitLine  pos---------------");
+			for (int k = 0; k < circuitLines[i].Count; k++) 
+			{
+				Debug.Log(circuitLines[i][k]);
+			}
+
+
 			isCreateArrowSingleLine = true;
 			if (isCreateArrowSingleLine) 
 			{
@@ -789,6 +825,18 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				for (int n = 0; n < circuitLines[i].Count; n++) 
 				{
 					templine.Add (circuitLines[i] [n]);
+				}
+
+
+
+
+				Debug.Log("---------------templine pos-------------------------------------------------");
+				Debug.Log("templine count: "+templine.Count);
+				foreach (var item in templine) 
+				{
+
+					Debug.Log(item);
+
 				}
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}
@@ -832,12 +880,15 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	public void WellDone()
 	{
+		
 		levelNameLabel.text="Congratulations!";
 		labelBgTwinkle.SetActive (true);
 		replayBtn.SetActive (true);
 		nextBtn.SetActive (true);
 		StartCoroutine (SuccessShow ());
 	}
+
+
 
 	IEnumerator SuccessShow()
 	{

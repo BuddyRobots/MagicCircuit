@@ -27,7 +27,7 @@ public class LevelFourteen : MonoBehaviour
 	/// <summary>
 	/// 声控开关闭合一次的总时间
 		/// </summary>
-	private float VOTime=5f;
+	private float VOTime=5.5f;
 	private float VOTimer=0;
 
 

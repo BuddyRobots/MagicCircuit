@@ -11,7 +11,12 @@ public class NormalSwitchOccur : MonoBehaviour
 	void OnEnable()
 	{
 		isNormalSwitchOccur = false;
+
+		isTest=false;
 	}
+
+
+	private bool isTest=false;
 
 	void Update () 
 	{
@@ -26,8 +31,27 @@ public class NormalSwitchOccur : MonoBehaviour
 				{
 					Destroy (PhotoRecognizingPanel._instance.finger);
 				}
+				isTest=false;
 			} 
-				GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+
+			//for test  ....
+			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn && !isTest) 
+			{
+				for (int i = 0; i < PhotoRecognizingPanel._instance.itemList.Count; i++) 
+				{
+					if (PhotoRecognizingPanel._instance.itemList[i].type==ItemType.CircuitLine) 
+					{
+						Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
+						
+					}
+				}
+				isTest=true;
+
+			}
+
+
+
 			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
 		}
 	}
