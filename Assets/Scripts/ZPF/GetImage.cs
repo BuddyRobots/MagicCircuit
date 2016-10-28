@@ -10,8 +10,8 @@ using MagicCircuit;
 public class GetImage : MonoBehaviour
 {
 	public static GetImage _instance;
-	public bool isThreadEnd = false;
-	public bool isCircuitCorrect = false;
+	public bool isThreadEnd;
+	public bool isCircuitCorrect;
 
 	// Parameters for generating itemList
 	public List<CircuitItem> itemList = new List<CircuitItem>();
@@ -44,12 +44,39 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
+		isThreadEnd = false;
+		isCircuitCorrect = false;
+
 		StartCoroutine(init());
 
 		rotateCamera = new RotateCamera();
 		recognizeAlge = new RecognizeAlgo();
 		cf = new CurrentFlow();
 		cf_SPDT = new CurrentFlow_SPDTSwitch();
+
+		// For test, load xml to xmlItemList
+		#if UNITY_EDITOR  
+		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv1.xml")).toCircuitItems();
+		#elif UNITY_IPHONE 
+		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
+		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
+		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
+		//Debug.Log("xmlPath = " + xmlPath);
+		if (File.Exists(xmlPath))
+		Debug.Log("Great! I have found the file!");
+		else
+		Debug.Log("Sorry! I have not found the file!");
+		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
+		#endif
+
+		Debug.Log ("=====Start=====");
+		for (var i = 0; i < xmlItemList.Count; i++)
+		{
+			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+		}
+		Debug.Log ("======End======");
 	}
 
 	private IEnumerator init()
@@ -93,29 +120,7 @@ public class GetImage : MonoBehaviour
 
 	void Start()
 	{
-		// For test, load xml to xmlItemList
-		#if UNITY_EDITOR  
-		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv1.xml")).toCircuitItems();
-		#elif UNITY_IPHONE 
-		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
-		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
-		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
-		//Debug.Log("xmlPath = " + xmlPath);
-		if (File.Exists(xmlPath))
-		Debug.Log("Great! I have found the file!");
-		else
-		Debug.Log("Sorry! I have not found the file!");
-		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
-		#endif
-
-		Debug.Log ("=====Start=====");
-		for (var i = 0; i < xmlItemList.Count; i++)
-		{
-			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-		}
-		Debug.Log ("======End======");
+		
 	}
 
 	// Display current WebCamTexture to CamQuad
@@ -136,6 +141,7 @@ public class GetImage : MonoBehaviour
 
 	public void Thread_Process_Start()
 	{
+		isThreadEnd = false;
 		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");

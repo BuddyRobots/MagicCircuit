@@ -336,7 +336,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		
 		//print ("GetImage._instance.isHandleDone_ItemList====" + GetImage._instance.isHandleDone_ItemList);
-		if ( GetImage._instance.isHandleDone_ItemList) //如果数据处理完了，还没有取数据，就取数据
+		if ( GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
 			itemList=GetImage._instance.itemList;
 			////////for test
@@ -375,7 +375,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			}
 			//Debug.Log ("********************");
 
-			result = GetImage._instance.result;//real code
+			result = GetImage._instance.isCircuitCorrect;//real code
 			//Debug.Log("final result====="+result);
 			if (!jianBianShiJian) 
 			{

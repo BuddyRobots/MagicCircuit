@@ -62,7 +62,6 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		GetImage._instance.TakePicture ();
 		if (!noticeImg.gameObject.activeSelf) 
 		{
 			noticeImg.gameObject.SetActive (true);
@@ -84,7 +83,7 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "1";
 		yield return new WaitForSeconds (1);
 
-		GetImage._instance.SavePic ();
+		GetImage._instance.Thread_Process_Start();
 
 		PanelOff ();
 		photoRecognizingPanel.SetActive (true);
