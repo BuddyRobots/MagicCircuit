@@ -4,9 +4,7 @@ using System.Collections;
 public class CommonPanel02 : MonoBehaviour {
 
 	public static CommonPanel02 _instance;
-
 	private GameObject helpBtn;
-	private bool isMusicOn = true;
 
 	void Awake()
 	{
@@ -26,8 +24,6 @@ public class CommonPanel02 : MonoBehaviour {
 		//跳转到帮助界面
 		//Debug.Log("GameObject: "+btn.name);
 	}
-
-
 
 	public void PanelOff()
 	{
