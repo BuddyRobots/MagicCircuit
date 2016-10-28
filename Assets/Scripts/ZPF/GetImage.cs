@@ -63,9 +63,9 @@ public class GetImage : MonoBehaviour
 		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
 		//Debug.Log("xmlPath = " + xmlPath);
 		if (File.Exists(xmlPath))
-		Debug.Log("Great! I have found the file!");
+			Debug.Log("Great! I have found the file!");
 		else
-		Debug.Log("Sorry! I have not found the file!");
+			Debug.Log("Sorry! I have not found the file!");
 		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
 		#endif
 
