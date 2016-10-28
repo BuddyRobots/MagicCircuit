@@ -70,6 +70,10 @@ public class LevelHandle : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 根据关卡等级添加对应的关卡脚本
+	/// </summary>
+	/// <param name="levelID">Level I.</param>
 	public void CircuitHandleByLevelID(int levelID)
 	{
 		switch (levelID) 

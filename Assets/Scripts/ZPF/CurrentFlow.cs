@@ -112,7 +112,7 @@ namespace MagicCircuit
             /// Display circuitItems.list
             for (var i = boundary; i < count; i++)
             {
-                Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
+                //Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
             }
 
 			/////////////////////////////////////  

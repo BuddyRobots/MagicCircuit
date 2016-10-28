@@ -21,12 +21,16 @@ public class LevelFourteen : MonoBehaviour
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 	private bool isNightModeOnce=false;
+
+	private bool isCountDownShow=false;
+
 	/// <summary>
 	/// 声控开关闭合一次的总时间
 		/// </summary>
 	private float VOTime=5f;
 	private float VOTimer=0;
-	 
+
+
 	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的
 	//只有先闭合光敏，再闭合声控，电路才通
 	// to do ...
@@ -41,6 +45,7 @@ public class LevelFourteen : MonoBehaviour
 		isNightModeOnce=false;
 		isFingerDestroyed=false;
 		isStartRecord = false;
+		isCountDownShow=false;
 		VOTime = 5f;
 		VOTimer = 0;
 	}
@@ -113,19 +118,34 @@ public class LevelFourteen : MonoBehaviour
 					if (!isStartRecord) //开始收集声音
 					{ 
 						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (true);//弹出提示框
+						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive(true);//弹出声音收集图片
+						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = true;//显示声音收集动画
 						MicroPhoneInput.getInstance ().StartRecord ();
 						isStartRecord = true;
 					}
 					if (CommonFuncManager._instance.isSoundLoudEnough ()) //收集到声音
 					{
+						//声控延时开关闭合，倒计时文字出现并开始倒计时
+
+						if (!isCountDownShow) {
+							StartCoroutine(CountDown());
+							isCountDownShow=true;
+						}
+
 						isVOswitchOn=true;
 						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (false);//提示框消失
+						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
+						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive(false);
+
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 					}
 					if (isVOswitchOn) 
 					{
+						
+
+							
 						VOTimer += Time.deltaTime;
 						if (VOTimer >= VOTime) 
 						{
@@ -133,9 +153,15 @@ public class LevelFourteen : MonoBehaviour
 							VOTimer = 0;
 							GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
 							VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = "VoiceDelayOff";
+
+							//沙漏停止播放动画  to do...
+							//PhotoRecognizingPanel._instance.hourGlass.transform.GetComponent<MyAnimation>().canPlay=false;
+
 							transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;
 							isStartRecord = false;
+							isCountDownShow=false;
 						}
+
 					}
 				}
 				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
@@ -164,8 +190,6 @@ public class LevelFourteen : MonoBehaviour
 						isVOswitchOn=false;
 					GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), isVOswitchOn);
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
-
-
 					}
 					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
 				}
@@ -174,6 +198,30 @@ public class LevelFourteen : MonoBehaviour
 			preSunSwitchStatues = transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime;
 		}
 	}
+
+
+
+	IEnumerator CountDown()
+	{
+		UILabel countDown = PhotoRecognizingPanel._instance.countDownLabel;
+		countDown.gameObject.SetActive(true);
+		countDown.gameObject.transform.localPosition = transform.Find ("voiceTimedelaySwitch").localPosition;
+
+		//倒计时，每个数字停留一秒后变化
+		yield return new WaitForSeconds(1);
+		countDown.text = "4";
+		yield return new WaitForSeconds (1);
+		countDown.text = "3";
+		yield return new WaitForSeconds (1);
+		countDown.text = "2";
+		yield return new WaitForSeconds (1);
+		countDown.text = "1";
+		yield return new WaitForSeconds (1);
+		countDown.gameObject.SetActive (false);
+		countDown.text = "5";
+	}
+
+
 }
 
 

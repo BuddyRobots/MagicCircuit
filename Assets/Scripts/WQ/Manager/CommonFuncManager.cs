@@ -38,27 +38,6 @@ public class CommonFuncManager : MonoBehaviour
 		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
 	}
 		
-	/// <summary>
-	/// 电流动画的开启和关闭
-	/// </summary>
-	/// <param name="isSwitch">If set to <c>true</c> is switch.</param>
-	public  void CircuitOnOrOff(bool isSwitch)
-	{
-		if (tempIsLaSwitch != isSwitch) 
-		{
-			if (!isSwitch) 
-			{
-				GetComponent<PhotoRecognizingPanel> ().StopCircuit ();
-			}
-			else
-			{
-				GetComponent<PhotoRecognizingPanel> ().ContinueCircuit ();
-			}
-			tempIsLaSwitch = isSwitch;
-		} 
-	}
-
-
 
 
 	public bool isSoundLoudEnough()
@@ -108,32 +87,40 @@ public class CommonFuncManager : MonoBehaviour
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
 					break;
 
-				case ItemType.InductionCooker:
-					//电磁炉通电/冒蒸汽的切换  to do ...
-					//如果通电则播放动画，没通电则不播放动画  to do...
+				//如果是电磁炉
+			case ItemType.InductionCooker:
+				GameObject steam = temp.transform.Find ("Steam").gameObject;
+				if (circuitItems [i].powered) 
+				{
+					steam.GetComponent<MyAnimation> ().canPlay = true;
+				}
+				else 
+				{
+					steam.GetComponent<MyAnimation> ().canPlay=false;
+				}
+			
 					break;
+
+				//如果是音响
 				case ItemType.Loudspeaker:
 					AudioSource tempAudio = temp.GetComponent<AudioSource> ();
 					if (circuitItems [i].powered) // this item is power on
 					{
-						//temp.GetComponent<AnimationMakeTest> ().isPlayAni = true;
-					
+					temp.GetComponent<MyAnimation> ().canPlay = true;
 						if (!tempAudio.isPlaying) 
 						{
 							tempAudio.Play ();
 							tempAudio.volume = 0.5f;
 						}
-
 					} 
 					else // this item is power off
 					{
-						//temp.GetComponent<AnimationMakeTest> ().isPlayAni = false;
+					temp.GetComponent<MyAnimation> ().canPlay=false;
 						if (tempAudio.isPlaying) 
 						{
 							tempAudio.Stop ();
 						}
 					}
-					//喇叭有无声音的切换   to do...
 					break;
 
 				case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
@@ -170,13 +157,23 @@ public class CommonFuncManager : MonoBehaviour
 				break;
 
 			case ItemType.InductionCooker:
-				//电磁炉通电/冒蒸汽的切换  to do ...
-				//如果通电则播放动画，没通电则不播放动画  to do...
+				GameObject steam = temp.transform.Find ("Steam").gameObject;
+				if (circuitItems [i].powered) 
+				{
+					steam.GetComponent<MyAnimation> ().canPlay = true;
+				}
+				else 
+				{
+					steam.GetComponent<MyAnimation> ().canPlay=false;
+				}
+
 				break;
 			case ItemType.Loudspeaker:
 				AudioSource tempAudio = temp.GetComponent<AudioSource> ();
+
 				if (circuitItems [i].powered) // this item is power on
 				{
+					temp.GetComponent<MyAnimation> ().canPlay = true;
 					if (!tempAudio.isPlaying) 
 					{
 						tempAudio.Play ();
@@ -185,6 +182,7 @@ public class CommonFuncManager : MonoBehaviour
 				} 
 				else // this item is power off
 				{
+					temp.GetComponent<MyAnimation> ().canPlay=false;
 					if (tempAudio.isPlaying) 
 					{
 						tempAudio.Stop ();

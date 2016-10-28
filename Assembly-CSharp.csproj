@@ -45,7 +45,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\HourGlassPlayAni.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\UICursor.cs" />
@@ -350,7 +349,9 @@
      <Compile Include="Assets\OpenCVForUnity\org\opencv\ximgproc\Ximgproc.cs" />
      <Compile Include="Assets\OpenCVForUnity\org\opencv\xphoto\Xphoto.cs" />
      <Compile Include="Assets\Scripts\ConfirmBtnCtrl.cs" />
+     <Compile Include="Assets\Scripts\MyAnimation.cs" />
      <Compile Include="Assets\Scripts\Test\AnimationMakeTest.cs" />
+     <Compile Include="Assets\Scripts\Test\ThreadTest.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\BatteryCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\BulbCtrl.cs" />
      <Compile Include="Assets\Scripts\WQ\Btn\HomeBtn.cs" />

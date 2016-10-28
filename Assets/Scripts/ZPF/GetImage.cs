@@ -49,6 +49,11 @@ public class GetImage : MonoBehaviour
 	/// a mark to judge if the thread of 10-photos-handling was over 
 	/// </summary>
 	private bool isFinishHandlePicture;
+	/// <summary>
+	/// 是否处理完了10张图片的标志
+	/// </summary>
+	[HideInInspector]
+	public bool isHandleDone_ItemList = false;
 
 	private List<Mat> tempImgs = new List<Mat>();
 	/// <summary>
@@ -56,7 +61,7 @@ public class GetImage : MonoBehaviour
 	/// </summary>
 	public List<List<CircuitItem>> imageList=new List<List<CircuitItem>>(); 
 	/// <summary>
-	/// 所有items的集合
+	/// 所有items的集合,用作识别界面显示item的数据
 	/// </summary>
 	public List<CircuitItem> itemList=new List<CircuitItem>();
 	public List<CircuitItem> itemList_temp=new List<CircuitItem>();//for test..
@@ -65,12 +70,14 @@ public class GetImage : MonoBehaviour
 
 	private byte[] arr=new byte[28*28*3];
 	private	double[] sample=new double[28*28*3];
+	[HideInInspector]
 	public CurrentFlow cf;
+	[HideInInspector]
 	public CurrentFlow_SPDTSwitch cf_SPDT;
 	/// <summary>
 	/// 判断电路是否正确的标记,默认为false，这个结果用于识别界面做判断是跳转到welldone界面还是failure界面
 	/// </summary>
-	public bool result=false;
+	public bool result=true;
 
 	void Awake()
 	{
@@ -80,34 +87,35 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
-		result = false;
+
+		result = true;
 		isShotTook=false;
 		isTakePicture = false;
 		isFinishHandlePicture = false;
-
 		initDone = false;
 		tempImgs.Clear ();
+
+		//是否处理完了十张图片
+		isHandleDone_ItemList = false;
+
 		StartCoroutine(init());
+
+
 	}
 
 
     void Start() 
 	{
-		
 		cf_SPDT = new CurrentFlow_SPDTSwitch ();
-			
-
 		cf = new CurrentFlow ();
-
-
 		rotateCamera = new RotateCamera ();  
 		// Intialize RecogniazeAlgo
 		recognizeAlgo = new RecognizeAlgo();
-	
-
+		//////////////////////////////////
+		/// for test..
 		#if UNITY_EDITOR  
 
-		itemList_temp = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv15.xml")).toCircuitItems();
+		itemList_temp = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv3.xml")).toCircuitItems();
 
 		#elif UNITY_IPHONE 
 
@@ -134,13 +142,14 @@ public class GetImage : MonoBehaviour
 		//			}
 		#endif
 
-		Debug.Log ("=========");
-
-		for (int i = 0; i < itemList_temp.Count; i++) {
-			Debug.Log ("item["+i+"]:"+itemList_temp [i].name+"  item["+i+"].connect_left:"+itemList_temp[i].connect_left+"  item["+i+"].connect_right:"+itemList_temp[i].connect_right);
-		}
-
-		Debug.Log ("======end===");
+//		Debug.Log ("=========");
+//
+//		for (int i = 0; i < itemList_temp.Count; i++) {
+//			Debug.Log ("item["+i+"]:"+itemList_temp [i].name+"  item["+i+"].connect_left:"+itemList_temp[i].connect_left+"  item["+i+"].connect_right:"+itemList_temp[i].connect_right);
+//		}
+//
+//		Debug.Log ("======end===");
+		/////////////////////////////////////////
     }
 
 
@@ -161,22 +170,21 @@ public class GetImage : MonoBehaviour
 		#endif 
 
 		webCamTexture = new WebCamTexture (webCamDevice.name, cam_width, cam_height);
-		webCamTexture.Play ();
+		webCamTexture.Play ();//starts the camera
 
         while (true)
         {
             if (webCamTexture.didUpdateThisFrame)
             {
                 frameImg = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC3);
-
                 texture = new Texture2D(tex_width, tex_height, TextureFormat.RGBA32, false);
                 gameObject.GetComponent<Renderer>().material.mainTexture = texture;
 
-                initDone = true;
+				initDone = true;
                 break;
             }
             else
-            {
+			{
                 yield return 0;
             }
         }
@@ -202,7 +210,6 @@ public class GetImage : MonoBehaviour
 	/// </summary>
 	public void TakePhoto() 
 	{
-		//Debug.Log ("takephoto");
         if (!initDone)
             return;
         if (webCamTexture.didUpdateThisFrame)
@@ -289,7 +296,7 @@ public class GetImage : MonoBehaviour
 			sample [i] = (double)arr [i]/255;
 		}
 		//ret = testLuaWithArr(sample,sample.Length);
-		Debug.Log ("unity__testLuaWithArr_ret=="+ ret);
+		//Debug.Log ("unity__testLuaWithArr_ret=="+ ret);
 		return ret;
 	}
 	//开启线程的地方
@@ -353,23 +360,18 @@ public class GetImage : MonoBehaviour
 	{
 		Debug.Log ("ThreadTakePicture()");
 		imageList.Clear ();       
-		for (int i = 0; i < 5/*tempImgs.Count*/; i++) 
+		for (int i = 0; i < tempImgs.Count; i++) 
 		{
 			itemList.Clear (); 
-			//List<CircuitItem> temp = new List<CircuitItem>();//用作识别界面显示图标的数据依据
 			Mat resultImg = recognizeAlgo.process(tempImgs[i], ref itemList);
 			//////// for test ...should be deleted when distribute
-			/// 
-			Debug.Log ("itemList_temp count:" + itemList_temp.Count);
-			for (int j= 0; j < itemList_temp.Count; j++) {
+			for (int j= 0; j < itemList_temp.Count; j++) 
+			{
 				itemList.Add(itemList_temp[j]);
-			}
-			Debug.Log ("itemlist count:" + itemList.Count);   
+			} 
 			img = resultImg;
 			imageList.Add (itemList);
 //			matList=recognizeAlgo.createDataSet(tempImgs[i]);//把拍摄到的图片切成小图片
-//			Debug.Log("matList.Count==="+matList.Count);
-//			Debug.Log("------createDataSet()------");
 			//把小图片存到相册中 to do ...
 //			foreach (Mat item in matList) 
 //			{
@@ -378,7 +380,6 @@ public class GetImage : MonoBehaviour
 //				//texture.Apply();
 //				textureList.Add (texture);
 //			}
-//			Debug.Log ("textureList.Count====" + textureList.Count);
 //			for (int j = 0; j < textureList.Count; j++) 
 //			{
 //				#if UNITY_EDITOR  
@@ -388,13 +389,10 @@ public class GetImage : MonoBehaviour
 //				_SavePhoto (path);
 //				#endif 
 //				File.WriteAllBytes(path, textureList[j].EncodeToJPG ());
-//				Debug.Log ("save to JPG---"+j);
 //			}
 
 		}
-
 		bool compute_result;
-
 		if (LevelManager.currentLevelData.LevelID == 15) 
 		{
 			compute_result = cf_SPDT.compute (ref itemList);
@@ -403,22 +401,16 @@ public class GetImage : MonoBehaviour
 		{
 			compute_result = cf.compute (ref itemList,LevelManager.currentLevelData.LevelID);
 		}
-
 		result = compute_result;//这个结果用于识别界面做判断是跳转到welldone界面还是failure界面
-
 		Debug.Log ("-----compute_result---:" + compute_result);
-
 		Debug.Log ("after compute ----$$$$$$ " + itemList.Count+" $$$$$$$$");
-
 		Debug.Log ("&&&&&&&&");
-
 		for (int k = 0; k < itemList.Count; k++) 
 		{
-			
 			Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
 		}
-
 		Debug.Log ("&&&&&&&&&&&");
+		isHandleDone_ItemList = true;
 	}
 		
 
@@ -440,11 +432,6 @@ public class GetImage : MonoBehaviour
 
 		File.WriteAllBytes(filepath, snap.EncodeToJPG ());
 	}
-
-
-
-
-
 
 
 
