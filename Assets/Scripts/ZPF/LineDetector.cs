@@ -8,10 +8,10 @@ namespace MagicCircuit
     {
         private ColorThreshold colorThreshold;
 
-        private const int delta_small = 10;
-        private const int delta_medium = 15;
-        private const int delta_large = 20;
-        private const int point_num = 3;
+		private const int STEP_SMALL    = 10;
+		private const int STEP_MEDIUM   = 15;
+		private const int STEP_LARGE    = 20;
+		private const int MIN_POINT_NUM = 3;
 
         public LineDetector()
         {
@@ -80,7 +80,7 @@ namespace MagicCircuit
                 }
 
                 // If we have more than @point_num points on one line, add this line
-                if (line.Count > point_num)
+                if (line.Count > MIN_POINT_NUM)
                     listLine.Add(line);
 
                 // Enqueue the intersect points
@@ -260,17 +260,17 @@ namespace MagicCircuit
         {
             while(true)
             {
-                Queue<Point> myPoint = findNextPoints(skel, current, delta_small);
+                Queue<Point> myPoint = findNextPoints(skel, current, STEP_SMALL);
 
                 if (myPoint.Count != 1)
                 {
                     // increase radius
-                    myPoint = findNextPoints(skel, current, delta_medium);
+                    myPoint = findNextPoints(skel, current, STEP_MEDIUM);
 
                     if (myPoint.Count != 1)
                     {
                         // increase radius
-                        myPoint = findNextPoints(skel, current, delta_large);
+                        myPoint = findNextPoints(skel, current, STEP_LARGE);
 
                         if (myPoint.Count != 1)
                         {

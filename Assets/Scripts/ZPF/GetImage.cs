@@ -119,9 +119,7 @@ public class GetImage : MonoBehaviour
 	}
 
 	void Start()
-	{
-		
-	}
+	{}
 
 	// Display current WebCamTexture to CamQuad
 	void Update()
@@ -142,6 +140,9 @@ public class GetImage : MonoBehaviour
 	public void Thread_Process_Start()
 	{
 		isThreadEnd = false;
+		listItemList.Clear();
+		frameImgList.Clear();
+
 		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");
@@ -155,8 +156,22 @@ public class GetImage : MonoBehaviour
 	{
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
+			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+
+
+
+
+			itemList.Clear();
 			recognizeAlge.process(frameImgList[i], ref itemList);
 			listItemList.Add(itemList);
+
+
+
+
+
+			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			int elapse_1 = time_1 - startTime_1;
+			Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
 		}
 
 		// TODO
@@ -164,10 +179,26 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemList
 		// itemList = average(listItemList);
-		itemList = xmlItemList;
+		//itemList = xmlItemList;
+
+
+		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+
+
+
 
 		// Compute CurrentFlow
 		computeCurrentFlow();
+
+
+
+
+
+
+		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+		int elapse_2 = time_2 - startTime_2;
+		Debug.Log("computeCurrentFlow Time elapse : " + elapse_2);
+		Debug.Log("Thread_Process_End");
 
 		isThreadEnd = true;
 	}
@@ -182,7 +213,7 @@ public class GetImage : MonoBehaviour
 		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
 		Debug.Log("itemList.Count = " + itemList.Count);
 		for (var i = 0; i < itemList.Count; i++)
-			Debug.Log(i + " " + itemList[i].list[0] + " " + itemList[i].powered);
+			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
 	}
 
 	private bool takePicture(ref Mat frameImg)

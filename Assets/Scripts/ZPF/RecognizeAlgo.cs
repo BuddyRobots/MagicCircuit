@@ -1,35 +1,51 @@
 ﻿using OpenCVForUnity;
 using MagicCircuit;
+using UnityEngine;
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 public class RecognizeAlgo
 {
+	[DllImport("__Internal")]  
+	private static extern int testLuaWithArr(double[] arr,int len);
 
     // Size of input image 1*28*28
     private const int imageSize = 28;
+	private const int numOfClasses = 9;
 
     private LineDetector line_detector;
-    private myUtils util;
+    //private myUtils util;
+
 
     public RecognizeAlgo()
     {
         line_detector = new LineDetector();
-        util = new myUtils();
+        //util = new myUtils();
     }
-
-
-    public Mat process(Mat frameImg, ref List<CircuitItem> listItem)
+		
+    public Mat process(Mat frameImg, ref List<CircuitItem> itemList)
     {
         Mat grayImg = new Mat();
         Mat binaryImg = new Mat();
-        Mat cardTransImg = new Mat();
+        Mat frameTransImg = new Mat();
         Mat resultImg = frameImg.clone();
 
-        int ID = 0;
+		int showOrder = 0;
         CircuitItem tmpItem;
 
         /// Detect Cards =============================================================
-        MatOfPoint2f point = new MatOfPoint2f(new Point[4]
+
+
+
+
+
+		int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+
+
+
+
+		MatOfPoint2f point = new MatOfPoint2f(new Point[4]
             { new Point(0, 0), new Point(imageSize, 0), new Point(imageSize, imageSize), new Point(0, imageSize) });
 
         // Thresholding
@@ -51,52 +67,207 @@ public class RecognizeAlgo
 
             // Perspective transform
             Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
-            Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
+            Imgproc.warpPerspective(frameImg, frameTransImg, homography, new Size());
 
             // TODO
-            // @@Classification
+			// @@predict
             // @Input  : Mat cardTransImg.submat(0, imageSize, 0, imageSize);
-            // @Output : string name,
-            //           ItemType type,
-            //           int direction;
-            // FIXME: cardImg BGR2RGB ????
-            string name = "name";
-            ItemType type = new ItemType();
-            int direction = 0;
-            Mat cardImg = cardTransImg.submat(0, imageSize, 0, imageSize);
-            //int class = predict(cardTransImg.submat(0, imageSize, 0, imageSize))
+			// @Output : int klass;
+			string name = "name";
+            ItemType type = new ItemType();            
+			Mat cardImg = frameTransImg.submat(0, imageSize, 0, imageSize);
+			int klass = predict(cardImg);
+
+
+
+
+			Debug.Log("RecognizeAlgo.process klass = " + klass);
+
+
+
+
+
+
+
+
+			switch (klass)
+			{
+			case 1:
+				name = "Battery";
+				type = ItemType.Battery;
+				break;
+			case 2:
+				name = "Switch";
+				type = ItemType.Switch;
+				break;
+			case 3:
+				name = "LightActSwitch";
+				type = ItemType.LightActSwitch;
+				break;
+			case 4:
+				name = "VoiceOperSwitch";
+				type = ItemType.VoiceOperSwitch;
+				break;
+			case 5:
+				name = "VoiceTimedelaySwitch";
+				type = ItemType.VoiceTimedelaySwitch;
+				break;
+			case 6:
+				name = "SPDTSwitch";
+				type = ItemType.SPDTSwitch;
+				break;
+			case 7:
+				name = "Bulb";
+				type = ItemType.Bulb;
+				break;
+			case 8:
+				name = "LoudSpeaker";
+				type = ItemType.Loudspeaker;
+				break;
+			case 9:
+				name = "InductionCooker";
+				type = ItemType.InductionCooker;
+				break;
+			}
+
+			// TODO
+			// @@getDirection
+			// @Input  : int klass,
+			//           Mat cardImg;
+			// @Output : int direction (0, 1, 2, 3)
+			int direction = 1;
+			// direction = getDirection(klass, cardImg);
 
 
             // Add to listItem
-            tmpItem = new CircuitItem(ID, name, type, ID++, frameImg.size());
+			tmpItem = new CircuitItem(klass, name, type, showOrder++, frameImg.size());
             tmpItem.extractCard(direction, outer_squares[i]);
-            listItem.Add(tmpItem);
+            itemList.Add(tmpItem);
         }
+		// ReOrder listItem
+		reOrder(ref itemList);
 
         // Substract all outer_squares from frameImg
         CardDetector.removeCard(ref frameImg, outer_squares);
 
 
-        /// Detect Lines =============================================================
-        List<List<List<Point>>> listLine = new List<List<List<Point>>>();
-        List<Rect> rect = new List<Rect>();
-        line_detector.detectLine(frameImg, ref listLine, ref rect);
 
-        for (var i = 0; i < listLine.Count; i++)
-            util.drawPoint(resultImg, listLine[i], rect[i]);
+
+
+
+		int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+		int elapse_1 = time_1 - startTime_1;
+		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_1);
+
+
+
+
+
+        /// Detect Lines =============================================================
+        
+		Debug.Log("DetectLine Start");
+		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+
+
+
+		List<List<List<Point>>> listLineGroup = new List<List<List<Point>>>();
+		List<OpenCVForUnity.Rect> rect = new List<OpenCVForUnity.Rect>();
+        line_detector.detectLine(frameImg, ref listLineGroup, ref rect);
+
+        /*for (var i = 0; i < listLine.Count; i++)
+            util.drawPoint(resultImg, listLine[i], rect[i]);*/
+
+
+
+		Debug.Log("DetectLine listLineGroup[0].Count = " + listLineGroup[0].Count);
+
+
 
         // Add to CircuitItem
-        for (var i = 0; i < listLine.Count; i++)
-            for (var j = 0; j < listLine[i].Count; j++)
+		for (var i = 0; i < listLineGroup.Count; i++)
+            for (var j = 0; j < listLineGroup[i].Count; j++)
             {
-                tmpItem = new CircuitItem(ID, "CircuitLine", ItemType.CircuitLine, ID++, frameImg.size());
-                tmpItem.extractLine(listLine[i][j], rect[i]);
-                listItem.Add(tmpItem);
+                tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++, frameImg.size());
+                tmpItem.extractLine(listLineGroup[i][j], rect[i]);
+                itemList.Add(tmpItem);
             }
+
+
+
+
+
+
+		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+		int elapse_2 = time_2 - startTime_2;
+		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_2);
+		for(var i = 0; i < itemList.Count; i++)
+		{
+			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
+		}
+
+
+
+
+
+
+
         return resultImg;
     }
+		
+	// Call lua to do classification
+	private int predict(Mat card)
+	{
+		int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
-    public List<Mat> createDataSet(Mat frameImg/*, string path*/)
+
+
+
+
+		double[] sample = new double[28*28*3];
+
+		int pointer = 0;
+		for (var y = 0; y < card.rows(); y++)
+			for (var x = 0; x < card.cols(); x++)
+			{
+				double[] value = new double[3];
+				value = card.get(x, y);
+
+				sample[pointer]        = value[0] / 255;
+				sample[pointer + 784]  = value[1] / 255;
+				sample[pointer + 1568] = value[2] / 255;
+				pointer++;
+			}
+		int prediction = testLuaWithArr(sample, sample.Length);
+
+
+
+
+
+		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+		int elapse_2 = time_2 - startTime;
+		Debug.Log("RecognizeAlgo predict() Time elapse : " + elapse_2);
+
+
+
+		return prediction;
+	}
+
+	private void reOrder(ref List<CircuitItem> listItem)
+	{
+		int counter = 0;
+		List<CircuitItem> tmpList = new List<CircuitItem>();
+
+		for (var i = 1; i <= numOfClasses; i++)
+			for (var j = 0; j < listItem.Count; j++)
+				if (listItem[j].ID == i)
+				{
+					listItem[j].ID = counter++;
+					tmpList.Add(listItem[j]);
+				}
+		listItem = tmpList;
+	}
+
+	/*public List<Mat> createDataSet(Mat frameImg)
     {
 		
         Mat grayImg = new Mat();
@@ -131,5 +302,5 @@ public class RecognizeAlgo
             //Imgcodecs.imwrite(path, cardImg);
         }
         return result;
-    }
+    }*/
 }

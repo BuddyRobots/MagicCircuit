@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using OpenCVForUnity;
 
 public class CardDetector
-{
+{	
+	private const int    MIN_SQUARE_LEN       = 60;
+	private const int    MAX_SQUARE_LEN       = 150;
+	private const double MAX_SQUARE_LEN_RATIO = 1.4;
+	private const double OUTER_SQUARE_RATIO   = 1.2;
+
     public static List<List<Point>> findSquares(Mat binaryImg)
     {
         List<List<Point>> squares = new List<List<Point>>();
@@ -48,24 +53,22 @@ public class CardDetector
 
     public static List<List<Point>> computeOuterSquare(List<List<Point>> squares)
     {
-        const double ratio = 1.2;
-        
-        List<List<Point>> outer_squares = new List<List<Point>>();
+		List<List<Point>> outerSquares = new List<List<Point>>();
 
         for (var i = 0; i < squares.Count; i++)
         {
-            List<Point> tmp_square = new List<Point>();
-            Point center = new Point((squares[i][0].x + squares[i][2].x) / 2, (squares[i][0].y + squares[i][2].y) / 2);
+			List<Point> tmpSquare = new List<Point>();
+			Point squareCenter = new Point((squares[i][0].x + squares[i][2].x) / 2, (squares[i][0].y + squares[i][2].y) / 2);
 
             for (var j = 0; j < 4; j++)
             {
-                double x = ratio * (squares[i][j].x - center.x) + center.x;
-                double y = ratio * (squares[i][j].y - center.y) + center.y;
-                tmp_square.Add(new Point(x, y));
+				double x = OUTER_SQUARE_RATIO * (squares[i][j].x - squareCenter.x) + squareCenter.x;
+                double y = OUTER_SQUARE_RATIO * (squares[i][j].y - squareCenter.y) + squareCenter.y;
+                tmpSquare.Add(new Point(x, y));
             }
-            outer_squares.Add(tmp_square);
+            outerSquares.Add(tmpSquare);
         }
-        return outer_squares;
+        return outerSquares;
     }
 
     public static void removeCard(ref Mat img, List<List<Point>> squares)
@@ -82,9 +85,6 @@ public class CardDetector
 
     private static List<List<Point>> filterSquares(List<List<Point>> squares)
     {
-        int m_maxSquareLen = 400;
-        int m_minSquareLen = 10;
-        double m_maxSquareLenRatio = 1.2;
         List<List<Point>> filterSquares = new List<List<Point>>();
 
         for (int j = 0; j < squares.Count; j++)
@@ -98,10 +98,8 @@ public class CardDetector
                 curMinLen = len < curMinLen ? len : curMinLen;
             }
 
-            if (curMaxLen > m_maxSquareLen || curMinLen < m_minSquareLen || curMaxLen / curMinLen > m_maxSquareLenRatio)
-            {
+            if (curMaxLen > MAX_SQUARE_LEN || curMinLen < MIN_SQUARE_LEN || curMaxLen / curMinLen > MAX_SQUARE_LEN_RATIO)
                 continue;
-            }
             if (isSquareClockwise(squares[j]))
                 filterSquares.Add(squares[j]);
         }
