@@ -199,7 +199,7 @@ public class RecognizeAlgo
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
-		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_2);
+		Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 		for(var i = 0; i < itemList.Count; i++)
 		{
 			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);

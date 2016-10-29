@@ -15,7 +15,7 @@ namespace MagicCircuit
 
         public LineDetector()
         {
-            colorThreshold = new ColorThreshold("line");
+            colorThreshold = new ColorThreshold();
         }
 
         public void detectLine(Mat frame, ref List<List<List<Point>>> listLine, ref List<OpenCVForUnity.Rect> rect)

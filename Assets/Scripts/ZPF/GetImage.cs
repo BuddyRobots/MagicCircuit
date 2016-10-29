@@ -31,7 +31,7 @@ public class GetImage : MonoBehaviour
 	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 
 	// Parameter for processing 10 photos
-	private const int numOfPhotos = 10;
+	private const int NUM_OF_PHOTOS = 2;
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
 	private List<Mat> frameImgList = new List<Mat>();
@@ -179,7 +179,7 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemList
 		// itemList = average(listItemList);
-		//itemList = xmlItemList;
+		itemList = xmlItemList;
 
 
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -232,7 +232,7 @@ public class GetImage : MonoBehaviour
 	private void take10Pictures()
 	{
 		Mat frameImg = new Mat();
-		for (var i = 0; i < numOfPhotos;)
+		for (var i = 0; i < NUM_OF_PHOTOS;)
 			if (takePicture(ref frameImg))
 			{
 				i++;
