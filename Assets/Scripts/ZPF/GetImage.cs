@@ -31,7 +31,9 @@ public class GetImage : MonoBehaviour
 	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 
 	// Parameter for processing 10 photos
+
 	private const int NUM_OF_PHOTOS = 2;
+
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
 	private List<Mat> frameImgList = new List<Mat>();
@@ -56,25 +58,25 @@ public class GetImage : MonoBehaviour
 
 		// For test, load xml to xmlItemList
 		#if UNITY_EDITOR  
-		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv1.xml")).toCircuitItems();
+		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv9.xml")).toCircuitItems();
 		#elif UNITY_IPHONE 
-		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
-		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
-		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
-		//Debug.Log("xmlPath = " + xmlPath);
-		if (File.Exists(xmlPath))
-			Debug.Log("Great! I have found the file!");
-		else
-			Debug.Log("Sorry! I have not found the file!");
-		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
+//		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
+//		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
+//		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
+//		//Debug.Log("xmlPath = " + xmlPath);
+//		if (File.Exists(xmlPath))
+//		Debug.Log("Great! I have found the file!");
+//		else
+//		Debug.Log("Sorry! I have not found the file!");
+//		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
 		#endif
 
 		Debug.Log ("=====Start=====");
 		for (var i = 0; i < xmlItemList.Count; i++)
 		{
 			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
 		}
 		Debug.Log ("======End======");
 	}
@@ -177,9 +179,9 @@ public class GetImage : MonoBehaviour
 		// TODO
 		// Average listItemList to get the final itemList
 		// @Input  : listItemList
-		// @Output : itemList
+		// @Output : itemLists
 		// itemList = average(listItemList);
-		itemList = xmlItemList;
+		//itemList = xmlItemList;
 
 
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -190,7 +192,11 @@ public class GetImage : MonoBehaviour
 		// Compute CurrentFlow
 		computeCurrentFlow();
 
-
+		for (int i = 0; i < itemList.Count; i++) {
+			for (int j = 0; j < itemList[i].list.Count; j++) {
+				Debug.Log("GetImage Thread_Process itemlist["+i+"].list["+j+"]===="+itemList[i].list[j]);
+			}
+		}
 
 
 

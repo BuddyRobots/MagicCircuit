@@ -6,29 +6,82 @@ namespace MagicCircuit
 {
     public class LineDetector
     {
-        private ColorThreshold colorThreshold;
-
 		private const int STEP_SMALL    = 10;
 		private const int STEP_MEDIUM   = 15;
 		private const int STEP_LARGE    = 20;
 		private const int MIN_POINT_NUM = 3;
 
-        public LineDetector()
+        public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
         {
-            colorThreshold = new ColorThreshold();
-        }
+			Debug.Log("flag 1");
 
-        public void detectLine(Mat frame, ref List<List<List<Point>>> listLine, ref List<OpenCVForUnity.Rect> rect)
-        {
+
             List<Mat> l_roi = new List<Mat>();
 
-            colorThreshold.getLines(frame, ref l_roi, ref rect);
+            getLines(frameImg, ref l_roi, ref boundingRectList);
+
+
+			Debug.Log("flag 2");
+
+
+
 
             for (var i = 0; i < l_roi.Count; i++)
             {
-                listLine.Add(vectorize(l_roi[i]));
+                lineGroupList.Add(vectorize(l_roi[i]));
             }
+
+
+			Debug.Log("flag 3");
         }
+
+		private void getLines(Mat frameImg, ref List<Mat> roiList, ref List<OpenCVForUnity.Rect> rectList)
+		{
+			int h_min = 0, h_max = 180;
+			int s_min = 0, s_max = 255;
+			int v_min = 0, v_max = 100;
+			int area = 0;
+
+			Mat hsvImg = new Mat();
+			Mat binaryImg = new Mat();
+			Mat lineImg = new Mat();
+
+			if (roiList.Count  != 0) roiList.Clear();
+			if (rectList.Count != 0) rectList.Clear();
+
+			// Color Thresholding
+			Imgproc.cvtColor(frameImg, hsvImg, Imgproc.COLOR_RGB2HSV);
+			Core.inRange(hsvImg, new Scalar(h_min, s_min, v_min), new Scalar(h_max, s_max, v_max), binaryImg);
+			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
+			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_CLOSE, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8, 8)));
+			lineImg = binaryImg.clone();
+
+			// Find Contours
+			List<MatOfPoint> contours = new List<MatOfPoint>();
+			Mat hierarchy = new Mat();
+			Imgproc.findContours(binaryImg, contours, hierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+
+			// Extract components using contour area
+			for (int i = 0; i < contours.Count; i++)
+			{
+				Debug.Log("LineDetector getLine Imgproc.contourArea(contours[i]) = " + Imgproc.contourArea(contours[i]));
+
+
+
+
+				if (Imgproc.contourArea(contours[i]) > area)
+				{
+					OpenCVForUnity.Rect re = Imgproc.boundingRect(contours[i]);
+
+					// Extract only the correspoding component from frame using roi
+					// The size of roi is a variable
+					Mat roi = new Mat(lineImg, re);
+					roiList.Add(roi);
+					rectList.Add(re);
+				}
+			}
+			return;
+		}    
 
         private List<List<Point>> vectorize(Mat lineImg)
         {
@@ -353,15 +406,5 @@ namespace MagicCircuit
                 }
             }
         }
-    }
-
-    public class Line
-    {
-        public int number;
-        public List<int> nextComponent;
-        public List<int> nextLine;
-        public List<Point> points;
-        public Point first;
-        public Point last;
     }
 }

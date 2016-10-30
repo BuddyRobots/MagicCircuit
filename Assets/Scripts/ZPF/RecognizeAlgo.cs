@@ -170,25 +170,25 @@ public class RecognizeAlgo
 
 
 
-		List<List<List<Point>>> listLineGroup = new List<List<List<Point>>>();
-		List<OpenCVForUnity.Rect> rect = new List<OpenCVForUnity.Rect>();
-        line_detector.detectLine(frameImg, ref listLineGroup, ref rect);
+		List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
+		List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
+		line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
 
-        /*for (var i = 0; i < listLine.Count; i++)
-            util.drawPoint(resultImg, listLine[i], rect[i]);*/
+		/*for (var i = 0; i < lineGroupList.Count; i++)
+            util.drawPoint(resultImg, lineGroupList[i], rect[i]);*/
 
 
 
-		Debug.Log("DetectLine listLineGroup[0].Count = " + listLineGroup[0].Count);
+		//Debug.Log("DetectLine lineGroupList[0].Count = " + lineGroupList[0].Count);
 
 
 
         // Add to CircuitItem
-		for (var i = 0; i < listLineGroup.Count; i++)
-            for (var j = 0; j < listLineGroup[i].Count; j++)
+		for (var i = 0; i < lineGroupList.Count; i++)
+            for (var j = 0; j < lineGroupList[i].Count; j++)
             {
                 tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++, frameImg.size());
-                tmpItem.extractLine(listLineGroup[i][j], rect[i]);
+                tmpItem.extractLine(lineGroupList[i][j], boundingRectList[i]);
                 itemList.Add(tmpItem);
             }
 
