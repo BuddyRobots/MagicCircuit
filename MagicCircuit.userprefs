@@ -1,10 +1,21 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/GetImage.cs">
+    <Files>
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitWithTwoBulb.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="16" Column="39" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Xmls/CircuitItems_lv9.xml" Line="1" Column="1" />
+      <File FileName="Assets/Xmls/CircuitItems_lv9_new.xml" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/CurrentFlow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/Correctness.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/RemoveLine.cs" Line="63" Column="5" />
+      <File FileName="Assets/Scripts/WQ/Panel/CommonPanel02.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" line="586" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="Assets/Scripts/MyAnimation.cs" line="26" offsetX="639" offsetY="375" expression="atlas" liveUpdate="False" />

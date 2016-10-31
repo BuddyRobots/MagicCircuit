@@ -52,8 +52,8 @@ namespace MagicCircuit
             }
 
             // Determine whether circuit is correct
-//            if (!correctness.computeCorrectness(itemList, level, circuitBranch))
-//                return false;
+            if (!correctness.computeCorrectness(itemList, level, circuitBranch))
+                return false;
 
             /// Display CircuitBranch
             Debug.Log("=========CircuitBranch============");

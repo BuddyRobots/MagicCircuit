@@ -322,7 +322,7 @@ namespace MagicCircuit
                 }
                 if (haveCooker && haveSwitch && (circuitBranch[i].Count == 2)) checkBranch_1 = true;
                 else if (haveSpeaker && haveSwitch && (circuitBranch[i].Count == 2)) checkBranch_2 = true;
-                else if ((countBulb == 2) && haveSwitch && (circuitBranch[i].Count == 2)) checkBranch_3 = true;
+                else if ((countBulb == 2) && haveSwitch && (circuitBranch[i].Count == 3)) checkBranch_3 = true;
                 else return false;
             }
 

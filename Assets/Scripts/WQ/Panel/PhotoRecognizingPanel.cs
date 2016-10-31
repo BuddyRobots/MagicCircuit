@@ -729,7 +729,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
 		lineSp.width = (int)(distance+6);//将连线图片的宽度设置为上面计算的距离  
 		lineGo.transform.localPosition = centerPos;//设置连线图片的坐标 ----@@@@@@@@@@@@@@@@@@@@#####这里用世界坐标还是本地坐标看测试代码中设定的坐标是根据什么来定的 
-		lineGo.GetComponent<BoxCollider>().size = lineGo.GetComponent<UISprite>().localSize;
+
+//		lineGo.GetComponent<BoxCollider>().size = lineGo.GetComponent<UISprite>().localSize;
+		if (LevelManager.currentLevelData.LevelID==2) //只有第二关的线条才可以被点击消除，才需要碰撞体
+		{
+			lineGo.AddComponent<BoxCollider>();
+			lineGo.GetComponent<BoxCollider>().size = lineGo.GetComponent<UISprite>().localSize;
+		}
+
 		lineGo.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);//旋转连线图片  
 	}
 
@@ -944,6 +951,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		for (int i = 0; i < goList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 		{
+			if (goList[i].GetComponent<BoxCollider>()) 
+			{
+				Destroy(goList[i].GetComponent<BoxCollider>());
+				
+			}
 			Destroy (goList [i]);
 		}
 		for (int i = 0; i < arrowList.Count; i++) 
