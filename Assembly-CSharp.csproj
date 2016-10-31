@@ -393,7 +393,6 @@
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
-     <Compile Include="Assets\Scripts\ZPF\ColorThreshold.cs" />
      <Compile Include="Assets\Scripts\ZPF\Correctness.cs" />
      <Compile Include="Assets\Scripts\ZPF\Correctness_SPDTSwitch.cs" />
      <Compile Include="Assets\Scripts\ZPF\CurrentFlow.cs" />
@@ -428,6 +427,7 @@
      <None Include="Assets\Xmls\CircuitItems_lv3.xml" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\Xmls\CircuitItems_lv9_new.xml" />
      <None Include="Assets\Xmls\CircuitItems_lv9.xml" />
      <None Include="Assets\Xmls\CircuitItems_old_old.xml" />
      <None Include="Assets\Xmls\CircuitItems_lv11.xml" />

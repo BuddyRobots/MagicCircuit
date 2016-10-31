@@ -23,9 +23,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 {
 	public static PhotoRecognizingPanel _instance;
 
-
 	private const float lineItemInterval = 0.1f;
 	private const float itemInterval = 0.5f;
+
+
+	private const float resultShowInterval=1.5f;
+
 	[HideInInspector]
 	public  float arrowGenInterval = 0.8f;
 
@@ -58,7 +61,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	//需要跳转连接的界面
 	private GameObject commonPanel02;
-	private GameObject failurePanel;
 
 	private GameObject labelBgTwinkle;//文字显示的发光背景
 	private GameObject lineParent;
@@ -190,7 +192,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
 		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
-		failurePanel=transform.parent.Find ("CommonPanel02/FailurePanel").gameObject;
 
 		bulb = Resources.Load ("Prefabs/Items/Bulb",typeof(GameObject))  as GameObject;
 		battery = Resources.Load ("Prefabs/Items/Battery",typeof(GameObject))  as GameObject;
@@ -368,11 +369,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 
 			//Debug.Log ("****************final itemList******");
-			for (int k = 0; k < itemList.Count; k++) 
-			{
-				
-				//Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
-			}
+//			for (int k = 0; k < itemList.Count; k++) 
+//			{
+//				
+//				//Debug.Log(k + " " + itemList[k].list[0] + " "  + itemList[k].powered);
+//			}
 			//Debug.Log ("********************");
 
 			result = GetImage._instance.isCircuitCorrect;//real code
@@ -668,7 +669,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.CircuitLine:
 			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			lines.Add (circuitItem.list);
-			print(circuitItem.list.Count + ".......line count..........");
+			//print(circuitItem.list.Count + ".......line count..........");
 			//开始画线
 			StartCoroutine (DrawCircuit (circuitItem.list));
 			break;
@@ -810,11 +811,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		for (int i = 0; i < circuitLines.Count; i++) 
 		{
-			Debug.Log("---------------circuitLine  pos---------------");
-			for (int k = 0; k < circuitLines[i].Count; k++) 
-			{
-				Debug.Log(circuitLines[i][k]);
-			}
+//			Debug.Log("---------------circuitLine  pos---------------");
+//			for (int k = 0; k < circuitLines[i].Count; k++) 
+//			{
+//				Debug.Log(circuitLines[i][k]);
+//			}
 
 
 			isCreateArrowSingleLine = true;
@@ -830,14 +831,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 
 
-				Debug.Log("---------------templine pos-------------------------------------------------");
-				Debug.Log("templine count: "+templine.Count);
-				foreach (var item in templine) 
-				{
-
-					Debug.Log(item);
-
-				}
+//				Debug.Log("---------------templine pos-------------------------------------------------");
+//				Debug.Log("templine count: "+templine.Count);
+//				foreach (var item in templine) 
+//				{
+//
+//					Debug.Log(item);
+//
+//				}
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}
 		}
@@ -874,13 +875,20 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void Fail()
 	{
-		failureShow.gameObject.SetActive (true);//显示失败界面
 		replayBtn.SetActive (true);//显示重玩按钮
+		StartCoroutine (FailureShow ());
+
 	}
 		
+	IEnumerator FailureShow()
+	{
+		yield return new WaitForSeconds (resultShowInterval);
+		failureShow.gameObject.SetActive (true);//显示失败界面
+
+	}
+
 	public void WellDone()
 	{
-		
 		levelNameLabel.text="Congratulations!";
 		labelBgTwinkle.SetActive (true);
 		replayBtn.SetActive (true);
@@ -892,7 +900,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	IEnumerator SuccessShow()
 	{
-		yield return new WaitForSeconds (2f);
+		yield return new WaitForSeconds (resultShowInterval);
 		successShow.gameObject.SetActive (true);
 	}
 
@@ -903,14 +911,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// <param name="btn">Button.</param>
 	void OnReplayBtnClick(GameObject btn)
 	{
-
 		transform.parent.Find ("PhotoTakingPanel").gameObject.SetActive (true);
 		PanelOff();
-
 	}
 
 	/// <summary>
-	/// 下一关
+	/// 下一关按钮
 	/// </summary>
 	/// <param name="btn">Button.</param>
 	void OnNextBtnClick(GameObject btn)
@@ -974,12 +980,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		switchList.Clear ();
 		bulbList.Clear ();
 		batteryList.Clear ();
-
-
 		Destroy (transform.GetComponent<LevelHandle> ());
-
 	}
-
 }
 
 
