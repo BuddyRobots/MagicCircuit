@@ -3,39 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 
-//public enum Result
-//{
-//	/// <summary>
-//	/// 不确定是否匹配成功
-//	/// </summary>
-//	None,
-//	/// <summary>
-//	/// 匹配成功
-//	/// </summary>
-//	Success,
-//	/// <summary>
-//	/// 匹配失败
-//	/// </summary>
-//	Fail
-//}
 	
 public class PhotoRecognizingPanel : MonoBehaviour 
 {
 	public static PhotoRecognizingPanel _instance;
 
+
+
 	private const float lineItemInterval = 0.1f;
 	private const float itemInterval = 0.5f;
-
-
 	private const float resultShowInterval=1.5f;
 
 	[HideInInspector]
 	public  float arrowGenInterval = 0.8f;
 
+	[HideInInspector]
+	public int transValue = 0;
+
 	//匹配结果
 	[HideInInspector]
-
-	//public Result result;
 	public bool result;
 
 	//  btns on the panel
@@ -53,27 +39,27 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private GameObject voiceTimedelaySwitch;
 	private GameObject doubleDirSwitch;
 	private GameObject inductionCooker;
-
 	private GameObject sunAndMoon;
 	private GameObject microPhone;
-	[HideInInspector]
-	public GameObject hourGlass;
-
 	//需要跳转连接的界面
 	private GameObject commonPanel02;
-
 	private GameObject labelBgTwinkle;//文字显示的发光背景
 	private GameObject lineParent;
 	private GameObject linePrefab;
 	private GameObject fingerPrefab;
 	private GameObject arrowPrefab;
 
+
+
+	private UILabel levelNameLabel;
+
+
 	[HideInInspector]
 	public GameObject voiceNoticeBg;//发声提示框
 	[HideInInspector]
 	public GameObject microphoneAniBg;//声音收集喇叭图片
 
-	private UILabel levelNameLabel;
+
 	[HideInInspector]
 	public UILabel countDownLabel;
 
@@ -135,20 +121,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// </summary>
 	private int iconCount = 1;
 
-	/// <summary>
-	/// the number of voiceOperSwitch 声控开关的个数，大于0时话筒按钮要伴随出现
-	/// </summary>
 	private int voiceOperSwitchNum = 0;
-	/// <summary>
-	/// the number of lightActSwitch 光敏开关的个数，大于0时太阳月亮切换按钮要伴随出现
-	/// </summary>
-	private int isLightActSwitchNum = 0;
-
-	private int isVoiceDelaySwitchNum=0;
+	private int LightActSwitchNum = 0;
+	private int VoiceDelaySwitchNum=0;
 
 	private float distance = 0;
 	private float angle = 0;
-
 	private float maskTimer = 0f;//蒙板渐变计时器
 	private float maskTime=0f;//蒙板渐变的总时间=所有item开始显示到显示完成的总时间
 
@@ -180,8 +158,19 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	[HideInInspector]
 	public List<int> tags=new List<int>();
 
-	[HideInInspector]
-	public int transValue = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	void Awake()
 	{
@@ -277,8 +266,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		GetItemList = false;
 
 		voiceOperSwitchNum = 0;
-		isLightActSwitchNum = 0;
-		isVoiceDelaySwitchNum = 0;
+		LightActSwitchNum = 0;
+		VoiceDelaySwitchNum = 0;
 
 		data = LevelManager.currentLevelData;
 		prePos = Vector3.zero; 
@@ -441,11 +430,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				microPhone.SetActive(true);   
 
 			}
-			if(isLightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
+			if(LightActSwitchNum>0)//如果有光敏开关，需要伴随出现太阳月亮按钮
 			{
 				sunAndMoon.SetActive(true);
 			}
-			if (isVoiceDelaySwitchNum>0) 
+			if (VoiceDelaySwitchNum>0) 
 			{
 				//hourGlass.SetActive (true);
 			}
@@ -626,7 +615,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			item.name = "voiceTimedelaySwitch";
 			item.tag = circuitItem.ID.ToString ();
 			voiceOperSwitchNum++;
-			isVoiceDelaySwitchNum++;
+			VoiceDelaySwitchNum++;
 			iconCount--;
 			break;
 
@@ -646,7 +635,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			goList.Add (item);
 			item.name = "lightActSwitch";
 			item.tag = circuitItem.ID.ToString ();
-			isLightActSwitchNum++;//光敏开关出现的时候记录一下，太阳月亮切换按钮需要伴随出现
+			LightActSwitchNum++;//光敏开关出现的时候记录一下，太阳月亮切换按钮需要伴随出现
 			iconCount--;
 			break;
 

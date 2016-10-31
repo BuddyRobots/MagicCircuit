@@ -27,10 +27,10 @@ namespace MagicCircuit
             ptsWindow.Add(new Point(7, 570));
             ptsWindow.Add(new Point(478, 570));*/
 
-			ptsBoard.Add(new Point(124, 29));
-			ptsBoard.Add(new Point(413, 103));
 			ptsBoard.Add(new Point(125, 439));
+			ptsBoard.Add(new Point(124, 29));
 			ptsBoard.Add(new Point(416, 393));
+			ptsBoard.Add(new Point(413, 103));
 
 			ptsWindow.Add(new Point(8, 34));
 			ptsWindow.Add(new Point(602, 32));
