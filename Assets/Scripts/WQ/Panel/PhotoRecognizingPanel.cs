@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 
-public enum Result
-{
-	/// <summary>
-	/// 不确定是否匹配成功
-	/// </summary>
-	None,
-	/// <summary>
-	/// 匹配成功
-	/// </summary>
-	Success,
-	/// <summary>
-	/// 匹配失败
-	/// </summary>
-	Fail
-}
+//public enum Result
+//{
+//	/// <summary>
+//	/// 不确定是否匹配成功
+//	/// </summary>
+//	None,
+//	/// <summary>
+//	/// 匹配成功
+//	/// </summary>
+//	Success,
+//	/// <summary>
+//	/// 匹配失败
+//	/// </summary>
+//	Fail
+//}
 	
 public class PhotoRecognizingPanel : MonoBehaviour 
 {
