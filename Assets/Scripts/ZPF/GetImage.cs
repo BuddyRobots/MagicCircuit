@@ -6,9 +6,13 @@ using System.Collections;
 using System.Collections.Generic;
 using OpenCVForUnity;
 using MagicCircuit;
+using System.Runtime.InteropServices;
 
 public class GetImage : MonoBehaviour
 {
+	[DllImport("__Internal")]
+	private static extern void _SavePhoto (string readAddr);
+
 	public static GetImage _instance;
 	public bool isThreadEnd;
 	public bool isCircuitCorrect;
@@ -124,6 +128,7 @@ public class GetImage : MonoBehaviour
 	void Start()
 	{}
 
+	// TODO: Do not use Mat in the middle
 	// Display current WebCamTexture to CamQuad
 	void Update()
 	{
@@ -254,5 +259,33 @@ public class GetImage : MonoBehaviour
 				i++;
 				frameImgList.Add(frameImg);
 			}
+	}
+
+	public void test_saveFullQuadPhotoToiPad()
+	{
+		if (!initDone)
+			return;
+
+		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+		if (webCamTexture.didUpdateThisFrame)
+		{
+			Utils.webCamTextureToMat(webCamTexture, frameImg);
+
+			#if UNITY_EDITOR 
+			string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
+			#elif UNITY_IPHONE 
+			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
+			#endif 
+
+			texture.Resize(frameImg.cols(), frameImg.rows());
+			Utils.matToTexture2D(frameImg, texture);
+
+			File.WriteAllBytes(path, texture.EncodeToJPG ());
+
+			#if UNITY_EDITOR 
+			#elif UNITY_IPHONE  
+			_SavePhoto (path);
+			#endif 
+		}
 	}
 }

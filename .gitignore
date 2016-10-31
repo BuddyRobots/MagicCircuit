@@ -5,3 +5,8 @@ ProjectSettings
 Libraries
 Temp
 *.zip
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+MagicCircuit.userprefs
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt
