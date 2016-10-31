@@ -165,45 +165,45 @@ public class RecognizeAlgo
 
         /// Detect Lines =============================================================
         
-		Debug.Log("DetectLine Start");
-		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
-
-
-		List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
-		List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-		line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
-
-		/*for (var i = 0; i < lineGroupList.Count; i++)
-            util.drawPoint(resultImg, lineGroupList[i], rect[i]);*/
-
-
-
-		//Debug.Log("DetectLine lineGroupList[0].Count = " + lineGroupList[0].Count);
-
-
-
-        // Add to CircuitItem
-		for (var i = 0; i < lineGroupList.Count; i++)
-            for (var j = 0; j < lineGroupList[i].Count; j++)
-            {
-                tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++, frameImg.size());
-                tmpItem.extractLine(lineGroupList[i][j], boundingRectList[i]);
-                itemList.Add(tmpItem);
-            }
-
-
-
-
-
-
-		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-		int elapse_2 = time_2 - startTime_2;
-		Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
-		for(var i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
-		}
+//		Debug.Log("DetectLine Start");
+//		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+//
+//
+//
+//		List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
+//		List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
+//		line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
+//
+//		/*for (var i = 0; i < lineGroupList.Count; i++)
+//            util.drawPoint(resultImg, lineGroupList[i], rect[i]);*/
+//
+//
+//
+//		//Debug.Log("DetectLine lineGroupList[0].Count = " + lineGroupList[0].Count);
+//
+//
+//
+//        // Add to CircuitItem
+//		for (var i = 0; i < lineGroupList.Count; i++)
+//            for (var j = 0; j < lineGroupList[i].Count; j++)
+//            {
+//                tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++, frameImg.size());
+//                tmpItem.extractLine(lineGroupList[i][j], boundingRectList[i]);
+//                itemList.Add(tmpItem);
+//            }
+//
+//
+//
+//
+//
+//
+//		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+//		int elapse_2 = time_2 - startTime_2;
+//		Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
+//		for(var i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
+//		}
 
 
 

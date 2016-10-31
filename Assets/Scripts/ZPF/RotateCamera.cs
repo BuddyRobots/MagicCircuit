@@ -16,7 +16,8 @@ namespace MagicCircuit
             ptsBoard = new List<Point>();
             ptsWindow = new List<Point>();
 
-            ptsBoard.Add(new Point(60, 123));
+			// Old point matching for small board
+            /*ptsBoard.Add(new Point(60, 123));
             ptsBoard.Add(new Point(398, 125));
             ptsBoard.Add(new Point(119, 411));
             ptsBoard.Add(new Point(337, 411));
@@ -24,7 +25,17 @@ namespace MagicCircuit
             ptsWindow.Add(new Point(7, 28));
             ptsWindow.Add(new Point(478, 28));
             ptsWindow.Add(new Point(7, 570));
-            ptsWindow.Add(new Point(478, 570));
+            ptsWindow.Add(new Point(478, 570));*/
+
+			ptsBoard.Add(new Point(124, 29));
+			ptsBoard.Add(new Point(413, 103));
+			ptsBoard.Add(new Point(125, 439));
+			ptsBoard.Add(new Point(416, 393));
+
+			ptsWindow.Add(new Point(8, 34));
+			ptsWindow.Add(new Point(602, 32));
+			ptsWindow.Add(new Point(11, 438));
+			ptsWindow.Add(new Point(629, 437));
 
             Mat rectBrd = Converters.vector_Point2f_to_Mat(ptsBoard);
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);

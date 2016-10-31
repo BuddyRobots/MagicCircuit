@@ -138,7 +138,7 @@ public class GetImage : MonoBehaviour
 		if (webCamTexture.didUpdateThisFrame)
 		{
 			Utils.webCamTextureToMat(webCamTexture, frameImg);
-			//rotateCamera.rotate(ref frameImg);
+			rotateCamera.rotate(ref frameImg);
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
 		}

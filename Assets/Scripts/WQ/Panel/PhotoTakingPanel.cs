@@ -83,8 +83,8 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "1";
 		yield return new WaitForSeconds (1);
 
-		//GetImage._instance.Thread_Process_Start();
-		GetImage._instance.test_saveFullQuadPhotoToiPad();
+		GetImage._instance.Thread_Process_Start();
+		//GetImage._instance.test_saveFullQuadPhotoToiPad();
 
 		PanelOff ();
 		photoRecognizingPanel.SetActive (true);
