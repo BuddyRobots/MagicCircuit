@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 public class RecognizeAlgo
 {
 	[DllImport("__Internal")]  
-	private static extern int testLuaWithArr(double[] arr,int len);
+	private static extern int callLua_predictClass(double[] imageData,int imageDataLength);
 
     // Size of input image 1*28*28
     private const int imageSize = 28;
@@ -237,7 +237,7 @@ public class RecognizeAlgo
 				sample[pointer + 1568] = value[2] / 255;
 				pointer++;
 			}
-		int prediction = testLuaWithArr(sample, sample.Length);
+		int prediction = callLua_predictClass(sample, sample.Length);
 
 
 
