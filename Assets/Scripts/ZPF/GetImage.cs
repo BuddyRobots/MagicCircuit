@@ -60,7 +60,6 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv9.xml")).toCircuitItems();
 		#elif UNITY_IPHONE 
-
 //		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
 //		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
 //		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
@@ -174,7 +173,9 @@ public class GetImage : MonoBehaviour
 
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
+
 			//Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+
 		}
 
 		// TODO
@@ -190,6 +191,7 @@ public class GetImage : MonoBehaviour
 //				Debug.Log("itemlist["+i+"]["+j+"]===="+itemList[i].list[j]);
 //			}
 //		}
+
 
 
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -227,9 +229,12 @@ public class GetImage : MonoBehaviour
 			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
 
 		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
+
 //		Debug.Log("itemList.Count = " + itemList.Count);
 //		for (var i = 0; i < itemList.Count; i++)
 //			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
+
+
 	}
 
 	private bool takePicture(ref Mat frameImg)
