@@ -33,8 +33,6 @@ public class CommonFuncManager : MonoBehaviour
 
 		}
 		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";//灯亮 
-
-		//GetComponent<PhotoRecognizingPanel> ().ArrowShowLineByLine(PhotoRecognizingPanel._instance.lines,0);//走电流
 		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
 	}
 		
