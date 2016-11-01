@@ -272,7 +272,7 @@ public class GetImage : MonoBehaviour
 			Utils.webCamTextureToMat(webCamTexture, frameImg);
 
 			#if UNITY_EDITOR 
-			string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
+			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
 			#elif UNITY_IPHONE 
 			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
 			#endif 
@@ -280,10 +280,11 @@ public class GetImage : MonoBehaviour
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
 
-			File.WriteAllBytes(path, texture.EncodeToJPG ());
+
 
 			#if UNITY_EDITOR 
 			#elif UNITY_IPHONE  
+			File.WriteAllBytes(path, texture.EncodeToJPG ());
 			_SavePhoto (path);
 			#endif 
 		}
