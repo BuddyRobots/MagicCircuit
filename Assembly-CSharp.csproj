@@ -393,11 +393,11 @@
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
+     <Compile Include="Assets\Scripts\ZPF\Constant.cs" />
      <Compile Include="Assets\Scripts\ZPF\Correctness.cs" />
      <Compile Include="Assets\Scripts\ZPF\Correctness_SPDTSwitch.cs" />
      <Compile Include="Assets\Scripts\ZPF\CurrentFlow.cs" />
      <Compile Include="Assets\Scripts\ZPF\CurrentFlow_SPDTSwitch.cs" />
-     <Compile Include="Assets\Scripts\ZPF\FeatureTracker.cs" />
      <Compile Include="Assets\Scripts\ZPF\GetImage.cs" />
      <Compile Include="Assets\Scripts\ZPF\LineDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\RecognizeAlgo.cs" />

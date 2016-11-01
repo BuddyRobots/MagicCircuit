@@ -41,8 +41,8 @@ namespace MagicCircuit
 
 			ptsWindow.Add(new Point(0, 0));
 			ptsWindow.Add(new Point(602, 0));
-			ptsWindow.Add(new Point(0, 698));
-			ptsWindow.Add(new Point(602, 698));
+			ptsWindow.Add(new Point(0, 697));
+			ptsWindow.Add(new Point(602, 697));
 
             Mat rectBrd = Converters.vector_Point2f_to_Mat(ptsBoard);
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
@@ -63,7 +63,7 @@ namespace MagicCircuit
 
         public Mat transform(Mat img)
         {
-			Mat rst = new Mat( 698, 603, img.type());
+			Mat rst = new Mat(698, 603, img.type());
 
 			Imgproc.warpPerspective(img, rst, homo, rst.size());
 
