@@ -33,10 +33,10 @@ namespace MagicCircuit
 			ptsBoard.Add(new Point(418, 99));
 			ptsBoard.Add(new Point(418, 359));
 
-			ptsWindow.Add(new Point(8, 24));
-			ptsWindow.Add(new Point(631, 24));
-			ptsWindow.Add(new Point(8, 431));
-			ptsWindow.Add(new Point(631, 431));
+			ptsWindow.Add(new Point(0, 0));
+			ptsWindow.Add(new Point(640, 0));
+			ptsWindow.Add(new Point(0, 480));
+			ptsWindow.Add(new Point(640, 480));
 
             Mat rectBrd = Converters.vector_Point2f_to_Mat(ptsBoard);
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
