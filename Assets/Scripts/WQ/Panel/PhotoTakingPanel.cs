@@ -57,7 +57,6 @@ public class PhotoTakingPanel : MonoBehaviour
 		commonPanel02.SetActive(true);
 		demoShowPanel.SetActive (true);
 		PanelOff();
-
 	}
 
 	void OnConfirmBtnClick(GameObject btn)
@@ -67,7 +66,6 @@ public class PhotoTakingPanel : MonoBehaviour
 			noticeImg.gameObject.SetActive (true);
 			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
 		}
-
 	}
 
 
@@ -83,8 +81,8 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "1";
 		yield return new WaitForSeconds (1);
 
-		//GetImage._instance.Thread_Process_Start();
-		GetImage._instance.test_saveFullQuadPhotoToiPad();
+		GetImage._instance.Thread_Process_Start();
+		//GetImage._instance.test_saveFullQuadPhotoToiPad();
 
 		PanelOff ();
 		photoRecognizingPanel.SetActive (true);
@@ -93,11 +91,9 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	public void PanelOff()
 	{
-
 		countDown.text="3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
 		gameObject.SetActive (false);
-
 	}
 }

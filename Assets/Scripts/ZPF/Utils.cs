@@ -5,104 +5,6 @@ using UnityEngine;
 
 namespace MagicCircuit
 {
-    public class myUtils
-    {
-        public void drawBoundingBox(Mat image, List<Point> bb)
-        {
-            for (var i = 0; i < bb.Count - 1; i++)
-            {
-                Imgproc.line(image, bb[i], bb[i + 1], new Scalar(0, 0, 255), 10);
-            }
-            Imgproc.line(image, bb[bb.Count - 1], bb[0], new Scalar(0, 0, 255), 10);
-
-            Point center = new Point((bb[0].x + bb[2].x) / 2, (bb[0].y + bb[2].y) / 2);
-            Point right = new Point((bb[3].x + bb[2].x) / 2, (bb[3].y + bb[2].y) / 2);
-
-            Imgproc.line(image, center, right, new Scalar(0, 255, 0), 10);
-        }
-
-        // @Override
-        public void drawBoundingBox(Mat image, List<Point> bb, Scalar color)
-        {
-            for (var i = 0; i < bb.Count - 1; i++)
-            {
-                Imgproc.line(image, bb[i], bb[i + 1], color, 10);
-            }
-            Imgproc.line(image, bb[bb.Count - 1], bb[0], color, 10);
-
-            Point center = new Point((bb[0].x + bb[2].x) / 2, (bb[0].y + bb[2].y) / 2);
-            Point right = new Point((bb[3].x + bb[2].x) / 2, (bb[3].y + bb[2].y) / 2);
-
-            Imgproc.line(image, center, right, color, 10);
-        }
-
-        // @Override
-        public void drawBoundingBox(Mat image, List<Point> homo, OpenCVForUnity.Rect rect, Scalar color)
-        {
-            /*float radius = (float)rect.width / 2;
-            float theta = Mathf.Atan2((float)(homo[2].y + homo[3].y), (float)(homo[2].x + homo[3].x));
-            float _x = radius * Mathf.Cos(theta);
-            float _y = radius * Mathf.Sin(theta);*/
-            Point center = new Point((rect.tl().x + rect.br().x) / 2, (rect.tl().y + rect.br().y) / 2);
-
-            double _x = (homo[3].x - homo[0].x) / 2;
-            double _y = (homo[3].y - homo[0].y) / 2;
-
-            Point right = new Point((center.x + _x), (center.y + _y));
-
-            Imgproc.rectangle(image, rect.tl(), rect.br(), color, 10);
-            Imgproc.line(image, center, right, color, 10);
-        }
-
-        public void drawPoint(Mat image, List<List<Point>> listLine, OpenCVForUnity.Rect rect)
-        {
-            System.Random rnd = new System.Random();
-
-            Point center = new Point(rect.tl().x, rect.tl().y );
-            
-            for (var j = 0; j < listLine.Count; j++)
-            {
-                Scalar color = new Scalar(rnd.Next(0, 255), rnd.Next(0, 255), rnd.Next(0, 255));
-                for (var i = 0; i < listLine[j].Count; i++)
-                    Imgproc.circle(image, new Point(listLine[j][i].x + center.x, listLine[j][i].y + center.y), 5, color);
-            }
-            
-        }
-
-        public MatOfPoint2f kp2Point(List<KeyPoint> keypoints)
-        {
-            double[] points = new double[keypoints.Count * 2];
-            for(var i = 0; i < keypoints.Count; i++)
-            {
-                points[2 * i] = keypoints[i].pt.x;
-                points[2 * i + 1] = keypoints[i].pt.y;
-            }
-
-            Mat tmp = new Mat(keypoints.Count, 1, CvType.CV_32FC2);
-            tmp.put(0, 0, points);
-
-            return new MatOfPoint2f(tmp);
-        }
-
-        public List<Point> perTrans(List<Point> src, Mat h)
-        {
-            List<Point> res = new List<Point>();
-            double[,] H = new double[3, 3];
-
-            for (var i = 0; i < 3; i++)
-                for (var j = 0; j < 3; j++)
-                    H[i, j] = h.get(i, j)[0];
-
-            for (var i = 0; i < src.Count; i++)
-            {
-                double x = (H[0, 0] * src[i].x + H[0, 1] * src[i].y + H[0, 2]) / (H[2, 0] * src[i].x + H[2, 1] * src[i].y + H[2, 2]);
-                double y = (H[1, 0] * src[i].x + H[1, 1] * src[i].y + H[1, 2]) / (H[2, 0] * src[i].x + H[2, 1] * src[i].y + H[2, 2]);
-                res.Add(new Point(x, y));
-            }
-            return res;
-        }
-    }
-
     public enum ItemType
     {
         Battery,
@@ -141,50 +43,34 @@ namespace MagicCircuit
         CircuitLine                             //如果是线的话，则是点的集合
     }
     
-    public class CircuitItem                    //图标管理类 id,名字，类型，坐标
+	public class CircuitItem                        //图标管理类 (id,名字，类型，坐标)
     {
-        public int ID { get; set; }
-        public string name { get; set; }
-        public ItemType type { get; set; }      //图标类型
-        public List<Vector3> list { get; set; } //图标的坐标
-		public double theta{ get; set; }        //图标的朝向（单位：角度）
-		public int showOrder{ get; set; }       //显示顺序 从0开始（图标的显示顺序是灯泡）
-		public bool powered{ get; set; }        //元件是否通电
-		[HideInInspector]
-		public PowerStatus power = PowerStatus.E0;
+        public int           ID        {get; set;}
+        public string        name      {get; set;}
+        public ItemType      type      {get; set;}  //图标类型
+        public List<Vector3> list      {get; set;}  //图标的坐标
+		public double        theta     {get; set;}  //图标的朝向（单位：角度）
+		public int           showOrder {get; set;}  //显示顺序 从0开始（图标的显示顺序是灯泡）
+		public bool          powered   {get; set;}  //元件是否通电
 
-
-		//public int controlSwitchID{ get; set;}  //控制元件的开关的ID
-		//private int appearTimes{get; set;}		//图标出现的次数
 		public enum PowerStatus
 		{
-			/// <summary>
-			/// 没电
-			/// </summary>
-			E0,
-			/// <summary>
-			/// 1个电池
-			/// </summary>
-			E1,
-			/// <summary>
-			/// 2个电池
-			/// </summary>
-			E2
+			noBattery,
+			oneBattery,
+			twoBattery
 		}
-
-
-        public Vector2 connect_left;            //Connect point on card
-        public Vector2 connect_right;			//For lines : connect_left == start, connect_right == end
+		[HideInInspector]
+		public PowerStatus powerStatus = PowerStatus.noBattery;
+			
+        public Vector2 connect_left;            // Connect point on card
+        public Vector2 connect_right;			// For lines : connect_left == start, connect_right == end
 		public Vector2 connect_middle;	
-
-        private double x_shift;                 //Private Parameters for changing cordinates
-        private double y_shift;
 
 		public CircuitItem()
         {}
 
         // @Override
-        public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, Size _frameSize, bool _p = false)
+        public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, bool _p = false)
         {
             ID = _id;
             name = _name;
@@ -197,13 +83,10 @@ namespace MagicCircuit
             connect_left = new Vector2();
             connect_right = new Vector2();
 			connect_middle= new Vector2();
-
-			x_shift = _frameSize.width / 2;
-            y_shift = _frameSize.height / 2;
         }
 
         // @Override
-        public CircuitItem(int _id, string _name, ItemType _type, int _order, Size _frameSize, bool _p = false)
+        public CircuitItem(int _id, string _name, ItemType _type, int _order, bool _p = false)
         {
             ID = _id;
             name = _name;
@@ -216,9 +99,6 @@ namespace MagicCircuit
             connect_left = new Vector2();
             connect_right = new Vector2();
 			connect_middle= new Vector2();
-
-            x_shift = _frameSize.width / 2;
-            y_shift = _frameSize.height / 2;
         }
 
         // @Override  
@@ -239,35 +119,19 @@ namespace MagicCircuit
 			connect_middle= src.connect_middle;
         }		
 
-        // Previous version for back up. Use the Override function!
-        public void extractCard(List<Point> bb, OpenCVForUnity.Rect rect)
-        {
-            Point center = new Point((rect.tl().x + rect.br().x) / 2, (rect.tl().y + rect.br().y) / 2);
-
-            double _x = (bb[3].x - bb[0].x) / 2;
-            double _y = (bb[3].y - bb[0].y) / 2;
-
-            Point right = new Point((center.x + _x), (center.y + _y));
-
-            theta = Mathf.Atan2((float)(right.y - center.y), (float)(right.x - center.x));
-            theta = theta * 180.0 / Mathf.PI; // -180 < theta < 180
-
-            list.Add(cordinateMat2Tex(center.x, center.y));
-        }
-
         // @Override
-        public void extractCard(int direction, List<Point> square)
+        public void extractCard(int direction, List<Point> outer_square)
         {
-            Point center = new Point((square[0].x + square[2].x) / 2, (square[0].y + square[2].y) / 2);
+            Point center = new Point((outer_square[0].x + outer_square[2].x) / 2, (outer_square[0].y + outer_square[2].y) / 2);
 
 
-            list.Add(cordinateMat2Tex(center.x, center.y));
+            list.Add(cordinateMat2Unity(center.x, center.y));
 
-            double angle = Mathf.Atan2((float)(square[0].y - square[1].y), (float)(square[0].x - square[1].x));
-            theta = Mathf.PI / 2 * direction + angle; // 0 < theta < PI
+            double angle = Mathf.Atan2((float)(outer_square[0].y - outer_square[1].y), (float)(outer_square[0].x - outer_square[1].x));
+            theta = Mathf.PI / 2 * direction + angle; // 0 < theta < 2 * PI
 
             // Calculate connect_left & connect_right
-            double width = Mathf.Sqrt(Mathf.Pow((float)(square[0].x - square[1].x), 2) + Mathf.Pow((float)(square[0].y - square[1].y), 2));
+            double width = Mathf.Sqrt(Mathf.Pow((float)(outer_square[0].x - outer_square[1].x), 2) + Mathf.Pow((float)(outer_square[0].y - outer_square[1].y), 2));
 
 
             double x = width / 2 / (1 + Mathf.Tan((float)theta));
@@ -285,7 +149,7 @@ namespace MagicCircuit
 
             for (var i = 0; i < line.Count; i++)
             {
-                list.Add(cordinateMat2Tex((line[i].x + center.x), (line[i].y + center.y)));
+                list.Add(cordinateMat2Unity((line[i].x + center.x), (line[i].y + center.y)));
             }
 			connect_left = new Vector2(list[0].x, list[0].y);
             connect_right = new Vector2(list[list.Count - 1].x, list[list.Count - 1].y);
@@ -296,14 +160,14 @@ namespace MagicCircuit
             List<Vector3> res = new List<Vector3>();
             for (var i = 0; i < src.Count; i++)
             {
-                res.Add(cordinateMat2Tex(src[i].x, src[i].y));
+                res.Add(cordinateMat2Unity(src[i].x, src[i].y));
             }
             return res;
-        }		
+        }
 
-        private Vector3 cordinateMat2Tex(double x, double y)
+        private Vector3 cordinateMat2Unity(double x, double y)
         {            
-            return new Vector3((float)(x - x_shift), (float)(y_shift - y));
+			return new Vector3((float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X), (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
         }
     }
 }

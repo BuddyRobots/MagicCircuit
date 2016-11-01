@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using OpenCVForUnity;
+using MagicCircuit;
 
 public class CardDetector
 {	
-	private const int    MIN_SQUARE_LEN       = 60;
-	private const int    MAX_SQUARE_LEN       = 150;
-	private const double MAX_SQUARE_LEN_RATIO = 1.4;
-	private const double OUTER_SQUARE_RATIO   = 1.2;
-
     public static List<List<Point>> findSquares(Mat binaryImg)
     {
         List<List<Point>> squares = new List<List<Point>>();
@@ -62,8 +58,8 @@ public class CardDetector
 
             for (var j = 0; j < 4; j++)
             {
-				double x = OUTER_SQUARE_RATIO * (squares[i][j].x - squareCenter.x) + squareCenter.x;
-                double y = OUTER_SQUARE_RATIO * (squares[i][j].y - squareCenter.y) + squareCenter.y;
+				double x = Constant.CARD_OUTER_SQUARE_RATIO * (squares[i][j].x - squareCenter.x) + squareCenter.x;
+				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squares[i][j].y - squareCenter.y) + squareCenter.y;
                 tmpSquare.Add(new Point(x, y));
             }
             outerSquares.Add(tmpSquare);
@@ -98,7 +94,14 @@ public class CardDetector
                 curMinLen = len < curMinLen ? len : curMinLen;
             }
 
-            if (curMaxLen > MAX_SQUARE_LEN || curMinLen < MIN_SQUARE_LEN || curMaxLen / curMinLen > MAX_SQUARE_LEN_RATIO)
+
+
+			Debug.Log("CardDetector : curMaxLen = " + curMaxLen + " curMinLen = " + curMinLen + " ratio = " + curMaxLen / curMinLen);
+
+
+
+
+			if (curMaxLen > Constant.CARD_MAX_SQUARE_LEN || curMinLen < Constant.CARD_MIN_SQUARE_LEN || curMaxLen / curMinLen > Constant.CARD_MAX_SQUARE_LEN_RATIO)
                 continue;
             if (isSquareClockwise(squares[j]))
                 filterSquares.Add(squares[j]);

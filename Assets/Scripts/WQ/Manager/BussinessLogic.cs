@@ -23,11 +23,11 @@ public class BussinessLogic
 			{
 				if (isBatteryTrans) // the battery is transparent,that is, one battery works
 				{ 
-					item.power = CircuitItem.PowerStatus.E1;
+					item.powerStatus = CircuitItem.PowerStatus.oneBattery;
 				} 
 				else // two batterys work
 				{
-					item.power = CircuitItem.PowerStatus.E2;
+					item.powerStatus = CircuitItem.PowerStatus.twoBattery;
 				}
 				AllItemFlush (circuititems);
 			}
@@ -54,16 +54,16 @@ public class BussinessLogic
 		switch (item.type) 
 		{
 		case ItemType.Bulb:
-			switch (item.power) 
+			switch (item.powerStatus) 
 			{
-			case CircuitItem.PowerStatus.E0:
+			case CircuitItem.PowerStatus.noBattery:
 				tempSprite.spriteName="bulbOff";
 				break;
-			case CircuitItem.PowerStatus.E1:
+			case CircuitItem.PowerStatus.oneBattery:
 				tempSprite.spriteName = "bulbOn";
 				Debug.Log ("one battery works, bulb is on");
 				break;
-			case CircuitItem.PowerStatus.E2:
+			case CircuitItem.PowerStatus.twoBattery:
 				tempSprite.spriteName="bulbSpark";
 				Debug.Log ("two battery work, bulb is spark");
 				break;
@@ -74,18 +74,18 @@ public class BussinessLogic
 			break;
 		case ItemType.InductionCooker:
 			Animation tempAni = tempGo.GetComponent<Animation> ();
-			switch (item.power) 
+			switch (item.powerStatus) 
 			{
-			case CircuitItem.PowerStatus.E0:  //如果在播放动画，则停止播放动画 
+			case CircuitItem.PowerStatus.noBattery:  //如果在播放动画，则停止播放动画 
 				if (tempAni.isPlaying)
 				{
 					tempAni.Stop ();
 				}
 				break;
-			case CircuitItem.PowerStatus.E1://播放蒸汽动画1  
+			case CircuitItem.PowerStatus.oneBattery://播放蒸汽动画1  
 				tempAni.Play ("steam01");
 				break;
-			case CircuitItem.PowerStatus.E2://播放蒸汽动画2 
+			case CircuitItem.PowerStatus.twoBattery://播放蒸汽动画2 
 				tempAni.Play ("steam02");
 				break;
 			default:
@@ -94,15 +94,15 @@ public class BussinessLogic
 			break;
 		case ItemType.Loudspeaker:
 			AudioSource tempAudio = tempGo.GetComponent<AudioSource> ();
-			switch (item.power) 
+			switch (item.powerStatus) 
 			{
-			case CircuitItem.PowerStatus.E0:
+			case CircuitItem.PowerStatus.noBattery:
 				if (tempAudio.isPlaying) //如果在播放声音，则停止播放声音  
 				{
 					tempAudio.Stop ();
 				}
 				break;
-			case CircuitItem.PowerStatus.E1:
+			case CircuitItem.PowerStatus.oneBattery:
 				if (!tempAudio.isPlaying) //如果没有播放声音，则播放声音   音量小 
 				{
 					tempAudio.Play ();
@@ -110,7 +110,7 @@ public class BussinessLogic
 				tempAudio.volume = 0.5f;
 
 				break;
-			case CircuitItem.PowerStatus.E2://如果没有播放声音，则播放声音   音量大  
+			case CircuitItem.PowerStatus.twoBattery://如果没有播放声音，则播放声音   音量大  
 				if (!tempAudio.isPlaying) 
 				{
 					tempAudio.Play ();
