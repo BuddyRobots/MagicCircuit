@@ -1,5 +1,6 @@
 ﻿using OpenCVForUnity;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace MagicCircuit
 {
@@ -33,10 +34,15 @@ namespace MagicCircuit
 			ptsBoard.Add(new Point(418, 99));
 			ptsBoard.Add(new Point(418, 359));
 
-			ptsWindow.Add(new Point(0, 0));
+			/*ptsWindow.Add(new Point(0, 0));
 			ptsWindow.Add(new Point(640, 0));
 			ptsWindow.Add(new Point(0, 480));
-			ptsWindow.Add(new Point(640, 480));
+			ptsWindow.Add(new Point(640, 480));*/
+
+			ptsWindow.Add(new Point(0, 0));
+			ptsWindow.Add(new Point(602, 0));
+			ptsWindow.Add(new Point(0, 698));
+			ptsWindow.Add(new Point(602, 698));
 
             Mat rectBrd = Converters.vector_Point2f_to_Mat(ptsBoard);
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
@@ -50,14 +56,16 @@ namespace MagicCircuit
 
             //Core.transpose(tmp, tmp);
 
-            img = new Mat(tmp, new Rect(ptsWindow[0], ptsWindow[3]));
+            //img = new Mat(tmp, new Rect(ptsWindow[0], ptsWindow[3]));
+
+			img = tmp.clone();
         }
 
         public Mat transform(Mat img)
         {
-            Mat rst = new Mat();
+			Mat rst = new Mat(603, 698, img.type());
 
-            Imgproc.warpPerspective(img, rst, homo, img.size());
+			Imgproc.warpPerspective(img, rst, homo, rst.size());
 
             return rst;
         }
