@@ -10,6 +10,9 @@ public class RecognizeAlgo
 	[DllImport("__Internal")]  
 	private static extern int callLua_predictClass(double[] imageData,int imageDataLength);
 
+	[DllImport("__Internal")]  
+	private static extern int callLua_predictDirection(double[] imageData, int imageDataLength, int klass);
+
     // Size of input image 1*28*28
     private const int imageSize = 28;
 	private const int numOfClasses = 9;
@@ -218,8 +221,6 @@ public class RecognizeAlgo
 	private int predict(Mat card)
 	{
 		int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
-
 
 
 
