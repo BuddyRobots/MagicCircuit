@@ -42,9 +42,9 @@ public class VOswitchOccur : MonoBehaviour
 					
 					if (!isStartRecord) 
 					{  
-						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive(true);//弹出提示框
-						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive(true);//弹出声音收集图片
-						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = true;//显示声音收集动画
+						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive(true);//弹出提示框
+						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive(true);//弹出声音收集图片
+						PhotoRecognizingPanel._instance.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = true;//显示声音收集动画
 						MicroPhoneInput.getInstance().StartRecord();//收集声音
 						isStartRecord = true;
 					}
@@ -52,9 +52,9 @@ public class VOswitchOccur : MonoBehaviour
 					if (CommonFuncManager._instance.isSoundLoudEnough ()) 
 					{
 						isAnimationPlay = true;
-						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (false);
-						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
-						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive (false);
+						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive (false);
+						PhotoRecognizingPanel._instance.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
+						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive (false);
 						MicroPhoneInput.getInstance ().StopRecord ();
 						GetImage._instance.cf.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
 						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";

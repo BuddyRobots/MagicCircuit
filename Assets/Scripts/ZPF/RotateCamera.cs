@@ -63,7 +63,7 @@ namespace MagicCircuit
 
         public Mat transform(Mat img)
         {
-			Mat rst = new Mat(603, 698, img.type());
+			Mat rst = new Mat( 698, 603, img.type());
 
 			Imgproc.warpPerspective(img, rst, homo, rst.size());
 

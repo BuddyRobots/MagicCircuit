@@ -7,7 +7,6 @@ public class CommonFuncManager : MonoBehaviour
 {
 
 	public static CommonFuncManager _instance;
-	private bool tempIsLaSwitch = false;
 	const int SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
 
 	void Awake()
@@ -21,8 +20,6 @@ public class CommonFuncManager : MonoBehaviour
 	public void OpenCircuit()
 	{
 		PhotoRecognizingPanel._instance.transValue = 1;
-		//PhotoRecognizingPanel._instance.arrowGenInterval/=2;
-		//Debug.Log ("after-----arrowGenInterval==" + PhotoRecognizingPanel._instance.arrowGenInterval);
 		for (int i = 0; i < PhotoRecognizingPanel._instance.arrowList.Count; i++) 
 		{
 			if (PhotoRecognizingPanel._instance.arrowList [i]) 
@@ -36,7 +33,6 @@ public class CommonFuncManager : MonoBehaviour
 		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
 	}
 		
-
 
 	public bool isSoundLoudEnough()
 	{
@@ -70,14 +66,13 @@ public class CommonFuncManager : MonoBehaviour
 	/// <param name="circuitItems">Circuit items.</param>
 	public void CircuitReset(List<CircuitItem> circuitItems)
 	{
-		//Debug.Log ("CircuitReset");
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
 			string tag = circuitItems [i].ID.ToString ();//获取每一个item的ID，
 			GameObject temp = GameObject.FindGameObjectWithTag (tag);//对应界面上的Tag来找到对应的图标对象
 			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
 			{
-			//这里只需要刷新受开关控制的item（灯泡，音响，电磁炉）的显示，开关的更新不在这里进行
+				//这里只需要刷新受开关控制的item（灯泡，音响，电磁炉）的显示，开关的更新不在这里进行
 				case ItemType.Bulb:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbOn":"bulbOff");
 					break;
@@ -86,7 +81,7 @@ public class CommonFuncManager : MonoBehaviour
 					break;
 
 				//如果是电磁炉
-			case ItemType.InductionCooker:
+				case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;
 				if (circuitItems [i].powered) 
 				{
@@ -96,10 +91,8 @@ public class CommonFuncManager : MonoBehaviour
 				{
 					steam.GetComponent<MyAnimation> ().canPlay=false;
 				}
-			
 					break;
-
-				//如果是音响
+	
 				case ItemType.Loudspeaker:
 					AudioSource tempAudio = temp.GetComponent<AudioSource> ();
 					if (circuitItems [i].powered) // this item is power on
@@ -153,7 +146,6 @@ public class CommonFuncManager : MonoBehaviour
 			case ItemType.Bulb:
 				temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbSpark":"bulbOff");
 				break;
-
 			case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;
 				if (circuitItems [i].powered) 
@@ -164,7 +156,6 @@ public class CommonFuncManager : MonoBehaviour
 				{
 					steam.GetComponent<MyAnimation> ().canPlay=false;
 				}
-
 				break;
 			case ItemType.Loudspeaker:
 				AudioSource tempAudio = temp.GetComponent<AudioSource> ();
@@ -193,7 +184,6 @@ public class CommonFuncManager : MonoBehaviour
 				{ 
 					if (item) 
 					{
-						//Debug.Log ("CommonFuncMgr_circuitItems [i].powered==" + circuitItems [i].powered);
 						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
 					}
 				}
