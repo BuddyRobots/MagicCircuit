@@ -28,14 +28,14 @@ namespace MagicCircuit
             ptsWindow.Add(new Point(478, 570));*/
 
 			ptsBoard.Add(new Point(124, 29));
-			ptsBoard.Add(new Point(413, 103));
 			ptsBoard.Add(new Point(125, 439));
+			ptsBoard.Add(new Point(413, 103));
 			ptsBoard.Add(new Point(416, 393));
 
-			ptsWindow.Add(new Point(8, 34));
-			ptsWindow.Add(new Point(602, 32));
-			ptsWindow.Add(new Point(11, 438));
-			ptsWindow.Add(new Point(629, 437));
+			ptsWindow.Add(new Point(9, 33));
+			ptsWindow.Add(new Point(617, 33));
+			ptsWindow.Add(new Point(9, 438));
+			ptsWindow.Add(new Point(617, 438));
 
             Mat rectBrd = Converters.vector_Point2f_to_Mat(ptsBoard);
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
@@ -45,9 +45,9 @@ namespace MagicCircuit
 
         public void rotate(ref Mat img)
         {
-            Core.transpose(img, img);
+			Mat tmp = transform(img);
 
-            Mat tmp = transform(img);
+            //Core.transpose(tmp, tmp);
 
             img = new Mat(tmp, new Rect(ptsWindow[0], ptsWindow[3]));
         }
