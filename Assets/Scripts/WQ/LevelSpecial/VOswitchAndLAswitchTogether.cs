@@ -103,18 +103,18 @@ public class VOswitchAndLAswitchTogether : MonoBehaviour
 					Destroy (PhotoRecognizingPanel._instance.finger);	//小手消失
 					if (!isStartRecord) //开始收集声音
 					{ 
-						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (true);//弹出提示框
-						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive(true);//弹出声音收集图片
-						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = true;//显示声音收集动画
+						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive (true);//弹出提示框
+						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive(true);//弹出声音收集图片
+						PhotoRecognizingPanel._instance.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = true;//显示声音收集动画
 						MicroPhoneInput.getInstance ().StartRecord ();
 						isStartRecord = true;
 					}
 					if (CommonFuncManager._instance.isSoundLoudEnough ()) //收集到声音
 					{
 						isVOswitchOn=true;
-						PhotoRecognizingPanel._instance.voiceNoticeBg.SetActive (false);//提示框消失
-						PhotoRecognizingPanel._instance.microphoneAniBg.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
-						PhotoRecognizingPanel._instance.microphoneAniBg.SetActive(false);
+						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive (false);//提示框消失
+						PhotoRecognizingPanel._instance.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
+						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive(false);
 
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), true);
