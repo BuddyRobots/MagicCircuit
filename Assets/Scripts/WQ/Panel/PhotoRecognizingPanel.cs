@@ -191,7 +191,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
 		nightMask = transform.Find ("Bg/NightBgT").GetComponent<UITexture> ();
 
-		photoImage.gameObject.SetActive (false);//real code 
+		photoImage.gameObject.SetActive (false);
 		replayBtn.SetActive(false);
 		nextBtn.SetActive (false);
 		labelBgTwinkle.SetActive (false);
@@ -236,6 +236,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	IEnumerator ShowPhotoImage()// 显示拍摄的图片
 	{
+		Debug.Log("ShowPhotoImage");
+		Debug.Log("GetImage._instance.texture:"+GetImage._instance.texture.name);
+
 		photoImage.gameObject.SetActive (true);
 		photoImage.mainTexture = GetImage._instance.texture;
 
@@ -269,6 +272,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			itemList=GetImage._instance.itemList;
 
 			result = GetImage._instance.isCircuitCorrect;
+
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();

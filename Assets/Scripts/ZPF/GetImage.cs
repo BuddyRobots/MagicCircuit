@@ -35,7 +35,8 @@ public class GetImage : MonoBehaviour
 	private int webCam_height = 480;
 
 	// Parameter for loading xml file for test
-	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
+//	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
+	public List<CircuitItem> xmlItemList = new List<CircuitItem>();// for test
 
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
@@ -118,9 +119,6 @@ public class GetImage : MonoBehaviour
 		}
 	}
 
-	void Start()
-	{}
-
 	void Update()
 	{
 		if (!initDone)
@@ -180,7 +178,7 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemLists
 		// itemList = average(listItemList);
-		//itemList = xmlItemList;
+		itemList = xmlItemList;
 
 
 		frameImgList.Clear();
@@ -206,10 +204,8 @@ public class GetImage : MonoBehaviour
 				Debug.Log("GetImage Thread_Process itemlist["+i+"].list["+j+"]===="+itemList[i].list[j]);
 			}
 		}
-
-
-
-
+			
+	
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
@@ -231,33 +227,4 @@ public class GetImage : MonoBehaviour
 //		for (var i = 0; i < itemList.Count; i++)
 //			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
 	}
-
-//	public void test_saveFullQuadPhotoToiPad()
-//	{
-//		if (!initDone)
-//			return;
-//
-//		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-//		if (webCamTexture.didUpdateThisFrame)
-//		{
-//			Utils.webCamTextureToMat(webCamTexture, frameImg);
-//
-//			#if UNITY_EDITOR 
-//			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
-//			#elif UNITY_IPHONE 
-//			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
-//			#endif 
-//
-//			texture.Resize(frameImg.cols(), frameImg.rows());
-//			Utils.matToTexture2D(frameImg, texture);
-//
-//
-//
-//			#if UNITY_EDITOR 
-//			#elif UNITY_IPHONE  
-//			File.WriteAllBytes(path, texture.EncodeToJPG ());
-//			_SavePhoto (path);
-//			#endif 
-//		}
-//	}
 }
