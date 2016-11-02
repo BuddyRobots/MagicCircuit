@@ -32,7 +32,8 @@ public class GetImage : MonoBehaviour
 	private int webCam_height = 480;
 
 	// Parameter for loading xml file for test
-	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
+//	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
+	public List<CircuitItem> xmlItemList = new List<CircuitItem>();// for test
 
 	// Parameter for processing 10 photos
 
@@ -154,9 +155,9 @@ public class GetImage : MonoBehaviour
 		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");
-		Thread threadProcess = new Thread(Thread_Process);
-		threadProcess.IsBackground = true;
-		threadProcess.Start();
+//		Thread threadProcess = new Thread(Thread_Process);
+//		threadProcess.IsBackground = true;
+//		threadProcess.Start();
 	}
 
 	// Thread for RecognizeAlgo.process 10 images
@@ -170,7 +171,7 @@ public class GetImage : MonoBehaviour
 
 
 			itemList.Clear();
-			recognizeAlge.process(frameImgList[i], ref itemList);
+//			recognizeAlge.process(frameImgList[i], ref itemList);
 			listItemList.Add(itemList);
 
 
@@ -203,7 +204,7 @@ public class GetImage : MonoBehaviour
 
 
 		// Compute CurrentFlow
-		computeCurrentFlow();
+//		computeCurrentFlow();
 
 
 		for (int i = 0; i < itemList.Count; i++) {
@@ -211,10 +212,8 @@ public class GetImage : MonoBehaviour
 				Debug.Log("GetImage Thread_Process itemlist["+i+"].list["+j+"]===="+itemList[i].list[j]);
 			}
 		}
-
-
-
-
+			
+	
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;

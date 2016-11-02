@@ -48,10 +48,6 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	#region 计算按钮的点击事件
 
-	/// <summary>
-	/// 点击帮助按钮，播放操作演示
-	/// </summary>
-	/// <param name="btn">Button.</param>
 	void OnHelpBtnClick(GameObject btn)
 	{
 		commonPanel02.SetActive(true);
@@ -71,7 +67,7 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	IEnumerator CountDown()
 	{
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds (1f);//1f for rest, real time is 3f..
 
 		countDown.gameObject.SetActive (true);
 		//倒计时，每个数字停留一秒后变化
