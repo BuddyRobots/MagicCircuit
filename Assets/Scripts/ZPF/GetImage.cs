@@ -203,7 +203,7 @@ public class GetImage : MonoBehaviour
 
 
 		// Compute CurrentFlow
-		computeCurrentFlow();
+		//computeCurrentFlow();
 
 
 		for (int i = 0; i < itemList.Count; i++) {
@@ -244,7 +244,7 @@ public class GetImage : MonoBehaviour
 		if (webCamTexture.didUpdateThisFrame) 
 		{
 			Utils.webCamTextureToMat(webCamTexture, frameImg);
-			//rotateCamera.rotate(ref frameImg);
+			rotateCamera.rotate(ref frameImg);
 			return true;
 		}
 		return false;

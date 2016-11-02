@@ -81,7 +81,7 @@ public class CardDetector
 
     private static List<List<Point>> filterSquares(List<List<Point>> squares)
     {
-        List<List<Point>> filterSquares = new List<List<Point>>();
+        List<List<Point>> filteredSquares = new List<List<Point>>();
 
         for (int j = 0; j < squares.Count; j++)
         {
@@ -104,9 +104,9 @@ public class CardDetector
 			if (curMaxLen > Constant.CARD_MAX_SQUARE_LEN || curMinLen < Constant.CARD_MIN_SQUARE_LEN || curMaxLen / curMinLen > Constant.CARD_MAX_SQUARE_LEN_RATIO)
                 continue;
             if (isSquareClockwise(squares[j]))
-                filterSquares.Add(squares[j]);
+				filteredSquares.Add(squares[j]);
         }
-        return filterSquares;
+        return filteredSquares;
     }
 
     private static double findLen(Point p1, Point p2, bool sqrt_v = true)
