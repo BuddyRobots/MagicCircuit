@@ -124,10 +124,7 @@ public class GetImage : MonoBehaviour
 			}
 		}
 	}
-
-	void Start()
-	{}
-
+		
 	// TODO: Do not use Mat in the middle
 	// Display current WebCamTexture to CamQuad
 	void Update()
@@ -154,9 +151,9 @@ public class GetImage : MonoBehaviour
 		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");
-//		Thread threadProcess = new Thread(Thread_Process);
-//		threadProcess.IsBackground = true;
-//		threadProcess.Start();
+		Thread threadProcess = new Thread(Thread_Process);
+		threadProcess.IsBackground = true;
+		threadProcess.Start();
 	}
 
 	// Thread for RecognizeAlgo.process 10 images
@@ -170,7 +167,7 @@ public class GetImage : MonoBehaviour
 
 
 			itemList.Clear();
-//			recognizeAlge.process(frameImgList[i], ref itemList);
+			recognizeAlge.process(frameImgList[i], ref itemList);
 			listItemList.Add(itemList);
 
 
@@ -187,7 +184,7 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemLists
 		// itemList = average(listItemList);
-		//itemList = xmlItemList;
+		itemList = xmlItemList;
 
 //		for (int i = 0; i < itemList.Count; i++) {
 //			Debug.Log("------------------");
@@ -203,7 +200,7 @@ public class GetImage : MonoBehaviour
 
 
 		// Compute CurrentFlow
-//		computeCurrentFlow();
+		computeCurrentFlow();
 
 
 		for (int i = 0; i < itemList.Count; i++) {
@@ -252,12 +249,32 @@ public class GetImage : MonoBehaviour
 	{
 		Mat frameImg = new Mat();
 		for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;)
+		{
 			if (takePicture(ref frameImg))
 			{
 				i++;
 				frameImgList.Add(frameImg);
+
 			}
+		}
 	}
+
+//	private void take10Pictures()
+//	{
+//		Mat frameImg = new Mat();
+//
+//		if (takePicture(ref frameImg))
+//		{
+//			for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;i++)
+//			{
+//				frameImgList.Add(frameImg);
+//			}
+//		}
+//		//return ;
+//	}
+
+
+
 
 //	public void test_saveFullQuadPhotoToiPad()
 //	{

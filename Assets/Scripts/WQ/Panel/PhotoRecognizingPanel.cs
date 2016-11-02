@@ -268,13 +268,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	void Update () 
 	{
 		if ( GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据
-//		if ( !GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据----for test
 		{
 			itemList=GetImage._instance.itemList;
-//			itemList=GetImage._instance.xmlItemList;// for test
 
 			result = GetImage._instance.isCircuitCorrect;
-//			result=true;//for test
 
 			if (!isMaskChangeGradual) 
 			{
