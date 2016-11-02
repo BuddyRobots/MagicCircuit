@@ -35,14 +35,13 @@ public class GetImage : MonoBehaviour
 	private int webCam_height = 480;
 
 	// Parameter for loading xml file for test
-//	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
-	public List<CircuitItem> xmlItemList = new List<CircuitItem>();// for test
+	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
-
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
+
 
 	void OnEnable()
 	{
@@ -59,24 +58,24 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 
-//		Debug.Log ("=====Start=====");
-//		for (var i = 0; i < xmlItemList.Count; i++)
-//		{
-//			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-//				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-//				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-//		}
-//		Debug.Log ("======End======");
+		Debug.Log ("=====Start=====");
+		for (var i = 0; i < xmlItemList.Count; i++)
+		{
+			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+		}
+		Debug.Log ("======End======");
 		#elif UNITY_IPHONE 
-//		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
-//		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
-//		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
-//		//Debug.Log("xmlPath = " + xmlPath);
-//		if (File.Exists(xmlPath))
-//		Debug.Log("Great! I have found the file!");
-//		else
-//		Debug.Log("Sorry! I have not found the file!");
-//		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
+		//		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
+		//		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
+		//		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
+		//		//Debug.Log("xmlPath = " + xmlPath);
+		//		if (File.Exists(xmlPath))
+		//		Debug.Log("Great! I have found the file!");
+		//		else
+		//		Debug.Log("Sorry! I have not found the file!");
+		//		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
 		#endif
 	}
 
@@ -119,6 +118,9 @@ public class GetImage : MonoBehaviour
 		}
 	}
 
+	void Start()
+	{}
+
 	void Update()
 	{
 		if (!initDone)
@@ -138,17 +140,6 @@ public class GetImage : MonoBehaviour
 
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
-			if (getImage == true)
-			{
-				if (frameImgList.Count >= Constant.THREAD_TAKE_NUM_OF_PHOTOS)
-				{
-					getImage = false;
-				}
-				else
-				{
-					frameImgList.Add(frameImg);
-				}
-			}
 		}
 		frameImg.Dispose();
 	}
@@ -189,17 +180,20 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemLists
 		// itemList = average(listItemList);
+		#if UNITY_EDITOR
 		itemList = xmlItemList;
+		#elif UNITY_IPHONE 
+		#endif
 
 
 		frameImgList.Clear();
 
-//		for (int i = 0; i < itemList.Count; i++) {
-//			Debug.Log("------------------");
-//			for (int j = 0; j < itemList[i].list.Count; j++) {
-//				Debug.Log("itemlist["+i+"]["+j+"]===="+itemList[i].list[j]);
-//			}
-//		}
+		//		for (int i = 0; i < itemList.Count; i++) {
+		//			Debug.Log("------------------");
+		//			for (int j = 0; j < itemList[i].list.Count; j++) {
+		//				Debug.Log("itemlist["+i+"]["+j+"]===="+itemList[i].list[j]);
+		//			}
+		//		}
 
 
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -215,8 +209,10 @@ public class GetImage : MonoBehaviour
 				Debug.Log("GetImage Thread_Process itemlist["+i+"].list["+j+"]===="+itemList[i].list[j]);
 			}
 		}
-			
-	
+
+
+
+
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
@@ -234,8 +230,37 @@ public class GetImage : MonoBehaviour
 			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
 
 		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
-//		Debug.Log("itemList.Count = " + itemList.Count);
-//		for (var i = 0; i < itemList.Count; i++)
-//			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
+		//		Debug.Log("itemList.Count = " + itemList.Count);
+		//		for (var i = 0; i < itemList.Count; i++)
+		//			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
 	}
+
+	//	public void test_saveFullQuadPhotoToiPad()
+	//	{
+	//		if (!initDone)
+	//			return;
+	//
+	//		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+	//		if (webCamTexture.didUpdateThisFrame)
+	//		{
+	//			Utils.webCamTextureToMat(webCamTexture, frameImg);
+	//
+	//			#if UNITY_EDITOR 
+	//			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
+	//			#elif UNITY_IPHONE 
+	//			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
+	//			#endif 
+	//
+	//			texture.Resize(frameImg.cols(), frameImg.rows());
+	//			Utils.matToTexture2D(frameImg, texture);
+	//
+	//
+	//
+	//			#if UNITY_EDITOR 
+	//			#elif UNITY_IPHONE  
+	//			File.WriteAllBytes(path, texture.EncodeToJPG ());
+	//			_SavePhoto (path);
+	//			#endif 
+	//		}
+	//	}
 }
