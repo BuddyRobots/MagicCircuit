@@ -10,7 +10,8 @@ public class MicroPhoneBtnCtrl : MonoBehaviour
 	{
 		isCollectVoice = false;
 		//13 ,14关的小话筒按钮必须等其他开关闭合后才能点击有效
-		if (LevelManager.currentLevelData.LevelID==13 || LevelManager.currentLevelData.LevelID==14) {
+		if (LevelManager.currentLevelData.LevelID==13 || LevelManager.currentLevelData.LevelID==14) 
+		{
 			transform.GetComponent<BoxCollider> ().enabled = false;
 		}
 

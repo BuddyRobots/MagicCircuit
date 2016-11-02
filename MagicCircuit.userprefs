@@ -1,5 +1,6 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/GetImage.cs">
     <Files>
       <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="247" Column="4" />
@@ -10,6 +11,17 @@
       <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="84" Column="42" />
       <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/ZPF/RotateCamera.cs" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/Constant.cs">
+    <Files>
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="261" Column="5" />
+      <File FileName="Assets/Scripts/ZPF/RotateCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="14" Column="42" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="34" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="10" Column="52" />
+      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="176" Column="4" />
+>>>>>>> 77dc00476378a9546289cc92163b457f3c2ebdf4
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

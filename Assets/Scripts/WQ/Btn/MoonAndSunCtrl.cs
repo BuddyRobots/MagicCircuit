@@ -67,7 +67,6 @@ public class MoonAndSunCtrl : MonoBehaviour
 	/// <param name="btn">Button.</param>
 	void OnMoonBtnClick(GameObject btn)
 	{
-
 		isDaytime = true;
 	}
 }
