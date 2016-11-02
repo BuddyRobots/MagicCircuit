@@ -126,7 +126,7 @@ namespace MagicCircuit
 
 
 
-			Debug.Log("Utils : extractCard : center.x = " + center.x + " y = " + center.y);
+//			Debug.Log("Utils : extractCard : center.x = " + center.x + " y = " + center.y);
 
             list.Add(cordinateMat2Unity(center.x, center.y));
 
@@ -172,8 +172,8 @@ namespace MagicCircuit
         {            
 
 
-			Debug.Log("Utils : cordinateMat2Unity : x = " + x + " y = " + y);
-			Debug.Log("Utils : cordinateMat2Unity : x' = " + (float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X) + " y' = " + (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
+//			Debug.Log("Utils : cordinateMat2Unity : x = " + x + " y = " + y);
+//			Debug.Log("Utils : cordinateMat2Unity : x' = " + (float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X) + " y' = " + (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
 
 
 

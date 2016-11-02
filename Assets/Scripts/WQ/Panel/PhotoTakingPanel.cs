@@ -61,21 +61,28 @@ public class PhotoTakingPanel : MonoBehaviour
 		{
 			noticeImg.gameObject.SetActive (true);
 			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
+			//CountDown();
 		}
 	}
 
 
 	IEnumerator CountDown()
+	//void CountDown()
 	{
-		yield return new WaitForSeconds (1f);//1f for rest, real time is 3f..
+//		yield return new WaitForSeconds (1f);//1f for rest, real time is 3f..
+//
+//		countDown.gameObject.SetActive (true);
+//		//倒计时，每个数字停留一秒后变化
+//		yield return new WaitForSeconds(1);
+//		countDown.text = "2";
+//		yield return new WaitForSeconds (1);
+//		countDown.text = "1";
+//		yield return new WaitForSeconds (1);
 
-		countDown.gameObject.SetActive (true);
-		//倒计时，每个数字停留一秒后变化
+		GetImage._instance.frameImgList.Clear();
+		GetImage._instance.getImage = true;
 		yield return new WaitForSeconds(1);
-		countDown.text = "2";
-		yield return new WaitForSeconds (1);
-		countDown.text = "1";
-		yield return new WaitForSeconds (1);
+		GetImage._instance.getImage = false;
 
 		GetImage._instance.Thread_Process_Start();
 		//GetImage._instance.test_saveFullQuadPhotoToiPad();

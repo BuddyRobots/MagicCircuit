@@ -39,8 +39,11 @@ public class GetImage : MonoBehaviour
 
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
-	private List<Mat> frameImgList = new List<Mat>();
+	[HideInInspector]
+	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
+
+	public bool getImage = false;
 
 	void Awake()
 	{
@@ -49,6 +52,8 @@ public class GetImage : MonoBehaviour
 
 	void OnEnable()
 	{
+		
+		getImage = false;
 		isThreadEnd = false;
 		isCircuitCorrect = false;
 
@@ -63,14 +68,14 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 
-		Debug.Log ("=====Start=====");
-		for (var i = 0; i < xmlItemList.Count; i++)
-		{
-			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-		}
-		Debug.Log ("======End======");
+//		Debug.Log ("=====Start=====");
+//		for (var i = 0; i < xmlItemList.Count; i++)
+//		{
+//			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+//				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+//				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+//		}
+//		Debug.Log ("======End======");
 		#elif UNITY_IPHONE 
 //		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
 //		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
@@ -138,6 +143,17 @@ public class GetImage : MonoBehaviour
 			rotateCamera.rotate(ref frameImg);
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
+			if (getImage == true)
+			{
+				if (frameImgList.Count >= Constant.THREAD_TAKE_NUM_OF_PHOTOS)
+				{
+					getImage = false;
+				}
+				else
+				{
+					frameImgList.Add(frameImg);
+				}
+			}
 		}
 		frameImg.Dispose();
 	}
@@ -148,7 +164,8 @@ public class GetImage : MonoBehaviour
 		listItemList.Clear();
 		frameImgList.Clear();
 
-		take10Pictures();
+		Debug.Log("1111111111111111");
+//		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");
 		Thread threadProcess = new Thread(Thread_Process);
@@ -236,8 +253,10 @@ public class GetImage : MonoBehaviour
 	{
 		frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
 
+		Debug.Log("webCamTexture.didUpdateThisFrame"+webCamTexture.didUpdateThisFrame);
 		if (webCamTexture.didUpdateThisFrame) 
 		{
+			
 			Utils.webCamTextureToMat(webCamTexture, frameImg);
 			rotateCamera.rotate(ref frameImg);
 			return true;
@@ -248,14 +267,21 @@ public class GetImage : MonoBehaviour
 	private void take10Pictures()
 	{
 		Mat frameImg = new Mat();
-		for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;)
+		int i = 0;
+		while (true)
+		// for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;)
 		{
-			if (takePicture(ref frameImg))
+			Debug.Log("222222222");
+			bool t = takePicture(ref frameImg);
+			if (t)
 			{
 				i++;
 				frameImgList.Add(frameImg);
 
 			}
+			if (i > Constant.THREAD_TAKE_NUM_OF_PHOTOS)
+				break;
+
 		}
 	}
 

@@ -84,7 +84,7 @@ public class RecognizeAlgo
 
 
 
-			Debug.Log("RecognizeAlgo.process klass = " + klass);
+//			Debug.Log("RecognizeAlgo.process klass = " + klass);
 
 
 
@@ -161,7 +161,7 @@ public class RecognizeAlgo
 
 		int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_1 = time_1 - startTime_1;
-		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_1);
+//		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_1);
 
 
 
@@ -169,7 +169,7 @@ public class RecognizeAlgo
 
         /// Detect Lines =============================================================
         
-		Debug.Log("DetectLine Start");
+//		Debug.Log("DetectLine Start");
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -180,7 +180,7 @@ public class RecognizeAlgo
 
 
 
-		Debug.Log("RecognizeAlgo lineGroupList.Count = " + lineGroupList.Count);
+//		Debug.Log("RecognizeAlgo lineGroupList.Count = " + lineGroupList.Count);
 
 
 
@@ -194,7 +194,7 @@ public class RecognizeAlgo
 
 
 
-				Debug.Log("RecognizeAlgo : DetectLine line.list[0] = " + tmpItem.list[0] + " line.list[Count-1] = " + tmpItem.list[tmpItem.list.Count-1]);
+//				Debug.Log("RecognizeAlgo : DetectLine line.list[0] = " + tmpItem.list[0] + " line.list[Count-1] = " + tmpItem.list[tmpItem.list.Count-1]);
 
 
 
@@ -210,7 +210,7 @@ public class RecognizeAlgo
 		Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 		for(var i = 0; i < itemList.Count; i++)
 		{
-			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
+//			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
 		}
 
 
@@ -251,7 +251,7 @@ public class RecognizeAlgo
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime;
-		Debug.Log("RecognizeAlgo predict() Time elapse : " + elapse_2);
+//		Debug.Log("RecognizeAlgo predict() Time elapse : " + elapse_2);
 
 
 
