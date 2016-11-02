@@ -84,7 +84,7 @@ public class RecognizeAlgo
 
 
 
-			Debug.Log("RecognizeAlgo.process klass = " + klass);
+//			Debug.Log("RecognizeAlgo.process klass = " + klass);
 
 
 
@@ -161,7 +161,7 @@ public class RecognizeAlgo
 
 		int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_1 = time_1 - startTime_1;
-		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_1);
+//		Debug.Log("RecognizeAlgo DetectCards Time elapse : " + elapse_1);
 
 
 
@@ -169,7 +169,7 @@ public class RecognizeAlgo
 
         /// Detect Lines =============================================================
         
-		Debug.Log("DetectLine Start");
+//		Debug.Log("DetectLine Start");
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -177,7 +177,6 @@ public class RecognizeAlgo
 		List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 		List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
 		line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
-
 
         // Add to CircuitItem
 		for (var i = 0; i < lineGroupList.Count; i++)
@@ -239,7 +238,7 @@ public class RecognizeAlgo
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime;
-		Debug.Log("RecognizeAlgo predict() Time elapse : " + elapse_2);
+//		Debug.Log("RecognizeAlgo predict() Time elapse : " + elapse_2);
 
 
 

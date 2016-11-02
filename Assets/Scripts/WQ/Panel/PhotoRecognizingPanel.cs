@@ -171,6 +171,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnEnable()
 	{
+		if (!gameObject.GetComponent<LevelHandle>()) {
+			gameObject.AddComponent<LevelHandle>();
+			gameObject.GetComponent<LevelHandle>().enabled=false;
+		}
+		else{
+			gameObject.GetComponent<LevelHandle>().enabled=false;
+		}
+
 		HomeBtn.Instance.panelOff = PanelOff;
 		data = LevelManager.currentLevelData;
 		lineParent = this.gameObject;
@@ -344,15 +352,17 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				}
 				isResultPanelShow = true;
 			}
+
+			if ( !isLevelHandleScriptAdd && isAllItemShowDone ) //如果图标都显示完了，就给面板添加相应的关卡脚本
+			{
+				//transform.gameObject.AddComponent<LevelHandle>();
+				transform.gameObject.GetComponent<LevelHandle>().enabled=true;
+				isLevelHandleScriptAdd = true;
+			}
 			//如果图标都显示完了且匹配成功，就根据关卡等级添加界面操作的脚本
 			if (isAllItemShowDone && result)
 			{
 				LevelHandle._instance.CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
-			}
-			if ( !isLevelHandleScriptAdd && isAllItemShowDone ) //如果图标都显示完了，就给面板添加相应的关卡脚本
-			{
-				transform.gameObject.AddComponent<LevelHandle>();
-				isLevelHandleScriptAdd = true;
 			}
 		}
 	}
@@ -746,15 +756,20 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void PanelOff()
 	{
-		for (int i = 0; i < needToBeDestroyedList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
+		if (needToBeDestroyedList.Count>0) 
 		{
-			if (needToBeDestroyedList[i].GetComponent<BoxCollider>()) 
+			for (int i = 0; i < needToBeDestroyedList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 			{
-				Destroy(needToBeDestroyedList[i].GetComponent<BoxCollider>());
-				
+//				if (needToBeDestroyedList[i].GetComponent<BoxCollider>()) 
+//				{
+//					Destroy(needToBeDestroyedList[i].GetComponent<BoxCollider>());
+//
+//				}
+				Destroy (needToBeDestroyedList [i]);
 			}
-			Destroy (needToBeDestroyedList [i]);
+			
 		}
+
 		for (int i = 0; i < arrowList.Count; i++) 
 		{
 			Destroy (arrowList [i]);

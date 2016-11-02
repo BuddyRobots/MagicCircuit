@@ -61,11 +61,13 @@ public class PhotoTakingPanel : MonoBehaviour
 		{
 			noticeImg.gameObject.SetActive (true);
 			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
+			//CountDown();
 		}
 	}
 
 
 	IEnumerator CountDown()
+	//void CountDown()
 	{
 		yield return new WaitForSeconds(1f);//1f for rest, real time is 3f..
 

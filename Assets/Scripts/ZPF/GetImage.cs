@@ -40,9 +40,9 @@ public class GetImage : MonoBehaviour
 
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
+
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
-
 
 	void OnEnable()
 	{
@@ -59,14 +59,14 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 
-		Debug.Log ("=====Start=====");
-		for (var i = 0; i < xmlItemList.Count; i++)
-		{
-			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-		}
-		Debug.Log ("======End======");
+//		Debug.Log ("=====Start=====");
+//		for (var i = 0; i < xmlItemList.Count; i++)
+//		{
+//			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+//				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+//				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+//		}
+//		Debug.Log ("======End======");
 		#elif UNITY_IPHONE 
 //		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
 //		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
@@ -138,6 +138,17 @@ public class GetImage : MonoBehaviour
 
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
+			if (getImage == true)
+			{
+				if (frameImgList.Count >= Constant.THREAD_TAKE_NUM_OF_PHOTOS)
+				{
+					getImage = false;
+				}
+				else
+				{
+					frameImgList.Add(frameImg);
+				}
+			}
 		}
 		frameImg.Dispose();
 	}

@@ -109,7 +109,6 @@ namespace MagicCircuit
             // Calculate connect_left & connect_right
             double width = Mathf.Sqrt(Mathf.Pow((float)(outer_square[0].x - outer_square[1].x), 2) + Mathf.Pow((float)(outer_square[0].y - outer_square[1].y), 2));
 
-
             double dx = width / 2 * Mathf.Cos((float)theta);
 			double dy = width / 2 * Mathf.Sin((float)theta);
 
