@@ -191,7 +191,7 @@ public class RecognizeAlgo
 		for (var i = 0; i < lineGroupList.Count; i++)
             for (var j = 0; j < lineGroupList[i].Count; j++)
             {
-                tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++, frameImg.size());
+                tmpItem = new CircuitItem(showOrder, "CircuitLine", ItemType.CircuitLine, showOrder++);
                 tmpItem.extractLine(lineGroupList[i][j], boundingRectList[i]);
                 itemList.Add(tmpItem);
 

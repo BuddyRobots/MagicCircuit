@@ -125,6 +125,9 @@ namespace MagicCircuit
             Point center = new Point((outer_square[0].x + outer_square[2].x) / 2, (outer_square[0].y + outer_square[2].y) / 2);
 
 
+
+			Debug.Log("Utils : extractCard : center.x = " + center.x + " y = " + center.y);
+
             list.Add(cordinateMat2Unity(center.x, center.y));
 
             double angle = Mathf.Atan2((float)(outer_square[0].y - outer_square[1].y), (float)(outer_square[0].x - outer_square[1].x));
@@ -167,6 +170,15 @@ namespace MagicCircuit
 
         private Vector3 cordinateMat2Unity(double x, double y)
         {            
+
+
+			Debug.Log("Utils : cordinateMat2Unity : x = " + x + " y = " + y);
+			Debug.Log("Utils : cordinateMat2Unity : x' = " + (float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X) + " y' = " + (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
+
+
+
+
+
 			return new Vector3((float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X), (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
         }
     }
