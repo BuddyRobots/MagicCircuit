@@ -47,24 +47,38 @@ public class CardDetector
         return filterSquares(squares);
     }
 
-    public static List<List<Point>> computeOuterSquare(List<List<Point>> squares)
+    public static List<List<Point>> computeOuterSquare(List<List<Point>> squareList)
     {
-		List<List<Point>> outerSquares = new List<List<Point>>();
+		List<List<Point>> outerSquareList = new List<List<Point>>();
 
-        for (var i = 0; i < squares.Count; i++)
+        for (var i = 0; i < squareList.Count; i++)
         {
 			List<Point> tmpSquare = new List<Point>();
-			Point squareCenter = new Point((squares[i][0].x + squares[i][2].x) / 2, (squares[i][0].y + squares[i][2].y) / 2);
+			Point squareCenter = new Point((squareList[i][0].x + squareList[i][2].x) / 2, (squareList[i][0].y + squareList[i][2].y) / 2);
 
             for (var j = 0; j < 4; j++)
             {
-				double x = Constant.CARD_OUTER_SQUARE_RATIO * (squares[i][j].x - squareCenter.x) + squareCenter.x;
-				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squares[i][j].y - squareCenter.y) + squareCenter.y;
+				double x = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].x - squareCenter.x) + squareCenter.x;
+				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].y - squareCenter.y) + squareCenter.y;
                 tmpSquare.Add(new Point(x, y));
             }
-            outerSquares.Add(tmpSquare);
+
+
+
+			Debug.Log("CardDetector.cs computeOuterSquare : squareList[" + i + "] : (" + squareList[i][0] + ") (" + squareList[i][1] + ") (" + squareList[i][2] + ") (" + squareList[i][3] + ")");
+			Debug.Log("CardDetector.cs computeOuterSquare : outerSquareList[" + i + "] : (" + tmpSquare[0] + ") (" + tmpSquare[1] + ") (" + tmpSquare[2] + ") (" + tmpSquare[3] + ")");
+
+
+
+
+
+
+
+
+
+            outerSquareList.Add(tmpSquare);
         }
-        return outerSquares;
+        return outerSquareList;
     }
 
     public static void removeCard(ref Mat img, List<List<Point>> squares)

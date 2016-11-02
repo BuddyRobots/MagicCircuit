@@ -71,27 +71,31 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	IEnumerator CountDown()
 	{
-		yield return new WaitForSeconds (3f);
+		yield return new WaitForSeconds(3f);
 
-		countDown.gameObject.SetActive (true);
+		countDown.gameObject.SetActive(true);
 		//倒计时，每个数字停留一秒后变化
 		yield return new WaitForSeconds(1);
 		countDown.text = "2";
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds(1);
 		countDown.text = "1";
-		yield return new WaitForSeconds (1);
+		yield return new WaitForSeconds(1);
+
+		GetImage._instance.isTakingPhoto = true;
+		yield return new WaitForSeconds(1);
+		GetImage._instance.isTakingPhoto = false;
 
 		GetImage._instance.Thread_Process_Start();
 		//GetImage._instance.test_saveFullQuadPhotoToiPad();
 
-		PanelOff ();
+		PanelOff();
 		photoRecognizingPanel.SetActive (true);
 	}
 	#endregion
 
 	public void PanelOff()
 	{
-		countDown.text="3";
+		countDown.text ="3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
 		gameObject.SetActive (false);

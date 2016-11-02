@@ -3,15 +3,15 @@
 	public static class Constant
 	{
 		// GetImage.cs : Parameter for processing 10 photos
-		public const int    THREAD_TAKE_NUM_OF_PHOTOS = 2;
+		public const int    TAKE_NUM_OF_PHOTOS = 2;
 
 		// Utils.cs : CamQuad original point(x, y) for coverting cordinate from frameImg to Unity3D
-		public const int    CAM_QUAD_ORIGINAL_POINT_X = -301;
-		public const int    CAM_QUAD_ORIGINAL_POINT_Y = 372;
+		public const int    CAM_QUAD_ORIGINAL_POINT_X = -305;
+		public const int    CAM_QUAD_ORIGINAL_POINT_Y = 375;
 
 		// RotateCamera.cs : Width and Height of CamQuad in Unity3D
-		public const int    CAM_QUAD_WIDTH            = 603;
-		public const int    CAM_QUAD_HEIGHT           = 698;
+		public const int    CAM_QUAD_WIDTH            = 610;
+		public const int    CAM_QUAD_HEIGHT           = 703;
 
 		// CardDetector.cs : Parameters for limiting and filtering detected cards
 		public const int    CARD_MIN_SQUARE_LEN       = 60;
@@ -20,6 +20,7 @@
 		public const double CARD_OUTER_SQUARE_RATIO   = 1.2;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
+		public const int    LINE_COLOR_MAX_V          = 180;
 		public const int    LINE_REGION_MIN_AREA      = 0;
 	}
 }

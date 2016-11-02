@@ -138,7 +138,7 @@ public class RecognizeAlgo
 			// @Input  : int klass,
 			//           Mat cardImg;
 			// @Output : int direction (1, 2, 3, 4)
-			int direction = 1;
+			int direction = 4;
 			// direction = getDirection(klass, cardImg);
 
 
@@ -210,7 +210,7 @@ public class RecognizeAlgo
 		Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 		for(var i = 0; i < itemList.Count; i++)
 		{
-			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type);
+			Debug.Log("RecogniazeAlgo itemList " + i + " : type = " + itemList[i].type + " theta = " + itemList[i].theta);
 		}
 
 
