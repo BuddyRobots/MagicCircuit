@@ -104,30 +104,18 @@ namespace MagicCircuit
 
             double angle = Mathf.Atan((float)(outer_square[0].y - outer_square[1].y) / (float)(outer_square[1].x - outer_square[0].x));
 
-
-
-			Debug.Log("Utils.cs extractCard : square[0].y = " + (float)(outer_square[0].y) + " square[0].x = " + (float)(outer_square[0].x));
-			Debug.Log("Utils.cs extractCard : square[1].y = " + (float)(outer_square[1].y) + " square[1].x = " + (float)(outer_square[1].x));
-			Debug.Log("Utils.cs extractCard : dy = " + (float)(outer_square[0].y - outer_square[1].y) + " dx = " + (float)(outer_square[0].x - outer_square[1].x));
-
-
-
             theta = Mathf.PI / 2 * direction + angle; // 0 < theta < 2 * PI
 
             // Calculate connect_left & connect_right
             double width = Mathf.Sqrt(Mathf.Pow((float)(outer_square[0].x - outer_square[1].x), 2) + Mathf.Pow((float)(outer_square[0].y - outer_square[1].y), 2));
 
+            double dx = width / 2 * Mathf.Cos((float)theta);
+			double dy = width / 2 * Mathf.Sin((float)theta);
 
-            double x = width / 2 / (1 + Mathf.Tan((float)theta));
-            double y = x * Mathf.Tan((float)theta);
-
-            connect_left = new Vector2((float)(center.x - x), (float)(center.y - y));
-            connect_right = new Vector2((float)(center.x + x), (float)(center.y + y));
+            connect_left  = new Vector2((float)(center.x - dx), (float)(center.y - dy));
+            connect_right = new Vector2((float)(center.x + dx), (float)(center.y + dy));
 
             theta = theta * Mathf.Rad2Deg; // 0 < theta < 360
-
-			Debug.Log("Utils.cs extractCard : angle(int Rediant) = " + angle * Mathf.Rad2Deg);
-			Debug.Log("Utils.cs extractCard : theta(int Rediant) = " + theta);
         }
 
         public void extractLine(List<Point> line, OpenCVForUnity.Rect rect)
@@ -138,7 +126,7 @@ namespace MagicCircuit
             {
                 list.Add(cordinateMat2Unity((line[i].x + center.x), (line[i].y + center.y)));
             }
-			connect_left = new Vector2(list[0].x, list[0].y);
+			connect_left  = new Vector2(list[0].x, list[0].y);
             connect_right = new Vector2(list[list.Count - 1].x, list[list.Count - 1].y);
         } 
 

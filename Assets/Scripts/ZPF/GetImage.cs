@@ -135,7 +135,7 @@ public class GetImage : MonoBehaviour
 			{	
 				frameImgList.Add(frameImg.clone());
 				if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
-					isTakingPhoto = false;
+					isTakingPhoto = false; 
 			}
 
 			texture.Resize(frameImg.cols(), frameImg.rows());
@@ -180,6 +180,7 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemLists
 		// itemList = average(listItemList);
+
 		#if UNITY_EDITOR
 		itemList = xmlItemList;
 		#elif UNITY_IPHONE 
@@ -204,10 +205,9 @@ public class GetImage : MonoBehaviour
 		// Compute CurrentFlow
 		computeCurrentFlow();
 
-		for (int i = 0; i < itemList.Count; i++) {
-			for (int j = 0; j < itemList[i].list.Count; j++) {
-				Debug.Log("GetImage Thread_Process itemlist["+i+"].list["+j+"]===="+itemList[i].list[j]);
-			}
+		for (int i = 0; i < itemList.Count; i++)
+		{
+			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
 		}
 
 
