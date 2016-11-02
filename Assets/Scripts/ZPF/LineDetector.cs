@@ -40,7 +40,7 @@ namespace MagicCircuit
 		{
 			int h_min = 0, h_max = 180;
 			int s_min = 0, s_max = 255;
-			int v_min = 0, v_max = 100;
+			int v_min = 0;
 
 			Mat hsvImg = new Mat();
 			Mat binaryImg = new Mat();
@@ -51,7 +51,7 @@ namespace MagicCircuit
 
 			// Color Thresholding
 			Imgproc.cvtColor(frameImg, hsvImg, Imgproc.COLOR_RGB2HSV);
-			Core.inRange(hsvImg, new Scalar(h_min, s_min, v_min), new Scalar(h_max, s_max, v_max), binaryImg);
+			Core.inRange(hsvImg, new Scalar(h_min, s_min, v_min), new Scalar(h_max, s_max, Constant.LINE_COLOR_MAX_V), binaryImg);
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_CLOSE, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8, 8)));
 			lineImg = binaryImg.clone();

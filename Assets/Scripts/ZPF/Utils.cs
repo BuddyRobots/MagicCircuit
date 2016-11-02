@@ -1,46 +1,22 @@
-﻿using OpenCVForUnity;
+﻿using UnityEngine;
+using OpenCVForUnity;
 using System.Collections.Generic;
-
-using UnityEngine;
 
 namespace MagicCircuit
 {
     public enum ItemType
     {
-        Battery,
-        Switch,
-        Bulb,		
-		Loudspeaker,
+        Battery,              // class 1
+		Switch,               // class 2
+		LightActSwitch,       // class 3
+		VoiceOperSwitch,      // class 4
+		VoiceTimedelaySwitch, // class 5
+		SPDTSwitch,           // class 6
+		Bulb,		          // class 7
+		Loudspeaker,          // class 8
+		InductionCooker,      // class 9
 
-		/// <summary>
-		/// single pole double throw switch  单刀双掷开关
-		/// </summary>
-		SPDTSwitch,
-
-		/// <summary>
-		/// voice operated switch  声控开关
-		/// </summary>
-		VoiceOperSwitch,
-
-		/// <summary>
-		/// light activated switch  光敏开关
-		/// </summary>
-		LightActSwitch,	
-
-		/// <summary>
-		/// time-delay switch      声控延时开关
-		/// </summary>
-		VoiceTimedelaySwitch,	
-
-		/// <summary>
-		/// 电磁炉
-		/// </summary>
-		InductionCooker,
-
-		/// <summary>
-		/// line 线
-		/// </summary>
-        CircuitLine                             //如果是线的话，则是点的集合
+        CircuitLine
     }
     
 	public class CircuitItem                        //图标管理类 (id,名字，类型，坐标)
@@ -124,13 +100,18 @@ namespace MagicCircuit
         {
             Point center = new Point((outer_square[0].x + outer_square[2].x) / 2, (outer_square[0].y + outer_square[2].y) / 2);
 
-
-
-//			Debug.Log("Utils : extractCard : center.x = " + center.x + " y = " + center.y);
-
             list.Add(cordinateMat2Unity(center.x, center.y));
 
-            double angle = Mathf.Atan2((float)(outer_square[0].y - outer_square[1].y), (float)(outer_square[0].x - outer_square[1].x));
+            double angle = Mathf.Atan((float)(outer_square[0].y - outer_square[1].y) / (float)(outer_square[1].x - outer_square[0].x));
+
+
+
+			Debug.Log("Utils.cs extractCard : square[0].y = " + (float)(outer_square[0].y) + " square[0].x = " + (float)(outer_square[0].x));
+			Debug.Log("Utils.cs extractCard : square[1].y = " + (float)(outer_square[1].y) + " square[1].x = " + (float)(outer_square[1].x));
+			Debug.Log("Utils.cs extractCard : dy = " + (float)(outer_square[0].y - outer_square[1].y) + " dx = " + (float)(outer_square[0].x - outer_square[1].x));
+
+
+
             theta = Mathf.PI / 2 * direction + angle; // 0 < theta < 2 * PI
 
             // Calculate connect_left & connect_right
@@ -144,6 +125,9 @@ namespace MagicCircuit
             connect_right = new Vector2((float)(center.x + x), (float)(center.y + y));
 
             theta = theta * Mathf.Rad2Deg; // 0 < theta < 360
+
+			Debug.Log("Utils.cs extractCard : angle(int Rediant) = " + angle * Mathf.Rad2Deg);
+			Debug.Log("Utils.cs extractCard : theta(int Rediant) = " + theta);
         }
 
         public void extractLine(List<Point> line, OpenCVForUnity.Rect rect)
@@ -170,15 +154,6 @@ namespace MagicCircuit
 
         private Vector3 cordinateMat2Unity(double x, double y)
         {            
-
-
-//			Debug.Log("Utils : cordinateMat2Unity : x = " + x + " y = " + y);
-//			Debug.Log("Utils : cordinateMat2Unity : x' = " + (float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X) + " y' = " + (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
-
-
-
-
-
 			return new Vector3((float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X), (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
         }
     }

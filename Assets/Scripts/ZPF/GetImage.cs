@@ -14,8 +14,11 @@ public class GetImage : MonoBehaviour
 	private static extern void _SavePhoto (string readAddr);
 
 	public static GetImage _instance;
-	public bool isThreadEnd;
-	public bool isCircuitCorrect;
+	public bool isThreadEnd = false;
+	public bool isCircuitCorrect = false;
+
+	// Flag for taking 10 photos
+	public bool isTakingPhoto = false;
 
 	// Parameters for generating itemList
 	public List<CircuitItem> itemList = new List<CircuitItem>();
@@ -35,27 +38,15 @@ public class GetImage : MonoBehaviour
 //	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 	public List<CircuitItem> xmlItemList = new List<CircuitItem>();// for test
 
-
-
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
-	[HideInInspector]
+
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
 
-	public bool getImage = false;
-
-	void Awake()
-	{
-		_instance = this;
-	}
-
 	void OnEnable()
 	{
-		
-		getImage = false;
-		isThreadEnd = false;
-		isCircuitCorrect = false;
+		_instance = this;
 
 		StartCoroutine(init());
 
@@ -87,8 +78,6 @@ public class GetImage : MonoBehaviour
 //		Debug.Log("Sorry! I have not found the file!");
 //		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
 		#endif
-
-
 	}
 
 	private IEnumerator init()
@@ -129,9 +118,7 @@ public class GetImage : MonoBehaviour
 			}
 		}
 	}
-		
-	// TODO: Do not use Mat in the middle
-	// Display current WebCamTexture to CamQuad
+
 	void Update()
 	{
 		if (!initDone)
@@ -141,6 +128,14 @@ public class GetImage : MonoBehaviour
 		{
 			Utils.webCamTextureToMat(webCamTexture, frameImg);
 			rotateCamera.rotate(ref frameImg);
+
+			if (isTakingPhoto)
+			{	
+				frameImgList.Add(frameImg.clone());
+				if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
+					isTakingPhoto = false;
+			}
+
 			texture.Resize(frameImg.cols(), frameImg.rows());
 			Utils.matToTexture2D(frameImg, texture);
 			if (getImage == true)
@@ -162,10 +157,6 @@ public class GetImage : MonoBehaviour
 	{
 		isThreadEnd = false;
 		listItemList.Clear();
-		frameImgList.Clear();
-
-		Debug.Log("1111111111111111");
-//		take10Pictures();
 
 		Debug.Log("Thread_Process_Start");
 		Thread threadProcess = new Thread(Thread_Process);
@@ -182,18 +173,15 @@ public class GetImage : MonoBehaviour
 
 
 
-
 			itemList.Clear();
 			recognizeAlge.process(frameImgList[i], ref itemList);
 			listItemList.Add(itemList);
 
 
 
-
-
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
-			//Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+			Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
 		}
 
 		// TODO
@@ -202,6 +190,9 @@ public class GetImage : MonoBehaviour
 		// @Output : itemLists
 		// itemList = average(listItemList);
 		itemList = xmlItemList;
+
+
+		frameImgList.Clear();
 
 //		for (int i = 0; i < itemList.Count; i++) {
 //			Debug.Log("------------------");
@@ -218,7 +209,6 @@ public class GetImage : MonoBehaviour
 
 		// Compute CurrentFlow
 		computeCurrentFlow();
-
 
 		for (int i = 0; i < itemList.Count; i++) {
 			for (int j = 0; j < itemList[i].list.Count; j++) {
@@ -248,86 +238,4 @@ public class GetImage : MonoBehaviour
 //		for (var i = 0; i < itemList.Count; i++)
 //			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
 	}
-
-	private bool takePicture(ref Mat frameImg)
-	{
-		frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-
-		Debug.Log("webCamTexture.didUpdateThisFrame"+webCamTexture.didUpdateThisFrame);
-		if (webCamTexture.didUpdateThisFrame) 
-		{
-			
-			Utils.webCamTextureToMat(webCamTexture, frameImg);
-			rotateCamera.rotate(ref frameImg);
-			return true;
-		}
-		return false;
-	}
-
-	private void take10Pictures()
-	{
-		Mat frameImg = new Mat();
-		int i = 0;
-		while (true)
-		// for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;)
-		{
-			Debug.Log("222222222");
-			bool t = takePicture(ref frameImg);
-			if (t)
-			{
-				i++;
-				frameImgList.Add(frameImg);
-
-			}
-			if (i > Constant.THREAD_TAKE_NUM_OF_PHOTOS)
-				break;
-
-		}
-	}
-
-//	private void take10Pictures()
-//	{
-//		Mat frameImg = new Mat();
-//
-//		if (takePicture(ref frameImg))
-//		{
-//			for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;i++)
-//			{
-//				frameImgList.Add(frameImg);
-//			}
-//		}
-//		//return ;
-//	}
-
-
-
-
-//	public void test_saveFullQuadPhotoToiPad()
-//	{
-//		if (!initDone)
-//			return;
-//
-//		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-//		if (webCamTexture.didUpdateThisFrame)
-//		{
-//			Utils.webCamTextureToMat(webCamTexture, frameImg);
-//
-//			#if UNITY_EDITOR 
-//			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
-//			#elif UNITY_IPHONE 
-//			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
-//			#endif 
-//
-//			texture.Resize(frameImg.cols(), frameImg.rows());
-//			Utils.matToTexture2D(frameImg, texture);
-//
-//
-//
-//			#if UNITY_EDITOR 
-//			#elif UNITY_IPHONE  
-//			File.WriteAllBytes(path, texture.EncodeToJPG ());
-//			_SavePhoto (path);
-//			#endif 
-//		}
-//	}
 }
