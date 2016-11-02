@@ -1,14 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/Constant.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/RecognizeAlgo.cs">
     <Files>
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="261" Column="5" />
-      <File FileName="Assets/Scripts/ZPF/RotateCamera.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="14" Column="42" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="34" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="10" Column="52" />
-      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="176" Column="4" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="23" Column="40" />
+      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="170" Column="66" />
+      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="49" Column="51" />
+      <File FileName="Assets/Scripts/ZPF/CardDetector.cs" Line="8" Column="60" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="84" Column="42" />
+      <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/RotateCamera.cs" Line="32" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
