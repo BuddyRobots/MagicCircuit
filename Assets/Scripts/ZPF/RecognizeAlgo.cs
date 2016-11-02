@@ -178,12 +178,9 @@ public class RecognizeAlgo
 		List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
 		line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
 
-		/*for (var i = 0; i < lineGroupList.Count; i++)
-            util.drawPoint(resultImg, lineGroupList[i], rect[i]);*/
 
 
-
-		//Debug.Log("DetectLine lineGroupList[0].Count = " + lineGroupList[0].Count);
+		Debug.Log("RecognizeAlgo lineGroupList.Count = " + lineGroupList.Count);
 
 
 

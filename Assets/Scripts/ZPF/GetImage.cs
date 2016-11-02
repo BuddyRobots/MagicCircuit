@@ -34,9 +34,7 @@ public class GetImage : MonoBehaviour
 	// Parameter for loading xml file for test
 	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 
-	// Parameter for processing 10 photos
 
-	private const int NUM_OF_PHOTOS = 2;
 
 	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
@@ -63,8 +61,16 @@ public class GetImage : MonoBehaviour
 		// For test, load xml to xmlItemList
 		#if UNITY_EDITOR  
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
-		#elif UNITY_IPHONE 
 
+		Debug.Log ("=====Start=====");
+		for (var i = 0; i < xmlItemList.Count; i++)
+		{
+			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+				     " xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+				     " xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+		}
+		Debug.Log ("======End======");
+		#elif UNITY_IPHONE 
 //		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
 //		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
 //		string xmlPath = Path.Combine(xmlAppDataPath, "Xmls/CircuitItems_lv2.xml");
@@ -76,14 +82,7 @@ public class GetImage : MonoBehaviour
 //		xmlItemList = XmlCircuitItemCollection.Load(xmlPath).toCircuitItems();
 		#endif
 
-		Debug.Log ("=====Start=====");
-		for (var i = 0; i < xmlItemList.Count; i++)
-		{
-			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-		}
-		Debug.Log ("======End======");
+
 	}
 
 	private IEnumerator init()
@@ -187,7 +186,7 @@ public class GetImage : MonoBehaviour
 		// @Input  : listItemList
 		// @Output : itemLists
 		// itemList = average(listItemList);
-		itemList = xmlItemList;
+		//itemList = xmlItemList;
 
 //		for (int i = 0; i < itemList.Count; i++) {
 //			Debug.Log("------------------");
@@ -203,7 +202,7 @@ public class GetImage : MonoBehaviour
 
 
 		// Compute CurrentFlow
-		//computeCurrentFlow();
+		computeCurrentFlow();
 
 
 		for (int i = 0; i < itemList.Count; i++) {
@@ -253,7 +252,7 @@ public class GetImage : MonoBehaviour
 	private void take10Pictures()
 	{
 		Mat frameImg = new Mat();
-		for (var i = 0; i < NUM_OF_PHOTOS;)
+		for (var i = 0; i < Constant.THREAD_TAKE_NUM_OF_PHOTOS;)
 			if (takePicture(ref frameImg))
 			{
 				i++;
@@ -261,32 +260,32 @@ public class GetImage : MonoBehaviour
 			}
 	}
 
-	public void test_saveFullQuadPhotoToiPad()
-	{
-		if (!initDone)
-			return;
-
-		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-		if (webCamTexture.didUpdateThisFrame)
-		{
-			Utils.webCamTextureToMat(webCamTexture, frameImg);
-
-			#if UNITY_EDITOR 
-			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
-			#elif UNITY_IPHONE 
-			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
-			#endif 
-
-			texture.Resize(frameImg.cols(), frameImg.rows());
-			Utils.matToTexture2D(frameImg, texture);
-
-
-
-			#if UNITY_EDITOR 
-			#elif UNITY_IPHONE  
-			File.WriteAllBytes(path, texture.EncodeToJPG ());
-			_SavePhoto (path);
-			#endif 
-		}
-	}
+//	public void test_saveFullQuadPhotoToiPad()
+//	{
+//		if (!initDone)
+//			return;
+//
+//		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+//		if (webCamTexture.didUpdateThisFrame)
+//		{
+//			Utils.webCamTextureToMat(webCamTexture, frameImg);
+//
+//			#if UNITY_EDITOR 
+//			//string path = Application.dataPath + "/Photos/" + System.DateTime.Now.Ticks + ".jpg";
+//			#elif UNITY_IPHONE 
+//			string path = Application.persistentDataPath+"/"+System.DateTime.Now.Ticks+".jpg";
+//			#endif 
+//
+//			texture.Resize(frameImg.cols(), frameImg.rows());
+//			Utils.matToTexture2D(frameImg, texture);
+//
+//
+//
+//			#if UNITY_EDITOR 
+//			#elif UNITY_IPHONE  
+//			File.WriteAllBytes(path, texture.EncodeToJPG ());
+//			_SavePhoto (path);
+//			#endif 
+//		}
+//	}
 }

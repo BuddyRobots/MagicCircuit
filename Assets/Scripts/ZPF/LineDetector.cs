@@ -13,22 +13,23 @@ namespace MagicCircuit
 
         public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
         {
-			Debug.Log("flag 1");
+			Debug.Log("LineDetector : detectLine Start");
 
 
-            List<Mat> l_roi = new List<Mat>();
+			List<Mat> roiList = new List<Mat>();
 
-            getLines(frameImg, ref l_roi, ref boundingRectList);
-
-
-			Debug.Log("flag 2");
+            getLines(frameImg, ref roiList, ref boundingRectList);
 
 
 
+			Debug.Log("LineDetector : roiList.Count = " + roiList.Count);
 
-            for (var i = 0; i < l_roi.Count; i++)
+
+
+
+            for (var i = 0; i < roiList.Count; i++)
             {
-                lineGroupList.Add(vectorize(l_roi[i]));
+                lineGroupList.Add(vectorize(roiList[i]));
             }
 
 
@@ -40,7 +41,6 @@ namespace MagicCircuit
 			int h_min = 0, h_max = 180;
 			int s_min = 0, s_max = 255;
 			int v_min = 0, v_max = 100;
-			int area = 0;
 
 			Mat hsvImg = new Mat();
 			Mat binaryImg = new Mat();
@@ -69,7 +69,7 @@ namespace MagicCircuit
 
 
 
-				if (Imgproc.contourArea(contours[i]) > area)
+				if (Imgproc.contourArea(contours[i]) > Constant.LINE_REGION_MIN_AREA)
 				{
 					OpenCVForUnity.Rect re = Imgproc.boundingRect(contours[i]);
 

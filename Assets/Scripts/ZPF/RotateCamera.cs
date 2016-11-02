@@ -16,28 +16,11 @@ namespace MagicCircuit
         {
             ptsBoard = new List<Point>();
             ptsWindow = new List<Point>();
-
-			// Old point matching for small board
-            /*ptsBoard.Add(new Point(60, 123));
-            ptsBoard.Add(new Point(398, 125));
-            ptsBoard.Add(new Point(119, 411));
-            ptsBoard.Add(new Point(337, 411));
-
-            ptsWindow.Add(new Point(7, 28));
-            ptsWindow.Add(new Point(478, 28));
-            ptsWindow.Add(new Point(7, 570));
-            ptsWindow.Add(new Point(478, 570));*/
-
           
 			ptsBoard.Add(new Point(133, 24));
 			ptsBoard.Add(new Point(133, 433));
 			ptsBoard.Add(new Point(418, 99));
 			ptsBoard.Add(new Point(418, 359));
-
-			/*ptsWindow.Add(new Point(0, 0));
-			ptsWindow.Add(new Point(640, 0));
-			ptsWindow.Add(new Point(0, 480));
-			ptsWindow.Add(new Point(640, 480));*/
 
 			ptsWindow.Add(new Point(0, 0));
 			ptsWindow.Add(new Point(602, 0));
