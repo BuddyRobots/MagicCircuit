@@ -10,8 +10,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	#region   公共变量
 	public static PhotoRecognizingPanel _instance;
 
-	[HideInInspector]
-	public  float arrowGenInterval = 0.8f;
+//	[HideInInspector]
+//	public  float arrowGenInterval = 0.8f;
 	[HideInInspector]
 	public int transValue = 0;
 
@@ -66,7 +66,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	#region  私有变量
 	private LevelItemData data;
 
-	private const float lineItemInterval = 0.1f;
+	private const float lineItemInterval = 0.05f;
 	private const float itemInterval = 0.5f;
 	private const float resultShowInterval=1.5f;
 
@@ -232,7 +232,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		VoiceDelaySwitchNum = 0;
 		maskTimer = 0;
 		maskChangeTotalTime = 0;
-		arrowGenInterval = 0.8f;
+//		arrowGenInterval = 0.8f;
 		transValue = 0;
 		iconCount = 1;
 
@@ -689,7 +689,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				arrow.transform.localScale = Vector3.one;
 				arrow.GetComponent<MoveCtrl> ().Move (line);
 
-				yield return new WaitForSeconds (arrowGenInterval);
+				yield return new WaitForSeconds (Constant.ARROW_GEN_INTERVAL);
 			} 
 			else 
 			{

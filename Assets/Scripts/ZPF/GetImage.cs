@@ -42,6 +42,7 @@ public class GetImage : MonoBehaviour
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
 
+	private string xmlPath="";
 
 	void OnEnable()
 	{
@@ -54,18 +55,22 @@ public class GetImage : MonoBehaviour
 		cf = new CurrentFlow();
 		cf_SPDT = new CurrentFlow_SPDTSwitch();
 
+		xmlPath="Xmls/CircuitItems_lv"+LevelManager.currentLevelData.LevelID+".xml";
+		Debug.Log("xmlPath===="+xmlPath);
+
 		// For test, load xml to xmlItemList
 		#if UNITY_EDITOR  
-		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+//		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, xmlPath)).toCircuitItems();
 
-		Debug.Log ("=====Start=====");
-		for (var i = 0; i < xmlItemList.Count; i++)
-		{
-			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
-				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
-				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
-		}
-		Debug.Log ("======End======");
+//		Debug.Log ("=====Start=====");
+//		for (var i = 0; i < xmlItemList.Count; i++)
+//		{
+//			Debug.Log("xmlItemList["+i+"]: "               + xmlItemList[i].name         +
+//				" xmlItemList["+i+"].connect_left: "  + xmlItemList[i].connect_left +
+//				" xmlItemList["+i+"].connect_right: " + xmlItemList[i].connect_right);
+//		}
+//		Debug.Log ("======End======");
 		#elif UNITY_IPHONE 
 		//		string xmlAppDataPath = Application.dataPath.Substring(0, Application.dataPath.Length - 4);
 		//		//Debug.Log("xmlAppDataPath = " + xmlAppDataPath);
@@ -149,7 +154,7 @@ public class GetImage : MonoBehaviour
 		isThreadEnd = false;
 		listItemList.Clear();
 
-		Debug.Log("Thread_Process_Start");
+//		Debug.Log("Thread_Process_Start");
 		Thread threadProcess = new Thread(Thread_Process);
 		threadProcess.IsBackground = true;
 		threadProcess.Start();
@@ -172,7 +177,7 @@ public class GetImage : MonoBehaviour
 
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
-			Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+//			Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
 		}
 
 		// TODO
@@ -205,10 +210,10 @@ public class GetImage : MonoBehaviour
 		// Compute CurrentFlow
 		computeCurrentFlow();
 
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
-		}
+//		for (int i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
+//		}
 
 
 
@@ -216,8 +221,8 @@ public class GetImage : MonoBehaviour
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
-		Debug.Log("computeCurrentFlow Time elapse : " + elapse_2);
-		Debug.Log("Thread_Process_End");
+//		Debug.Log("computeCurrentFlow Time elapse : " + elapse_2);
+//		Debug.Log("Thread_Process_End");
 
 		isThreadEnd = true;
 	}

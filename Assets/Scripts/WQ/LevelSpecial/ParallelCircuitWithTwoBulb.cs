@@ -9,7 +9,7 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 	[HideInInspector]
 	public bool isParallelCircuitWithTwoBulb = false;
 	private List<GameObject> switchList = null; 
-	private bool isCircuitAnimationPlayed=false;
+	private bool isBulbCircuitAniPlayed=false;
 	private bool isBulbClicked=false;
 	private GameObject clickBulb =null;
 	private List<GameObject> bulbList = null;
@@ -28,7 +28,7 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 	{
 		isBulbClicked=false;
 		isParallelCircuitWithTwoBulb = false;
-		isCircuitAnimationPlayed=false;
+		isBulbCircuitAniPlayed=false;
 		isBulbAddComponent = false;
 		singnal=2;
 		preClickBulbSemiStatus=false;
@@ -49,8 +49,14 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 				CommonFuncManager._instance.CircuitReset(GetImage._instance.itemList);//使用新的circuititems
 			}
-			isCircuitAnimationPlayed = CircuitPowerdOrNot ();
-			if (isCircuitAnimationPlayed) //灯泡可以被点击
+
+
+			if (!isBulbCircuitAniPlayed) 
+			{
+				isBulbCircuitAniPlayed = BulbCircuitPowerdOrNot ();
+			}
+
+			if (isBulbCircuitAniPlayed) //有灯泡的电路通了一次后灯泡才可以被点击
 			{
 				clickBulb = bulbList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
 		
@@ -64,16 +70,31 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 
 				if (clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) //1个灯泡变成半透明
 				{ 
-					bulbList[0].GetComponent<UISprite>().spriteName="bulbSpark";
+
+
+
+					UISprite temp=bulbList[0].GetComponent<UISprite>();
+					if (temp.spriteName=="bulbOn") 
+					{
+						temp.spriteName="bulbSpark";
+					}
+
 					clickBulb.GetComponent<UISprite> ().depth = 1;//透明灯泡在电线下面显示，不遮挡电线和箭头
 					isBulbClicked = true; 
+
+
+
 				} 
 				if (isBulbClicked && !clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
 				{
-					bulbList [1].GetComponent<UISprite> ().depth = 3;
+					bulbList [1].GetComponent<UISprite> ().depth = 4;
 				}
-
 			}
+
+
+
+
+			//小手只出现两次的逻辑
 			if (singnal <=0) 
 			{
 				if (PhotoRecognizingPanel._instance.finger) 
@@ -94,13 +115,16 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 					}
 				}
 			}
+
+
+
 		}
 	}
 	/// <summary>
-	/// if the circuit is powerd and show animation
+	/// if the bulb circuit is powerd and show animation
 	/// </summary>
 	/// <returns><c>true</c>, if powerd or not was circuited, <c>false</c> otherwise.</returns>
-	public bool CircuitPowerdOrNot()
+	public bool BulbCircuitPowerdOrNot()
 	{
 		foreach (var item in GetImage._instance.itemList) 
 		{

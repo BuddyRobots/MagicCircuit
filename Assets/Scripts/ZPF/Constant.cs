@@ -22,5 +22,11 @@
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
 		public const int    LINE_COLOR_MAX_V          = 180;
 		public const int    LINE_REGION_MIN_AREA      = 0;
+
+
+		//PhotoRecognizingPanel: arrow show interval
+		public const float  ARROW_GEN_INTERVAL	=	0.5f;
+
+
 	}
 }

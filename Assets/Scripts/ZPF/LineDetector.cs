@@ -13,7 +13,7 @@ namespace MagicCircuit
 
         public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
         {
-			Debug.Log("LineDetector : detectLine Start");
+//			Debug.Log("LineDetector : detectLine Start");
 
 
 			List<Mat> roiList = new List<Mat>();
@@ -22,7 +22,7 @@ namespace MagicCircuit
 
 
 
-			Debug.Log("LineDetector : roiList.Count = " + roiList.Count);
+//			Debug.Log("LineDetector : roiList.Count = " + roiList.Count);
 
 
 
@@ -33,7 +33,7 @@ namespace MagicCircuit
             }
 
 
-			Debug.Log("flag 3");
+//			Debug.Log("flag 3");
         }
 
 		private void getLines(Mat frameImg, ref List<Mat> roiList, ref List<OpenCVForUnity.Rect> rectList)
@@ -64,7 +64,7 @@ namespace MagicCircuit
 			// Extract components using contour area
 			for (int i = 0; i < contours.Count; i++)
 			{
-				Debug.Log("LineDetector getLine Imgproc.contourArea(contours[i]) = " + Imgproc.contourArea(contours[i]));
+//				Debug.Log("LineDetector getLine Imgproc.contourArea(contours[i]) = " + Imgproc.contourArea(contours[i]));
 
 
 

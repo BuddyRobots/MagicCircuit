@@ -17,6 +17,7 @@ public class BulbCtrl : MonoBehaviour
 		} 
 		else//如果是正常状态 
 		{
+			
 			gameObject.GetComponent<UISprite>().spriteName="bulbOn";
 		}
 	}
