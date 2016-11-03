@@ -36,7 +36,7 @@ public class MoveCtrl : MonoBehaviour
 			if (isAtDest)
 			{//如果箭头移动到了目的地，重新设置目的地
 				index++;
-				arrowCtrl.SetDestination (line [index % line.Count], 2);
+				arrowCtrl.SetDestination (line [index % line.Count], 3);
 			}
 
 			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) 
