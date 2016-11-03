@@ -101,7 +101,15 @@ public class CommonFuncManager : MonoBehaviour
 						if (!tempAudio.isPlaying) 
 						{
 							tempAudio.Play ();
-							tempAudio.volume = 0.5f;
+							if (LevelManager.currentLevelData.LevelID==9) 
+							{
+								tempAudio.volume = 1f;
+							}
+							else
+							{
+								tempAudio.volume = 0.5f;
+							}
+							
 						}
 					} 
 					else // this item is power off

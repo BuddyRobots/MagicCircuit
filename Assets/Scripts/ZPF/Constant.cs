@@ -23,7 +23,12 @@
 		public const int    LINE_COLOR_MAX_V          = 170;
 		public const int    LINE_REGION_MIN_AREA      = 0;
 
+
+		//PhotoRecognizingPanel: arrow show interval
+		public const float  ARROW_GEN_INTERVAL	=	0.5f;
+
 		// CurrentFlow.cs : Parameter for determining whether to points are connected
 		public const int    POINT_CONNECT_REGION      = 40;
+
 	}
 }
