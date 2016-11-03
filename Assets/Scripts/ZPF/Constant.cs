@@ -17,10 +17,13 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 60;
 		public const int    CARD_MAX_SQUARE_LEN       = 100;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.2;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.3;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
-		public const int    LINE_COLOR_MAX_V          = 180;
+		public const int    LINE_COLOR_MAX_V          = 160;
 		public const int    LINE_REGION_MIN_AREA      = 0;
+
+		// CurrentFlow.cs : Parameter for determining whether to points are connected
+		public const int    POINT_CONNECT_REGION      = 40;
 	}
 }
