@@ -247,9 +247,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	IEnumerator ShowPhotoImage()// 显示拍摄的图片
 	{
-//		Debug.Log("ShowPhotoImage");
-//		Debug.Log("GetImage._instance.texture:"+GetImage._instance.texture.name);
-
 		photoImage.gameObject.SetActive (true);
 		photoImage.mainTexture = GetImage._instance.texture;
 
