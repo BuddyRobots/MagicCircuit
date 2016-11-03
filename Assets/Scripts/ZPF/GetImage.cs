@@ -149,7 +149,7 @@ public class GetImage : MonoBehaviour
 		isThreadEnd = false;
 		listItemList.Clear();
 
-		Debug.Log("Thread_Process_Start");
+		Debug.Log("GetImage.cs Thread_Process_Start!");
 		Thread threadProcess = new Thread(Thread_Process);
 		threadProcess.IsBackground = true;
 		threadProcess.Start();
@@ -160,6 +160,7 @@ public class GetImage : MonoBehaviour
 	{
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
+			Debug.Log("GetImage.cs Thread_Process : Start process image NO. " + i);
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -172,7 +173,7 @@ public class GetImage : MonoBehaviour
 
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
-			Debug.Log("Thread_Process image NO." + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+			Debug.Log("GetImage.cs Thread_Process : image NO. " + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
 		}
 
 		// TODO

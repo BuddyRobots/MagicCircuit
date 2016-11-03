@@ -13,7 +13,7 @@ namespace MagicCircuit
 
         public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
         {
-			Debug.Log("LineDetector : detectLine Start");
+			Debug.Log("LineDetector.cs detectLine Start!");
 
 
 			List<Mat> roiList = new List<Mat>();
@@ -22,7 +22,7 @@ namespace MagicCircuit
 
 
 
-			Debug.Log("LineDetector : roiList.Count = " + roiList.Count);
+			Debug.Log("LineDetector.cs detectLine : roiList.Count = " + roiList.Count);
 
 
 
@@ -31,9 +31,6 @@ namespace MagicCircuit
             {
                 lineGroupList.Add(vectorize(roiList[i]));
             }
-
-
-			Debug.Log("flag 3");
         }
 
 		private void getLines(Mat frameImg, ref List<Mat> roiList, ref List<OpenCVForUnity.Rect> rectList)
@@ -64,7 +61,7 @@ namespace MagicCircuit
 			// Extract components using contour area
 			for (int i = 0; i < contours.Count; i++)
 			{
-				Debug.Log("LineDetector getLine Imgproc.contourArea(contours[i]) = " + Imgproc.contourArea(contours[i]));
+				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
 
 
 
@@ -105,8 +102,19 @@ namespace MagicCircuit
             }
             if (line.Count == 0) return listLine; // If we don't have any point
 
-            bool one_time_flag = true;
-            bool merge_first_line = false;
+
+
+
+
+			Debug.Log("LineDetector.cs vectorize : firstPoint = " + firstPoint);
+
+
+
+
+
+
+            bool firstPointFlag = true;
+            bool shouldMergeFirstLine = false;
             //@
             while (true)
             {
@@ -114,14 +122,16 @@ namespace MagicCircuit
                 // @allQueue : all intersect points
                 // @itrQueue : intersect points in one iteration
                 // @intQueue : intersect point to be added to line
-                findLine(skel, firstPoint, ref line, ref itrQueue);  
+                constructLine(skel, firstPoint, ref line, ref itrQueue);
                 
                 // Determine whether to merge the first two lines or not
-                if(one_time_flag)
+				// We should merge the first two lines only when we constructLine using the first point 
+				// and detected 2 next points immediately.
+				if (firstPointFlag && (line.Count < 2))
                 {
+					firstPointFlag = false;
                     if (itrQueue.Count == 2)
-                        merge_first_line = true;
-                    one_time_flag = false;
+                        shouldMergeFirstLine = true;                    
                 }
 
                 // Add intersect point to the end of this line
@@ -132,7 +142,7 @@ namespace MagicCircuit
                     line.Add(interPoint);
                 }
 
-                // If we have more than @point_num points on one line, add this line
+				// If we have more than MIN_POINT_NUM points on one line, add this line
                 if (line.Count > MIN_POINT_NUM)
                     listLine.Add(line);
 
@@ -155,7 +165,7 @@ namespace MagicCircuit
             }
 
             // Merge the first two lines
-            if (merge_first_line)
+			if (shouldMergeFirstLine)
                 mergeFirstLine(ref listLine);
 
             // Merge mis-detected lines
@@ -203,7 +213,7 @@ namespace MagicCircuit
             return new Point(0, 0);
         }
 
-        private Queue<Point> findNextPoints(Mat skel, Point current, int delta)
+		private Queue<Point> findNextPoints(Mat skel, Point current, int step)
         {
             Queue<Point> temp = new Queue<Point>();
             Point temPoint_1 = new Point();
@@ -211,10 +221,10 @@ namespace MagicCircuit
             Queue<Point> result = new Queue<Point>();
 
             // Point Range[0, rows() - 1][0, cols() - 1]          
-            int _xl = Mathf.Max((int)current.x - delta, 0);
-            int _xr = Mathf.Min((int)current.x + delta, skel.cols() - 1);
-            int _yu = Mathf.Max((int)current.y - delta, 0);
-            int _yd = Mathf.Min((int)current.y + delta, skel.rows() - 1);
+            int _xl = Mathf.Max((int)current.x - step, 0);
+            int _xr = Mathf.Min((int)current.x + step, skel.cols() - 1);
+            int _yu = Mathf.Max((int)current.y - step, 0);
+            int _yd = Mathf.Min((int)current.y + step, skel.rows() - 1);
 
             // left
             for (var y = _yu + 1; y < _yd; y++)
@@ -309,7 +319,7 @@ namespace MagicCircuit
             return new Point(x / count, y / count);
         }
 
-        private void findLine(Mat skel, Point current, ref List<Point> line, ref Queue<Point> pointQueue)
+        private void constructLine(Mat skel, Point current, ref List<Point> line, ref Queue<Point> pointQueue)
         {
             while(true)
             {
@@ -355,6 +365,12 @@ namespace MagicCircuit
             if (listLine.Count >= 2)
             {
                 listLine[0].Reverse();
+
+
+				Debug.Log("LineDetector.cs mergeFirstLine : listLine[0] reversed");
+
+
+
                 listLine[0].AddRange(listLine[1]);
 
                 listLine.RemoveAt(1);
