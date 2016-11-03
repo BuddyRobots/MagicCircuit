@@ -70,45 +70,31 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 
 				if (clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) //1个灯泡变成半透明
 				{ 
-
-
 					clickBulb.GetComponent<UISprite>().spriteName="semiTransBulb";
-
-
 					UISprite temp=bulbList[0].GetComponent<UISprite>();
 					if (temp.spriteName=="bulbOn") 
 					{
 						temp.spriteName="bulbSpark";
 					}
-
 					clickBulb.GetComponent<UISprite> ().depth = 1;//透明灯泡在电线下面显示，不遮挡电线和箭头
 					isBulbClicked = true; 
-
-
-
 				} 
 				//被点击为不透明
 				if (isBulbClicked && !clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
 				{
 
-					//如果灯泡有电，则应该是BulbOn，如果没电，则应该是BlubOFF  TO DO...
-					int tag=int.Parse(clickBulb.tag);
-
-					if (PhotoRecognizingPanel._instance.itemList[tag].powered) 
+					//如果灯泡有电，则应该是BulbOn，如果没电，则应该是BlubOFF  
+					int index=int.Parse(clickBulb.tag);
+					if (PhotoRecognizingPanel._instance.itemList[index].powered) 
 					{
 						clickBulb.GetComponent<UISprite>().spriteName="bulbOn";
 					}
 					else
 					{
 						clickBulb.GetComponent<UISprite>().spriteName="bulbOff";
-
 					}
-
 					bulbList [1].GetComponent<UISprite> ().depth = 4;
 				}
-
-
-
 			}
 
 

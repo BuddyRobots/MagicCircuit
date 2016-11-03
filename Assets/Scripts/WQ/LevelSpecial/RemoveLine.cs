@@ -61,21 +61,24 @@ public class RemoveLine : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) 
 			{
-				GameObject go = hit.collider.gameObject;
-				if (go.name.Contains ("line")) //如果碰到的是线，线就消失，电流消失
-				{ 
-					Destroy (go);
-					if (temp.finger)
-					{
-						Destroy (temp.finger);
-					}
-					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-					temp.StopCreateArrows();
-					for (int i = 0; i < temp.arrowList.Count; i++) 
-					{
-						Destroy (temp.arrowList[i]);
-					}
-				}
+//				GameObject go = hit.collider.gameObject;
+//				if (go.name.Contains ("line")) //如果碰到的是线，线就消失，电流消失
+//				{ 
+//					Destroy (go);
+//					if (temp.finger)
+//					{
+//						Destroy (temp.finger);
+//					}
+//					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+//					temp.StopCreateArrows();
+//					for (int i = 0; i < temp.arrowList.Count; i++) 
+//					{
+//						Destroy (temp.arrowList[i]);
+//					}
+//				}
+
+				DestroyLine(hit.point,1f);
+
 			}
 		}
 		#elif UNITY_IPHONE 
@@ -103,4 +106,25 @@ public class RemoveLine : MonoBehaviour
 		#endif
 
 	}
+
+
+
+	void DestroyLine(Vector3 center, float radius)
+	{
+		Collider[] hitColliders=Physics.OverlapSphere(center,radius);
+		int i=0;
+		while(i<hitColliders.Length)
+		{
+			if (hitColliders[i].gameObject.name=="lineNew")
+			{
+				Destroy(hitColliders[i].gameObject);	
+			}
+			i++;
+
+		}
+
+	}
+
+
+
 }
