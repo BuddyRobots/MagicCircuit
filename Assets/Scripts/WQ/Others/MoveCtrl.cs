@@ -14,52 +14,31 @@ public class MoveCtrl : MonoBehaviour
 
 	private ArrowCtrl arrowCtrl;
 
-	//public bool isArrowDestroy;
-
-
 	void OnEnable()
 	{
-		
 		arrowCtrl = transform.GetComponent<ArrowCtrl> ();
-
 		index = 0;
-		//isArrowDestroy=false;
 	}
 	
 
 	void Update () 
 	{
-		if (line.Count > 0) {
-			
-		
+		if (line.Count > 0)
+		{
 			isAtDest = arrowCtrl.IsAtDest ();
 			if (isAtDest)
 			{//如果箭头移动到了目的地，重新设置目的地
 				index++;
-				arrowCtrl.SetDestination (line [index % line.Count], 2);
+				arrowCtrl.SetDestination (line [index % line.Count], 3);
 			}
-
-			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 2) 
+			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 3) 
 			{// 如果箭头移动到了线路的终点，就销毁这个箭头
-				
 				Destroy (gameObject);
-				//箭头销毁，线上的bool值改变
-				//isArrowDestroy=true;
-
 			}
-
 		}
 	}
 
-	//private bool isTimeToDestroyArrow=false;
 
-
-//	IEnumerator StopForAwhile()
-//	{
-//
-//		yield return new WaitForSeconds (0.4f);
-//		isTimeToDestroyArrow = true;
-//	}
 
 	/// <summary>
 	/// 沿着线移动
@@ -67,11 +46,6 @@ public class MoveCtrl : MonoBehaviour
 	/// <param name="line">Line.</param>
 	public void Move(List<Vector3> line)
 	{
-//		Debug.Log("-----move---pos on line-----");
-//		for (int i = 0; i < line.Count; i++) 
-//		{
-//			Debug.Log (""+line [i]);
-//		}
 		this.line = line;
 		arrowCtrl.SetDestination (line [++index]);
 

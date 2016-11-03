@@ -164,38 +164,25 @@ public class LevelManager : MonoBehaviour
 	{
 		ParseLevelItemInfo();
 		LoadLocalLevelProgressData ();
-		initNeedShowHandData();
+//		initNeedShowHandData();
 	}
 
-	void initNeedShowHandData(){
-//		//int hasShownHand = 0;
-//		if (PlayerPrefs.HasKey ("switchItem")) {
-//			/*hasShownHand = PlayerPrefs.GetInt ("switchItem");
-//			if (hasShownHand == 0) {
-//				PlayerPrefs.SetInt ("switchItem", 0);
-//			} else {
-//				PlayerPrefs.SetInt ("switchItem", 1);
-//			}*/
-//			//PlayerPrefs.SetInt ("switchItem", 0);
-//		} else {
-//			//如果没有，就创建这样一个ID
-//			PlayerPrefs.SetInt ("switchItem", 0);
-//
-//		}
+	/*
+	void initNeedShowHandData()
+	{
 		PlayerPrefs.SetInt ("switchItem", 0);
 		if (!PlayerPrefs.HasKey("switchItem")) 
 		{
 			PlayerPrefs.SetInt ("switchItem", 0);
 		}
-
-
 	}
+	*/
+
 	/// <summary>
 	/// 加载本地已经完成的关卡
 	/// </summary>
 	public void LoadLocalLevelProgressData()
 	{
-		//Debug.Log ("loadLocalLevelProgressData");
 		int levelID = 0;
 		int levelPro = 0;
 		if (PlayerPrefs.HasKey ("LevelID")) {
@@ -276,7 +263,6 @@ public class LevelManager : MonoBehaviour
 			
 			}
 			*/
-//			Debug.Log ("updateLevelItemDataListCC");
 		}
 	}
 

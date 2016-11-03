@@ -171,11 +171,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnEnable()
 	{
-		if (!gameObject.GetComponent<LevelHandle>()) {
+		//添加LevelHandle脚本并激活
+		if (!gameObject.GetComponent<LevelHandle>()) 
+		{
 			gameObject.AddComponent<LevelHandle>();
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
-		else{
+		else
+		{
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
 
@@ -244,8 +247,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	IEnumerator ShowPhotoImage()// 显示拍摄的图片
 	{
-		Debug.Log("ShowPhotoImage");
-		Debug.Log("GetImage._instance.texture:"+GetImage._instance.texture.name);
+//		Debug.Log("ShowPhotoImage");
+//		Debug.Log("GetImage._instance.texture:"+GetImage._instance.texture.name);
 
 		photoImage.gameObject.SetActive (true);
 		photoImage.mainTexture = GetImage._instance.texture;
@@ -526,10 +529,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			break;
 
 		case ItemType.CircuitLine:
-			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
-			lines.Add (circuitItem.list);
-			//print(circuitItem.list.Count + ".......line count..........");
-			//开始画线
+			
+			lines.Add (circuitItem.list);//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			StartCoroutine (DrawCircuit (circuitItem.list));
 			break;
 		default:
@@ -760,11 +761,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			for (int i = 0; i < needToBeDestroyedList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 			{
-//				if (needToBeDestroyedList[i].GetComponent<BoxCollider>()) 
-//				{
-//					Destroy(needToBeDestroyedList[i].GetComponent<BoxCollider>());
-//
-//				}
 				Destroy (needToBeDestroyedList [i]);
 			}
 			

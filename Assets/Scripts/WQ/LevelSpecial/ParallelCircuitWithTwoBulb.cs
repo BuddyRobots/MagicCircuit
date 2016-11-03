@@ -72,6 +72,8 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 				{ 
 
 
+					clickBulb.GetComponent<UISprite>().spriteName="semiTransBulb";
+
 
 					UISprite temp=bulbList[0].GetComponent<UISprite>();
 					if (temp.spriteName=="bulbOn") 
@@ -85,10 +87,28 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 
 
 				} 
+				//被点击为不透明
 				if (isBulbClicked && !clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
 				{
+
+					//如果灯泡有电，则应该是BulbOn，如果没电，则应该是BlubOFF  TO DO...
+					int tag=int.Parse(clickBulb.tag);
+
+					if (PhotoRecognizingPanel._instance.itemList[tag].powered) 
+					{
+						clickBulb.GetComponent<UISprite>().spriteName="bulbOn";
+					}
+					else
+					{
+						clickBulb.GetComponent<UISprite>().spriteName="bulbOff";
+
+					}
+
 					bulbList [1].GetComponent<UISprite> ().depth = 4;
 				}
+
+
+
 			}
 
 

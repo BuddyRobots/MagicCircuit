@@ -25,7 +25,7 @@
 
 
 		//PhotoRecognizingPanel: arrow show interval
-		public const float  ARROW_GEN_INTERVAL	=	0.5f;
+		public const float  ARROW_GEN_INTERVAL	=	0.8f;
 
 		// CurrentFlow.cs : Parameter for determining whether to points are connected
 		public const int    POINT_CONNECT_REGION      = 40;

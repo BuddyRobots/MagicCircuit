@@ -66,6 +66,17 @@ public class CommonFuncManager : MonoBehaviour
 	/// <param name="circuitItems">Circuit items.</param>
 	public void CircuitReset(List<CircuitItem> circuitItems)
 	{
+
+//
+//		for (int i = 0; i < circuitItems.Count; i++) 
+//		{
+//			if (circuitItems[i].type==ItemType.CircuitLine) 
+//			{
+//				Debug.Log("circuitItems["+i+"] type===: "+ circuitItems[i].type + "circuitItems["+i+"] powered===: "+circuitItems[i].powered);
+//			}
+//
+//		}
+
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
 			string tag = circuitItems [i].ID.ToString ();//获取每一个item的ID，
@@ -124,14 +135,20 @@ public class CommonFuncManager : MonoBehaviour
 
 				case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
 					GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
+//				Debug.Log("temps count======="+temps.Length);
+//				Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+//				Debug.Log("circuitItems["+i+"] type===: "+ circuitItems[i].type + "circuitItems["+i+"] powered===: "+circuitItems[i].powered);
+
 					foreach (var item in temps) 
 					{ 
 						if (item) 
 						{
-							//Debug.Log ("CommonFuncMgr_circuitItems [i].powered==" + circuitItems [i].powered);
 							item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
 						}
 					}
+
+
+
 					break;
 				default:
 					break;
