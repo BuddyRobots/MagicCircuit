@@ -22,10 +22,6 @@ namespace MagicCircuit
         private int count;
         private int boundary;                   // ID of the first CircuitLine
 
-        //@TODO
-        private const int region = 30;          // Region for checking whether line is connected to card. Need to test & tune this.
-
-
 
 		public 	CurrentFlow()
 		{
@@ -310,8 +306,8 @@ namespace MagicCircuit
         // Check if linePoint is in a box region of cardPoint
         private bool inRegion(Vector2 cardPoint, Vector2 linePoint)
         {
-            if ((linePoint.x > (cardPoint.x - region)) && (linePoint.x < (cardPoint.x + region))
-                && (linePoint.y > (cardPoint.y - region)) && (linePoint.y < (cardPoint.y + region)))
+            if ((linePoint.x > (cardPoint.x - Constant.POINT_CONNECT_REGION)) && (linePoint.x < (cardPoint.x + Constant.POINT_CONNECT_REGION))
+                && (linePoint.y > (cardPoint.y - Constant.POINT_CONNECT_REGION)) && (linePoint.y < (cardPoint.y + Constant.POINT_CONNECT_REGION)))
                 return true;
             else
                 return false;

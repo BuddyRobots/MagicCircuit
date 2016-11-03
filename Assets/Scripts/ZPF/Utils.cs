@@ -46,22 +46,6 @@ namespace MagicCircuit
         {}
 
         // @Override
-        public CircuitItem(int _id, string _name, ItemType _type, List<Point> _list, double _theta, int _order, bool _p = false)
-        {
-            ID = _id;
-            name = _name;
-            type = _type;
-            list = points2vector3(_list);
-            theta = _theta;
-            showOrder = _order;
-            powered = _p;
-
-            connect_left = new Vector2();
-            connect_right = new Vector2();
-			connect_middle= new Vector2();
-        }
-
-        // @Override
         public CircuitItem(int _id, string _name, ItemType _type, int _order, bool _p = false)
         {
             ID = _id;
@@ -98,22 +82,24 @@ namespace MagicCircuit
         // @Override
         public void extractCard(int direction, List<Point> outer_square)
         {
-            Point center = new Point((outer_square[0].x + outer_square[2].x) / 2, (outer_square[0].y + outer_square[2].y) / 2);
+			Vector2 centerFrameImg = new Vector2((float)(outer_square[0].x + outer_square[2].x) / 2, (float)(outer_square[0].y + outer_square[2].y) / 2);
 
-            list.Add(cordinateMat2Unity(center.x, center.y));
+			Vector3 centerCamQuad = cordinateMat2Unity(centerFrameImg.x, centerFrameImg.y);
+				
+			list.Add(centerCamQuad);
 
             double angle = Mathf.Atan((float)(outer_square[0].y - outer_square[1].y) / (float)(outer_square[1].x - outer_square[0].x));
 
             theta = Mathf.PI / 2 * direction + angle; // 0 < theta < 2 * PI
 
             // Calculate connect_left & connect_right
-            double width = Mathf.Sqrt(Mathf.Pow((float)(outer_square[0].x - outer_square[1].x), 2) + Mathf.Pow((float)(outer_square[0].y - outer_square[1].y), 2));
+            float width = Mathf.Sqrt(Mathf.Pow((float)(outer_square[0].x - outer_square[1].x), 2) + Mathf.Pow((float)(outer_square[0].y - outer_square[1].y), 2));
 
-            double dx = width / 2 * Mathf.Cos((float)theta);
-			double dy = width / 2 * Mathf.Sin((float)theta);
+            float dx = width / 2 * Mathf.Cos((float)theta);
+			float dy = width / 2 * Mathf.Sin((float)theta);
 
-            connect_left  = new Vector2((float)(center.x - dx), (float)(center.y - dy));
-            connect_right = new Vector2((float)(center.x + dx), (float)(center.y + dy));
+			connect_left  = new Vector2(centerCamQuad.x - dx, centerCamQuad.y - dy);
+			connect_right = new Vector2(centerCamQuad.x + dx, centerCamQuad.y + dy);
 
             theta = theta * Mathf.Rad2Deg; // 0 < theta < 360
         }
@@ -124,25 +110,15 @@ namespace MagicCircuit
 
             for (var i = 0; i < line.Count; i++)
             {
-                list.Add(cordinateMat2Unity((line[i].x + center.x), (line[i].y + center.y)));
+				list.Add(cordinateMat2Unity((float)(line[i].x + center.x), (float)(line[i].y + center.y)));
             }
 			connect_left  = new Vector2(list[0].x, list[0].y);
             connect_right = new Vector2(list[list.Count - 1].x, list[list.Count - 1].y);
         } 
 
-		private List<Vector3> points2vector3(List<Point> src)
-        {
-            List<Vector3> res = new List<Vector3>();
-            for (var i = 0; i < src.Count; i++)
-            {
-                res.Add(cordinateMat2Unity(src[i].x, src[i].y));
-            }
-            return res;
-        }
-
-        private Vector3 cordinateMat2Unity(double x, double y)
+        private Vector3 cordinateMat2Unity(float x, float y)
         {            
-			return new Vector3((float)(x + Constant.CAM_QUAD_ORIGINAL_POINT_X), (float)(Constant.CAM_QUAD_ORIGINAL_POINT_Y - y));
+			return new Vector3(x + Constant.CAM_QUAD_ORIGINAL_POINT_X, Constant.CAM_QUAD_ORIGINAL_POINT_Y - y);
         }
     }
 }
