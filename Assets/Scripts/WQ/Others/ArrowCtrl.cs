@@ -42,7 +42,7 @@ public class ArrowCtrl : MonoBehaviour
 		if (isNeedMove) //如果需要移动，就慢慢移动
 		{
 			transform.localPosition += direction * speed;
-			if (Vector3.Distance( transform.localPosition,dest)< 2) 
+			if (Vector3.Distance( transform.localPosition,dest)< 3) 
 			{
 				isAtDest = true;
 				isNeedMove = false;

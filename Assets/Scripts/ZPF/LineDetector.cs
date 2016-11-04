@@ -6,9 +6,9 @@ namespace MagicCircuit
 {
     public class LineDetector
     {
-		private const int STEP_SMALL    = 10;
-		private const int STEP_MEDIUM   = 15;
-		private const int STEP_LARGE    = 20;
+		private const int STEP_SMALL    = 15;
+		private const int STEP_MEDIUM   = 20;
+		private const int STEP_LARGE    = 25;
 		private const int MIN_POINT_NUM = 3;
 
         public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
