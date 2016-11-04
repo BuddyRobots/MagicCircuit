@@ -25,15 +25,24 @@ namespace MagicCircuit
 
 		public 	CurrentFlow()
 		{
+			
 			circuitBranch = new List<List<int>> ();
 			correctness = new Correctness ();
+
 		}
-			
+
+
+
         public bool compute(ref List<CircuitItem> itemList, int level)
         {
             //@FIXME
             // Deep copy itemList to circuitItems
-            circuitItems = itemList;
+			circuitItems = new List<CircuitItem>();
+			for (var i = 0 ; i < itemList.Count; i++)
+			{
+				circuitItems.Add(itemList[i]);
+			}
+//            circuitItems = itemList;
 
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
@@ -99,8 +108,12 @@ namespace MagicCircuit
 
             //@FIXME
             // Deep Copy circuitItems to itemList
-			for (var i = 0; i < circuitItems.Count; i++)
+			itemList.Clear();
+			for (var i = 0 ; i < circuitItems.Count; i++)
+			{
 				itemList.Add(circuitItems[i]);
+			}
+//            itemList = circuitItems;
 
             /// Display circuitItems.list
             for (var i = boundary; i < count; i++)
@@ -174,8 +187,7 @@ namespace MagicCircuit
             computeConnectivity();
 
             // Remove open circuit
-			if(!simplifyCircuit())
-				Debug.Log("CurrentFlow.cs computeCircuitBranch() : haveOpenCircuit!");
+            simplifyCircuit();
 
             // Deal with multiple batteries
             if (!combineBattery()) return false;
@@ -193,8 +205,7 @@ namespace MagicCircuit
         private bool process()
         {
             // Remove open circuit
-			if (simplifyCircuit())
-				Debug.Log("CurrentFlow.cs process() : haveOpenCircuit!");
+            simplifyCircuit();
 
             // Compute L&R matrix
             if (!computeLRMat()) return false; // If have error when computing L/R_Matrix
@@ -320,17 +331,33 @@ namespace MagicCircuit
                 return false;
         }
 
+        private bool isNotValid(int i)
+        {
+            bool haveStart = false;
+            bool haveEnd = false;
+
+            for (var j = 0; j < count; j++)
+            {
+                if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
+                    haveStart = true;
+                if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
+                    haveEnd = true;
+            }
+
+            // We consider 0 0 and 1 1 as valid
+            //             1 0 and 0 1 as invalid
+            // So return true when invalid
+            if (haveStart ^ haveEnd) // XOR operator
+                return true;
+            else
+                return false;
+        }
+
         private bool simplifyCircuit()
         {
-			Debug.Log("CurrentFlow.cs simplifyCircuit() : Start!");
-
-
-
-
-
-            bool flag = false;
+            bool flag;
             bool[] delete = new bool[count];
-            bool haveOpenCircuit = true;
+            bool haveOpenCircuit = false;
 
             // Initialize isOpened
             isOpened = new bool[count];
@@ -359,18 +386,6 @@ namespace MagicCircuit
                         {
                             connectivity[i, j] = Connectivity.zero;
                             connectivity[j, i] = Connectivity.zero;
-							circuitItems[i].powered = false;
-
-
-
-
-
-							Debug.Log("CurrentFlow.cs simplifiCircuit() : Deleted circuitItems[" + i + "].type = " + circuitItems[i].type + "circuitItems[i].powered = " + circuitItems[i].powered);
-
-
-
-
-
                         }
 
             } while (flag);
@@ -378,32 +393,6 @@ namespace MagicCircuit
             if (haveOpenCircuit) return false;
             else return true;
         }
-
-		private bool isNotValid(int i)
-		{
-			bool haveStart = false;
-			bool haveEnd = false;
-
-			for (var j = 0; j < count; j++)
-			{
-				if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
-					haveStart = true;
-				if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
-					haveEnd = true;
-			}
-
-			// We consider 0 0 and 1 1 as valid
-			//             1 0 and 0 1 as invalid
-			// So return true when invalid
-			//if (haveStart ^ haveEnd) // XOR operator
-			//	return true;
-			//else
-			//	return false;
-			if (haveStart && haveEnd)
-				return false;
-			else
-				return true;
-		}
 
         private bool computeLRMat()
         {
@@ -652,9 +641,6 @@ namespace MagicCircuit
                     if (flip > dont_flip)
                         flipLine(i);
                 }
-
-
-
             return modified;
         }
 
