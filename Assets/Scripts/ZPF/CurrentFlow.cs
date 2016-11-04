@@ -35,9 +35,15 @@ namespace MagicCircuit
 
         public bool compute(ref List<CircuitItem> itemList, int level)
         {
-            //@FIXME
+            // FIXME
             // Deep copy itemList to circuitItems
-            circuitItems = itemList;
+			circuitItems = new List<CircuitItem>();
+			for (var i = 0; i < itemList.Count; i++)
+			{
+				circuitItems.Add(itemList[i]);
+			}
+            //circuitItems = itemList;
+
 
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
@@ -101,9 +107,16 @@ namespace MagicCircuit
             //@ Result is the start state of circuit when all the switches are off
             //@ Use CurrentFlow.circuitItems here
 
-            //@FIXME
+            // FIXME
             // Deep Copy circuitItems to itemList
-            itemList = circuitItems;
+			itemList.Clear();
+			for (var i = 0; i < circuitItems.Count; i++)
+			{
+				itemList.Add(circuitItems[i]); 
+			}				
+            //itemList = circuitItems;
+
+
 
             /// Display circuitItems.list
             for (var i = boundary; i < count; i++)
