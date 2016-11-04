@@ -154,7 +154,7 @@ public class GetImage : MonoBehaviour
 		isThreadEnd = false;
 		listItemList.Clear();
 
-		Debug.Log("GetImage.cs Thread_Process_Start!");
+	//	Debug.Log("GetImage.cs Thread_Process_Start!");
 
 		Thread threadProcess = new Thread(Thread_Process);
 		threadProcess.IsBackground = true;
@@ -166,7 +166,7 @@ public class GetImage : MonoBehaviour
 	{
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
-			Debug.Log("GetImage.cs Thread_Process : Start process image NO. " + i);
+//			Debug.Log("GetImage.cs Thread_Process : Start process image NO. " + i);
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -180,7 +180,7 @@ public class GetImage : MonoBehaviour
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
 
-			Debug.Log("GetImage.cs Thread_Process : image NO. " + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+//			Debug.Log("GetImage.cs Thread_Process : image NO. " + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
 		}
 
 		// TODO
@@ -214,10 +214,10 @@ public class GetImage : MonoBehaviour
 		computeCurrentFlow();
 
 
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type + " itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
-		}
+//		for (int i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type + " itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
+//		}
 
 
 
@@ -238,11 +238,15 @@ public class GetImage : MonoBehaviour
 		else 
 			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
 
-		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
+//		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
 		//		Debug.Log("itemList.Count = " + itemList.Count);
 		//		for (var i = 0; i < itemList.Count; i++)
 		//			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
 	}
+
+
+
+
 
 	//	public void test_saveFullQuadPhotoToiPad()
 	//	{

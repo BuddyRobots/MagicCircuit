@@ -7,6 +7,11 @@ public class RemoveLine : MonoBehaviour
 	[HideInInspector]
 	public bool isRemoveLine=false;
 
+
+
+	[Range(0,2)]
+	public float radius;
+
 	/// <summary>
 	/// 有没有线段被擦除的标志
 	/// </summary>
@@ -48,6 +53,8 @@ public class RemoveLine : MonoBehaviour
 	}
 
 
+
+
 	/// <summary>
 	/// 触摸移动销毁线条
 	/// </summary>
@@ -61,6 +68,16 @@ public class RemoveLine : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) 
 			{
+				
+				Debug.Log("hit.collider.name===="+hit.collider.gameObject.name);
+				if (hit.collider.gameObject.name=="MaskBg" || hit.collider.gameObject.name=="Btn") 
+				{
+					return ;	
+				}
+				else
+				{
+					DestroyLine(hit.point,0.02f/*radius*/);
+				}
 //				GameObject go = hit.collider.gameObject;
 //				if (go.name.Contains ("line")) //如果碰到的是线，线就消失，电流消失
 //				{ 
@@ -76,32 +93,24 @@ public class RemoveLine : MonoBehaviour
 //						Destroy (temp.arrowList[i]);
 //					}
 //				}
-
-				DestroyLine(hit.point,1f);
-
 			}
 		}
 		#elif UNITY_IPHONE 
 		if (Input.touchCount>0 && Input.GetTouch (0).phase == TouchPhase.Moved) //如果有移动触摸
 		{
-		Ray ray = transform.parent.Find ("Camera").GetComponent<Camera> ().ScreenPointToRay (Input.GetTouch(0).position);
-		RaycastHit hit;
-		if (Physics.Raycast (ray, out hit)) 
-		{
-		GameObject go = hit.collider.gameObject;
-		if (go.name.Contains ("line")) 
-		{ 
-		Destroy (go);
-		Destroy (temp.finger);
-		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-		temp.StopCreateArrows();
-		for (int i = 0; i < temp.arrowList.Count; i++) 
-		{
-		Destroy (temp.arrowList[i]);
-		}
-		}
-		}
-
+			Ray ray = transform.parent.Find ("Camera").GetComponent<Camera> ().ScreenPointToRay (Input.GetTouch(0).position);
+			RaycastHit hit;
+			if (Physics.Raycast (ray, out hit)) 
+			{
+				if (hit.collider.gameObject.name=="MaskBg" || hit.collider.gameObject.name=="Btn") 
+				{
+					return ;	
+				}
+				else
+				{
+					DestroyLine(hit.point,0.02f);
+				}
+			}
 		}
 		#endif
 
@@ -112,15 +121,29 @@ public class RemoveLine : MonoBehaviour
 	void DestroyLine(Vector3 center, float radius)
 	{
 		Collider[] hitColliders=Physics.OverlapSphere(center,radius);
-		int i=0;
-		while(i<hitColliders.Length)
+		for (int k = 0; k < hitColliders.Length; k++) 
 		{
-			if (hitColliders[i].gameObject.name=="lineNew")
+			GameObject tempGo=hitColliders[k].gameObject;
+			if (tempGo.tag!="mask" && tempGo.name.Contains("lineNew"))
 			{
-				Destroy(hitColliders[i].gameObject);	
+				Destroy(hitColliders[k].gameObject);
+				BreakCircuit();
 			}
-			i++;
+		}
+	}
 
+	void BreakCircuit()
+	{
+		PhotoRecognizingPanel temp = GetComponent<PhotoRecognizingPanel> ();
+		if (temp.finger)
+		{
+			Destroy (temp.finger);
+		}
+		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+		temp.StopCreateArrows();
+		for (int i = 0; i < temp.arrowList.Count; i++) 
+		{
+			Destroy (temp.arrowList[i]);
 		}
 
 	}

@@ -62,6 +62,10 @@ public class ParallelCircuitWithTwoBulb : MonoBehaviour
 		
 				if (!isBulbAddComponent) //保证只给bulb加一次脚本
 				{
+					clickBulb.AddComponent<BoxCollider> ();
+					clickBulb.GetComponent<BoxCollider>().center=new Vector3(0.4f,3.5f,0);
+					clickBulb.GetComponent<BoxCollider>().size=new Vector3(72f,100f,0);
+					
 					clickBulb.AddComponent<UIButton> ();//给随机的灯泡添加button组件和BulbCtrl组件来实现点击事件
 					clickBulb.AddComponent<BulbCtrl> ();
 					isBulbAddComponent = true;

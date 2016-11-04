@@ -48,6 +48,11 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 				clickBattery = batteryList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
 				if (!isBatteryAddComponent)//保证只给battery加一次脚本
 				{
+					clickBattery.AddComponent<BoxCollider> ();
+					clickBattery.GetComponent<BoxCollider>().size= new Vector3(114f,74f,0); 
+					clickBattery.GetComponent<BoxCollider>().center= new Vector3(0,-2.6f,0);
+
+
 					clickBattery.AddComponent<UIButton> ();//给随机的电池添加button组件和BatteryCtrl组件来实现点击事件
 					clickBattery.AddComponent<BatteryCtrl> ();
 					isBatteryAddComponent = true;

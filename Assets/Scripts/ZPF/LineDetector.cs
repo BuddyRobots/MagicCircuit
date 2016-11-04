@@ -64,7 +64,7 @@ namespace MagicCircuit
 			for (int i = 0; i < contours.Count; i++)
 			{
 
-				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
+//				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
 
 
 
@@ -109,7 +109,7 @@ namespace MagicCircuit
 
 
 
-			Debug.Log("LineDetector.cs vectorize : firstPoint = " + firstPoint);
+//			Debug.Log("LineDetector.cs vectorize : firstPoint = " + firstPoint);
 
 
 
