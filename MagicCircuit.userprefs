@@ -1,17 +1,11 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/GetImage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/RecognizeAlgo.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="159" Column="24" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="162" Column="90" />
-      <File FileName="Assets/Scripts/WQ/Manager/LevelManager.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Others/MoveCtrl.cs" Line="32" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/Utils.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="4" Column="18" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/RemoveLine.cs" Line="5" Column="24" />
-      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="6" Column="41" />
+      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="23" Column="46" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="176" Column="4" />
+      <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="16" Column="4" />
+      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="85" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

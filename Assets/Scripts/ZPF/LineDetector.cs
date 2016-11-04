@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using OpenCVForUnity;
 using System.Collections.Generic;
+using OpenCVForUnity;
 
 namespace MagicCircuit
 {
