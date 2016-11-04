@@ -21,14 +21,6 @@ namespace MagicCircuit
 
             getLines(frameImg, ref roiList, ref boundingRectList);
 
-
-
-
-			Debug.Log("LineDetector.cs detectLine : roiList.Count = " + roiList.Count);
-
-
-
-
             for (var i = 0; i < roiList.Count; i++)
             {
                 lineGroupList.Add(vectorize(roiList[i]));
@@ -104,17 +96,6 @@ namespace MagicCircuit
                 line.Add(firstPoint);
             }
             if (line.Count == 0) return listLine; // If we don't have any point
-
-
-
-
-
-			Debug.Log("LineDetector.cs vectorize : firstPoint = " + firstPoint);
-
-
-
-
-
 
             bool firstPointFlag = true;
             bool shouldMergeFirstLine = false;
@@ -368,14 +349,7 @@ namespace MagicCircuit
             if (listLine.Count >= 2)
             {
                 listLine[0].Reverse();
-
-
-				Debug.Log("LineDetector.cs mergeFirstLine : listLine[0] reversed");
-
-
-
                 listLine[0].AddRange(listLine[1]);
-
                 listLine.RemoveAt(1);
             }
         }

@@ -287,6 +287,7 @@ namespace MagicCircuit
 			listItem = tmpList;
 		}
 
+		// TODO
 		// Need to correct predicted direction due to unknown, strange bug
 		private void correctDirection(ref int direction, int klass)
 		{

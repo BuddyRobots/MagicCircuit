@@ -3,7 +3,7 @@
 	public static class Constant
 	{
 		// GetImage.cs : Parameter for processing 10 photos
-		public const int    TAKE_NUM_OF_PHOTOS        = 2;
+		public const int    TAKE_NUM_OF_PHOTOS        = 1;
 
 		// Utils.cs : CamQuad original point(x, y) for coverting cordinate from frameImg to Unity3D
 		public const int    CAM_QUAD_ORIGINAL_POINT_X = -305;
@@ -17,7 +17,7 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 70;
 		public const int    CARD_MAX_SQUARE_LEN       = 100;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.3;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.32;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
 		public const int    LINE_COLOR_MAX_V          = 170;
