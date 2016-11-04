@@ -24,7 +24,7 @@
 		public const int    LINE_REGION_MIN_AREA      = 200;
 
 		// PhotoRecognizingPanel.cs: Arrow show interval
-		public const float  ARROW_GEN_INTERVAL        = 0.5f;
+		public const float  ARROW_GEN_INTERVAL        = 0.8f;
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected
 		public const int    POINT_CONNECT_REGION      = 40;

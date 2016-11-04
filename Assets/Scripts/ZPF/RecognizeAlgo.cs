@@ -79,6 +79,14 @@ namespace MagicCircuit
 				double[] cardArray = mat2array(cardImg);
 				int klass = predictClass(cardArray);
 
+				// TODO
+				// @@getDirection
+				// @Input  : int klass,
+				//           Mat cardImg;
+				// @Output : int direction (1, 2, 3, 4)
+				//int direction = 4;
+				int direction = predictDirection(cardArray, klass);
+
 				switch (klass)
 				{
 				case 1:
@@ -119,13 +127,7 @@ namespace MagicCircuit
 					break;
 				}
 
-				// TODO
-				// @@getDirection
-				// @Input  : int klass,
-				//           Mat cardImg;
-				// @Output : int direction (1, 2, 3, 4)
-				//int direction = 4;
-				int direction = predictDirection(cardArray, klass);
+
 
 
 

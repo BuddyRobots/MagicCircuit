@@ -171,11 +171,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnEnable()
 	{
-		if (!gameObject.GetComponent<LevelHandle>()) {
+		//添加LevelHandle脚本并激活
+		if (!gameObject.GetComponent<LevelHandle>()) 
+		{
 			gameObject.AddComponent<LevelHandle>();
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
-		else{
+		else
+		{
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
 
@@ -523,10 +526,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			break;
 
 		case ItemType.CircuitLine:
-			//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
-			lines.Add (circuitItem.list);
-			//print(circuitItem.list.Count + ".......line count..........");
-			//开始画线
+			
+			lines.Add (circuitItem.list);//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			StartCoroutine (DrawCircuit (circuitItem.list));
 			break;
 		default:
@@ -536,17 +537,17 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			item.transform.parent = transform;
 			//音响的图片是音响和音符连在一起的大图，图片中的音响重心靠下，需要往上提重心才能使得界面上的图标看起来合理
-			if (item.name == "loudspeaker") 
-			{
-				Vector3 temp = new Vector3 (circuitItem.list [0].x, circuitItem.list [0].y + 75, 0);
-				item.transform.localPosition = temp;
-
-			} 
-			else
-			{
-				item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
-			}
-
+//			if (item.name == "loudspeaker") 
+//			{
+//				Vector3 temp = new Vector3 (circuitItem.list [0].x, circuitItem.list [0].y + 75, 0);
+//				item.transform.localPosition = temp;
+//
+//			} 
+//			else
+//			{
+//				item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
+//			}
+			item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
 			item.transform.localScale = new Vector3 (1, 1, 1); 
 			//根据图标数据的旋转角度进行旋转，旋转的是Z上的弧度
 			item.transform.Rotate(new Vector3(0,0,(float)circuitItem.theta));
@@ -757,11 +758,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			for (int i = 0; i < needToBeDestroyedList.Count; i++) //销毁创建的对象，保证再次打开该界面时是最初的界面，如果不销毁的话重新打开时上一次创建的对象会出现在界面
 			{
-//				if (needToBeDestroyedList[i].GetComponent<BoxCollider>()) 
-//				{
-//					Destroy(needToBeDestroyedList[i].GetComponent<BoxCollider>());
-//
-//				}
 				Destroy (needToBeDestroyedList [i]);
 			}
 			

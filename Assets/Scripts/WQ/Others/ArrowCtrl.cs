@@ -58,7 +58,7 @@ public class ArrowCtrl : MonoBehaviour
 	/// 设定目标点
 	/// </summary>
 	/// <param name="pos">Position.</param>
-	public void SetDestination(Vector3 pos ,int speed = 2)
+	public void SetDestination(Vector3 pos ,int speed = 3)
 	{
 		this.speed = speed;
 		dest = pos;//记录目标点，方便后面判断是不是移动到了这个点
