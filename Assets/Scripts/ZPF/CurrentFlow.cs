@@ -25,10 +25,14 @@ namespace MagicCircuit
 
 		public 	CurrentFlow()
 		{
+			
 			circuitBranch = new List<List<int>> ();
 			correctness = new Correctness ();
+
 		}
-			
+
+
+
         public bool compute(ref List<CircuitItem> itemList, int level)
         {
 			count = itemList.Count;
@@ -44,8 +48,11 @@ namespace MagicCircuit
             //@FIXME
             // Deep copy itemList to circuitItems
 			circuitItems = new List<CircuitItem>();
-			for (var i = 0; i < count; i++)
-				circuitItems.Add(itemList[i]);			
+			for (var i = 0 ; i < itemList.Count; i++)
+			{
+				circuitItems.Add(itemList[i]);
+			}
+//            circuitItems = itemList;
 
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
@@ -101,8 +108,12 @@ namespace MagicCircuit
             //@FIXME
             // Deep Copy circuitItems to itemList
 			itemList.Clear();
+
 			for (var i = 0; i < circuitItems.Count; i++)
+            {
 				itemList.Add(circuitItems[i]);
+			}
+//            itemList = circuitItems;
 
             /// Display circuitItems.list
             for (var i = boundary; i < count; i++)
@@ -180,8 +191,7 @@ namespace MagicCircuit
             computeConnectivity();
 
             // Remove open circuit
-			if (removeOpenedItem())
-				Debug.Log("CurrentFlow.cs computeCircuitBranch() : haveOpenCircuit!");
+            simplifyCircuit();
 
             // Deal with multiple batteries
             if (!combineBattery()) return false;
@@ -199,8 +209,7 @@ namespace MagicCircuit
         private bool process()
         {
             // Remove open circuit
-			if (removeOpenedItem())
-				Debug.Log("CurrentFlow.cs process() : haveOpenCircuit!");
+            simplifyCircuit();
 
             // Compute L&R matrix
             if (!computeLRMat()) return false; // If have error when computing L/R_Matrix
@@ -332,16 +341,32 @@ namespace MagicCircuit
                 return false;
         }
 
-        private bool removeOpenedItem()
+        private bool isNotValid(int i)
         {
-			Debug.Log("CurrentFlow.cs removeOpenedItem() : Start!");
+            bool haveStart = false;
+            bool haveEnd = false;
 
+            for (var j = 0; j < count; j++)
+            {
+                if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
+                    haveStart = true;
+                if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
+                    haveEnd = true;
+            }
 
+            // We consider 0 0 and 1 1 as valid
+            //             1 0 and 0 1 as invalid
+            // So return true when invalid
+            if (haveStart ^ haveEnd) // XOR operator
+                return true;
+            else
+                return false;
+        }
 
-
-
+        private bool simplifyCircuit()
+        {
+            bool flag;
             bool[] delete = new bool[count];
-			bool haveItemDeleted = false;
             bool haveOpenCircuit = false;
 
             // Initialize isOpened
@@ -371,18 +396,6 @@ namespace MagicCircuit
                         {
                             connectivity[i, j] = Connectivity.zero;
                             connectivity[j, i] = Connectivity.zero;
-							circuitItems[i].powered = false;
-
-
-
-
-
-							Debug.Log("CurrentFlow.cs removeOpenedItem() : Deleted circuitItems[" + i + "].type = " + circuitItems[i].type + "circuitItems[i].powered = " + circuitItems[i].powered);
-
-
-
-
-
                         }
 
             } while (haveItemDeleted);
@@ -390,75 +403,6 @@ namespace MagicCircuit
             if (haveOpenCircuit) return false;
             else return true;
         }
-
-		// true if have opened item
-//		private bool removeOpenedItem()
-//		{
-//			itemIsOpened = new bool[count];
-//			for (var i = 0; i < count; i++)
-//				itemIsOpened[i] = false;
-//
-//			bool haveItemDeleted = false;
-//			bool haveOpenCircuit = false;
-//
-//			do
-//			{
-//				haveItemDeleted = false;
-//
-//				for (var i = 0; i < count; i++)
-//				{
-//					if (itemIsOpened[i]) continue;
-//
-//					if (isNotFullyConnected(i))
-//					{
-//						haveItemDeleted = true;
-//						haveOpenCircuit = true;
-//						itemIsOpened[i] = true;
-//
-//						removeItemFromConnectivity(i);
-//
-//						Debug.Log("CurrentFlow.cs removeOpenedItem() : Deleted circuitItems[" + i + "].type = " + circuitItems[i].type + " circuitItems[i].powered = " + circuitItems[i].powered);
-//					}
-//				}
-//			} while (haveItemDeleted);
-//
-//			return haveOpenCircuit;
-//		}
-
-		private void removeItemFromConnectivity(int i)
-		{
-			for (var j = 0; j < count; j++)
-			{
-				connectivity[i, j] = Connectivity.zero;
-				connectivity[j, i] = Connectivity.zero;
-			}
-		}
-
-		private bool isNotFullyConnected(int i)
-		{
-			bool haveStart = false;
-			bool haveEnd   = false;
-
-			for (var j = 0; j < count; j++)
-			{
-				if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
-					haveStart = true;
-				if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
-					haveEnd   = true;
-			}
-
-			// We consider 0 0 and 1 1 as valid
-			//             1 0 and 0 1 as invalid
-			// So return true when invalid
-			//if (haveStart ^ haveEnd) // XOR operator
-			//	return true;
-			//else
-			//	return false;
-			if (haveStart && haveEnd)
-				return false;
-			else
-				return true;
-		}
 
         private bool computeLRMat()
         {
@@ -707,9 +651,6 @@ namespace MagicCircuit
                     if (flip > dont_flip)
                         flipLine(i);
                 }
-
-
-
             return modified;
         }
 
