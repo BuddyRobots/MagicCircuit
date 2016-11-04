@@ -214,10 +214,16 @@ public class GetImage : MonoBehaviour
 		computeCurrentFlow();
 
 
-//		for (int i = 0; i < itemList.Count; i++)
-//		{
-//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type + " itemList[" + i + "].connect_left = " + itemList[i].connect_left + " itemList[" + i + "].connect_right = " + itemList[i].connect_right);
-//		}
+
+
+		for (int i = 0; i < itemList.Count; i++)
+		{
+			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+				     " connect_left = " + itemList[i].connect_left +
+				     " connect_right = " + itemList[i].connect_right +
+				     " powered = " + itemList[i].powered);
+		}
+
 
 
 

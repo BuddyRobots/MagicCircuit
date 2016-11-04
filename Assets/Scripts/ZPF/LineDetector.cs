@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using OpenCVForUnity;
 using System.Collections.Generic;
+using OpenCVForUnity;
 
 namespace MagicCircuit
 {
@@ -20,14 +20,6 @@ namespace MagicCircuit
 			List<Mat> roiList = new List<Mat>();
 
             getLines(frameImg, ref roiList, ref boundingRectList);
-
-
-
-
-			Debug.Log("LineDetector.cs detectLine : roiList.Count = " + roiList.Count);
-
-
-
 
             for (var i = 0; i < roiList.Count; i++)
             {
@@ -104,6 +96,7 @@ namespace MagicCircuit
                 line.Add(firstPoint);
             }
             if (line.Count == 0) return listLine; // If we don't have any point
+
 
 
 
@@ -368,14 +361,7 @@ namespace MagicCircuit
             if (listLine.Count >= 2)
             {
                 listLine[0].Reverse();
-
-
-				Debug.Log("LineDetector.cs mergeFirstLine : listLine[0] reversed");
-
-
-
                 listLine[0].AddRange(listLine[1]);
-
                 listLine.RemoveAt(1);
             }
         }

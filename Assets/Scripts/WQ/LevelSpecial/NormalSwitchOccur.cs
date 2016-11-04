@@ -42,7 +42,7 @@ public class NormalSwitchOccur : MonoBehaviour
 				{
 					if (PhotoRecognizingPanel._instance.itemList[i].type==ItemType.CircuitLine) 
 					{
-						Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
+						//Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
 						
 					}
 				}
