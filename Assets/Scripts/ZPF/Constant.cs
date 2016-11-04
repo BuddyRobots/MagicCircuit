@@ -3,7 +3,7 @@
 	public static class Constant
 	{
 		// GetImage.cs : Parameter for processing 10 photos
-		public const int    TAKE_NUM_OF_PHOTOS = 2;
+		public const int    TAKE_NUM_OF_PHOTOS        = 1;
 
 		// Utils.cs : CamQuad original point(x, y) for coverting cordinate from frameImg to Unity3D
 		public const int    CAM_QUAD_ORIGINAL_POINT_X = -305;
@@ -17,18 +17,20 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 70;
 		public const int    CARD_MAX_SQUARE_LEN       = 100;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.3;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.32;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
 		public const int    LINE_COLOR_MAX_V          = 170;
-		public const int    LINE_REGION_MIN_AREA      = 0;
+		public const int    LINE_REGION_MIN_AREA      = 200;
 
+		// PhotoRecognizingPanel.cs: Arrow show interval
+		public const float  ARROW_GEN_INTERVAL        = 0.8f;
 
-		//PhotoRecognizingPanel: arrow show interval
-		public const float  ARROW_GEN_INTERVAL	=	0.5f;
-
-		// CurrentFlow.cs : Parameter for determining whether to points are connected
+		// CurrentFlow.cs : Parameter for determining whether two points are connected
 		public const int    POINT_CONNECT_REGION      = 40;
 
+		// RecognizeAlgo.cs : Model image size 3*28*28, 9 classes
+		public const int    MODEL_IMAGE_SIZE          = 28;
+		public const int    NUM_OF_CLASS              = 9;
 	}
 }
