@@ -376,6 +376,7 @@ namespace MagicCircuit
                         {
                             connectivity[i, j] = Connectivity.zero;
                             connectivity[j, i] = Connectivity.zero;
+							circuitItems[i].powered = false;
                         }
 
             } while (flag);

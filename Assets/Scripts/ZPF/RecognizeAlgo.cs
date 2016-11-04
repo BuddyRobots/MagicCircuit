@@ -86,6 +86,7 @@ namespace MagicCircuit
 				// @Output : int direction (1, 2, 3, 4)
 				//int direction = 4;
 				int direction = predictDirection(cardArray, klass);
+				correctDirection(ref direction, klass);
 
 				switch (klass)
 				{
@@ -284,6 +285,39 @@ namespace MagicCircuit
 						tmpList.Add(listItem[j]);
 					}
 			listItem = tmpList;
+		}
+
+		// Need to correct predicted direction due to unknown, strange bug
+		private void correctDirection(ref int direction, int klass)
+		{
+			if (klass == 1 || klass == 8)
+			{
+				switch (direction)
+				{
+				case 1:
+					direction = 2; break;
+				case 2:
+					direction = 1; break;
+				case 3:
+					direction = 4; break;
+				case 4:
+					direction = 3; break;
+				}
+			}
+			else
+			{
+				switch (direction)
+				{
+				case 1:
+					direction = 4; break;
+				case 2:
+					direction = 3; break;
+				case 3:
+					direction = 2; break;
+				case 4:
+					direction = 1; break;
+				}
+			}
 		}
 
 		/*public List<Mat> createDataSet(Mat frameImg)
