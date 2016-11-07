@@ -17,49 +17,49 @@ public class LevelHandle : MonoBehaviour
 		switch (LevelManager.currentLevelData.LevelID)
 		{
 		case 1:
-			transform.gameObject.AddComponent<PlayCircuitAnimation> ();
+			transform.gameObject.AddComponent<LevelOne> ();
 			break;
 		case 2:
-			transform.gameObject.AddComponent<RemoveLine> ();
+			transform.gameObject.AddComponent<LevelTwo> ();
 			break;
 		case 3:
-			transform.gameObject.AddComponent<NormalSwitchOccur> ();
+			transform.gameObject.AddComponent<LevelThree> ();
 			break;
 		case 4:
-			transform.gameObject.AddComponent<LoudSpeakerInLevelFour> ();
+			transform.gameObject.AddComponent<LevelFour> ();
 			break;
 		case 5:
-			transform.gameObject.AddComponent<TwoSwitchInSeriesCircuit> ();
+			transform.gameObject.AddComponent<LevelFive> ();
 			break;
 		case 6:
-			transform.gameObject.AddComponent<ParallelCircuitsWithTwoSwitch> ();
+			transform.gameObject.AddComponent<LevelSix> ();
 			break;
 		case  7:      
-			transform.gameObject.AddComponent<ParallelCircuitWithTwoBattery> ();
+			transform.gameObject.AddComponent<LevelSeven> ();
 			break;
 		case 8:
 			transform.gameObject.AddComponent<LevelEight> ();
 			break;
 		case  9:      
-			transform.gameObject.AddComponent<ParallelCircuitWithTwoBulb> ();
+			transform.gameObject.AddComponent<LevelNine> ();
 			break;
 		case 10:      
 			transform.gameObject.AddComponent<LevelTen> ();
 			break;
 		case 11:
-			transform.gameObject.AddComponent<VOswitchOccur> ();
+			transform.gameObject.AddComponent<LevelEleven> ();
 			break;
 		case 12:
-			transform.gameObject.AddComponent<LightActiveSwitchOccur> ();
+			transform.gameObject.AddComponent<LevelTwelve> ();
 			break;
 		case 13:
-			transform.gameObject.AddComponent<VOswitchAndLAswitchTogether> ();
+			transform.gameObject.AddComponent<LevelThirteen> ();
 			break;
 		case 14:
 			transform.gameObject.AddComponent<LevelFourteen> ();
 			break;
 		case 15:
-			transform.gameObject.AddComponent<SPDTswitchOccur> ();
+			transform.gameObject.AddComponent<LevelFifteen> ();
 			break;
 		default:
 			break;
@@ -76,49 +76,49 @@ public class LevelHandle : MonoBehaviour
 		switch (levelID) 
 		{
 		case 1:
-			gameObject.GetComponent<PlayCircuitAnimation> ().isPlayCircuitAnimation = true;
+			gameObject.GetComponent<LevelOne> ().isPlayCircuitAnimation = true;
 			break;
 		case 2:
-			gameObject.GetComponent<RemoveLine> ().isRemoveLine = true;
+			gameObject.GetComponent<LevelTwo> ().isRemoveLine = true;
 			break;
 		case 3:
-			GetComponent<NormalSwitchOccur> ().isNormalSwitchOccur = true;
+			GetComponent<LevelThree> ().isNormalSwitchOccur = true;
 			break;
 		case 4:
-			GetComponent<LoudSpeakerInLevelFour> ().isLoudSpeakerOccur = true;
+			GetComponent<LevelFour> ().isLoudSpeakerOccur = true;
 			break;
 		case 5:
-			GetComponent<TwoSwitchInSeriesCircuit> ().isTwoSwitchInSeriesCircuit = true;
+			GetComponent<LevelFive> ().isTwoSwitchInSeriesCircuit = true;
 			break;
 		case 6:
-			GetComponent<ParallelCircuitsWithTwoSwitch>().isParrallelCircuit=true;
+			GetComponent<LevelSix>().isParrallelCircuit=true;
 			break;
 		case 7:
-			GetComponent<ParallelCircuitWithTwoBattery>().isParallelCircuitWithTwoBattery=true;
+			GetComponent<LevelSeven>().isParallelCircuitWithTwoBattery=true;
 			break;
 		case 8:
 			GetComponent<LevelEight>().isLevelEight=true;
 			break;
 		case 9:
-			GetComponent<ParallelCircuitWithTwoBulb>().isParallelCircuitWithTwoBulb=true;
+			GetComponent<LevelNine>().isParallelCircuitWithTwoBulb=true;
 			break;
 		case 10:
 			GetComponent<LevelTen>().isLevelTen=true;
 			break;
 		case 11:
-			GetComponent<VOswitchOccur> ().isVOswitchOccur = true;
+			GetComponent<LevelEleven> ().isVOswitchOccur = true;
 			break;
 		case 12:
-			GetComponent<LightActiveSwitchOccur> ().isLAswitchOccur = true;
+			GetComponent<LevelTwelve> ().isLAswitchOccur = true;
 			break;
 		case 13:
-			GetComponent<VOswitchAndLAswitchTogether> ().isVOswitchAndLAswitchTogether = true;
+			GetComponent<LevelThirteen> ().isVOswitchAndLAswitchTogether = true;
 			break;
 		case 14:
 			GetComponent<LevelFourteen> ().isLevelFourteen = true;
 			break;
 		case 15:
-			GetComponent<SPDTswitchOccur> ().isSPDTswitchOccur = true;
+			GetComponent<LevelFifteen> ().isSPDTswitchOccur = true;
 			break;
 		default:
 			break;
@@ -131,50 +131,50 @@ public class LevelHandle : MonoBehaviour
 		switch (LevelManager.currentLevelData.LevelID)
 		{
 		case 1:
-			Destroy (transform.GetComponent<PlayCircuitAnimation> ());
+			Destroy (transform.GetComponent<LevelOne> ());
 			break;
 		case 2:
-			Destroy (transform.GetComponent<RemoveLine> ());
+			Destroy (transform.GetComponent<LevelTwo> ());
 			break;
 		case 3:
-			Destroy (transform.GetComponent<NormalSwitchOccur> ());
+			Destroy (transform.GetComponent<LevelThree> ());
 			break;
 		case 4:
-			Destroy (transform.GetComponent<LoudSpeakerInLevelFour> ());
+			Destroy (transform.GetComponent<LevelFour> ());
 			break;
 		case 5:
-			Destroy(transform.GetComponent<TwoSwitchInSeriesCircuit> ());
+			Destroy(transform.GetComponent<LevelFive> ());
 			break;
 		case 6:
-			Destroy(transform.GetComponent<ParallelCircuitsWithTwoSwitch> ());
+			Destroy(transform.GetComponent<LevelSix> ());
 			break;
 		case 7:
-			Destroy(transform.GetComponent<ParallelCircuitWithTwoBattery> ());
+			Destroy(transform.GetComponent<LevelSeven> ());
 
 			break;
 		case 8:
 			Destroy(transform.GetComponent<LevelEight> ());
 			break;
 		case  9:
-			Destroy (transform.GetComponent<ParallelCircuitWithTwoBulb> ());
+			Destroy (transform.GetComponent<LevelNine> ());
 			break;
 		case 10:
 			Destroy(transform.GetComponent<LevelTen> ());
 			break;
 		case 11:
-			Destroy(transform.GetComponent<VOswitchOccur> ());
+			Destroy(transform.GetComponent<LevelEleven> ());
 			break;
 		case 12:
-			Destroy(transform.GetComponent<LightActiveSwitchOccur> ());
+			Destroy(transform.GetComponent<LevelTwelve> ());
 			break;
 		case 13:
-			Destroy (transform.GetComponent<VOswitchAndLAswitchTogether> ());
+			Destroy (transform.GetComponent<LevelThirteen> ());
 			break;
 		case 14:
 			Destroy (transform.GetComponent<LevelFourteen> ());
 			break;
 		case 15:
-			Destroy (transform.GetComponent<SPDTswitchOccur> ());
+			Destroy (transform.GetComponent<LevelFifteen> ());
 			break;
 		default:
 			break;

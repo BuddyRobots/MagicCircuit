@@ -3,7 +3,7 @@ using System.Collections;
 using MagicCircuit;
 
 //第12关----光敏开关
-public class LightActiveSwitchOccur : MonoBehaviour 
+public class LevelTwelve : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isLAswitchOccur = false;

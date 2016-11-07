@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 // level 2
-public class RemoveLine : MonoBehaviour 
+public class LevelTwo : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isRemoveLine=false;

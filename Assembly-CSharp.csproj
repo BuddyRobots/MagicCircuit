@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A43CFED5-718A-19EB-A88F-EA59EA655CE8}</ProjectGuid>
+    <ProjectGuid>{82E629D6-C89B-0340-F535-44BC6ECF34B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -361,20 +361,20 @@
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemData.cs" />
      <Compile Include="Assets\Scripts\WQ\Level\LevelItemUI.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelEight.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelEleven.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFifteen.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFive.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFour.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelFourteen.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelNine.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelOne.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelSeven.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelSix.cs" />
      <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTen.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LightActiveSwitchOccur.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LoudSpeakerInLevelFour.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\NormalSwitchOccur.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBattery.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitWithTwoBulb.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\ParallelCircuitsWithTwoSwitch.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\PlayCircuitAnimation.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\RemoveLine.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\SPDTswitchOccur.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\TwoSwitchInSeriesCircuit.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchAndLAswitchTogether.cs" />
-     <Compile Include="Assets\Scripts\WQ\LevelSpecial\VOswitchOccur.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelThirteen.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelThree.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTwelve.cs" />
+     <Compile Include="Assets\Scripts\WQ\LevelSpecial\LevelTwo.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\BussinessLogic.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CircuitItemManager.cs" />
      <Compile Include="Assets\Scripts\WQ\Manager\CommonFuncManager.cs" />
@@ -479,7 +479,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/WangQian/Documents/MagicCircuit_PanelAsPrefab/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -136,28 +136,29 @@ public class GetImage : MonoBehaviour
 			if (!initDone)
 				return;
 			print("---------------");
-			print("******" + DateTime.Now.Millisecond * 10000);
+			print("11111******" + DateTime.Now.Millisecond * 10000);
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
 			if (webCamTexture.didUpdateThisFrame)
 			{
 				
-				print("******" + DateTime.Now.Millisecond * 10000);
+				print("22222******" + DateTime.Now.Millisecond * 10000);
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
+				print("77777******" + DateTime.Now.Millisecond * 10000);
 				rotateCamera.rotate(ref frameImg);
-				print("******" + DateTime.Now.Millisecond * 10000);
+				print("3333******" + DateTime.Now.Millisecond * 10000);
 				if (isTakingPhoto)
 				{	
 					frameImgList.Add(frameImg.clone());
 					if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
 						isTakingPhoto = false; 
 				}
-				print("******" + DateTime.Now.Millisecond * 10000);
+				print("4444******" + DateTime.Now.Millisecond * 10000);
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
-				print("******" + DateTime.Now.Millisecond * 10000);
+				print("5555******" + DateTime.Now.Millisecond * 10000);
 			}
 			frameImg.Dispose();
-			print("******" + DateTime.Now.Millisecond * 10000);
+			print("6666******" + DateTime.Now.Millisecond * 10000);
 			print("---------------");
 		}
 

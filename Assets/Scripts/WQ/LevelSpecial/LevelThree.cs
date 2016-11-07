@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 //第3关
-public class NormalSwitchOccur : MonoBehaviour 
+public class LevelThree : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isNormalSwitchOccur = false;
@@ -35,20 +35,20 @@ public class NormalSwitchOccur : MonoBehaviour
 			} 
 			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
-			//for test  ....
-			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn && !isTest) 
-			{
-				for (int i = 0; i < PhotoRecognizingPanel._instance.itemList.Count; i++) 
-				{
-					if (PhotoRecognizingPanel._instance.itemList[i].type==ItemType.CircuitLine) 
-					{
-						//Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
-						
-					}
-				}
-				isTest=true;
-
-			}
+//			//for test  ....
+//			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn && !isTest) 
+//			{
+//				for (int i = 0; i < PhotoRecognizingPanel._instance.itemList.Count; i++) 
+//				{
+//					if (PhotoRecognizingPanel._instance.itemList[i].type==ItemType.CircuitLine) 
+//					{
+//						//Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
+//						
+//					}
+//				}
+//				isTest=true;
+//
+//			}
 
 
 

@@ -3,7 +3,7 @@ using System.Collections;
 using MagicCircuit;
 
 //level 11
-public class VOswitchOccur : MonoBehaviour 
+public class LevelEleven : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isVOswitchOccur=false;

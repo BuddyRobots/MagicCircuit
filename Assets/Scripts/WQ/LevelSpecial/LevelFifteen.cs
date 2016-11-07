@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MagicCircuit;
 
 //level 15
-public class SPDTswitchOccur : MonoBehaviour 
+public class LevelFifteen : MonoBehaviour 
 {
 
 	[HideInInspector]

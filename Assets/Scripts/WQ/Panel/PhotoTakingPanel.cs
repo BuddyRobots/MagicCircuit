@@ -11,6 +11,7 @@ public class PhotoTakingPanel : MonoBehaviour
 	private GameObject confirmBtn;
 
 	private UISprite noticeImg;
+
 	private UILabel countDown;
 	private UILabel levelLabel;
 
@@ -54,13 +55,11 @@ public class PhotoTakingPanel : MonoBehaviour
 		{
 			noticeImg.gameObject.SetActive (true);
 			StartCoroutine (CountDown());//图片出来后停留几秒，弹出倒计时数字
-			//CountDown();
 		}
 	}
 
 
 	IEnumerator CountDown()
-	//void CountDown()
 	{
 		yield return new WaitForSeconds(1f);//1f for rest, real time is 3f..
 
@@ -79,7 +78,7 @@ public class PhotoTakingPanel : MonoBehaviour
 		GetImage._instance.Thread_Process_Start();
 		//GetImage._instance.test_saveFullQuadPhotoToiPad();
 
-		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);
+		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
 		PanelOff();
 	}
 	#endregion
@@ -89,7 +88,6 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
-
 
 		GetImage._instance.isStartUpdate=false;
 		PanelTranslate.Instance.DestoryThisPanel();

@@ -12,6 +12,9 @@ public enum Panels
 	PhotoRecognizedPanel,
 	DemoShowPanel
 }
+/// <summary>
+/// 管理界面相互跳转的类
+/// </summary>
 public class PanelTranslate : SceneSinglton<PanelTranslate> {
 
 	private Transform UIRoot
@@ -23,7 +26,7 @@ public class PanelTranslate : SceneSinglton<PanelTranslate> {
 	}
 		
 
-	private Stack<GameObject> panels = new Stack<GameObject>();
+	private Stack<GameObject> panels = new Stack<GameObject>();//用栈来存储当前显示的界面
 	private GameObject prePanel = null;
 
 	public GameObject GetPanel(Panels panel, bool isDeleteThisPanel = true)
@@ -40,6 +43,7 @@ public class PanelTranslate : SceneSinglton<PanelTranslate> {
 		ret.transform.localScale = Vector3.one;
 		ret.transform.localPosition = Vector3.zero;
 
+		//如果isDeleteThisPanel为true（表示需要销毁之前的对象，只显示当前的对象），就把栈中已经有的对象先弹出，再把当前需要显示的对象入栈；如果为false，则表示不需要销毁之前的对象，当前的对象直接入栈
 		if (isDeleteThisPanel) {
 			if (panels.Count > 0) {
 				prePanel = panels.Pop();

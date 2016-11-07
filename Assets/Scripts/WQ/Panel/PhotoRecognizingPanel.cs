@@ -247,7 +247,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		photoImage.gameObject.SetActive (true);
 		photoImage.mainTexture = GetImage._instance.texture;
-
 		yield return new WaitForSeconds (1f);
 		isPhotoImageShowDone = true;
 	}

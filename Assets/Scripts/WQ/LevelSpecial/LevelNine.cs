@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MagicCircuit;
 
 // level 9-----并联电路，2个电池+3个开关+2个灯泡+1个音响+1个电磁炉（2个开关分别控制2个灯泡，音响，电磁炉；电池不可点击）
-public class ParallelCircuitWithTwoBulb : MonoBehaviour 
+public class LevelNine : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isParallelCircuitWithTwoBulb = false;

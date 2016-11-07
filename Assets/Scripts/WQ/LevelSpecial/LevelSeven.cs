@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MagicCircuit;
 
 //level 7-----并联电路，2个电池+2个开关+1个灯泡+1个音响（两个开关分别控制灯泡和音响），电路通电流后有一个电池可以被点击（在透明和半透明之间切换）
-public class ParallelCircuitWithTwoBattery : MonoBehaviour 
+public class LevelSeven : MonoBehaviour 
 {
 	[HideInInspector]
 	public bool isParallelCircuitWithTwoBattery=false;

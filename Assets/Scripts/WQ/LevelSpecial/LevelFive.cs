@@ -5,7 +5,7 @@ using MagicCircuit;
 
 
 //level 5
-public class TwoSwitchInSeriesCircuit : MonoBehaviour 
+public class LevelFive : MonoBehaviour 
 {
 	private List<GameObject> normalSwitchList =null;
 //	private int animationPlayedTimes=0;

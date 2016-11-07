@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
 //第4关
-public class LoudSpeakerInLevelFour : MonoBehaviour 
+public class LevelFour : MonoBehaviour 
 {
 
 	[HideInInspector]

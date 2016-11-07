@@ -1,32 +1,30 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/LevelSpecial/RemoveLine.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Level/LevelHandle.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/RemoveLine.cs" Line="70" Column="31" />
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="572" Column="3" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/ParallelCircuitWithTwoBulb.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Btn/BulbCtrl.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="1" Column="1" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/RecognizeAlgo.cs">
-    <Files>
-      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="23" Column="46" />
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="176" Column="4" />
-      <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="16" Column="4" />
-      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="85" Column="23" />
->>>>>>> dcf481087da6a39e6a2104d7aed750caa4b4328b
+      <File FileName="Assets/Scripts/WQ/Panel/PanelTranslate.cs" Line="38" Column="59" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="100" Column="43" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="688" Column="39" />
+      <File FileName="Assets/Scripts/WQ/Others/MoveCtrl.cs" Line="31" Column="13" />
+      <File FileName="Assets/Scripts/WQ/Others/ArrowCtrl.cs" Line="61" Column="2" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelOne.cs" Line="4" Column="22" />
+      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="20" Column="2" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwo.cs" Line="5" Column="22" />
+      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="21" Column="10" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThree.cs" Line="6" Column="24" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwelve.cs" Line="17" Column="2" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFour.cs" Line="6" Column="23" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSix.cs" Line="7" Column="22" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSeven.cs" Line="7" Column="24" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelNine.cs" Line="7" Column="23" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFifteen.cs" Line="7" Column="26" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFive.cs" Line="8" Column="23" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThirteen.cs" Line="6" Column="27" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelEleven.cs" Line="28" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Scripts/WQ/LevelSpecial/RemoveLine.cs" line="80" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets/Scripts/MyAnimation.cs" line="26" offsetX="639" offsetY="375" expression="atlas" liveUpdate="False" />
-    <Watch file="Assets/Scripts/ZPF/GetImage.cs" line="258" offsetX="206" offsetY="3855" expression="i" liveUpdate="True" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

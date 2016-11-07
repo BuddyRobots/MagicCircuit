@@ -3,7 +3,7 @@ using System.Collections;
 using MagicCircuit;
 //level 13---声控+光敏
 
-public class VOswitchAndLAswitchTogether : MonoBehaviour
+public class LevelThirteen : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isVOswitchAndLAswitchTogether = false;
