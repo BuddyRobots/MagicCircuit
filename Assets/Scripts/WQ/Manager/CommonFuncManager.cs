@@ -64,7 +64,7 @@ public class CommonFuncManager : MonoBehaviour
 	///1个电池的情况下刷新items 遍历新的circuitItem，根据其powered属性值来刷新（譬如灯泡，音响这种受开关控制的item）UI
 	/// </summary>
 	/// <param name="circuitItems">Circuit items.</param>
-	public void CircuitItemReset(List<CircuitItem> circuitItems)
+	public void CircuitItemRefresh(List<CircuitItem> circuitItems)
 	{
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
@@ -109,7 +109,6 @@ public class CommonFuncManager : MonoBehaviour
 							{
 								tempAudio.volume = 0.5f;
 							}
-							
 						}
 					} 
 					else // this item is power off
@@ -161,7 +160,6 @@ public class CommonFuncManager : MonoBehaviour
 
 			if (circuitItems[i].type==ItemType.CircuitLine) 
 			{
-
 //				Debug.Log("circuitItems["+i+"] type=="+circuitItems[i].type+", circuitItems["+i+"] powered=="+circuitItems[i].powered);
 				string tag = circuitItems [i].ID.ToString ();
 				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
@@ -183,9 +181,6 @@ public class CommonFuncManager : MonoBehaviour
 					}
 				}
 
-
-
-
 			}
 		}
 	}
@@ -199,7 +194,7 @@ public class CommonFuncManager : MonoBehaviour
 	/// 两个电池的情况下刷新items
 	/// </summary>
 	/// <param name="circuitItems">Circuit items.</param>
-	public void CircuitItemResetWithTwoBattery(List<CircuitItem> circuitItems)
+	public void CircuitItemRefreshWithTwoBattery(List<CircuitItem> circuitItems)
 	{
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
@@ -231,6 +226,12 @@ public class CommonFuncManager : MonoBehaviour
 					{
 						tempAudio.Play ();
 						tempAudio.volume = 1f;
+					}
+					else
+					{
+
+						tempAudio.volume = 1f;
+
 					}
 				} 
 				else // this item is power off

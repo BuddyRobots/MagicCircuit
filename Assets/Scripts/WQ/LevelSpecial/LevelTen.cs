@@ -18,17 +18,12 @@ public class LevelTen : MonoBehaviour {
 		{
 
 			Transform normalSwitch=transform.Find("switch");
-			//GetComponent<PhotoRecognizingPanel> ().ShowFinger(normalSwitch.localPosition);//在开关位置出现小手
 
-//			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn) //开关闭合
-//			{ 
-//				if (PhotoRecognizingPanel._instance.finger) 
-//				{
-//					Destroy (PhotoRecognizingPanel._instance.finger);
-//				}
-//			} 
-			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-			CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
+
+//			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+//			CommonFuncManager._instance.CircuitItemRefresh (	GetImage._instance.itemList);
+
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	
 	}
