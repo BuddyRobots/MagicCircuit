@@ -18,6 +18,9 @@ public class LevelThree : MonoBehaviour
 
 	private bool isTest=false;
 
+
+	public bool  isArrowSemiTrans=true;
+
 	void Update () 
 	{
 		if (isNormalSwitchOccur) 
@@ -33,6 +36,7 @@ public class LevelThree : MonoBehaviour
 				}
 				isTest=false;
 			} 
+<<<<<<< HEAD
 			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
 
@@ -60,6 +64,11 @@ public class LevelThree : MonoBehaviour
 
 
 			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+=======
+//			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+//			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+>>>>>>> 4426aa6258570985d3679e3fef3cd072bd1906eb
 		}
 	}
 

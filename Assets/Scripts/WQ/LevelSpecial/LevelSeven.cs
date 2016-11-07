@@ -40,7 +40,7 @@ public class LevelSeven : MonoBehaviour
 			for (int i = 0; i < switchList.Count; i++) 
 			{
 				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitResetWithTwoBattery (GetImage._instance.itemList);//使用新的circuititems
+				CommonFuncManager._instance.CircuitItemResetWithTwoBattery (GetImage._instance.itemList);//使用新的circuititems
 			}
 			isCircuitAnimationPlayed=CircuitPowerdOrNot();
 			if (isCircuitAnimationPlayed) //电池可以被点击
@@ -94,7 +94,7 @@ public class LevelSeven : MonoBehaviour
 				} 
 				if (isBatteryClick && !clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池回归到正常
 				{
-					CommonFuncManager._instance.CircuitResetWithTwoBattery (GetImage._instance.itemList);
+					CommonFuncManager._instance.CircuitItemResetWithTwoBattery (GetImage._instance.itemList);
 					batteryList [1].GetComponent<UISprite> ().depth = 4;
 				}
 			}
