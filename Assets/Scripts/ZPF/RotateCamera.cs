@@ -11,6 +11,7 @@ namespace MagicCircuit
         List<Point> ptsWindow;
 
         Mat homo;
+		Mat rst;
 
         public RotateCamera()
         {
@@ -31,26 +32,14 @@ namespace MagicCircuit
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
 
             homo = Imgproc.getPerspectiveTransform(rectBrd, rectWin);
+
+			rst = new Mat(Constant.CAM_QUAD_HEIGHT, Constant.CAM_QUAD_WIDTH, CvType.CV_8UC3);
         }
 
         public void rotate(ref Mat img)
         {
-			Mat tmp = transform(img);
-
-            //Core.transpose(tmp, tmp);
-
-            //img = new Mat(tmp, new Rect(ptsWindow[0], ptsWindow[3]));
-
-			img = tmp.clone();
-        }
-
-        public Mat transform(Mat img)
-        {
-			Mat rst = new Mat(Constant.CAM_QUAD_HEIGHT, Constant.CAM_QUAD_WIDTH, img.type());
-
 			Imgproc.warpPerspective(img, rst, homo, rst.size());
-
-            return rst;
+			img = rst.clone();
         }
     }
 }
