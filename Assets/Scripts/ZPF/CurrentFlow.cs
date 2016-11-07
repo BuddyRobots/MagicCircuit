@@ -7,7 +7,7 @@ namespace MagicCircuit
 {
     public class CurrentFlow : MonoBehaviour
     {
-        private List<CircuitItem> circuitItems;
+        private List<CircuitItem> circuitItemList;
         private List<List<int>> circuitBranch;  // Store the branches of the whole circuit for CircuitCompare
 
         private Connectivity[,] connectivity;   // Will modify this when handling switch on/off
@@ -25,29 +25,24 @@ namespace MagicCircuit
 		{
 			circuitBranch = new List<List<int>>();
 		}
-
-
-
+			
         public bool compute(ref List<CircuitItem> itemList, int level)
         {
-			count = itemList.Count;
-			// Find boundary between cards & lines
-			boundary = 0;
-			while (boundary < count)
+			initCountBoundary(itemList);
+
+			// Deep copy itemList to circuitItemList
+			circuitItemList = new List<CircuitItem>();
+			for (var i = 0 ; i < count; i++)
 			{
-				if (itemList[boundary].type == ItemType.CircuitLine)
-					break;
-				boundary++;
+				circuitItemList.Add(itemList[i]);
 			}
 
-            // FIXME
-            // Deep copy itemList to circuitItems
-			circuitItems = new List<CircuitItem>();
-			for (var i = 0 ; i < itemList.Count; i++)
-			{
-				circuitItems.Add(itemList[i]);
-			}
-            //circuitItems = itemList;
+
+
+
+
+
+
 
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
@@ -80,14 +75,14 @@ namespace MagicCircuit
 
             // Reset all circuitItems.powered to false
             for (var i = 0; i < count; i++)
-                circuitItems[i].powered = false;
+                circuitItemList[i].powered = false;
 
             // Turn all the switches off
             for (var i = 0; i < boundary; i++)
-                if (circuitItems[i].type == ItemType.Switch ||
-                    circuitItems[i].type == ItemType.LightActSwitch ||
-                    circuitItems[i].type == ItemType.VoiceOperSwitch ||
-                    circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
+                if (circuitItemList[i].type == ItemType.Switch ||
+                    circuitItemList[i].type == ItemType.LightActSwitch ||
+                    circuitItemList[i].type == ItemType.VoiceOperSwitch ||
+                    circuitItemList[i].type == ItemType.VoiceTimedelaySwitch)
                     switchOff(i);
 
             // Save to currentConn
@@ -103,9 +98,9 @@ namespace MagicCircuit
             // FIXME
             // Deep Copy circuitItems to itemList
 			itemList.Clear();
-			for (var i = 0; i < circuitItems.Count; i++)
+			for (var i = 0; i < circuitItemList.Count; i++)
             {
-				itemList.Add(circuitItems[i]);
+				itemList.Add(circuitItemList[i]);
 			}
             //itemList = circuitItems;
 
@@ -119,14 +114,27 @@ namespace MagicCircuit
 			return true;                 
 		}
 
+		private void initCountBoundary(List<CircuitItem> itemList)
+		{
+			count = itemList.Count;
+			// Find boundary between cards & lines
+			boundary = 0;
+			while (boundary < count)
+			{
+				if (itemList[boundary].type == ItemType.CircuitLine)
+					break;
+				boundary++;
+			}
+		}
+
 		private bool haveNoSwitches()
 		{			
 			bool haveSwitch = false;
 			for (var i = 0; i < boundary; i++)
-				if (circuitItems[i].type == ItemType.Switch ||
-					circuitItems[i].type == ItemType.LightActSwitch ||
-					circuitItems[i].type == ItemType.VoiceOperSwitch ||
-					circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
+				if (circuitItemList[i].type == ItemType.Switch ||
+					circuitItemList[i].type == ItemType.LightActSwitch ||
+					circuitItemList[i].type == ItemType.VoiceOperSwitch ||
+					circuitItemList[i].type == ItemType.VoiceTimedelaySwitch)
 				{
 					haveSwitch = true;
 					break;
@@ -142,7 +150,7 @@ namespace MagicCircuit
             // Reset all circuitItems.powered to false
             for (var i = 0; i < count; i++)
             {
-                circuitItems[i].powered = false;
+                circuitItemList[i].powered = false;
             }
 
             if (state)
@@ -222,7 +230,7 @@ namespace MagicCircuit
             // Main circuit
             do
             {
-                circuitItems[(int)next.x].powered = true;
+                circuitItemList[(int)next.x].powered = true;
                 circuitBranch[0].Add((int)next.x);
 
                 // Modify Connectivity & L & R_Matrix
@@ -253,7 +261,7 @@ namespace MagicCircuit
 
             for (var i = 0; i < count; i++)
                 if (itemIsOpened[i])
-                    circuitItems[i].powered = false;
+                    circuitItemList[i].powered = false;
 
             return true;
         }
@@ -265,32 +273,32 @@ namespace MagicCircuit
             for (var i = 0; i < boundary; i++)
                 for (var j = boundary; j < count; j++)
                 {
-                    if (inRegion(circuitItems[i].connect_left, circuitItems[j].connect_left))
+                    if (inRegion(circuitItemList[i].connect_left, circuitItemList[j].connect_left))
                     {
                         connectivity[i, j] = Connectivity.l;
                         connectivity[j, i] = Connectivity.s;
-                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        circuitItemList[j].list.Insert(0, circuitItemList[i].list[0]);
                         continue;
                     }
-                    if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_left))
+                    if (inRegion(circuitItemList[i].connect_right, circuitItemList[j].connect_left))
                     {
                         connectivity[i, j] = Connectivity.r;
                         connectivity[j, i] = Connectivity.s;
-                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        circuitItemList[j].list.Insert(0, circuitItemList[i].list[0]);
                         continue;
                     }
-                    if (inRegion(circuitItems[i].connect_left, circuitItems[j].connect_right))
+                    if (inRegion(circuitItemList[i].connect_left, circuitItemList[j].connect_right))
                     {
                         connectivity[i, j] = Connectivity.l;
                         connectivity[j, i] = Connectivity.e;
-                        circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        circuitItemList[j].list.Add(circuitItemList[i].list[0]);
                         continue;
                     }
-                    if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_right))
+                    if (inRegion(circuitItemList[i].connect_right, circuitItemList[j].connect_right))
                     {
                         connectivity[i, j] = Connectivity.r;
                         connectivity[j, i] = Connectivity.e;
-                        circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        circuitItemList[j].list.Add(circuitItemList[i].list[0]);
                         continue;
                     }
                 };
@@ -301,17 +309,17 @@ namespace MagicCircuit
                 for (var j = boundary; j < count; j++)
                 {
                     if (i == j) continue;
-                    if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_left))
+                    if (isConnected(circuitItemList[i].connect_left, circuitItemList[j].connect_left))
                     { connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.s; }
-                    if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_right))
+                    if (isConnected(circuitItemList[i].connect_left, circuitItemList[j].connect_right))
                     { connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.e; }
                 }
                 for (var j = boundary; j < count; j++)
                 {
                     if (i == j) continue;
-                    if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_left))
+                    if (isConnected(circuitItemList[i].connect_right, circuitItemList[j].connect_left))
                     { connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.s; }
-                    if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_right))
+                    if (isConnected(circuitItemList[i].connect_right, circuitItemList[j].connect_right))
                     { connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.e; }
                 }
             }
@@ -574,7 +582,7 @@ namespace MagicCircuit
 
             while (true)
             {
-                circuitItems[(int)next.x].powered = true;
+                circuitItemList[(int)next.x].powered = true;
                 circuitBranch[circuitBranch.Count - 1].Add((int)next.x);
 
                 if (R_Matrix[(int)next.y, (int)next.x] == Connectivity.r)
@@ -595,7 +603,7 @@ namespace MagicCircuit
             for (var i = 0; i < boundary; i++)
                 for (var j = boundary; j < count; j++)
                 {
-                    circuitItems[j].powered = true;
+                    circuitItemList[j].powered = true;
 
                     if (connectivity[i, j] == Connectivity.r)
                     {
@@ -615,9 +623,9 @@ namespace MagicCircuit
             bool modified = false;
 
             for (var i = boundary; i < count; i++)
-                if (!circuitItems[i].powered)
+                if (!circuitItemList[i].powered)
                 {
-                    circuitItems[i].powered = true;
+                    circuitItemList[i].powered = true;
                     modified = true;
 
                     int flip = 0; // For voting
@@ -625,7 +633,7 @@ namespace MagicCircuit
 
                     for (var j = boundary; j < count; j++)
                     {
-                        if (!circuitItems[j].powered) continue;
+                        if (!circuitItemList[j].powered) continue;
 
                         if (connectivity[j, i] == Connectivity.e)
                         {
@@ -650,7 +658,7 @@ namespace MagicCircuit
 
         private void flipLine(int ID)
         {
-            circuitItems[ID].list.Reverse();
+            circuitItemList[ID].list.Reverse();
 
             for (var j = 0; j < count; j++)
             {
@@ -665,7 +673,7 @@ namespace MagicCircuit
         {
             int num = 0;
             for (var i = 0; i < boundary; i++)
-                if (circuitItems[i].type == ItemType.Battery)
+                if (circuitItemList[i].type == ItemType.Battery)
                     num++;
 
             switch (num)
