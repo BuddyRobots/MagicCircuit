@@ -66,7 +66,7 @@ public class LevelTwo : MonoBehaviour
 			}
 		}
 		#elif UNITY_IPHONE 
-		if (Input.touchCount>0 && Input.GetTouch (0).phase == TouchPhase.Moved) //如果有移动触摸
+		if (Input.touchCount>0 /*&& Input.GetTouch (0).phase == TouchPhase.Moved*/) //如果有移动触摸
 		{
 			Ray ray = transform.parent.Find ("Camera").GetComponent<Camera> ().ScreenPointToRay (Input.GetTouch(0).position);
 			RaycastHit hit;

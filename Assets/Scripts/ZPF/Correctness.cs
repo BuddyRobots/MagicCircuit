@@ -3,38 +3,31 @@ using UnityEngine;
 
 namespace MagicCircuit
 {
-    public class Correctness
+    public static class Correctness
     {
-        private List<CircuitItem> itemList;
-        private List<List<int>> circuitBranch;
-            
-
-        public bool computeCorrectness(List<CircuitItem> _itemList, int level, List<List<int>> _circuitBranch)
+        public static bool computeCorrectness(List<CircuitItem> _itemList, int level, List<List<int>> _circuitBranch)
         {
-            itemList = _itemList;
-            circuitBranch = _circuitBranch;
-
             switch (level)
             {
-                case 1:  return level_1();
-                case 2:  return level_2();
-                case 3:  return level_3();
-                case 4:  return level_4();
-                case 5:  return level_5();
-                case 6:  return level_6();
-                case 7:  return level_7();
-                case 8:  return level_8();
-                case 9:  return level_9();
-                case 10: return level_10();
-                case 11: return level_11();
-                case 12: return level_12();
-                case 13: return level_13();
-                case 14: return level_14();
-                default: return false;
+			case 1:  return level_1 (_itemList, _circuitBranch);
+			case 2:  return level_2 (_itemList, _circuitBranch);
+			case 3:  return level_3 (_itemList, _circuitBranch);
+			case 4:  return level_4 (_itemList, _circuitBranch);
+			case 5:  return level_5 (_itemList, _circuitBranch);
+			case 6:  return level_6 (_itemList, _circuitBranch);
+			case 7:  return level_7 (_itemList, _circuitBranch);
+			case 8:  return level_8 (_itemList, _circuitBranch);
+			case 9:  return level_9 (_itemList, _circuitBranch);
+			case 10: return level_10(_itemList, _circuitBranch);
+			case 11: return level_11(_itemList, _circuitBranch);
+			case 12: return level_12(_itemList, _circuitBranch);
+			case 13: return level_13(_itemList, _circuitBranch);
+			case 14: return level_14(_itemList, _circuitBranch);
+			default: return false;
             }
         }
 
-        private bool level_1()
+		private static bool level_1(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----Bulb------
             // |               |
@@ -56,17 +49,17 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_2()
+		private static bool level_2(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----Bulb------
             //                 |
             //      Battery----
 
             // Same circuit as level_1
-            return level_1();
+			return level_1(itemList, circuitBranch);
         }
 
-        private bool level_3()
+		private static bool level_3(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----------Bulb----------
             // |                         |
@@ -90,7 +83,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_4()
+		private static bool level_4(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----Bulb-----Speaker----
             // |                         |
@@ -116,7 +109,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_5()
+		private static bool level_5(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  ----------Bulb------Speaker--------
             // |                                   |
@@ -142,7 +135,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_6()
+		private static bool level_6(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -2---Bulb------Switch----
             // |                         |
@@ -186,7 +179,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_7()
+		private static bool level_7(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -2---Bulb------Switch------
             // |                           |
@@ -230,7 +223,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_8()
+		private static bool level_8(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -3---Bulb------Switch------
             // |                           |
@@ -280,7 +273,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_9()
+		private static bool level_9(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -3---Bulb----Bulb----Switch----
             // |                               |
@@ -330,17 +323,17 @@ namespace MagicCircuit
             else return false;
         }
         
-        private bool level_10()
+		private static bool level_10(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----------Bulb----------
             // |                         |
             //  -0--Battery----Switch----
 
             // Same as level 3
-            return level_3();
+			return level_3(itemList, circuitBranch);
         }
 
-        private bool level_11()
+		private static bool level_11(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----------Bulb------------
             // |                           |
@@ -364,7 +357,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_12()
+		private static bool level_12(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----------Bulb------------
             // |                           |
@@ -388,7 +381,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_13()
+		private static bool level_13(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----Bulb------VOSwitch----
             // |                           |
@@ -414,7 +407,7 @@ namespace MagicCircuit
             else return false;
         }
 
-        private bool level_14()
+		private static bool level_14(List<CircuitItem> itemList, List<List<int>> circuitBranch)
         {
             //  -----Bulb------VTDSwitch----
             // |                            |
