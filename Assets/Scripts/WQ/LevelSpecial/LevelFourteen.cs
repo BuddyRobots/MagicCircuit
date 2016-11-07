@@ -177,7 +177,7 @@ public class LevelFourteen : MonoBehaviour
 
 					}
 				}
-				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
+				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
 			}
 			#endregion
 			#region 如果是白天
@@ -204,7 +204,7 @@ public class LevelFourteen : MonoBehaviour
 					GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), isVOswitchOn);
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 					}
-					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
+					CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);	
 				}
 			}
 			#endregion

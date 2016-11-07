@@ -18,6 +18,9 @@ public class LevelThree : MonoBehaviour
 
 	private bool isTest=false;
 
+
+	public bool  isArrowSemiTrans=true;
+
 	void Update () 
 	{
 		if (isNormalSwitchOccur) 
@@ -33,26 +36,9 @@ public class LevelThree : MonoBehaviour
 				}
 				isTest=false;
 			} 
-			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-
-//			//for test  ....
-//			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn && !isTest) 
-//			{
-//				for (int i = 0; i < PhotoRecognizingPanel._instance.itemList.Count; i++) 
-//				{
-//					if (PhotoRecognizingPanel._instance.itemList[i].type==ItemType.CircuitLine) 
-//					{
-//						//Debug.Log("itemlist["+i+"] powered: "+PhotoRecognizingPanel._instance.itemList[i].powered);
-//						
-//					}
-//				}
-//				isTest=true;
-//
-//			}
-
-
-
-			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+//			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+//			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	}
 

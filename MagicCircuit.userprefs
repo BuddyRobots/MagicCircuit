@@ -1,58 +1,30 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/Level/LevelHandle.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/GetImage.cs">
     <Files>
-      <File FileName="Assets/Scripts/WQ/Panel/PanelTranslate.cs" Line="38" Column="59" />
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="100" Column="43" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="688" Column="39" />
-      <File FileName="Assets/Scripts/WQ/Others/MoveCtrl.cs" Line="31" Column="13" />
-      <File FileName="Assets/Scripts/WQ/Others/ArrowCtrl.cs" Line="61" Column="2" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelOne.cs" Line="4" Column="22" />
-      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="20" Column="2" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwo.cs" Line="5" Column="22" />
-      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="21" Column="10" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThree.cs" Line="6" Column="24" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwelve.cs" Line="17" Column="2" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFour.cs" Line="6" Column="23" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSix.cs" Line="7" Column="22" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSeven.cs" Line="7" Column="24" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelNine.cs" Line="7" Column="23" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFifteen.cs" Line="7" Column="26" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFive.cs" Line="8" Column="23" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThirteen.cs" Line="6" Column="27" />
-      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelEleven.cs" Line="28" Column="2" />
+      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="124" Column="10" />
+      <File FileName="Assets/Scripts/WQ/Panel/PanelTranslate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="145" Column="19" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Others/MoveCtrl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Others/ArrowCtrl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelOne.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThree.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwelve.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFour.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSix.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelSeven.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelNine.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFifteen.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelFive.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThirteen.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelEleven.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
-=======
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/Correctness.cs">
-    <Files>
-      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/CurrentFlow.cs" Line="45" Column="38" />
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="238" Column="14" />
-      <File FileName="Assets/Scripts/ZPF/Correctness.cs" Line="46" Column="6" />
-=======
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ZPF/RotateCamera.cs">
-    <Files>
-      <File FileName="Assets/Scripts/ZPF/GetImage.cs" Line="222" Column="15" />
-      <File FileName="Assets/Scripts/ZPF/Constant.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/RecognizeAlgo.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/LineDetector.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/CurrentFlow.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/ZPF/RotateCamera.cs" Line="28" Column="50" />
->>>>>>> bug-version-1.1
-    </Files>
-  </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint traceExpression="{i}" file="/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Scripts/ZPF/GetImage.cs" line="190" column="1" />
-      <Breakpoint file="/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" line="86" column="1" />
-    </BreakpointStore>
->>>>>>> 769ac420b65c9b55f3915be5069846084c95ec1b
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

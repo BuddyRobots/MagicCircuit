@@ -28,7 +28,7 @@ public class LevelTen : MonoBehaviour {
 //				}
 //			} 
 			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+			CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
 		}
 	
 	}

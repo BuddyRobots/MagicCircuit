@@ -41,7 +41,7 @@ public class LevelFive : MonoBehaviour
 //					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
 //				}
 			
-				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
+				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
 			}
 		}
 	

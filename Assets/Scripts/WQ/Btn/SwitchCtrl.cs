@@ -17,7 +17,6 @@ public class SwitchCtrl : MonoBehaviour
 
 		UIEventListener.Get(switchOnBtn).onClick = OnSwitchOnBtnClick;
 		UIEventListener.Get(switchOffBtn).onClick = OnSwitchOffBtnClick;
-
 	}
 
 	void Update () 
@@ -46,6 +45,11 @@ public class SwitchCtrl : MonoBehaviour
 	void OnSwitchOnBtnClick(GameObject btn)
 	{
 		isSwitchOn = false;    
+		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), true);
+//		Debug.Log("----------switch on");
+		CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+//		Debug.Log("----------CircuitReset");
+
 	}
 
 	/// <summary>
@@ -55,6 +59,10 @@ public class SwitchCtrl : MonoBehaviour
 	void  OnSwitchOffBtnClick(GameObject btn)  
 	{
 		isSwitchOn = true;
+		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), false);
+//		Debug.Log("----------switch OFF");
+		CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+//		Debug.Log("----------CircuitReset");
 
 	}
 

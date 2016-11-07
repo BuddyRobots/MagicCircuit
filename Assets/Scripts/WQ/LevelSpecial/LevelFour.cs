@@ -25,7 +25,7 @@ public class LevelFour : MonoBehaviour
 			{
 				GetImage._instance.cf.switchOnOff (int.Parse (normalSwitchList [i].tag), normalSwitchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
-				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
+				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
 			}
 		}
 	}

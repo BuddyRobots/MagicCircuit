@@ -121,7 +121,7 @@ public class LevelThirteen : MonoBehaviour
 						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
 					}
 				}
-				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
+				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
 			}
 			#endregion
 			#region 如果是白天
@@ -148,7 +148,7 @@ public class LevelThirteen : MonoBehaviour
 						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), isVOswitchOn);
 						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
 					}
-					CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
+					CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);	
 				}
 			}
 			#endregion

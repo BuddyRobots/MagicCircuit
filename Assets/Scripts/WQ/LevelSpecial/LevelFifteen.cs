@@ -39,7 +39,7 @@ public class LevelFifteen : MonoBehaviour
 
 				//第15关特定
 				GetImage._instance.cf_SPDT.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
-				CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);
+				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
 			}
 		}
 	}

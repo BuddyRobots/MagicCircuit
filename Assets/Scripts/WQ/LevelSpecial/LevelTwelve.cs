@@ -74,7 +74,7 @@ public class LevelTwelve : MonoBehaviour
 			}	
 			GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
 			LAswitch.GetComponent<UISprite>().spriteName=isCircuitWork? "LAswitchOn":"LAswitchOff";
-			CommonFuncManager._instance.CircuitReset (GetImage._instance.itemList);	
+			CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);	
 		}
 	}
 
