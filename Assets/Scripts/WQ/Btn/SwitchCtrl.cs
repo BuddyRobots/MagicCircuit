@@ -47,7 +47,7 @@ public class SwitchCtrl : MonoBehaviour
 		isSwitchOn = false;    
 		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), true);
 //		Debug.Log("----------switch on");
-		CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+		CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
 //		Debug.Log("----------CircuitReset");
 
 	}
@@ -61,7 +61,7 @@ public class SwitchCtrl : MonoBehaviour
 		isSwitchOn = true;
 		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), false);
 //		Debug.Log("----------switch OFF");
-		CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);
+		CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
 //		Debug.Log("----------CircuitReset");
 
 	}

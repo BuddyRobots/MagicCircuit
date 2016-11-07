@@ -17,7 +17,7 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 70;
 		public const int    CARD_MAX_SQUARE_LEN       = 100;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.32;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.35;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
 		public const int    LINE_COLOR_MAX_V          = 170;
