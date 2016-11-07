@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{82E629D6-C89B-0340-F535-44BC6ECF34B6}</ProjectGuid>
+    <ProjectGuid>{A43CFED5-718A-19EB-A88F-EA59EA655CE8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -389,8 +389,10 @@
      <Compile Include="Assets\Scripts\WQ\Panel\DescriptionPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\FailurePanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\LevelSelectPanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\Panel\PanelTranslate.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoRecognizingPanel.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\PhotoTakingPanel.cs" />
+     <Compile Include="Assets\Scripts\WQ\Panel\StartGame.cs" />
      <Compile Include="Assets\Scripts\WQ\Panel\StartPanel.cs" />
      <Compile Include="Assets\Scripts\ZPF\CardDetector.cs" />
      <Compile Include="Assets\Scripts\ZPF\Constant.cs" />
@@ -477,7 +479,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/MagicCircuit_PanelAsPrefab/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

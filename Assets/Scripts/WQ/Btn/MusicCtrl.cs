@@ -6,7 +6,7 @@ public class MusicCtrl : MonoBehaviour {
 	public static bool isMusicOn=true;
 	private GameObject musicOnBtn;
 	private GameObject musicOffBtn;
-	public AudioSource bgAudio;
+	private AudioSource bgAudio;
 
 	void Start () 
 	{
@@ -15,6 +15,14 @@ public class MusicCtrl : MonoBehaviour {
 
 		UIEventListener.Get(musicOnBtn).onClick = OnMusicOnBtnClick;
 		UIEventListener.Get(musicOffBtn).onClick = OnMusicOffBtnClick;
+	}
+
+	void OnEnable()
+	{
+
+
+		bgAudio=GameObject.Find("Main Camera").GetComponent<AudioSource>();
+
 	}
 
 	void Update () 
@@ -34,7 +42,7 @@ public class MusicCtrl : MonoBehaviour {
 			//如果状态是关，而当前下面的 “音乐开” 按钮开着的话，关闭它，并且打开 “音乐关” 的按钮
 			musicOnBtn.SetActive(false);
 			musicOffBtn.SetActive(true);
-			//关闭音乐 
+//			关闭音乐 
 			if (bgAudio.isPlaying) 
 			{
 				bgAudio.Pause ();

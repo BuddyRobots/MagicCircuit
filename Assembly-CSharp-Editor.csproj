@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{7D221B4D-4737-35E0-BAE4-49BB087160D5}</ProjectGuid>
+    <ProjectGuid>{2C914218-EFA2-5D3E-CC43-3F3BB3574D95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -224,7 +224,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
- <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
+ <HintPath>/Users/WangQian/Documents/MagicCircuit_PanelAsPrefab/Assets/Plugins/LitJson.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -247,7 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{82E629D6-C89B-0340-F535-44BC6ECF34B6}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{A43CFED5-718A-19EB-A88F-EA59EA655CE8}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,8 +10,8 @@ using System.Runtime.InteropServices;
 
 public class GetImage : MonoBehaviour
 {
-	[DllImport("__Internal")]
-	private static extern void _SavePhoto (string readAddr);
+//	[DllImport("__Internal")]
+//	private static extern void _SavePhoto (string readAddr);
 
 	public static GetImage _instance;
 	public bool isThreadEnd = false;
@@ -43,6 +43,9 @@ public class GetImage : MonoBehaviour
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
 
 	private string xmlPath="";
+
+	public bool isStartUpdate=true;
+
 
 	void OnEnable()
 	{
@@ -128,25 +131,36 @@ public class GetImage : MonoBehaviour
 
 	void Update()
 	{
-		if (!initDone)
-			return;
-		Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
-		if (webCamTexture.didUpdateThisFrame)
+		if (isStartUpdate) 
 		{
-			Utils.webCamTextureToMat(webCamTexture, frameImg);
-			rotateCamera.rotate(ref frameImg);
-
-			if (isTakingPhoto)
-			{	
-				frameImgList.Add(frameImg.clone());
-				if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
-					isTakingPhoto = false; 
+			if (!initDone)
+				return;
+			print("---------------");
+			print("******" + DateTime.Now.Millisecond * 10000);
+			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
+			if (webCamTexture.didUpdateThisFrame)
+			{
+				
+				print("******" + DateTime.Now.Millisecond * 10000);
+				Utils.webCamTextureToMat(webCamTexture, frameImg);
+				rotateCamera.rotate(ref frameImg);
+				print("******" + DateTime.Now.Millisecond * 10000);
+				if (isTakingPhoto)
+				{	
+					frameImgList.Add(frameImg.clone());
+					if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
+						isTakingPhoto = false; 
+				}
+				print("******" + DateTime.Now.Millisecond * 10000);
+				texture.Resize(frameImg.cols(), frameImg.rows());
+				Utils.matToTexture2D(frameImg, texture);
+				print("******" + DateTime.Now.Millisecond * 10000);
 			}
-
-			texture.Resize(frameImg.cols(), frameImg.rows());
-			Utils.matToTexture2D(frameImg, texture);
+			frameImg.Dispose();
+			print("******" + DateTime.Now.Millisecond * 10000);
+			print("---------------");
 		}
-		frameImg.Dispose();
+
 	}
 
 	public void Thread_Process_Start()
@@ -216,13 +230,13 @@ public class GetImage : MonoBehaviour
 
 
 
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
-				     " connect_left = " + itemList[i].connect_left +
-				     " connect_right = " + itemList[i].connect_right +
-				     " powered = " + itemList[i].powered);
-		}
+//		for (int i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+//				     " connect_left = " + itemList[i].connect_left +
+//				     " connect_right = " + itemList[i].connect_right +
+//				     " powered = " + itemList[i].powered);
+//		}
 
 
 
@@ -244,10 +258,17 @@ public class GetImage : MonoBehaviour
 		else 
 			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
 
-//		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
-		//		Debug.Log("itemList.Count = " + itemList.Count);
-		//		for (var i = 0; i < itemList.Count; i++)
-		//			Debug.Log(i + " " + itemList[i].type + " " + itemList[i].list[0] + " " + itemList[i].powered);
+
+
+
+		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
+		for (int i = 0; i < itemList.Count; i++)
+		{
+			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+				" connect_left = " + itemList[i].connect_left +
+				" connect_right = " + itemList[i].connect_right +
+				" powered = " + itemList[i].powered);
+		}
 	}
 
 

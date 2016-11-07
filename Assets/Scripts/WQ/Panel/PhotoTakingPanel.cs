@@ -9,9 +9,6 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	private GameObject helpBtn;
 	private GameObject confirmBtn;
-	private GameObject commonPanel02;
-	private GameObject demoShowPanel;
-	private GameObject photoRecognizingPanel;
 
 	private UISprite noticeImg;
 	private UILabel countDown;
@@ -23,9 +20,6 @@ public class PhotoTakingPanel : MonoBehaviour
 
 		helpBtn = transform.Find ("HelpBtn").gameObject;
 		confirmBtn = transform.Find ("ConfirmBtn").gameObject;
-		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
-		demoShowPanel = transform.parent.Find ("CommonPanel02/DemoShowPanel").gameObject;
-		photoRecognizingPanel = transform.parent.Find ("PhotoRecognizingPanel").gameObject;
 		noticeImg=transform.Find("Notice").GetComponent<UISprite>();
 		countDown = transform.Find ("CountDown").GetComponent<UILabel> ();
 		levelLabel = transform.Find ("LevelLabel").GetComponent<UILabel> ();
@@ -50,8 +44,7 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		commonPanel02.SetActive(true);
-		demoShowPanel.SetActive (true);
+		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
 		PanelOff();
 	}
 
@@ -86,8 +79,8 @@ public class PhotoTakingPanel : MonoBehaviour
 		GetImage._instance.Thread_Process_Start();
 		//GetImage._instance.test_saveFullQuadPhotoToiPad();
 
+		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);
 		PanelOff();
-		photoRecognizingPanel.SetActive (true);
 	}
 	#endregion
 
@@ -96,6 +89,9 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.text = "3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
-		gameObject.SetActive (false);
+
+
+		GetImage._instance.isStartUpdate=false;
+		PanelTranslate.Instance.DestoryThisPanel();
 	}
 }

@@ -7,18 +7,10 @@ public class RemoveLine : MonoBehaviour
 	[HideInInspector]
 	public bool isRemoveLine=false;
 
-
-
 	[Range(0,2)]
 	public float radius;
-
-	/// <summary>
-	/// 有没有线段被擦除的标志
-	/// </summary>
-	//private bool isLineRemove = false;
-
-
 	private bool isFingerShow = false;
+
 	void OnEnable()
 	{
 		isRemoveLine=false;
@@ -26,10 +18,7 @@ public class RemoveLine : MonoBehaviour
 		{
 			PhotoRecognizingPanel._instance.isNeedToCreateArrow = true;
 		}
-
 	}
-
-
 
 	void Update () 
 	{
@@ -51,10 +40,7 @@ public class RemoveLine : MonoBehaviour
 		yield return new WaitForSeconds (3f);
 		TouchToDestroyLine ();
 	}
-
-
-
-
+		
 	/// <summary>
 	/// 触摸移动销毁线条
 	/// </summary>
@@ -68,31 +54,15 @@ public class RemoveLine : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) 
 			{
-				
-				Debug.Log("hit.collider.name===="+hit.collider.gameObject.name);
+//				Debug.Log("hit.collider.name===="+hit.collider.gameObject.name);
 				if (hit.collider.gameObject.name=="MaskBg" || hit.collider.gameObject.name=="Btn") 
 				{
 					return ;	
 				}
 				else
 				{
-					DestroyLine(hit.point,0.02f/*radius*/);
+					DestroyLine(hit.point,0.03f/*radius*/);
 				}
-//				GameObject go = hit.collider.gameObject;
-//				if (go.name.Contains ("line")) //如果碰到的是线，线就消失，电流消失
-//				{ 
-//					Destroy (go);
-//					if (temp.finger)
-//					{
-//						Destroy (temp.finger);
-//					}
-//					transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
-//					temp.StopCreateArrows();
-//					for (int i = 0; i < temp.arrowList.Count; i++) 
-//					{
-//						Destroy (temp.arrowList[i]);
-//					}
-//				}
 			}
 		}
 		#elif UNITY_IPHONE 
@@ -108,7 +78,7 @@ public class RemoveLine : MonoBehaviour
 				}
 				else
 				{
-					DestroyLine(hit.point,0.02f);
+					DestroyLine(hit.point,0.03f);
 				}
 			}
 		}
@@ -126,8 +96,21 @@ public class RemoveLine : MonoBehaviour
 			GameObject tempGo=hitColliders[k].gameObject;
 			if (tempGo.tag!="mask" && tempGo.name.Contains("lineNew"))
 			{
-				Destroy(hitColliders[k].gameObject);
-				BreakCircuit();
+				int index=int.Parse(tempGo.tag);
+				//擦除线是应该判断线有没有电流，如果有电流则消除线并且断开电流，如果没有则只消除线,不用断开电流
+				if (GetImage._instance.itemList[index].powered) 
+				{
+					Destroy(hitColliders[k].gameObject);
+					BreakCircuit();
+				}
+				else
+				{
+
+					Destroy(hitColliders[k].gameObject);
+
+				}
+
+
 			}
 		}
 	}

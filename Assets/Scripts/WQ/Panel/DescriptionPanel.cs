@@ -10,7 +10,6 @@ public class DescriptionPanel : MonoBehaviour {
 	private UILabel levelNameLabel;
 
 	private GameObject nextBtn;
-	private GameObject photoTakingPanel;
 
 	public  LevelItemData data;
 
@@ -27,7 +26,6 @@ public class DescriptionPanel : MonoBehaviour {
 	void Start () 
 	{
 		nextBtn = transform.Find ("NextBtn").GetComponent<UIButton> ().gameObject;
-		photoTakingPanel = transform.parent.Find ("PhotoTakingPanel").gameObject;
 		descriptionLabel = transform.Find ("LabelBg/Label").GetComponent<UILabel> ();
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
@@ -64,14 +62,16 @@ public class DescriptionPanel : MonoBehaviour {
 	/// <param name="btn">Button.</param>
 	void OnNextBtnClick(GameObject btn)
 	{
+		
+
+		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel);
 		PanelOff ();
-		photoTakingPanel.SetActive(true);
 
 	}
 
 	public void PanelOff()
 	{
-		gameObject.SetActive (false);
+		PanelTranslate.Instance.DestoryThisPanel();
 	}
 
 }

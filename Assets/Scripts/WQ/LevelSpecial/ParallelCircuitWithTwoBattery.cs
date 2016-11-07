@@ -95,7 +95,7 @@ public class ParallelCircuitWithTwoBattery : MonoBehaviour
 				if (isBatteryClick && !clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池回归到正常
 				{
 					CommonFuncManager._instance.CircuitResetWithTwoBattery (GetImage._instance.itemList);
-					batteryList [1].GetComponent<UISprite> ().depth = 3;
+					batteryList [1].GetComponent<UISprite> ().depth = 4;
 				}
 			}
 

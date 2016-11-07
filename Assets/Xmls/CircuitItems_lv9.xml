@@ -642,5 +642,79 @@
 	  </connect_right>
     </XmlCircuitItem>
 
+
+
+
+
+        <XmlCircuitItem ID="24">
+      <name>CircuitLine</name>
+      <type>CircuitLine</type>
+      <list>
+        <Vector3>
+          <x>-232</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3>
+
+        <Vector3>
+          <x>-208</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+          <Vector3>
+          <x>-196</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-176</x>
+          <y>-258</y>
+          <z>0</z>
+
+        </Vector3> 
+        <Vector3>
+          <x>-160</x>
+          <y>-259</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-138</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+
+        <Vector3>
+          <x>-105</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+        <Vector3>
+          <x>-77</x>
+          <y>-258</y>
+          <z>0</z>
+        </Vector3> 
+
+
+             
+      </list>
+
+      <theta>0</theta>
+      <showOrder>24</showOrder>
+      <powered>false</powered>
+	  <connect_left>
+		<x>-232</x>
+		<y>-258</y>
+	  </connect_left>
+	  <connect_right>
+		<x>-77</x>
+		<y>-258</y>
+	  </connect_right>
+    </XmlCircuitItem>
+
   </XmlCircuitItems>
 </XmlCircuitItemCollection>
