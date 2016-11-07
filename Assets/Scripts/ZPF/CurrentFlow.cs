@@ -10,39 +10,44 @@ namespace MagicCircuit
         private List<CircuitItem> circuitItems;
         private List<List<int>> circuitBranch;  // Store the branches of the whole circuit for CircuitCompare
 
-        private Correctness correctness;        // Determine whether circuit is correct
-
         private Connectivity[,] connectivity;   // Will modify this when handling switch on/off
         private Connectivity[,] L_Matrix;
         private Connectivity[,] R_Matrix;
         private Connectivity[,] originalConn;   // Connectivity for the whole circuit when all switches on
         private Connectivity[,] currentConn;    // Store the current state of connectivity for switchOn/Off
 
-        private bool[] isOpened;                // Store information of which item is open circuited
+        private bool[] itemIsOpened;            // Store information of which item is open circuited
         private int count;
         private int boundary;                   // ID of the first CircuitLine
 
 
 		public 	CurrentFlow()
 		{
-			
-			circuitBranch = new List<List<int>> ();
-			correctness = new Correctness ();
-
+			circuitBranch = new List<List<int>>();
 		}
 
 
 
         public bool compute(ref List<CircuitItem> itemList, int level)
         {
-            //@FIXME
+			count = itemList.Count;
+			// Find boundary between cards & lines
+			boundary = 0;
+			while (boundary < count)
+			{
+				if (itemList[boundary].type == ItemType.CircuitLine)
+					break;
+				boundary++;
+			}
+
+            // FIXME
             // Deep copy itemList to circuitItems
 			circuitItems = new List<CircuitItem>();
 			for (var i = 0 ; i < itemList.Count; i++)
 			{
 				circuitItems.Add(itemList[i]);
 			}
-//            circuitItems = itemList;
+            //circuitItems = itemList;
 
             if (computeCircuitBranch())
                 Debug.Log("Working Circuit!");
@@ -53,7 +58,7 @@ namespace MagicCircuit
             }
 
             // Determine whether circuit is correct
-            if (!correctness.computeCorrectness(itemList, level, circuitBranch))
+            if (!Correctness.computeCorrectness(itemList, level, circuitBranch))
                 return false;
 
             /// Display CircuitBranch
@@ -66,20 +71,9 @@ namespace MagicCircuit
             }
 
             /////////////////////////////////////
-            // Return if no switches
-            bool haveSwitch = false;
-            for (var i = 0; i < boundary; i++)
-                if (circuitItems[i].type == ItemType.Switch ||
-                    circuitItems[i].type == ItemType.LightActSwitch ||
-                    circuitItems[i].type == ItemType.VoiceOperSwitch ||
-                    circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
-                {
-                    haveSwitch = true;
-                    break;
-                }                    
-            if (!haveSwitch) return true;
+			// Return if no switches
+			if (haveNoSwitches()) return true;
 
-            /////////////////////////////////////
             // Deal with switches
             // Restore connectivity to compute circuitItems
             Array.Copy(originalConn, connectivity, originalConn.Length);
@@ -106,14 +100,14 @@ namespace MagicCircuit
             //@ Result is the start state of circuit when all the switches are off
             //@ Use CurrentFlow.circuitItems here
 
-            //@FIXME
+            // FIXME
             // Deep Copy circuitItems to itemList
 			itemList.Clear();
-			for (var i = 0 ; i < circuitItems.Count; i++)
-			{
+			for (var i = 0; i < circuitItems.Count; i++)
+            {
 				itemList.Add(circuitItems[i]);
 			}
-//            itemList = circuitItems;
+            //itemList = circuitItems;
 
             /// Display circuitItems.list
             for (var i = boundary; i < count; i++)
@@ -123,6 +117,21 @@ namespace MagicCircuit
 
 			/////////////////////////////////////  
 			return true;                 
+		}
+
+		private bool haveNoSwitches()
+		{			
+			bool haveSwitch = false;
+			for (var i = 0; i < boundary; i++)
+				if (circuitItems[i].type == ItemType.Switch ||
+					circuitItems[i].type == ItemType.LightActSwitch ||
+					circuitItems[i].type == ItemType.VoiceOperSwitch ||
+					circuitItems[i].type == ItemType.VoiceTimedelaySwitch)
+				{
+					haveSwitch = true;
+					break;
+				}                    
+			return !haveSwitch;
 		}
 
         public void switchOnOff(int ID, bool state) // State true: on false: off
@@ -154,18 +163,7 @@ namespace MagicCircuit
             //circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "CircuitItems.xml")).toCircuitItems();
 
             circuitBranch = new List<List<int>>();
-            circuitBranch.Add(new List<int>());
-
-            count = circuitItems.Count;
-
-            // Find boundary between cards & lines
-            boundary = 0;
-            while (boundary < count)
-            {
-                if (circuitItems[boundary].type == ItemType.CircuitLine)
-                    break;
-                boundary++;
-            }
+            circuitBranch.Add(new List<int>());			          
 
             connectivity = new Connectivity[count, count];
             originalConn = new Connectivity[count, count];
@@ -192,7 +190,7 @@ namespace MagicCircuit
             // Deal with multiple batteries
             if (!combineBattery()) return false;
 
-            // Store the connectivity when all switches on            
+            // Store the connectivity when all switches are on            
             Array.Copy(connectivity, originalConn, connectivity.Length);
 
             // Will modify connectivity & generate circuitBranch as result
@@ -209,6 +207,12 @@ namespace MagicCircuit
 
             // Compute L&R matrix
             if (!computeLRMat()) return false; // If have error when computing L/R_Matrix
+
+
+			Debug.Log("CurrentFlow.cs process() : flag 1");
+
+
+
 
             // Traverse all the components to get current flow direction
             Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
@@ -248,7 +252,7 @@ namespace MagicCircuit
             while (flipLineFromLine()) ;
 
             for (var i = 0; i < count; i++)
-                if (isOpened[i])
+                if (itemIsOpened[i])
                     circuitItems[i].powered = false;
 
             return true;
@@ -331,52 +335,30 @@ namespace MagicCircuit
                 return false;
         }
 
-        private bool isNotValid(int i)
-        {
-            bool haveStart = false;
-            bool haveEnd = false;
-
-            for (var j = 0; j < count; j++)
-            {
-                if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
-                    haveStart = true;
-                if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
-                    haveEnd = true;
-            }
-
-            // We consider 0 0 and 1 1 as valid
-            //             1 0 and 0 1 as invalid
-            // So return true when invalid
-            if (haveStart ^ haveEnd) // XOR operator
-                return true;
-            else
-                return false;
-        }
-
         private bool simplifyCircuit()
         {
-            bool flag;
             bool[] delete = new bool[count];
             bool haveOpenCircuit = false;
+			bool haveItemDeleted = false;
 
             // Initialize isOpened
-            isOpened = new bool[count];
+			itemIsOpened = new bool[count];
             for (var i = 0; i < count; i++)
-                isOpened[i] = false;
+				itemIsOpened[i] = false;
 
             do
             {
-                flag = false;
+                haveItemDeleted = false;
                 // Initialize delete[] to all false            
                 for (var i = 0; i < count; i++)
                     delete[i] = false;
 
                 for (var i = 0; i < count; i++)
-                    if (isNotValid(i))
+					if (!itemIsOpened[i] && isNotFullyConnected(i))
                     {
                         delete[i] = true;
-                        isOpened[i] = true;
-                        flag = true;
+						itemIsOpened[i] = true;
+                        haveItemDeleted = true;
                         haveOpenCircuit = true;
                     }
 
@@ -388,11 +370,33 @@ namespace MagicCircuit
                             connectivity[j, i] = Connectivity.zero;
                         }
 
-            } while (flag);
+            } while (haveItemDeleted);
 
             if (haveOpenCircuit) return false;
             else return true;
         }
+
+		private bool isNotFullyConnected(int i)
+		{
+			bool haveStart = false;
+			bool haveEnd = false;
+
+			for (var j = 0; j < count; j++)
+			{
+				if (connectivity[i, j] == Connectivity.l || connectivity[i, j] == Connectivity.s)
+					haveStart = true;
+				if (connectivity[i, j] == Connectivity.r || connectivity[i, j] == Connectivity.e)
+					haveEnd = true;
+			}
+
+			// We consider 0 0 and 1 1 as valid
+			//             1 0 and 0 1 as invalid
+			// So return true when invalid
+			if (haveStart ^ haveEnd) // XOR operator
+				return true;
+			else
+				return false;
+		}
 
         private bool computeLRMat()
         {

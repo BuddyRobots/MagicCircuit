@@ -42,7 +42,6 @@ public class GetImage : MonoBehaviour
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
 
-	private string xmlPath="";
 
 	public bool isStartUpdate=true;
 
@@ -58,12 +57,11 @@ public class GetImage : MonoBehaviour
 		cf = new CurrentFlow();
 		cf_SPDT = new CurrentFlow_SPDTSwitch();
 
-		xmlPath="Xmls/CircuitItems_lv"+LevelManager.currentLevelData.LevelID+".xml";
-		Debug.Log("xmlPath===="+xmlPath);
-
 		// For test, load xml to xmlItemList
 		#if UNITY_EDITOR  
 //		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
+		string xmlPath = "Xmls/CircuitItems_lv" + LevelManager.currentLevelData.LevelID + ".xml";
+		Debug.Log("GetImage.cs OnEnable() : xmlPath =" + xmlPath);
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, xmlPath)).toCircuitItems();
 
 //		Debug.Log ("=====Start=====");
@@ -245,8 +243,8 @@ public class GetImage : MonoBehaviour
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
-//		Debug.Log("computeCurrentFlow Time elapse : " + elapse_2);
-//		Debug.Log("Thread_Process_End");
+		Debug.Log("GetImage.cs Thread_Process() : computeCurrentFlow Time elapse : " + elapse_2);
+		Debug.Log("Thread_Process_End");
 
 		isThreadEnd = true;
 	}

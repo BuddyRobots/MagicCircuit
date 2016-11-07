@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MagicCircuit
 {
-    public class Correctness
+    public static class Correctness
     {
         private List<CircuitItem> itemList;
         private List<List<int>> circuitBranch;
