@@ -106,7 +106,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	private GameObject sunAndMoon;
 	private GameObject microPhone;
-	private GameObject commonPanel02;//需要跳转连接的界面
 	private GameObject labelBgTwinkle;//文字显示的发光背景
 	private GameObject lineParent;
 	private GameObject linePrefab;
@@ -145,7 +144,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	void Start()
 	{
 		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
-		commonPanel02 = transform.parent.Find ("CommonPanel02").gameObject;
 
 		bulb = Resources.Load ("Prefabs/Items/Bulb",typeof(GameObject))  as GameObject;
 		battery = Resources.Load ("Prefabs/Items/Battery",typeof(GameObject))  as GameObject;
@@ -528,7 +526,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		case ItemType.CircuitLine:
 			
 			lines.Add (circuitItem.list);//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
-			StartCoroutine (DrawCircuit (circuitItem.list));
+			StartCoroutine (DrawCircuit (circuitItem.list,circuitItem.ID));
 			break;
 		default:
 			break;
@@ -558,12 +556,12 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	/// 画线路itemList
 	/// </summary>
 	/// <param name="pos">线上点的集合</param>
-	IEnumerator DrawCircuit(List <Vector3> pos)
+	IEnumerator DrawCircuit(List <Vector3> pos, int lineID)
 	{
 		for (int i = 0; i < pos.Count - 1; i++)
 		{
 
-			DrawLineBetweenTwoPoints (pos [i], pos [i + 1]);
+			DrawLineBetweenTwoPoints (pos [i], pos [i + 1], lineID);
 			yield return new WaitForSeconds (lineItemInterval);//画一条线，隔0.1秒再画一条
 
 		}
@@ -571,12 +569,15 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	}
 		
 	//两点之间画线，需要知道两点之间的距离，线段的中心点，以及角度------思想是把要显示的图片放在中心点的位置，然后把图片的宽度拉伸到和线段一样长，再依照角度旋转
-	void DrawLineBetweenTwoPoints(Vector3 posFrom, Vector3 posTo)
+	void DrawLineBetweenTwoPoints(Vector3 posFrom, Vector3 posTo, int lineID)
 	{
 		distance = Vector3.Distance (posFrom, posTo);
 		centerPos = Vector3.Lerp (posFrom, posTo, 0.5f);
 		angle = CommonFuncManager._instance.TanAngle (posFrom, posTo);
-		GameObject lineGo = NGUITools.AddChild(lineParent, linePrefab);//生成新的连线  
+		GameObject lineGo = NGUITools.AddChild(lineParent, linePrefab);//生成新的连线 
+
+		lineGo.tag=lineID.ToString();
+
 		needToBeDestroyedList.Add(lineGo);
 		UISprite lineSp = lineGo.GetComponent<UISprite>();//获取连线的 UISprite 脚本  
 		lineSp.width = (int)(distance+6);//将连线图片的宽度设置为上面计算的距离  
@@ -728,8 +729,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-		transform.parent.Find ("PhotoTakingPanel").gameObject.SetActive (true);
-		PanelOff();
+//		transform.parent.Find ("PhotoTakingPanel").gameObject.SetActive (true);
+//		PanelOff();
+		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
+		//PanelOff();
+		PanelTranslate.Instance.DestoryAllPanel();
 	}
 		
 	void OnNextBtnClick(GameObject btn)
@@ -741,7 +745,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			PlayerPrefs.SetInt ("LevelProgress",2);
 			LevelManager._instance.LoadLocalLevelProgressData ();
 		}
-		transform.parent.Find ("LevelSelectPanel").gameObject.SetActive (true);
+		//transform.parent.Find ("LevelSelectPanel").gameObject.SetActive (true);
+		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
 
 		PanelOff();
 	}
@@ -780,9 +785,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		}
 		circuitLines.Clear ();
 
-		gameObject.SetActive (false);
-		successShow.gameObject.SetActive (false);
-		failureShow.gameObject.SetActive (false);
+//		gameObject.SetActive (false);
+//		successShow.gameObject.SetActive (false);
+//		failureShow.gameObject.SetActive (false);
+		PanelTranslate.Instance.DestoryAllPanel();
 
 		itemList.Clear();
 	}

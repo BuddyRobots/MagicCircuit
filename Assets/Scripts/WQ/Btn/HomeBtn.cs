@@ -9,14 +9,15 @@ public class HomeBtn : SceneSinglton<HomeBtn>
 
 	void Awake () 
 	{
-		startPanel = GameObject.Find("UI Root").transform.Find ("StartPanel").gameObject;
+		//startPanel = GameObject.Find("UI Root").transform.Find ("StartPanel").gameObject;
 		UIEventListener.Get (gameObject).onClick += onClick1;
 	}
 
 	void onClick1(GameObject go)
 	{
 		//打开主界面,关闭父对象界面
-		startPanel.SetActive (true);
+		//startPanel.SetActive (true);
+		PanelTranslate.Instance.GetPanel(Panels.StartPanel);
 		Instance.panelOff();
 	}
 }

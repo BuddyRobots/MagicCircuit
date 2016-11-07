@@ -39,7 +39,7 @@ public class CommonFuncManager : MonoBehaviour
 		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
 		if(volume > SOUND_CRITERION)
 		{
-			Debug.Log ("volume > SOUND_CRITERION");
+//			Debug.Log ("volume > SOUND_CRITERION");
 			return true;
 		}
 		return false;
@@ -134,20 +134,30 @@ public class CommonFuncManager : MonoBehaviour
 					break;
 
 				case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
+//				List<GameObject> temps=GameObject.FindGameObjectsWithTag(tag);
 					GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
+					List<GameObject> arrows=new List<GameObject>();
+					arrows.Clear();
+					for (int k = 0; k < temps.Length; k++)
+					{
+						if (temps[k].name.Contains("arrow")) 
+						{
+							arrows.Add(temps[k]);
+						}
+						
+					}
+
 //				Debug.Log("temps count======="+temps.Length);
 //				Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 //				Debug.Log("circuitItems["+i+"] type===: "+ circuitItems[i].type + "circuitItems["+i+"] powered===: "+circuitItems[i].powered);
 
-					foreach (var item in temps) 
+				foreach (var item in arrows) 
 					{ 
 						if (item) 
 						{
 							item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
 						}
 					}
-
-
 
 					break;
 				default:
@@ -204,14 +214,34 @@ public class CommonFuncManager : MonoBehaviour
 				}
 				break;
 			case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
+//				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
+//				foreach (var item in temps) 
+//				{ 
+//					if (item) 
+//					{
+//						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
+//					}
+//				}
+
 				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
-				foreach (var item in temps) 
+				List<GameObject> arrows=new List<GameObject>();
+				arrows.Clear();
+				for (int k = 0; k < temps.Length; k++)
+				{
+					if (temps[k].name.Contains("arrow")) 
+					{
+						arrows.Add(temps[k]);
+					}
+
+				}
+				foreach (var item in arrows) 
 				{ 
 					if (item) 
 					{
 						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
 					}
 				}
+
 				break;
 			default:
 				break;

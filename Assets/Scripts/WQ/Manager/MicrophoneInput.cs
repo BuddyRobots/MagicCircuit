@@ -34,7 +34,7 @@ public class MicroPhoneInput : MonoBehaviour {
 			}  
 			foreach (string deviceStr in Microphone.devices)  
 			{  
-				Debug.Log("device name = " + deviceStr);  
+//				Debug.Log("device name = " + deviceStr);  
 			}  
 			if(micArray.Length==0)  
 			{  
@@ -68,7 +68,7 @@ public class MicroPhoneInput : MonoBehaviour {
 		while (!(Microphone.GetPosition(null)>0)) {  
 		}  
 		GetComponent<AudioSource>().Play ();  
-		Debug.Log("StartRecord");  
+//		Debug.Log("StartRecord");  
 		//倒计时   
 		//StartCoroutine(TimeDown());  
 
@@ -88,7 +88,7 @@ public class MicroPhoneInput : MonoBehaviour {
 		Microphone.End (null);  
 		GetComponent<AudioSource>().Stop();  
 
-		Debug.Log("StopRecord");  
+//		Debug.Log("StopRecord");  
 		// PlayRecord();   
 
 		//调试Int16[] 数据的转化与播放   

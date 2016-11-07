@@ -15,21 +15,27 @@ public class LevelItemUI : MonoBehaviour
 	void Awake()
 	{
 		levelSelectPanel=GameObject.Find("UI Root/LevelSelectPanel");
-		levelDescriptionPanel =transform.parent.parent.parent.parent.Find("DescriptionPanel").gameObject;
+//		levelDescriptionPanel =transform.parent.parent.parent.parent.Find("DescriptionPanel").gameObject;
 	}
 
 		//如果对象有collider，可以这样实现点击事件
 	public void OnClick()
 	{
-		levelDescriptionPanel.SetActive (true);
+		GameObject panel = PanelTranslate.Instance.GetPanel(Panels.LevelDescriptionPanel);
+		
+
+
+//		levelDescriptionPanel.SetActive (true);
 		int levelID = GetLevel (this.name);//得到关卡数字
 		data = LevelManager._instance.GetSingleLevelItem (levelID);//根据关卡数字拿到关卡数据
 		if (data!=null) 
 		{
-			DescriptionPanel._instance.Show (data);//根据拿到的数据进行显示
+			panel.GetComponent<DescriptionPanel>().Show (data);//根据拿到的数据进行显示
 		}
 		LevelManager._instance.SetCurrentLevel(data);//保存当前关卡信息
-		levelSelectPanel.SetActive (false);
+
+
+		PanelTranslate.Instance.DestoryThisPanel();
 	}
 
 	/// <summary>
