@@ -35,6 +35,13 @@ public class LevelThree : MonoBehaviour
 			} 
 			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 
+
+			for (int i = 0; i < GetImage._instance.itemList.Count; i++)
+			{
+				Debug.Log("LevelThree.cs Update : itemList[" + i + "].type = " + GetImage._instance.itemList[i].type +
+					" powered = " + GetImage._instance.itemList[i].powered);
+			}
+
 //			//for test  ....
 //			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn && !isTest) 
 //			{

@@ -479,11 +479,7 @@
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="LitJson">
-<<<<<<< HEAD
- <HintPath>/Users/WangQian/Documents/GitWorkspace/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
-=======
  <HintPath>/Users/ZhangPengfei/Work/git/MagicCircuit/Assets/Plugins/LitJson.dll</HintPath>
->>>>>>> 769ac420b65c9b55f3915be5069846084c95ec1b
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

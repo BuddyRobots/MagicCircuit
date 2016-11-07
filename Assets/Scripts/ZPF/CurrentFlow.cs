@@ -33,9 +33,7 @@ namespace MagicCircuit
 			// Deep copy itemList to circuitItemList
 			circuitItemList = new List<CircuitItem>();
 			for (var i = 0 ; i < count; i++)
-			{
 				circuitItemList.Add(itemList[i]);
-			}
 
 
 
@@ -93,26 +91,43 @@ namespace MagicCircuit
 
             /////////////////////////////////////
             //@ Result is the start state of circuit when all the switches are off
-            //@ Use CurrentFlow.circuitItems here
+			//@ Use CurrentFlow.circuitItemList here
 
-            // FIXME
-            // Deep Copy circuitItems to itemList
+			// Deep Copy circuitItemList to itemList
 			itemList.Clear();
 			for (var i = 0; i < circuitItemList.Count; i++)
-            {
 				itemList.Add(circuitItemList[i]);
-			}
-            //itemList = circuitItems;
 
             /// Display circuitItems.list
-            for (var i = boundary; i < count; i++)
-            {
-                //Debug.Log(i + " " + circuitItems[i].list[0] + " " + circuitItems[i].list[2] + " " + circuitItems[i].powered);
-            }
+//            for (var i = boundary; i < count; i++)
+//            {
+//				Debug.Log(i + " " + circuitItemList[i].list[0] + " " + circuitItemList[i].list[2] + " " + circuitItemList[i].powered);
+//            }
 
 			/////////////////////////////////////  
 			return true;                 
 		}
+
+        public void switchOnOff(int ID, bool state) // State true: on false: off
+        {
+            // Restore connectivity to current state
+            Array.Copy(currentConn, connectivity, currentConn.Length);
+
+            // Reset all circuitItems.powered to false
+            for (var i = 0; i < count; i++)
+                circuitItemList[i].powered = false;
+
+            if (state)
+                switchOn(ID);
+            else
+                switchOff(ID);
+
+            // Save new current state
+            Array.Copy(connectivity, currentConn, connectivity.Length);
+
+            // Will modify connectivity & generate circuitItems as result
+            process();
+        }
 
 		private void initCountBoundary(List<CircuitItem> itemList)
 		{
@@ -141,29 +156,6 @@ namespace MagicCircuit
 				}                    
 			return !haveSwitch;
 		}
-
-        public void switchOnOff(int ID, bool state) // State true: on false: off
-        {
-            // Restore connectivity to current state
-            Array.Copy(currentConn, connectivity, currentConn.Length);
-
-            // Reset all circuitItems.powered to false
-            for (var i = 0; i < count; i++)
-            {
-                circuitItemList[i].powered = false;
-            }
-
-            if (state)
-                switchOn(ID);
-            else
-                switchOff(ID);
-
-            // Save new current state
-            Array.Copy(connectivity, currentConn, connectivity.Length);
-
-            // Will modify connectivity & generate circuitItems as result
-            process();
-        }
 
         // Only call this method once!
         private bool computeCircuitBranch()
@@ -213,14 +205,7 @@ namespace MagicCircuit
             // Remove open circuit
             simplifyCircuit();
 
-            // Compute L&R matrix
-            if (!computeLRMat()) return false; // If have error when computing L/R_Matrix
-
-
-			Debug.Log("CurrentFlow.cs process() : flag 1");
-
-
-
+            if (!computeLRMatrix()) return false; // If have error when computing L/R_Matrix
 
             // Traverse all the components to get current flow direction
             Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
@@ -406,7 +391,7 @@ namespace MagicCircuit
 				return false;
 		}
 
-        private bool computeLRMat()
+        private bool computeLRMatrix()
         {
             L_Matrix = new Connectivity[boundary, boundary];
             R_Matrix = new Connectivity[boundary, boundary];
