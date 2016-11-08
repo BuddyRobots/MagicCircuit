@@ -34,12 +34,14 @@ public class LevelEleven : MonoBehaviour
 				Transform voiceSwitch=transform.Find("voiceOperSwitch");
 				//在话筒按钮出现小手
 				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("MicroPhoneBtn").localPosition);
-				//voiceSwitch.GetComponent<BoxCollider> ().enabled = true;
 				//点击话筒按钮，
 				if (transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice) 
 				{
-					Destroy (PhotoRecognizingPanel._instance.finger);
-					
+					if (PhotoRecognizingPanel._instance.finger) 
+					{
+						Destroy (PhotoRecognizingPanel._instance.finger);
+						
+					}
 					if (!isStartRecord) 
 					{  
 						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive(true);//弹出提示框
@@ -57,22 +59,16 @@ public class LevelEleven : MonoBehaviour
 						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive (false);
 						MicroPhoneInput.getInstance ().StopRecord ();
 						GetImage._instance.cf.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
-						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
+						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
+						Debug .Log ("***********");
+//						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
 					} 
-				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
+
+				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 				}	
 		}
 	}
 
 
-	/// <summary>
-	/// 声音收集动画播放一会
-	/// </summary>
-	/// <returns>The for seconds.</returns>
-	IEnumerator StayForSeconds()
-	{
-		yield return new WaitForSeconds (1f);
-
-	}
 
 }
