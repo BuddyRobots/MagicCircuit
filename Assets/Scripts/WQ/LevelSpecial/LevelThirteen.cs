@@ -91,6 +91,17 @@ public class LevelThirteen : MonoBehaviour
 				if (isLAswitchOn)//如果光敏开光闭合了
 				{	
 					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+
+					for (int i = 0; i < GetImage._instance.itemList.Count; i++) 
+					{
+
+						if (GetImage._instance.itemList[i].type==ItemType.LightActSwitch) {
+							Debug.Log(" GetImage._instance.itemList[i] powered "+GetImage._instance.itemList[i].powered);
+						}
+					}
+
+
+
 					LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
 					//只有晚上光敏开关闭合的时候，小话筒才可以被点击
 					transform.Find("MicroPhoneBtn").gameObject.GetComponent<BoxCollider>().enabled=true;

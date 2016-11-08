@@ -12,7 +12,8 @@ namespace MagicCircuit
 
         private Connectivity[,] connectivity;   // Will modify this when handling switch on/off
 		private Connectivity[,] originalConn;   // Connectivity for the whole circuit when all switches on
-        private Connectivity[,] L_Matrix;
+		private Connectivity[,] currentConn;    // Store the current state of connectivity for switchOn/Off
+		private Connectivity[,] L_Matrix;
         private Connectivity[,] R_Matrix;        
         
         private int count;                      // Total number of items
@@ -25,12 +26,15 @@ namespace MagicCircuit
 
             initMembers();
 
-            allPowerOff();
+			allPowerOff();
 
 			computeConnectivity();
 
 			if (removeOpenedCircuit())
 				Debug.Log("CurrentFlow.cs compute() : have open circuit!");
+
+			// Store the connectivity when all switches are on            
+			Array.Copy(connectivity, originalConn, connectivity.Length);
 
 			if (!computeLRMatrix())
 			{
@@ -38,17 +42,56 @@ namespace MagicCircuit
 				return false;
 			}
 
+			if (computeCircuitBranch())
+			{
+				Debug.Log("CurrentFlow.cs compute() : Working Circuit!");
+			}
+			else
+			{
+				Debug.Log("CurrentFlow.cs compute() : Error when computing CircuitBranch!");
+				return false;
+			}
 
+			// Determine whether circuit is correct
+			if (!Correctness.computeCorrectness(circuitItemList, _level, circuitBranch))
+			{
+				Debug.Log("CurrentFlow.cs compute() : Wrong Circuit!");
+				allPowerOff();
+				return false;
+			}
 
-
-
-
-
-
-
+			if (haveNoSwitches())
+				allPowerOn();
+			else
+			{
+				allPowerOff();
+				// Save to currentConn
+				Array.Copy(connectivity, currentConn, connectivity.Length);
+			}
 
 			return true;
         }
+
+		public void switchOnOff(int ID, bool state) // State true: on false: off
+		{
+			// Restore connectivity to current state
+			Array.Copy(currentConn, connectivity, currentConn.Length);
+
+			// Reset all circuitItems.powered to false
+			for (var i = 0; i < count; i++)
+				circuitItemList[i].powered = false;
+
+			if (state)
+				switchOn(ID);
+			else
+				switchOff(ID);
+
+			// Save new current state
+			Array.Copy(connectivity, currentConn, connectivity.Length);
+
+			// Will modify connectivity & generate circuitItems as result
+			process();
+		}
 
         private void initMembers()
 		{
@@ -67,6 +110,7 @@ namespace MagicCircuit
 
 			connectivity = new Connectivity[count, count];
 			originalConn = new Connectivity[count, count];
+			currentConn  = new Connectivity[count, count];
 			L_Matrix = new Connectivity[boundary, boundary];
 			R_Matrix = new Connectivity[boundary, boundary];
 
@@ -297,33 +341,6 @@ namespace MagicCircuit
 			return true;
 		}
 
-		private bool combineBattery()
-		{
-			int num = 0;
-			for (var i = 0; i < boundary; i++)
-				if (circuitItemList[i].type == ItemType.Battery)
-					num++;
-
-			switch (num)
-			{
-			case 0:
-				return false;
-			case 1:
-				return true;
-			case 2:
-				Connectivity c = Connectivity.zero;
-				int lineID = 0;
-				if (!batteryAdjacency(ref c, ref lineID)) return false;
-
-				deleteBattery1(c, lineID);
-				circuitBranch[0].Add(1);
-
-				return true;
-			default:
-				return false;
-			}
-		}
-
 		private bool batteryAdjacency(ref Connectivity c, ref int lineID)
 		{
 			int num = 0;
@@ -426,6 +443,33 @@ namespace MagicCircuit
 			while (flipLineFromLine()) ;
 
 			return true;
+		}
+
+		private bool combineBattery()
+		{
+			int num = 0;
+			for (var i = 0; i < boundary; i++)
+				if (circuitItemList[i].type == ItemType.Battery)
+					num++;
+
+			switch (num)
+			{
+			case 0:
+				return false;
+			case 1:
+				return true;
+			case 2:
+				Connectivity c = Connectivity.zero;
+				int lineID = 0;
+				if (!batteryAdjacency(ref c, ref lineID)) return false;
+
+				deleteBattery1(c, lineID);
+				circuitBranch[0].Add(1);
+
+				return true;
+			default:
+				return false;
+			}
 		}
 
 		private void flipComponent(int ID)
@@ -624,6 +668,39 @@ namespace MagicCircuit
 					connectivity[ID, j] = Connectivity.e;
 				else if (connectivity[ID, j] == Connectivity.e)
 					connectivity[ID, j] = Connectivity.s;
+			}
+		}
+
+		private bool haveNoSwitches()
+		{			
+			bool haveSwitch = false;
+			for (var i = 0; i < boundary; i++)
+				if (circuitItemList[i].type == ItemType.Switch ||
+					circuitItemList[i].type == ItemType.LightActSwitch ||
+					circuitItemList[i].type == ItemType.VoiceOperSwitch ||
+					circuitItemList[i].type == ItemType.VoiceTimedelaySwitch)
+				{
+					haveSwitch = true;
+					break;
+				}                    
+			return !haveSwitch;
+		}
+
+		private void switchOff(int ID)
+		{
+			for (var i = 0; i < count; i++)
+			{
+				connectivity[ID, i] = Connectivity.zero;
+				connectivity[i, ID] = Connectivity.zero;
+			}
+		}
+
+		private void switchOn(int ID)
+		{
+			for (var i = 0; i < count; i++)
+			{
+				connectivity[ID, i] = originalConn[ID, i];
+				connectivity[i, ID] = originalConn[i, ID];
 			}
 		}
     }
