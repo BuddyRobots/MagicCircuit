@@ -28,6 +28,9 @@ public class LevelTwelve : MonoBehaviour
 		isFingerShow = false;
 		isFingerDestroyed=false;
 	}
+	private bool CurrLASwitchStatus=false;
+	private bool PreLASwitchStatus=false;
+
 
 	void Update () 
 	{
@@ -54,9 +57,17 @@ public class LevelTwelve : MonoBehaviour
 					changeTimer = changeTime;
 				}
 				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);//蒙版渐变暗
-				if(changeTimer>=changeTime*5/6)//背景渐变到一半的时候
+				if(changeTimer>=changeTime*5/6)//背景渐变快完成时
 				{
 					isCircuitWork = true;
+					CurrLASwitchStatus=true;
+					if (PreLASwitchStatus!=CurrLASwitchStatus) 
+					{
+						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
+						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+//						Debug.Log("-----------switchOnOff-----true--------");
+						PreLASwitchStatus=CurrLASwitchStatus;
+					}
 				}
 			}
 			else //如果是白天
@@ -70,13 +81,18 @@ public class LevelTwelve : MonoBehaviour
 				if (changeTimer <= changeTime / 6) 
 				{
 					isCircuitWork = false;
+					CurrLASwitchStatus = false;
+					if (PreLASwitchStatus!=CurrLASwitchStatus) 
+					{
+						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
+						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+//						Debug.Log("-----------switchOnOff-----false--------");
+						PreLASwitchStatus=CurrLASwitchStatus;
+					}
 				}
 			}	
-			GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isCircuitWork);
-			LAswitch.GetComponent<UISprite>().spriteName=isCircuitWork? "LAswitchOn":"LAswitchOff";
-			CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	}
-
 
 }

@@ -80,6 +80,17 @@ public class CommonFuncManager : MonoBehaviour
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
 					break;
 
+
+
+				case ItemType.VoiceOperSwitch:
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
+					break;
+				case ItemType.LightActSwitch:
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
+					break;
+
+
+
 				//如果是电磁炉
 				case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;

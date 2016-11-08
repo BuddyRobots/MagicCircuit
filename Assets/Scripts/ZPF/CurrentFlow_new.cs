@@ -38,7 +38,13 @@ namespace MagicCircuit
 				return false;
 			}
 
-			if (!combineBattery()) return false;
+
+
+
+
+
+
+
 
 
 			return true;
@@ -380,6 +386,8 @@ namespace MagicCircuit
 
 		private bool computeCircuitBranch()
 		{
+			if (!combineBattery()) return false;
+
 			// Traverse all the components to get current flow direction
 			Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
 
@@ -620,19 +628,3 @@ namespace MagicCircuit
 		}
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
