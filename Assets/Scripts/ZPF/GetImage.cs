@@ -185,6 +185,7 @@ public class GetImage : MonoBehaviour
 
 
 			itemList.Clear();
+
 			recognizeAlge.process(frameImgList[i], ref itemList);
 			listItemList.Add(itemList);
 
@@ -227,8 +228,6 @@ public class GetImage : MonoBehaviour
 		computeCurrentFlow();
 
 
-
-
 //		for (int i = 0; i < itemList.Count; i++)
 //		{
 //			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
@@ -255,7 +254,7 @@ public class GetImage : MonoBehaviour
 		if (LevelManager.currentLevelData.LevelID == 15) 
 			isCircuitCorrect = cf_SPDT.compute(ref itemList);
 		else 
-			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
+			isCircuitCorrect = cf.compute(itemList, LevelManager.currentLevelData.LevelID);
 
 
 

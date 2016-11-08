@@ -26,7 +26,7 @@ namespace MagicCircuit
 			circuitBranch = new List<List<int>>();
 		}
 			
-        public bool compute(ref List<CircuitItem> itemList, int level)
+        public bool compute(List<CircuitItem> itemList, int level)
         {
 			initCountBoundary(itemList);
 
