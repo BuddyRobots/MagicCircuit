@@ -29,10 +29,6 @@ namespace MagicCircuit
 
 		private void getLines(Mat frameImg, ref List<Mat> roiList, ref List<OpenCVForUnity.Rect> rectList)
 		{
-			int h_min = 0, h_max = 180;
-			int s_min = 0, s_max = 255;
-			int v_min = 0;
-
 			Mat hsvImg = new Mat();
 			Mat binaryImg = new Mat();
 			Mat lineImg = new Mat();
@@ -41,10 +37,9 @@ namespace MagicCircuit
 			if (rectList.Count != 0) rectList.Clear();
 
 			// Color Thresholding
-			Imgproc.cvtColor(frameImg, hsvImg, Imgproc.COLOR_RGB2HSV);
-			Core.inRange(hsvImg, new Scalar(h_min, s_min, v_min), new Scalar(h_max, s_max, Constant.LINE_COLOR_MAX_V), binaryImg);
-			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
-			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_CLOSE, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(8, 8)));
+			Imgproc.cvtColor(frameImg, binaryImg, Imgproc.COLOR_BGR2GRAY);
+			Imgproc.adaptiveThreshold(binaryImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
+			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.LINE_MORPH_KERNEL, Constant.LINE_MORPH_KERNEL)));
 			lineImg = binaryImg.clone();
 
 			// Find Contours

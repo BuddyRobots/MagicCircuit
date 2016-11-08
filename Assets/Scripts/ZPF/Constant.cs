@@ -20,7 +20,9 @@
 		public const double CARD_OUTER_SQUARE_RATIO   = 1.35;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
-		public const int    LINE_COLOR_MAX_V          = 170;
+		public const int    LINE_ADPTTHRES_KERNEL     = 21;
+		public const int    LINE_ADPTTHRES_SUB        = 10;
+		public const int    LINE_MORPH_KERNEL         = 3;
 		public const int    LINE_REGION_MIN_AREA      = 200;
 
 		// PhotoRecognizingPanel.cs: Arrow show interval

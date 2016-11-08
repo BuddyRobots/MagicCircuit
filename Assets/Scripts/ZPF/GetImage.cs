@@ -133,31 +133,30 @@ public class GetImage : MonoBehaviour
 		{
 			if (!initDone)
 				return;
-//			print("---------------");
-//			print("11111******" + DateTime.Now.Millisecond * 10000);
+
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				
-//				print("22222******" + DateTime.Now.Millisecond * 10000);
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
-//				print("77777******" + DateTime.Now.Millisecond * 10000);
+
+				#if UNITY_EDITOR
+				//test_hsv_AdaptThreshold(ref frameImg);
+				#elif UNITY_IPHONE
 				rotateCamera.rotate(ref frameImg);
-//				print("3333******" + DateTime.Now.Millisecond * 10000);
+				#endif
+
 				if (isTakingPhoto)
 				{	
 					frameImgList.Add(frameImg.clone());
 					if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
 						isTakingPhoto = false; 
 				}
-//				print("4444******" + DateTime.Now.Millisecond * 10000);
+
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
-//				print("5555******" + DateTime.Now.Millisecond * 10000);
+
 			}
 			frameImg.Dispose();
-//			print("6666******" + DateTime.Now.Millisecond * 10000);
-//			print("---------------");
 		}
 
 	}
@@ -272,7 +271,15 @@ public class GetImage : MonoBehaviour
 
 
 
-
+	private void test_hsv_AdaptThreshold(ref Mat frameImg)
+	{
+		Mat grayImg = new Mat(frameImg.rows(), frameImg.cols(), CvType.CV_8UC1);
+		Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.adaptiveThreshold(grayImg, grayImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, 21, 10);
+		Imgproc.morphologyEx(grayImg, grayImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
+		//Imgproc.morphologyEx(rstImg, rstImg, Imgproc.MORPH_CLOSE, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
+		frameImg = grayImg.clone();
+	}
 
 	//	public void test_saveFullQuadPhotoToiPad()
 	//	{
