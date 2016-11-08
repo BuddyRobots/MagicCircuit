@@ -26,10 +26,13 @@ public class LevelFourteen : MonoBehaviour
 
 	/// <summary>
 	/// 声控开关闭合一次的总时间
-		/// </summary>
+	/// </summary>
 	private float VOTime=5.5f;
 	private float VOTimer=0;
 
+	private Transform VoiceDelaySwitch;
+	private Transform LAswitch;
+	private Transform micphoneBtn;
 
 	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的
 	//只有先闭合光敏，再闭合声控，电路才通
@@ -139,18 +142,6 @@ public class LevelFourteen : MonoBehaviour
 
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
-
-
-						//测试过了，开关都闭合以后所有的线的powered值都是true的，包括线路外面的多余的线
-						for (int i = 0; i < GetImage._instance.itemList.Count; i++) 
-						{
-							Debug.Log("itemlist["+i+"] power===="+GetImage._instance.itemList[i].powered);
-						}
-
-
-
-
-
 
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 					}
