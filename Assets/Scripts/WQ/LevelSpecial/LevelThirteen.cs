@@ -14,16 +14,36 @@ public class LevelThirteen : MonoBehaviour
 
 	private float changeTime = 3f;//渐变的总时间
 	private  float changeTimer = 0;
-	private UITexture nightBg=null;
+
 	private bool isVOswitchOn=false;
 	private bool isStartRecord = false;
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 	private bool isNightModeOnce=false;
-	//  ????????????
-	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的
-	//只有先闭合光敏，再闭合声控，电路才通
-	// to do ...
+
+	private Transform VOswitch;
+	private Transform LAswitch;
+	private Transform micphoneBtn;
+
+	private UITexture nightBg=null;
+
+
+	private bool CurrLASwitchStatus=false;
+	private bool PreLASwitchStatus=false;
+
+
+
+	private bool CurrVOSwitchStatus=false;
+	private bool PreVOSwitchStatus=false;
+
+	private BoxCollider micPhoneBoxCol;
+	private UIButton micPhoneUIBtn;
+	private MicroPhoneBtnCtrl micPhontBtnCtrl;
+
+
+
+	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的,只有先闭合光敏，再闭合声控，电路才通
+
 	void OnEnable ()
 	{
 		isVOswitchAndLAswitchTogether = false;
@@ -35,6 +55,17 @@ public class LevelThirteen : MonoBehaviour
 		isNightModeOnce=false;
 		isFingerDestroyed=false;
 		isStartRecord = false;
+
+		VOswitch = transform.Find ("voiceOperSwitch");
+		LAswitch = transform.Find ("lightActSwitch");
+		micphoneBtn = transform.Find ("MicroPhoneBtn");
+		nightBg = PhotoRecognizingPanel._instance.nightMask;
+
+
+		micPhoneBoxCol = micphoneBtn.gameObject.GetComponent<BoxCollider>();
+		micPhoneUIBtn = micphoneBtn.gameObject.GetComponent<UIButton>();
+		micPhontBtnCtrl = micphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>();
+
 	}
 	
 	//声控+光敏    （只有晚上有声音的时候灯才亮）
@@ -46,15 +77,11 @@ public class LevelThirteen : MonoBehaviour
 	/// 标记太阳月亮按钮的初始状态是显示太阳
 	/// </summary>
 	private bool preSunSwitchStatues = true;
+
 	void Update () 
 	{
 		if (isVOswitchAndLAswitchTogether) 
 		{
-			Transform VOswitch = transform.Find ("voiceOperSwitch");
-			Transform LAswitch = transform.Find ("lightActSwitch");
-			Transform micphoneBtn = transform.Find ("MicroPhoneBtn");
-			nightBg = PhotoRecognizingPanel._instance.nightMask;
-
 			if (!isFingerShow) 
 			{
 				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("SunAndMoonWidget").localPosition);
@@ -87,31 +114,31 @@ public class LevelThirteen : MonoBehaviour
 				if (changeTimer >= changeTime * 5 / 6) 
 				{
 					isLAswitchOn = true;
+					CurrLASwitchStatus=true;
+					if (PreLASwitchStatus!=CurrLASwitchStatus) 
+					{
+						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+						LAswitch.GetComponent<UISprite> ().spriteName = "LAswitchOn";
+						PreLASwitchStatus=CurrLASwitchStatus;
+					}
+			
+
 				}
 				if (isLAswitchOn)//如果光敏开光闭合了
 				{	
-					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+					micPhoneBoxCol.enabled=true;
+					micPhoneUIBtn.enabled=true;
+					micPhontBtnCtrl.enabled=true;
 
-					for (int i = 0; i < GetImage._instance.itemList.Count; i++) 
-					{
-
-						if (GetImage._instance.itemList[i].type==ItemType.LightActSwitch) {
-							Debug.Log(" GetImage._instance.itemList[i] powered "+GetImage._instance.itemList[i].powered);
-						}
-					}
-
-
-
-					LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
-					//只有晚上光敏开关闭合的时候，小话筒才可以被点击
-					transform.Find("MicroPhoneBtn").gameObject.GetComponent<BoxCollider>().enabled=true;
-					transform.Find("MicroPhoneBtn").gameObject.GetComponent<UIButton>().enabled=true;
-					transform.Find("MicroPhoneBtn").gameObject.GetComponent<MicroPhoneBtnCtrl>().enabled=true;
 					GetComponent<PhotoRecognizingPanel> ().ShowFinger (transform.Find ("MicroPhoneBtn").localPosition);//在话筒按钮出现小手
 				}
 				if (micphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice)//点击了话筒按钮
 				{ 
-					Destroy (PhotoRecognizingPanel._instance.finger);	//小手消失
+					if (PhotoRecognizingPanel._instance.finger) 
+					{
+						Destroy (PhotoRecognizingPanel._instance.finger);	//小手消失
+					}
+
 					if (!isStartRecord) //开始收集声音
 					{ 
 						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive (true);//弹出提示框
@@ -129,10 +156,12 @@ public class LevelThirteen : MonoBehaviour
 
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), true);
-						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
+						VOswitch.GetComponent<UISprite>().spriteName="VOswitchOn";
+
+						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
 					}
 				}
-				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+
 			}
 			#endregion
 			#region 如果是白天
@@ -151,19 +180,24 @@ public class LevelThirteen : MonoBehaviour
 					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
 					if (changeTimer <= changeTime* 1/6) 
 					{
-						isLAswitchOn = false;
-						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
-						LAswitch.GetComponent<UISprite> ().spriteName = (isLAswitchOn ? "LAswitchOn" : "LAswitchOff");
+						CurrLASwitchStatus = false;
+						if (PreLASwitchStatus!=CurrLASwitchStatus) 
+						{
+							GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), false);
+							LAswitch.GetComponent<UISprite>().spriteName= "LAswitchOff";
+							GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), false);
 
-						isVOswitchOn=false;
-						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), isVOswitchOn);
-						VOswitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VOswitchOn" : "VOswitchOff");
+							CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+							VOswitch.GetComponent<UISprite>().spriteName="VOswitchOff";
+							PreLASwitchStatus=CurrLASwitchStatus;
+						}
+
 					}
-					CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
 				}
 			}
 			#endregion
 			preSunSwitchStatues = transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime;
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	}
 }
