@@ -8,6 +8,9 @@ public class LevelSelectPanel : MonoBehaviour {
 	public static LevelSelectPanel _instance;
 
 	private GameObject levelDescriptionPanel;
+	private GameObject helpBtn;
+
+
 	public List<UIButton> uiBtnListT = new List<UIButton>();
 	public List<UIButton> uiBtnListL = new List<UIButton>();
 
@@ -129,6 +132,7 @@ public class LevelSelectPanel : MonoBehaviour {
 
 	void OnEnable()
 	{
+		helpBtn=transform.Find("HelpBtn").gameObject;
 		//界面刷新
 		RefreshLevelUI ();
 		HomeBtn.Instance.panelOff = PanelOff;
@@ -171,5 +175,12 @@ public class LevelSelectPanel : MonoBehaviour {
 	public void PanelOff()
 	{
 		gameObject.SetActive (false);
+	}
+
+
+	void OnHelpBtnClick(GameObject btn)
+	{
+
+		//to do...
 	}
 }

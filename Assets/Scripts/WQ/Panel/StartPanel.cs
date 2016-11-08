@@ -7,6 +7,7 @@ public class StartPanel : MonoBehaviour
 	public static StartPanel _instance;
 
 	private GameObject nextBtn;
+	private GameObject helpBtn;
 
 	private bool isMusicOn = true;
 
@@ -19,6 +20,7 @@ public class StartPanel : MonoBehaviour
 	void Start () 
 	{		
 		nextBtn= transform.Find ("NextBtn").gameObject;
+		helpBtn=transform.Find("HelpBtn").gameObject;
 		UIEventListener.Get(nextBtn).onClick =OnNextBtnClick;
 
 	}
@@ -31,6 +33,12 @@ public class StartPanel : MonoBehaviour
 	{
 		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
 		PanelTranslate.Instance.DestoryThisPanel();
+	}
+
+	void OnHelpBtnClick(GameObject btn)
+	{
+
+		//to do...
 	}
 		
 }
