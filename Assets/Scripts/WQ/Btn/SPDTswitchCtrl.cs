@@ -39,5 +39,9 @@ public class SPDTswitchCtrl : MonoBehaviour
 	{
 		preStatus = isRightOn;
 		isRightOn = !isRightOn;
+
+		GetImage._instance.cf_SPDT.switchOnOff (int.Parse (gameObject.tag), isRightOn);
+		CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+
 	}
 }

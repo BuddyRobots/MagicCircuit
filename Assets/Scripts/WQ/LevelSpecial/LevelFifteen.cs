@@ -38,8 +38,9 @@ public class LevelFifteen : MonoBehaviour
 				}
 
 				//第15关特定
-				GetImage._instance.cf_SPDT.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
-				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);
+//				GetImage._instance.cf_SPDT.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
+//				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 			}
 		}
 	}

@@ -7,19 +7,12 @@ public class LevelThree : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isNormalSwitchOccur = false;
+	public bool  isArrowSemiTrans=true;
 
 	void OnEnable()
 	{
 		isNormalSwitchOccur = false;
-
-		isTest=false;
 	}
-
-
-	private bool isTest=false;
-
-
-	public bool  isArrowSemiTrans=true;
 
 	void Update () 
 	{
@@ -34,7 +27,7 @@ public class LevelThree : MonoBehaviour
 				{
 					Destroy (PhotoRecognizingPanel._instance.finger);
 				}
-				isTest=false;
+
 			} 
 //			GetImage._instance.cf.switchOnOff (int.Parse (normalSwitch.tag), normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
 //			CommonFuncManager._instance.CircuitReset (	GetImage._instance.itemList);

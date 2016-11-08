@@ -44,11 +44,23 @@ public class SwitchCtrl : MonoBehaviour
 	/// <param name="btn">Button.</param>
 	void OnSwitchOnBtnClick(GameObject btn)
 	{
-		isSwitchOn = false;    
+		isSwitchOn = false;  
+
 		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), true);
-//		Debug.Log("----------switch on");
-		CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
-//		Debug.Log("----------CircuitReset");
+
+		if (LevelManager.currentLevelData.LevelID==7 || LevelManager.currentLevelData.LevelID==8 /* || LevelManager.currentLevelData.LevelID==9 */) 
+		{
+			CommonFuncManager._instance.CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
+		}
+		else if (LevelManager.currentLevelData.LevelID==9)
+		{
+			return;
+
+		}
+		else
+		{
+			CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+		}
 
 	}
 
@@ -60,10 +72,20 @@ public class SwitchCtrl : MonoBehaviour
 	{
 		isSwitchOn = true;
 		GetImage._instance.cf.switchOnOff (int.Parse (gameObject.tag), false);
-//		Debug.Log("----------switch OFF");
-		CommonFuncManager._instance.CircuitItemReset (	GetImage._instance.itemList);
-//		Debug.Log("----------CircuitReset");
 
+		if (LevelManager.currentLevelData.LevelID==7 || LevelManager.currentLevelData.LevelID==8 /* || LevelManager.currentLevelData.LevelID==9*/) 
+		{
+			CommonFuncManager._instance.CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
+		}
+		else if (LevelManager.currentLevelData.LevelID==9)
+		{
+			return;
+
+		}
+		else
+		{
+			CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+		}
 	}
 
 }

@@ -59,7 +59,7 @@ public class LevelEleven : MonoBehaviour
 						GetImage._instance.cf.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
 						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
 					} 
-				CommonFuncManager._instance.CircuitItemReset (GetImage._instance.itemList);	
+				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
 				}	
 		}
 	}

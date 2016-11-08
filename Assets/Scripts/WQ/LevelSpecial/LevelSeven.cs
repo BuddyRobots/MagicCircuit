@@ -11,7 +11,7 @@ public class LevelSeven : MonoBehaviour
 	private bool isCircuitAnimationPlayed=false;
 	private bool isBatteryClick=false;
 	private List<GameObject> batteryList = null;
-	private List<GameObject> switchList = null;
+//	private List<GameObject> switchList = null;
 	private GameObject clickBattery =null;
 	private bool isBatteryAddComponent = false;
 	/// <summary>
@@ -36,13 +36,21 @@ public class LevelSeven : MonoBehaviour
 		if (isParallelCircuitWithTwoBattery) 
 		{
 			batteryList = PhotoRecognizingPanel._instance.batteryList;
-			switchList = PhotoRecognizingPanel._instance.switchList;
-			for (int i = 0; i < switchList.Count; i++) 
-			{
-				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitItemResetWithTwoBattery (GetImage._instance.itemList);//使用新的circuititems
-			}
+//			switchList = PhotoRecognizingPanel._instance.switchList;
+//			for (int i = 0; i < switchList.Count; i++) 
+//			{
+//				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
+//				CommonFuncManager._instance.CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);//使用新的circuititems
+//			}
+
+
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+
+
+
 			isCircuitAnimationPlayed=CircuitPowerdOrNot();
+
+
 			if (isCircuitAnimationPlayed) //电池可以被点击
 			{
 				clickBattery = batteryList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
@@ -94,7 +102,7 @@ public class LevelSeven : MonoBehaviour
 				} 
 				if (isBatteryClick && !clickBattery.GetComponent<BatteryCtrl> ().isSemiTrans) //电池回归到正常
 				{
-					CommonFuncManager._instance.CircuitItemResetWithTwoBattery (GetImage._instance.itemList);
+					CommonFuncManager._instance.CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
 					batteryList [1].GetComponent<UISprite> ().depth = 4;
 				}
 			}
