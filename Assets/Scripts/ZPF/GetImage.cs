@@ -169,9 +169,20 @@ public class GetImage : MonoBehaviour
 
 	//	Debug.Log("GetImage.cs Thread_Process_Start!");
 
-		Thread threadProcess = new Thread(Thread_Process);
-		threadProcess.IsBackground = true;
-		threadProcess.Start();
+//		Thread threadProcess = new Thread(Thread_Process);
+//		threadProcess.IsBackground = true;
+//		threadProcess.Start();
+
+
+		Profiler.BeginSample("MagicCircuit.GetImage.Thread_Process_Start");
+
+
+
+		Thread_Process();
+
+
+
+		Profiler.EndSample();
 	}
 
 	// Thread for RecognizeAlgo.process 10 images
