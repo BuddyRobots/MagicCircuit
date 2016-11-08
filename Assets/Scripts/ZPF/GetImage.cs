@@ -185,7 +185,16 @@ public class GetImage : MonoBehaviour
 
 
 			itemList.Clear();
+
+			Profiler.BeginSample("MagicCircuit.Thread_Process.process");
+
 			recognizeAlge.process(frameImgList[i], ref itemList);
+
+
+			Profiler.EndSample();
+
+
+
 			listItemList.Add(itemList);
 
 
@@ -221,13 +230,14 @@ public class GetImage : MonoBehaviour
 		int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
+		Profiler.BeginSample("MagicCircuit.Thread_Process.currentflow");
 
 
 		// Compute CurrentFlow
 		computeCurrentFlow();
 
 
-
+		Profiler.EndSample();
 
 //		for (int i = 0; i < itemList.Count; i++)
 //		{
@@ -255,7 +265,7 @@ public class GetImage : MonoBehaviour
 		if (LevelManager.currentLevelData.LevelID == 15) 
 			isCircuitCorrect = cf_SPDT.compute(ref itemList);
 		else 
-			isCircuitCorrect = cf.compute(ref itemList, LevelManager.currentLevelData.LevelID);
+			isCircuitCorrect = cf.compute(itemList, LevelManager.currentLevelData.LevelID);
 
 
 
