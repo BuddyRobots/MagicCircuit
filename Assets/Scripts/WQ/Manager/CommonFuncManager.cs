@@ -82,12 +82,13 @@ public class CommonFuncManager : MonoBehaviour
 
 
 
-				case ItemType.VoiceOperSwitch:
-					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
-					break;
-				case ItemType.LightActSwitch:
-					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
-					break;
+//				case ItemType.VoiceOperSwitch:
+//					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
+//					break;
+//				case ItemType.LightActSwitch:
+//				
+//					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
+//					break;
 
 
 

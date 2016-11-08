@@ -10,6 +10,8 @@ public class LevelEleven : MonoBehaviour
 	private bool isAnimationPlay=false;
 	private bool isStartRecord = false;
 
+	private Transform voiceSwitch;
+
 	/// <summary>
 	/// 保证声音收集一次的标志
 	/// </summary>
@@ -23,6 +25,8 @@ public class LevelEleven : MonoBehaviour
 		isAnimationPlay=false;
 		isStartRecord = false;
 		stayForAwhile = false;
+
+		voiceSwitch=transform.Find("voiceOperSwitch");
 	
 	}
 
@@ -31,7 +35,7 @@ public class LevelEleven : MonoBehaviour
 	{
 		if (isVOswitchOccur) 
 		{
-				Transform voiceSwitch=transform.Find("voiceOperSwitch");
+//				Transform voiceSwitch=transform.Find("voiceOperSwitch");
 				//在话筒按钮出现小手
 				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("MicroPhoneBtn").localPosition);
 				//点击话筒按钮，
@@ -59,12 +63,11 @@ public class LevelEleven : MonoBehaviour
 						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive (false);
 						MicroPhoneInput.getInstance ().StopRecord ();
 						GetImage._instance.cf.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
+						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
 						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
-						Debug .Log ("***********");
-//						voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
 					} 
 
-				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+					CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 				}	
 		}
 	}

@@ -350,7 +350,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				isResultPanelShow = true;
 			}
 
-			if ( !isLevelHandleScriptAdd && isAllItemShowDone ) //如果图标都显示完了，就给面板添加相应的关卡脚本
+			if (isAllItemShowDone && !isLevelHandleScriptAdd ) //如果图标都显示完了，就给面板添加相应的关卡脚本
 			{
 				//transform.gameObject.AddComponent<LevelHandle>();
 				transform.gameObject.GetComponent<LevelHandle>().enabled=true;
