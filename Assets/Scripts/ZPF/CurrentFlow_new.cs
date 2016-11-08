@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MagicCircuit
 {
-    public class CurrentFlow : MonoBehaviour
+    public class CurrentFlow_new : MonoBehaviour
     {
         private List<CircuitItem> circuitItemList;
         private List<List<int>> circuitBranch;  // Store the branches of the whole circuit for CircuitCompare
@@ -27,7 +27,7 @@ namespace MagicCircuit
 
             allPowerOff(circuitItemList);
 
-
+			return true;
         }
 
         private void initCountBoundary(List<CircuitItem> itemList)
