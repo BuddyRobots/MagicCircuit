@@ -63,16 +63,5 @@ public class LevelEleven : MonoBehaviour
 				}	
 		}
 	}
-
-
-	/// <summary>
-	/// 声音收集动画播放一会
-	/// </summary>
-	/// <returns>The for seconds.</returns>
-	IEnumerator StayForSeconds()
-	{
-		yield return new WaitForSeconds (1f);
-
-	}
-
+		
 }

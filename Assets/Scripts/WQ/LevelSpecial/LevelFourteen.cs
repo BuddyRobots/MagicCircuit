@@ -140,25 +140,10 @@ public class LevelFourteen : MonoBehaviour
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
 
-
-						//测试过了，开关都闭合以后所有的线的powered值都是true的，包括线路外面的多余的线
-						for (int i = 0; i < GetImage._instance.itemList.Count; i++) 
-						{
-							Debug.Log("itemlist["+i+"] power===="+GetImage._instance.itemList[i].powered);
-						}
-
-
-
-
-
-
 						VoiceDelaySwitch.GetComponent<UISprite> ().spriteName = (isVOswitchOn ? "VoiceDelayOn" : "VoiceDelayOff");
 					}
 					if (isVOswitchOn) 
 					{
-						
-
-							
 						VOTimer += Time.deltaTime;
 						if (VOTimer >= VOTime) 
 						{

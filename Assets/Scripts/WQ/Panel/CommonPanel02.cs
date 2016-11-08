@@ -21,8 +21,7 @@ public class CommonPanel02 : MonoBehaviour {
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		//跳转到帮助界面
-		//Debug.Log("GameObject: "+btn.name);
+		// to do ...
 	}
 
 	public void PanelOff()

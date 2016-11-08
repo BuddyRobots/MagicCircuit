@@ -203,7 +203,7 @@ public class LevelManager : MonoBehaviour
 		
 			PlayerPrefs.SetInt ("LevelProgress", 0);
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
-			Debug.Log ("levelPro2==" + levelPro);
+//			Debug.Log ("levelPro2==" + levelPro);
 		}
 		//获取到已完成的关卡后需要更新list数据
 		UpdateLevelItemDataList (levelID,levelPro);
