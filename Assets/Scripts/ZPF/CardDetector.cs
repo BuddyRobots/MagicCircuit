@@ -65,8 +65,8 @@ public class CardDetector
 
 
 
-			Debug.Log("CardDetector.cs computeOuterSquare : squareList[" + i + "] : " + squareList[i][0] + " " + squareList[i][1] + " " + squareList[i][2] + " " + squareList[i][3]);
-			Debug.Log("CardDetector.cs computeOuterSquare : outerSquareList[" + i + "] : " + tmpSquare[0] + " " + tmpSquare[1] + " " + tmpSquare[2] + " " + tmpSquare[3]);
+			//Debug.Log("CardDetector.cs computeOuterSquare : squareList[" + i + "] : " + squareList[i][0] + " " + squareList[i][1] + " " + squareList[i][2] + " " + squareList[i][3]);
+			//Debug.Log("CardDetector.cs computeOuterSquare : outerSquareList[" + i + "] : " + tmpSquare[0] + " " + tmpSquare[1] + " " + tmpSquare[2] + " " + tmpSquare[3]);
 
 
 
@@ -110,7 +110,7 @@ public class CardDetector
 
 
 
-			Debug.Log("CardDetector : curMaxLen = " + curMaxLen + " curMinLen = " + curMinLen + " ratio = " + curMaxLen / curMinLen);
+			//Debug.Log("CardDetector : curMaxLen = " + curMaxLen + " curMinLen = " + curMinLen + " ratio = " + curMaxLen / curMinLen);
 
 
 

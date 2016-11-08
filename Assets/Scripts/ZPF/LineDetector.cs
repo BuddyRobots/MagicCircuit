@@ -14,7 +14,7 @@ namespace MagicCircuit
         public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
         {
 
-			Debug.Log("LineDetector.cs detectLine Start!");
+			//Debug.Log("LineDetector.cs detectLine Start!");
 
 
 			List<Mat> roiList = new List<Mat>();

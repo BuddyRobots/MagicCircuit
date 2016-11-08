@@ -61,7 +61,7 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 //		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 		string xmlPath = "Xmls/CircuitItems_lv" + LevelManager.currentLevelData.LevelID + ".xml";
-		Debug.Log("GetImage.cs OnEnable() : xmlPath =" + xmlPath);
+		//Debug.Log("GetImage.cs OnEnable() : xmlPath =" + xmlPath);
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, xmlPath)).toCircuitItems();
 
 //		Debug.Log ("=====Start=====");
@@ -244,8 +244,8 @@ public class GetImage : MonoBehaviour
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
-		Debug.Log("GetImage.cs Thread_Process() : computeCurrentFlow Time elapse : " + elapse_2);
-		Debug.Log("Thread_Process_End");
+		//Debug.Log("GetImage.cs Thread_Process() : computeCurrentFlow Time elapse : " + elapse_2);
+		//Debug.Log("Thread_Process_End");
 
 		isThreadEnd = true;
 	}
@@ -260,14 +260,14 @@ public class GetImage : MonoBehaviour
 
 
 
-		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
-				" connect_left = " + itemList[i].connect_left +
-				" connect_right = " + itemList[i].connect_right +
-				" powered = " + itemList[i].powered);
-		}
+		// Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
+		// for (int i = 0; i < itemList.Count; i++)
+		// {
+		// 	Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+		// 		" connect_left = " + itemList[i].connect_left +
+		// 		" connect_right = " + itemList[i].connect_right +
+		// 		" powered = " + itemList[i].powered);
+		// }
 	}
 
 
