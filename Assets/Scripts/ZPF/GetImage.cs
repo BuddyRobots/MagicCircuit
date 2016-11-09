@@ -61,7 +61,7 @@ public class GetImage : MonoBehaviour
 		#if UNITY_EDITOR  
 //		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "Xmls/CircuitItems_lv2.xml")).toCircuitItems();
 		string xmlPath = "Xmls/CircuitItems_lv" + LevelManager.currentLevelData.LevelID + ".xml";
-		Debug.Log("GetImage.cs OnEnable() : xmlPath =" + xmlPath);
+		//Debug.Log("GetImage.cs OnEnable() : xmlPath =" + xmlPath);
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, xmlPath)).toCircuitItems();
 
 //		Debug.Log ("=====Start=====");
@@ -133,31 +133,31 @@ public class GetImage : MonoBehaviour
 		{
 			if (!initDone)
 				return;
-//			print("---------------");
-//			print("11111******" + DateTime.Now.Millisecond * 10000);
+
 			Mat frameImg = new Mat(webCam_height, webCam_width, CvType.CV_8UC3);
 			if (webCamTexture.didUpdateThisFrame)
 			{
-				
-//				print("22222******" + DateTime.Now.Millisecond * 10000);
 				Utils.webCamTextureToMat(webCamTexture, frameImg);
-//				print("77777******" + DateTime.Now.Millisecond * 10000);
+
+				#if UNITY_EDITOR
+				//test_hsv_AdaptThreshold(ref frameImg);
+				#elif UNITY_IPHONE
 				rotateCamera.rotate(ref frameImg);
-//				print("3333******" + DateTime.Now.Millisecond * 10000);
+				//test_hsv_AdaptThreshold(ref frameImg);
+				#endif
+
 				if (isTakingPhoto)
 				{	
 					frameImgList.Add(frameImg.clone());
 					if (frameImgList.Count >= Constant.TAKE_NUM_OF_PHOTOS)
 						isTakingPhoto = false; 
 				}
-//				print("4444******" + DateTime.Now.Millisecond * 10000);
+
 				texture.Resize(frameImg.cols(), frameImg.rows());
 				Utils.matToTexture2D(frameImg, texture);
-//				print("5555******" + DateTime.Now.Millisecond * 10000);
+
 			}
 			frameImg.Dispose();
-//			print("6666******" + DateTime.Now.Millisecond * 10000);
-//			print("---------------");
 		}
 
 	}
@@ -254,8 +254,8 @@ public class GetImage : MonoBehaviour
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
-		Debug.Log("GetImage.cs Thread_Process() : computeCurrentFlow Time elapse : " + elapse_2);
-		Debug.Log("Thread_Process_End");
+		//Debug.Log("GetImage.cs Thread_Process() : computeCurrentFlow Time elapse : " + elapse_2);
+		//Debug.Log("Thread_Process_End");
 
 		isThreadEnd = true;
 	}
@@ -270,19 +270,27 @@ public class GetImage : MonoBehaviour
 
 
 
-		Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
-				" connect_left = " + itemList[i].connect_left +
-				" connect_right = " + itemList[i].connect_right +
-				" powered = " + itemList[i].powered);
-		}
+		// Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
+		// for (int i = 0; i < itemList.Count; i++)
+		// {
+		// 	Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+		// 		" connect_left = " + itemList[i].connect_left +
+		// 		" connect_right = " + itemList[i].connect_right +
+		// 		" powered = " + itemList[i].powered);
+		// }
 	}
 
 
 
-
+	private void test_hsv_AdaptThreshold(ref Mat frameImg)
+	{
+		Mat grayImg = new Mat(frameImg.rows(), frameImg.cols(), CvType.CV_8UC1);
+		Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.adaptiveThreshold(grayImg, grayImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, 21, 10);
+		Imgproc.morphologyEx(grayImg, grayImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
+		//Imgproc.morphologyEx(rstImg, rstImg, Imgproc.MORPH_CLOSE, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3)));
+		frameImg = grayImg.clone();
+	}
 
 	//	public void test_saveFullQuadPhotoToiPad()
 	//	{

@@ -8,13 +8,11 @@ public class StartPanel : MonoBehaviour
 
 	private GameObject nextBtn;
 	private GameObject helpBtn;
-
 	private bool isMusicOn = true;
 
 	void Awake()
 	{
 		_instance = this;
-
 	}
 
 	void Start () 
@@ -22,7 +20,6 @@ public class StartPanel : MonoBehaviour
 		nextBtn= transform.Find ("NextBtn").gameObject;
 		helpBtn=transform.Find("HelpBtn").gameObject;
 		UIEventListener.Get(nextBtn).onClick =OnNextBtnClick;
-
 	}
 
 	/// <summary>
@@ -40,5 +37,4 @@ public class StartPanel : MonoBehaviour
 
 		//to do...
 	}
-		
 }

@@ -39,7 +39,7 @@ namespace MagicCircuit
 
             if (!computeCircuitBranch())
             {                
-                Debug.Log("Wrong Circuit!");
+                //Debug.Log("Wrong Circuit!");
                 return false;
             }
 
@@ -95,7 +95,7 @@ namespace MagicCircuit
 
             if (!computeCurrentFlow())
             {
-                Debug.Log("Error when computing CurrentFlow");
+                //Debug.Log("Error when computing CurrentFlow");
                 return false;
             }
 

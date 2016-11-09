@@ -161,9 +161,6 @@ namespace MagicCircuit
 			// ReOrder listItem
 			reOrder(ref itemList);
 
-	        // Substract all outer_squares from frameImg
-	        CardDetector.removeCard(ref frameImg, outer_squares);
-
 
 
 
@@ -175,7 +172,7 @@ namespace MagicCircuit
 
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
-			Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
+			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
 
 
 
@@ -188,7 +185,7 @@ namespace MagicCircuit
 
 
 	        /// Detect Lines =============================================================        
-			Debug.Log("RecognizeAlgo.cs DetectLine Start!");
+			//Debug.Log("RecognizeAlgo.cs DetectLine Start!");
 			int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -197,7 +194,7 @@ namespace MagicCircuit
 
 			List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 			List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-			line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
+			line_detector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
 
 	        // Add to CircuitItem
 			for (var i = 0; i < lineGroupList.Count; i++)
@@ -214,7 +211,7 @@ namespace MagicCircuit
 
 			int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_2 = time_2 - startTime_2;
-			Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
+			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 
 
 
@@ -242,7 +239,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
 
 
 
@@ -266,7 +263,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
 
 
 
@@ -299,7 +296,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs mat2array() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs mat2array() : Time elapse : " + elapseTime);
 
 
 
