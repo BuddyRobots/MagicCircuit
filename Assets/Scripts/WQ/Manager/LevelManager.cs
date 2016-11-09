@@ -26,8 +26,8 @@ public class LevelManager : MonoBehaviour
  				""levelData"":[
 				{
            			""levelID"": 1,
-           			""levelName"": ""level_1"",
-           			""levelDescription"":  ""level_1 is so easy"" ,
+           			""levelName"": ""第一关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第一页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":1,
            			""preLevelID"": 0,
            			""nextLevelID"": 2
@@ -35,112 +35,112 @@ public class LevelManager : MonoBehaviour
 				},
 				{
            			""levelID"": 2,
-           			""levelName"": ""Level_2"",
-           			""levelDescription"":  ""Level_2 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第二关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第二页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 1,
            			""nextLevelID"": 3
 				},
 				{
            			""levelID"": 3,
-           			""levelName"": ""Level_3"",
-           			""levelDescription"":  ""Level_3 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第三关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第三页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 2,
            			""nextLevelID"": 4
 				},
 				{
            			""levelID"": 4,
-           			""levelName"": ""Level_4"",
-           			""levelDescription"":  ""Level_4 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第四关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第四页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 3,
            			""nextLevelID"": 5
 				},
 				{
            			""levelID"": 5,
-           			""levelName"": ""Level_5"",
-           			""levelDescription"":  ""Level_5 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第五关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第五页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 4,
            			""nextLevelID"": 6
 				},
 				{
            			""levelID"": 6,
-           			""levelName"": ""Level_6"",
-           			""levelDescription"":  ""Level_6 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第六关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第六页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 5,
            			""nextLevelID"": 7
 				},
 				{
            			""levelID"": 7,
-           			""levelName"": ""Level_7"",
-           			""levelDescription"":  ""Level_7 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第七关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第七页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 6,
            			""nextLevelID"": 8
 				},
 				{
            			""levelID"": 8,
-           			""levelName"": ""Level_8"",
-           			""levelDescription"":  ""Level_8 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第八关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第八页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 7,
            			""nextLevelID"": 9
 				},
 				{
            			""levelID"": 9,
-           			""levelName"": ""Level_9"",
-           			""levelDescription"":  ""Level_9 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第九关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第九页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 8,
            			""nextLevelID"": 10
 				},
 				{
            			""levelID"": 10,
-           			""levelName"": ""Level_10"",
-           			""levelDescription"":  ""Level_10 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 9,
            			""nextLevelID"": 11
 				},
 				{
            			""levelID"": 11,
-           			""levelName"": ""Level_11"",
-           			""levelDescription"":  ""Level_11 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十一关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十一页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 10,
            			""nextLevelID"": 12
 				},
 				{
            			""levelID"": 12,
-           			""levelName"": ""Level_12"",
-           			""levelDescription"":  ""Level_12 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十二关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十二页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 11,
            			""nextLevelID"": 13
 				},
 				{
            			""levelID"": 13,
-           			""levelName"": ""Level_13"",
-           			""levelDescription"":  ""Level_13 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十三关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十三页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 12,
            			""nextLevelID"": 14
 				},
 				{
            			""levelID"": 14,
-           			""levelName"": ""Level_14"",
-           			""levelDescription"":  ""Level_14 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十四关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十四页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 13,
            			""nextLevelID"": 15
 				},
 				{
            			""levelID"": 15,
-           			""levelName"": ""Level_15"",
-           			""levelDescription"":  ""Level_15 is a little bit hard,just have a try!"" ,
+           			""levelName"": ""第十五关"",
+           			""levelDescription"":  ""小朋友，请你翻开书的第十五页，仔细看漫画，看完之后请点击下面的按钮，开始按要求拼图和画线吧！"" ,
            			""progress"":0,
            			""preLevelID"": 14,
            			""nextLevelID"": 16
@@ -274,13 +274,37 @@ public class LevelManager : MonoBehaviour
 		JsonData jd = JsonMapper.ToObject(leveljsonstr);   
 		JsonData jdLevelItems = jd["levelData"]; 
 
+
+
+
+
+
+
 		if (jdLevelItems.IsArray) 
 		{
+
+
+//
+//			List<string> levelName=new List<string>();
+//			for (int i = 0; i < jdLevelItems.Count; i++) 
+//			{
+//				int index=i+1;
+//				string name="第"+ index.ToString()+"关";
+//				levelName.Add(name);
+//			}
+
 			for (int i = 0; i < jdLevelItems.Count; i++) 
 			{
 				LevelItemData levelItemData = new LevelItemData ();
 				levelItemData.LevelID = (int)jdLevelItems [i] ["levelID"];
+
+
+
 				levelItemData.LevelName = (string)jdLevelItems [i] ["levelName"];
+
+//				levelItemData.LevelName =levelName[i];
+//				levelItemData.LevelName ="第一关";
+
 				levelItemData.LevelDescription = (string)jdLevelItems [i] ["levelDescription"];
 				levelItemData.Progress = (LevelProgress)((int)jdLevelItems [i] ["progress"]);
 				levelItemData.PrelevelID = (int)jdLevelItems [i] ["preLevelID"];
