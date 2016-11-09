@@ -16,10 +16,11 @@ public class HomeBtn : SceneSinglton<HomeBtn>
 	{
 		//打开主界面,关闭父对象界面
 		//startPanel.SetActive (true);
-		PanelTranslate.Instance.GetPanel(Panels.StartPanel);
-//		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+//		PanelTranslate.Instance.GetPanel(Panels.StartPanel);
+		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
 
-		Instance.panelOff();
+//		Instance.panelOff();
+		PanelTranslate.Instance.DestoryAllPanel();
 	}
 }
 	

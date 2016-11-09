@@ -185,7 +185,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		lineParent = this.gameObject;
 
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
-		levelNameLabel.text = LevelManager.currentLevelData.LevelName;
+		levelNameLabel.text = "识别中";//LevelManager.currentLevelData.LevelName;
 		countDownLabel = transform.Find ("CountDownLabel").GetComponent<UILabel> ();
 		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
 		replayBtn=transform.Find("ReplayBtn").gameObject;
@@ -704,7 +704,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void WellDone()
 	{
-		levelNameLabel.text="祝贺你";//"Congratulations!";
+		levelNameLabel.text="祝贺你";
 		labelBgTwinkle.SetActive (true);
 		replayBtn.SetActive (true);
 		nextBtn.SetActive (true);
