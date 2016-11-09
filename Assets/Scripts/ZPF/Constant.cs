@@ -29,7 +29,7 @@
 		public const int    LINE_STEP_LARGE           = 20;
 		public const int    LINE_MIN_POINT_NUM        = 3;
 
-		// PhotoRecognizingPanel.cs: Arrow show interval
+		// PhotoRecognizingPanel.cs : Arrow show interval
 		public const float  ARROW_GEN_INTERVAL        = 0.8f;
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected
