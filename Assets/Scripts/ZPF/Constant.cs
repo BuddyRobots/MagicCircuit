@@ -26,7 +26,7 @@
 		public const int    LINE_REGION_MIN_AREA      = 100;
 		public const int    LINE_STEP_SMALL           = 10;
 		public const int    LINE_STEP_MEDIUM          = 15;
-		public const int    LINE_STEP_LARGE           = 20;
+		public const int    LINE_STEP_LARGE           = 25;
 		public const int    LINE_MIN_POINT_NUM        = 3;
 
 		// PhotoRecognizingPanel.cs : Arrow show interval
