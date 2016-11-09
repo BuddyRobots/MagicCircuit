@@ -533,17 +533,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		if (item!=null) 
 		{
 			item.transform.parent = transform;
-			//音响的图片是音响和音符连在一起的大图，图片中的音响重心靠下，需要往上提重心才能使得界面上的图标看起来合理
-//			if (item.name == "loudspeaker") 
-//			{
-//				Vector3 temp = new Vector3 (circuitItem.list [0].x, circuitItem.list [0].y + 75, 0);
-//				item.transform.localPosition = temp;
-//
-//			} 
-//			else
-//			{
-//				item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
-//			}
 			item.transform.localPosition = circuitItem.list [0];// 如果测试用的坐标是根据localPosition设定的，就要用localPosition来接收
 			item.transform.localScale = new Vector3 (1, 1, 1); 
 			//根据图标数据的旋转角度进行旋转，旋转的是Z上的弧度
@@ -728,10 +717,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-//		transform.parent.Find ("PhotoTakingPanel").gameObject.SetActive (true);
-//		PanelOff();
 		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
-		//PanelOff();
 		PanelTranslate.Instance.DestoryAllPanel();
 	}
 		
@@ -744,7 +730,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			PlayerPrefs.SetInt ("LevelProgress",2);
 			LevelManager._instance.LoadLocalLevelProgressData ();
 		}
-		//transform.parent.Find ("LevelSelectPanel").gameObject.SetActive (true);
 		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
 
 		PanelOff();
@@ -783,10 +768,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			circuitLines[i].Clear();
 		}
 		circuitLines.Clear ();
-
-//		gameObject.SetActive (false);
-//		successShow.gameObject.SetActive (false);
-//		failureShow.gameObject.SetActive (false);
 		PanelTranslate.Instance.DestoryAllPanel();
 
 		itemList.Clear();
