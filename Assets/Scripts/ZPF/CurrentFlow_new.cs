@@ -98,7 +98,7 @@ namespace MagicCircuit
 			}
 
 			// Will modify connectivity & generate circuitItems as result
-			process();
+//			process();
 		}
 
         private void initMembers()

@@ -9,6 +9,7 @@ public class ConfirmBtnCtrl : MonoBehaviour
 	void OnClick()
 	{
 		transform.parent.gameObject.SetActive (false);
-		System.GC.Collect();
+//		System.GC.Collect();
+		Resources.UnloadUnusedAssets();
 	}
 }

@@ -156,8 +156,8 @@ public class LevelManager : MonoBehaviour
 		_instance = this;
 
 		//code for test...
-		PlayerPrefs.SetInt ("LevelID",14);
-		PlayerPrefs.SetInt ("LevelProgress",2);
+//		PlayerPrefs.SetInt ("LevelID",1);
+//		PlayerPrefs.SetInt ("LevelProgress",0);
 	}
 
 	void Start() 
@@ -185,7 +185,8 @@ public class LevelManager : MonoBehaviour
 	{
 		int levelID = 0;
 		int levelPro = 0;
-		if (PlayerPrefs.HasKey ("LevelID")) {
+		if (PlayerPrefs.HasKey ("LevelID"))
+		{
 			//如果本地存储中有LevelID这个字段，表示玩家有闯关记录，则需要去拿到这个数据
 			levelID = PlayerPrefs.GetInt ("LevelID");
 			//Debug.Log ("levelID==" + levelID);
@@ -203,8 +204,10 @@ public class LevelManager : MonoBehaviour
 		
 			PlayerPrefs.SetInt ("LevelProgress", 0);
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
-			Debug.Log ("levelPro2==" + levelPro);
+//			Debug.Log ("levelPro2==" + levelPro);
 		}
+//		Debug.Log ("levelID==" + levelID);	
+//		Debug.Log ("levelPro==" + levelPro);
 		//获取到已完成的关卡后需要更新list数据
 		UpdateLevelItemDataList (levelID,levelPro);
 
@@ -217,7 +220,9 @@ public class LevelManager : MonoBehaviour
 	/// <param name="levelPro">关卡进度</param>
 	public void UpdateLevelItemDataList(int levelID,int levelPro)
 	{
-		//Debug.Log ("updateLevelItemDataList==");
+//		Debug.Log ("updateLevelItemDataList----------------");
+//		Debug.Log ("levelID==" + levelID);	
+//		Debug.Log ("levelPro==" + levelPro);
 		if (levelID == 0) //表示一关都没有玩过，是第一次玩
 		{
 			//Debug.Log ("updateLevelItemDataListAA");
@@ -243,11 +248,6 @@ public class LevelManager : MonoBehaviour
 			//设置当前要完成的关卡进度
 			if (levelID < 15) 
 			{
-				/*if (levelID==11) 
-				{
-					Debug.Log ("level_12_Progress" + levelItemDataList [levelID].Progress);
-
-				}*/
 				levelItemDataList [levelID].Progress = LevelProgress.Doing;
 			} 
 			else 

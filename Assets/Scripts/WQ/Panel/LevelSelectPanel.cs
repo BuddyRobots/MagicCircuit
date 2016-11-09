@@ -8,6 +8,9 @@ public class LevelSelectPanel : MonoBehaviour {
 	public static LevelSelectPanel _instance;
 
 	private GameObject levelDescriptionPanel;
+	private GameObject helpBtn;
+
+
 	public List<UIButton> uiBtnListT = new List<UIButton>();
 	public List<UIButton> uiBtnListL = new List<UIButton>();
 
@@ -44,6 +47,7 @@ public class LevelSelectPanel : MonoBehaviour {
 	private UIButton btnL13;
 	private UIButton btnL14;
 	private UIButton btnL15;
+
 
 	void Awake()
 	{
@@ -129,22 +133,25 @@ public class LevelSelectPanel : MonoBehaviour {
 
 	void OnEnable()
 	{
-		//界面刷新
-		RefreshLevelUI ();
+		helpBtn=transform.Find("HelpBtn").gameObject;
+		UIEventListener.Get(helpBtn).onClick = OnHelpBtnClick;
+		RefreshLevelUI ();//界面刷新
 		HomeBtn.Instance.panelOff = PanelOff;
 	}
 
 	//refresh UI
 	public void RefreshLevelUI()
 	{
-		//Debug.Log ("refreshLevelUI");
 		for (int i = 0; i < LevelManager._instance.levelItemDataList.Count; ++i)
 		{
+
+//			Debug.Log("levelID---"+LevelManager._instance.levelItemDataList[i].LevelID+"levelProgress---"+LevelManager._instance.levelItemDataList[i].Progress.ToString());
+
 			LevelItemData data = LevelManager._instance.levelItemDataList [i];
 			UIButton btnT = uiBtnListT [i];
 			UIButton btnL = uiBtnListL [i];
-			//int levelId = GetLevel(btnT.name);
 			int levelId =btnT.GetComponent<LevelItemUI>().GetLevel(btnT.name);
+//			Debug.Log("levelID-----"+levelId);
 			if(data.LevelID==levelId)
 			{
 				switch(data.Progress)
@@ -171,5 +178,14 @@ public class LevelSelectPanel : MonoBehaviour {
 	public void PanelOff()
 	{
 		gameObject.SetActive (false);
+	}
+
+
+	void OnHelpBtnClick(GameObject btn)
+	{
+		PlayerPrefs.SetInt ("LevelID",15);
+		PlayerPrefs.SetInt ("LevelProgress",2);
+		LevelManager._instance.LoadLocalLevelProgressData();
+		RefreshLevelUI();
 	}
 }
