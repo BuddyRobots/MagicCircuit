@@ -274,37 +274,14 @@ public class LevelManager : MonoBehaviour
 		JsonData jd = JsonMapper.ToObject(leveljsonstr);   
 		JsonData jdLevelItems = jd["levelData"]; 
 
-
-
-
-
-
-
 		if (jdLevelItems.IsArray) 
 		{
-
-
-//
-//			List<string> levelName=new List<string>();
-//			for (int i = 0; i < jdLevelItems.Count; i++) 
-//			{
-//				int index=i+1;
-//				string name="第"+ index.ToString()+"关";
-//				levelName.Add(name);
-//			}
 
 			for (int i = 0; i < jdLevelItems.Count; i++) 
 			{
 				LevelItemData levelItemData = new LevelItemData ();
 				levelItemData.LevelID = (int)jdLevelItems [i] ["levelID"];
-
-
-
 				levelItemData.LevelName = (string)jdLevelItems [i] ["levelName"];
-
-//				levelItemData.LevelName =levelName[i];
-//				levelItemData.LevelName ="第一关";
-
 				levelItemData.LevelDescription = (string)jdLevelItems [i] ["levelDescription"];
 				levelItemData.Progress = (LevelProgress)((int)jdLevelItems [i] ["progress"]);
 				levelItemData.PrelevelID = (int)jdLevelItems [i] ["preLevelID"];
