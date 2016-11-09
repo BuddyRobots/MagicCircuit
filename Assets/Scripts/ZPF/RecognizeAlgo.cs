@@ -41,6 +41,9 @@ namespace MagicCircuit
 
 
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag1");
+
+
 
 
 
@@ -52,19 +55,37 @@ namespace MagicCircuit
 	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
 	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
 
+
+
+
+
+
+			Profiler.EndSample();
+			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag2");
+
+
+
+
+
 	        // Get all the squares
 	        List<List<Point>> squares = new List<List<Point>>();
 	        List<List<Point>> outer_squares = new List<List<Point>>();
 	        squares = CardDetector.findSquares(binaryImg);
 	        outer_squares = CardDetector.computeOuterSquare(squares);
 
+
+
+
+
+			Profiler.EndSample();
+			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag3");
+
+
+
+
+
 	        for (int i = 0; i < squares.Count; i++)
 	        {
-	            // Draw lines on resultImg
-	            for (int j = 0; j < squares[i].Count - 1; j++)
-	                Imgproc.line(resultImg, squares[i][j], squares[i][j + 1], new Scalar(255, 0, 0), 3);
-	            Imgproc.line(resultImg, squares[i][squares[i].Count - 1], squares[i][0], new Scalar(255, 0, 0), 3);
-
 	            // Perspective transform
 	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
 	            Imgproc.warpPerspective(frameImg, frameTransImg, homography, new Size());
@@ -140,8 +161,10 @@ namespace MagicCircuit
 			// ReOrder listItem
 			reOrder(ref itemList);
 
-	        // Substract all outer_squares from frameImg
-	        CardDetector.removeCard(ref frameImg, outer_squares);
+
+
+
+			Profiler.EndSample();
 
 
 
@@ -149,14 +172,20 @@ namespace MagicCircuit
 
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
-			Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
+			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
+
+
+
+
+			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag4");
+
 
 
 
 
 
 	        /// Detect Lines =============================================================        
-			Debug.Log("RecognizeAlgo.cs DetectLine Start!");
+			//Debug.Log("RecognizeAlgo.cs DetectLine Start!");
 			int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -165,7 +194,7 @@ namespace MagicCircuit
 
 			List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 			List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-			line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
+			line_detector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
 
 	        // Add to CircuitItem
 			for (var i = 0; i < lineGroupList.Count; i++)
@@ -182,9 +211,12 @@ namespace MagicCircuit
 
 			int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_2 = time_2 - startTime_2;
-			Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
+			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 
 
+
+
+			Profiler.EndSample();
 
 
 
@@ -207,7 +239,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
 
 
 
@@ -231,7 +263,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
 
 
 
@@ -264,7 +296,7 @@ namespace MagicCircuit
 
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
-			Debug.Log("RecognizeAlgo.cs mat2array() : Time elapse : " + elapseTime);
+			//Debug.Log("RecognizeAlgo.cs mat2array() : Time elapse : " + elapseTime);
 
 
 

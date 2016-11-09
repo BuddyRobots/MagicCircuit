@@ -47,7 +47,6 @@ public class BussinessLogic
 		
 	public void SingleItemFlush(CircuitItem item)
 	{
-		Debug.Log ("SingleItemFlush");
 		string tag = item.ID.ToString();//save the ID as tag of gameObject
 		GameObject tempGo = GameObject.FindWithTag (tag);
 		UISprite tempSprite = GameObject.FindWithTag (tag).GetComponent<UISprite> ();
@@ -61,11 +60,11 @@ public class BussinessLogic
 				break;
 			case CircuitItem.PowerStatus.oneBattery:
 				tempSprite.spriteName = "bulbOn";
-				Debug.Log ("one battery works, bulb is on");
+
 				break;
 			case CircuitItem.PowerStatus.twoBattery:
 				tempSprite.spriteName="bulbSpark";
-				Debug.Log ("two battery work, bulb is spark");
+
 				break;
 			default:
 				break;

@@ -18,6 +18,7 @@ namespace MagicCircuit
         
         private int count;                      // Total number of items
         private int boundary;                   // ID of the first CircuitLine
+		bool[] isOpened;
 
 
         public bool compute(List<CircuitItem> _circuitItemList, int _level)
@@ -89,6 +90,13 @@ namespace MagicCircuit
 			// Save new current state
 			Array.Copy(connectivity, currentConn, connectivity.Length);
 
+			// Re-compute LR Matrices
+			if (!computeLRMatrix())
+			{
+				Debug.Log("CurrentFlow.cs switchOnOff() : Error when computing LRMatrix!");
+				return;
+			}
+
 			// Will modify connectivity & generate circuitItems as result
 //			process();
 		}
@@ -124,12 +132,18 @@ namespace MagicCircuit
 					L_Matrix[i, j] = Connectivity.zero;
 					R_Matrix[i, j] = Connectivity.zero;
 				}
+
+			// bool[] are all false by default
+			isOpened = new bool[count];
 		}
 
 		private void allPowerOn()
 		{
 			for (var i = 0; i < count; i++)
+			{
+				if (isOpened[i]) continue;
 				circuitItemList[i].powered = true;
+			}
 		}
 
         private void allPowerOff()
@@ -218,9 +232,7 @@ namespace MagicCircuit
 
 		// Return true if have open circuit
 		private bool removeOpenedCircuit()
-		{
-			// bool[] are all false by default
-			bool[] isOpened = new bool[count];
+		{			
 			bool haveItemDeleted = false;
 			bool haveOpenCircuit = false;
 
@@ -405,6 +417,11 @@ namespace MagicCircuit
 		{
 			if (!combineBattery()) return false;
 
+			return process();
+		}
+
+		private bool process()
+		{
 			// Traverse all the components to get current flow direction
 			Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
 

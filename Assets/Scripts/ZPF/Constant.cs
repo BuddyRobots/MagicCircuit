@@ -17,13 +17,19 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 70;
 		public const int    CARD_MAX_SQUARE_LEN       = 100;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.35;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.4;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
-		public const int    LINE_COLOR_MAX_V          = 170;
-		public const int    LINE_REGION_MIN_AREA      = 200;
+		public const int    LINE_ADPTTHRES_KERNEL     = 21;
+		public const int    LINE_ADPTTHRES_SUB        = 10;
+		public const int    LINE_MORPH_KERNEL         = 3;
+		public const int    LINE_REGION_MIN_AREA      = 100;
+		public const int    LINE_STEP_SMALL           = 10;
+		public const int    LINE_STEP_MEDIUM          = 15;
+		public const int    LINE_STEP_LARGE           = 20;
+		public const int    LINE_MIN_POINT_NUM        = 3;
 
-		// PhotoRecognizingPanel.cs: Arrow show interval
+		// PhotoRecognizingPanel.cs : Arrow show interval
 		public const float  ARROW_GEN_INTERVAL        = 0.8f;
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected

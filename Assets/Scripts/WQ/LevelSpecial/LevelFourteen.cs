@@ -147,9 +147,6 @@ public class LevelFourteen : MonoBehaviour
 					}
 					if (isVOswitchOn) 
 					{
-						
-
-							
 						VOTimer += Time.deltaTime;
 						if (VOTimer >= VOTime) 
 						{
