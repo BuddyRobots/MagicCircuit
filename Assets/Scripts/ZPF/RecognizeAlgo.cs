@@ -140,9 +140,6 @@ namespace MagicCircuit
 			// ReOrder listItem
 			reOrder(ref itemList);
 
-	        // Substract all outer_squares from frameImg
-	        CardDetector.removeCard(ref frameImg, outer_squares);
-
 
 
 
@@ -165,7 +162,7 @@ namespace MagicCircuit
 
 			List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 			List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-			line_detector.detectLine(frameImg, ref lineGroupList, ref boundingRectList);
+			line_detector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
 
 	        // Add to CircuitItem
 			for (var i = 0; i < lineGroupList.Count; i++)

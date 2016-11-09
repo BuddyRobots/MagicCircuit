@@ -5,13 +5,8 @@ using OpenCVForUnity;
 namespace MagicCircuit
 {
     public class LineDetector
-    {
-		private const int STEP_SMALL    = 15;
-		private const int STEP_MEDIUM   = 20;
-		private const int STEP_LARGE    = 25;
-		private const int MIN_POINT_NUM = 3;
-
-        public void detectLine(Mat frameImg, ref List<List<List<Point>>> lineGroupList, ref List<OpenCVForUnity.Rect> boundingRectList)
+    {		
+		public void detectLine(Mat frameImg, List<List<List<Point>>> lineGroupList, List<OpenCVForUnity.Rect> boundingRectList, List<List<Point>> cardSquares)
         {
 
 			//Debug.Log("LineDetector.cs detectLine Start!");
@@ -19,7 +14,7 @@ namespace MagicCircuit
 
 			List<Mat> roiList = new List<Mat>();
 
-            getLines(frameImg, ref roiList, ref boundingRectList);
+			getLines(frameImg, roiList, boundingRectList, cardSquares);
 
             for (var i = 0; i < roiList.Count; i++)
             {
@@ -27,7 +22,7 @@ namespace MagicCircuit
             }
         }
 
-		private void getLines(Mat frameImg, ref List<Mat> roiList, ref List<OpenCVForUnity.Rect> rectList)
+		private void getLines(Mat frameImg, List<Mat> roiList, List<OpenCVForUnity.Rect> rectList, List<List<Point>> cardSquares)
 		{
 			Mat hsvImg = new Mat();
 			Mat binaryImg = new Mat();
@@ -40,6 +35,9 @@ namespace MagicCircuit
 			Imgproc.cvtColor(frameImg, binaryImg, Imgproc.COLOR_BGR2GRAY);
 			Imgproc.adaptiveThreshold(binaryImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.LINE_MORPH_KERNEL, Constant.LINE_MORPH_KERNEL)));
+
+			// Remove card region
+			removeCard(ref binaryImg, cardSquares);
 			lineImg = binaryImg.clone();
 
 			// Find Contours
@@ -69,6 +67,43 @@ namespace MagicCircuit
 			}
 			return;
 		}    
+
+		public static void removeCard(ref Mat img, List<List<Point>> squares)
+		{
+			for (var i = 0; i < img.rows(); i++)
+				for (var j = 0; j < img.cols(); j++)
+					for (var k = 0; k < squares.Count; k++)
+						if (isInROI(new Point(j, i), squares[k]))
+						{
+							img.put(i, j, new byte[3] { 0, 0, 0 });
+							break;
+						}
+		}
+
+		private static bool isInROI(Point p, List<Point> roi)
+		{
+			double[] pro = new double[4];
+			for (int i = 0; i < 4; ++i)
+			{
+				pro[i] = computeProduct(p, roi[i], roi[(i + 1) % 4]);
+			}
+			if (pro[0] * pro[2] < 0 && pro[1] * pro[3] < 0)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		// function pro = kx-y+j, take two points a and b,
+		// compute the line argument k and j, then return the pro value
+		// so that can be used to determine whether the point p is on the left or right
+		// of the line ab
+		private static double computeProduct(Point p, Point a, Point b)
+		{
+			double k = (a.y - b.y) / (a.x - b.x);
+			double j = a.y - k * a.x;
+			return k * p.x - p.y + j;
+		}
 
         private List<List<Point>> vectorize(Mat lineImg)
         {
@@ -134,7 +169,7 @@ namespace MagicCircuit
                 }
 
 				// If we have more than MIN_POINT_NUM points on one line, add this line
-                if (line.Count > MIN_POINT_NUM)
+                if (line.Count > Constant.LINE_MIN_POINT_NUM)
                     listLine.Add(line);
 
                 // Enqueue the intersect points
@@ -314,17 +349,17 @@ namespace MagicCircuit
         {
             while(true)
             {
-                Queue<Point> myPoint = findNextPoints(skel, current, STEP_SMALL);
+                Queue<Point> myPoint = findNextPoints(skel, current, Constant.LINE_STEP_SMALL);
 
                 if (myPoint.Count != 1)
                 {
                     // increase radius
-                    myPoint = findNextPoints(skel, current, STEP_MEDIUM);
+                    myPoint = findNextPoints(skel, current, Constant.LINE_STEP_MEDIUM);
 
                     if (myPoint.Count != 1)
                     {
                         // increase radius
-                        myPoint = findNextPoints(skel, current, STEP_LARGE);
+                        myPoint = findNextPoints(skel, current, Constant.LINE_STEP_LARGE);
 
                         if (myPoint.Count != 1)
                         {

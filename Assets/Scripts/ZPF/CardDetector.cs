@@ -81,18 +81,6 @@ public class CardDetector
         return outerSquareList;
     }
 
-    public static void removeCard(ref Mat img, List<List<Point>> squares)
-    {
-        for (var i = 0; i < img.rows(); i++)
-            for (var j = 0; j < img.cols(); j++)
-                for (var k = 0; k < squares.Count; k++)
-                    if (isInROI(new Point(j, i), squares[k]))
-                    {
-                        img.put(i, j, new byte[3] { 255, 255, 255 });
-                        break;
-                    }
-    }
-
     private static List<List<Point>> filterSquares(List<List<Point>> squares)
     {
         List<List<Point>> filteredSquares = new List<List<Point>>();
@@ -163,32 +151,7 @@ public class CardDetector
         double dx2 = pt2.x - pt0.x;
         double dy2 = pt2.y - pt0.y;
         return (float)(dx1 * dx2 + dy1 * dy2) / Mathf.Sqrt((float)((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10));
-    }
-
-    private static bool isInROI(Point p, List<Point> roi)
-    {
-        double[] pro = new double[4];
-        for (int i = 0; i < 4; ++i)
-        {
-            pro[i] = computeProduct(p, roi[i], roi[(i + 1) % 4]);
-        }
-        if (pro[0] * pro[2] < 0 && pro[1] * pro[3] < 0)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    // function pro = kx-y+j, take two points a and b,
-    // compute the line argument k and j, then return the pro value
-    // so that can be used to determine whether the point p is on the left or right
-    // of the line ab
-    private static double computeProduct(Point p, Point a, Point b)
-    {
-        double k = (a.y - b.y) / (a.x - b.x);
-        double j = a.y - k * a.x;
-        return k * p.x - p.y + j;
-    }
+    }		        
 
     /*public static void Img2Pts(Mat image, ref List<Point> imgPts)
     {

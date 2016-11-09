@@ -143,6 +143,7 @@ public class GetImage : MonoBehaviour
 				//test_hsv_AdaptThreshold(ref frameImg);
 				#elif UNITY_IPHONE
 				rotateCamera.rotate(ref frameImg);
+				//test_hsv_AdaptThreshold(ref frameImg);
 				#endif
 
 				if (isTakingPhoto)
