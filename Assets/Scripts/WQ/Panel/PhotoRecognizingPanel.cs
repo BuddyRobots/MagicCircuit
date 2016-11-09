@@ -688,6 +688,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void Fail()
 	{
+		levelNameLabel.text="很遗憾...";
+		labelBgTwinkle.SetActive (false);
 		replayBtn.SetActive (true);//显示重玩按钮
 		StartCoroutine (FailureShow ());
 
@@ -702,7 +704,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	public void WellDone()
 	{
-		levelNameLabel.text="Congratulations!";
+		levelNameLabel.text="祝贺你";//"Congratulations!";
 		labelBgTwinkle.SetActive (true);
 		replayBtn.SetActive (true);
 		nextBtn.SetActive (true);
