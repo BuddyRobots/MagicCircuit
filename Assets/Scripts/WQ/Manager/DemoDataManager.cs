@@ -9,7 +9,7 @@ public class DemoDataManager: SceneSinglton<DemoDataManager>
 
 
 //	public List<UITexture> startDemoTex;
-	public List<UITexture> level_1_DemoTex;
+	public List<Texture> level_1_DemoTex;
 
 
 

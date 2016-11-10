@@ -4,16 +4,15 @@ using System.Runtime.InteropServices;
 
 namespace MagicCircuit
 {
-    public class RotateCamera
+    public static class RotateCamera
     {
+        private static List<Point> ptsBoard;
+        private static List<Point> ptsWindow;
 
-        List<Point> ptsBoard;
-        List<Point> ptsWindow;
+        private static Mat homo;
+		//Mat rst;
 
-        Mat homo;
-		Mat rst;
-
-        public RotateCamera()
+        static RotateCamera()
         {
             ptsBoard = new List<Point>();
             ptsWindow = new List<Point>();
@@ -32,12 +31,11 @@ namespace MagicCircuit
             Mat rectWin = Converters.vector_Point2f_to_Mat(ptsWindow);
 
             homo = Imgproc.getPerspectiveTransform(rectBrd, rectWin);
-
-			rst = new Mat(Constant.CAM_QUAD_HEIGHT, Constant.CAM_QUAD_WIDTH, CvType.CV_8UC3);
         }
 
-        public void rotate(ref Mat img)
+        public static void rotate(ref Mat img)
         {
+			Mat rst = new Mat(Constant.CAM_QUAD_HEIGHT, Constant.CAM_QUAD_WIDTH, CvType.CV_8UC3);
 			Imgproc.warpPerspective(img, rst, homo, rst.size());
 			img = rst.clone();
         }

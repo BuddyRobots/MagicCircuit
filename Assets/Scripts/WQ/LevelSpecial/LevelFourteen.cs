@@ -195,7 +195,10 @@ public class LevelFourteen : MonoBehaviour
 				}
 			}
 			#endregion
-			preSunSwitchStatues = transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime;
+
+			preSunSwitchStatues = transform.Find("SunAndMoonWidget").GetComponent<MoonAndSunCtrl>().isDaytime;
+
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	}
 
@@ -222,7 +225,5 @@ public class LevelFourteen : MonoBehaviour
 	}
 
 
+
 }
-
-
-

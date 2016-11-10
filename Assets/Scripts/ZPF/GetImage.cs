@@ -37,7 +37,6 @@ public class GetImage : MonoBehaviour
 	// Parameter for loading xml file for test
 	private List<CircuitItem> xmlItemList = new List<CircuitItem>();
 
-	private RotateCamera rotateCamera;
 	private RecognizeAlgo recognizeAlge;
 	public List<Mat> frameImgList = new List<Mat>();
 	private List<List<CircuitItem>> listItemList = new List<List<CircuitItem>>();
@@ -51,7 +50,6 @@ public class GetImage : MonoBehaviour
 
 		StartCoroutine(init());
 
-		rotateCamera = new RotateCamera();
 		recognizeAlge = new RecognizeAlgo();
 		cf = new CurrentFlow();
 		cf_SPDT = new CurrentFlow_SPDTSwitch();
@@ -141,7 +139,7 @@ public class GetImage : MonoBehaviour
 				#if UNITY_EDITOR
 				//test_hsv_AdaptThreshold(ref frameImg);
 				#elif UNITY_IPHONE
-				rotateCamera.rotate(ref frameImg);
+				RotateCamera.rotate(ref frameImg);
 				//test_hsv_AdaptThreshold(ref frameImg);
 				#endif
 
@@ -166,30 +164,19 @@ public class GetImage : MonoBehaviour
 		isThreadEnd = false;
 		listItemList.Clear();
 
-	//	Debug.Log("GetImage.cs Thread_Process_Start!");
-
-//		Thread threadProcess = new Thread(Thread_Process);
-//		threadProcess.IsBackground = true;
-//		threadProcess.Start();
-
-
-		Profiler.BeginSample("MagicCircuit.GetImage.Thread_Process_Start");
-
-
-
-		Thread_Process();
-
-
-
-		Profiler.EndSample();
+		Thread threadProcess = new Thread(Thread_Process);
+		threadProcess.IsBackground = true;
+		threadProcess.Start();
 	}
 
 	// Thread for RecognizeAlgo.process 10 images
 	private void Thread_Process()
 	{
+		Debug.Log("GetImage.cs Thread_Process : Start!");
+
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
-//			Debug.Log("GetImage.cs Thread_Process : Start process image NO. " + i);
+			
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 
@@ -243,7 +230,9 @@ public class GetImage : MonoBehaviour
 			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
 				     " connect_left = " + itemList[i].connect_left +
 				     " connect_right = " + itemList[i].connect_right +
-				     " powered = " + itemList[i].powered);
+				     " connect_middle = " + itemList[i].connect_middle +
+				     " powered = " + itemList[i].powered +
+				     " list[0] = " + itemList[i].list[0]);
 		}
 
 
@@ -262,7 +251,7 @@ public class GetImage : MonoBehaviour
 	private void computeCurrentFlow()
 	{
 		if (LevelManager.currentLevelData.LevelID == 15) 
-			isCircuitCorrect = cf_SPDT.compute(ref itemList);
+			isCircuitCorrect = cf_SPDT.compute(itemList);
 		else 
 			isCircuitCorrect = cf.compute(itemList, LevelManager.currentLevelData.LevelID);
 

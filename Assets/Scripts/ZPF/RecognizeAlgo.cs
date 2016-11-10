@@ -14,14 +14,17 @@ namespace MagicCircuit
 		[DllImport("__Internal")]  
 		private static extern int callLua_predictDirection(double[] imageData, int imageDataLength, int klass);
 
-	    private LineDetector line_detector;
-	    //private myUtils util;
+		private static MatOfPoint2f modelImageSizePoint;
+
+		private LineDetector lineDetector;
 
 
 	    public RecognizeAlgo()
 	    {
-	        line_detector = new LineDetector();
-	        //util = new myUtils();
+	        lineDetector = new LineDetector();
+
+			modelImageSizePoint = new MatOfPoint2f(new Point[4]
+				{ new Point(0, 0), new Point(Constant.MODEL_IMAGE_SIZE, 0), new Point(Constant.MODEL_IMAGE_SIZE, Constant.MODEL_IMAGE_SIZE), new Point(0, Constant.MODEL_IMAGE_SIZE) });
 	    }
 			
 	    public Mat process(Mat frameImg, ref List<CircuitItem> itemList)
@@ -41,27 +44,17 @@ namespace MagicCircuit
 
 
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag1");
 
-
-
-
-
-
-			MatOfPoint2f point = new MatOfPoint2f(new Point[4]
-	            { new Point(0, 0), new Point(Constant.MODEL_IMAGE_SIZE, 0), new Point(Constant.MODEL_IMAGE_SIZE, Constant.MODEL_IMAGE_SIZE), new Point(0, Constant.MODEL_IMAGE_SIZE) });
-
-	        // Thresholding
-	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
 
 
 
 
 
 
-			Profiler.EndSample();
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag2");
+	        // Thresholding
+	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
+	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
+
 
 
 
@@ -76,9 +69,8 @@ namespace MagicCircuit
 
 
 
-
-			Profiler.EndSample();
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag3");
+			Debug.Log("RecognizeAlgo.cs process : squares.Count = " + squares.Count);
+			Debug.Log("RecognizeAlgo.cs process : outer_squares.Count = " + outer_squares.Count);
 
 
 
@@ -87,24 +79,22 @@ namespace MagicCircuit
 	        for (int i = 0; i < squares.Count; i++)
 	        {
 	            // Perspective transform
-	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
+	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), modelImageSizePoint);
 	            Imgproc.warpPerspective(frameImg, frameTransImg, homography, new Size());
 
-	            // TODO
-				// @@predict
-	            // @Input  : Mat cardTransImg.submat(0, imageSize, 0, imageSize);
-				// @Output : int klass;
+				// predictClass
+	            // Input  : Mat cardTransImg.submat(0, imageSize, 0, imageSize);
+				// Output : int klass;
 				string name = "name";
 	            ItemType type = new ItemType();            
 				Mat cardImg = frameTransImg.submat(0, Constant.MODEL_IMAGE_SIZE, 0, Constant.MODEL_IMAGE_SIZE);
 				double[] cardArray = mat2array(cardImg);
 				int klass = predictClass(cardArray);
 
-				// TODO
-				// @@getDirection
-				// @Input  : int klass,
+				// predictDirection
+				// Input  : int klass,
 				//           Mat cardImg;
-				// @Output : int direction (1, 2, 3, 4)
+				// Output : int direction (1, 2, 3, 4)
 				//int direction = 4;
 				int direction = predictDirection(cardArray, klass);
 				correctDirection(ref direction, klass);
@@ -164,8 +154,6 @@ namespace MagicCircuit
 
 
 
-			Profiler.EndSample();
-
 
 
 
@@ -174,10 +162,6 @@ namespace MagicCircuit
 			int elapse_1 = time_1 - startTime_1;
 			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
 
-
-
-
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag4");
 
 
 
@@ -194,7 +178,7 @@ namespace MagicCircuit
 
 			List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 			List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-			line_detector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
+			lineDetector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
 
 	        // Add to CircuitItem
 			for (var i = 0; i < lineGroupList.Count; i++)
@@ -212,11 +196,6 @@ namespace MagicCircuit
 			int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_2 = time_2 - startTime_2;
 			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
-
-
-
-
-			Profiler.EndSample();
 
 
 
