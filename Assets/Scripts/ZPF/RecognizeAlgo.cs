@@ -44,8 +44,6 @@ namespace MagicCircuit
 
 
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag1");
-
 
 
 
@@ -62,13 +60,6 @@ namespace MagicCircuit
 
 
 
-			Profiler.EndSample();
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag2");
-
-
-
-
-
 	        // Get all the squares
 	        List<List<Point>> squares = new List<List<Point>>();
 	        List<List<Point>> outer_squares = new List<List<Point>>();
@@ -80,8 +71,6 @@ namespace MagicCircuit
 
 			Debug.Log("RecognizeAlgo.cs process : squares.Count = " + squares.Count);
 			Debug.Log("RecognizeAlgo.cs process : outer_squares.Count = " + outer_squares.Count);
-			Profiler.EndSample();
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag3");
 
 
 
@@ -165,8 +154,6 @@ namespace MagicCircuit
 
 
 
-			Profiler.EndSample();
-
 
 
 
@@ -175,10 +162,6 @@ namespace MagicCircuit
 			int elapse_1 = time_1 - startTime_1;
 			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
 
-
-
-
-			Profiler.BeginSample("MagicCircuit.RecognizeAlgo.process.flag4");
 
 
 
@@ -213,11 +196,6 @@ namespace MagicCircuit
 			int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_2 = time_2 - startTime_2;
 			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
-
-
-
-
-			Profiler.EndSample();
 
 
 

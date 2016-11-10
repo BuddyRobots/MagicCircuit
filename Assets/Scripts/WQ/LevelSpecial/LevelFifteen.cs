@@ -41,6 +41,11 @@ public class LevelFifteen : MonoBehaviour
 //				GetImage._instance.cf_SPDT.switchOnOff (int.Parse (spdtSwitchList[i].gameObject.tag), spdtSwitchList[i].GetComponent<SPDTswitchCtrl> ().isRightOn ? true : false);
 //				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
 				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+
+
+
+				for (var j = 0; j < GetImage._instance.itemList.Count; j++)
+					Debug.Log("SPDTSwitchCtrl.cs OnClick : GetImage._instance.itemList["+j+"].list[0] = " + GetImage._instance.itemList[j].list[0]);
 			}
 		}
 	}

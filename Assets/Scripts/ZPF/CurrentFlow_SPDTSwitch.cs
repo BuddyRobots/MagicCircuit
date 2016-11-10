@@ -31,7 +31,7 @@ namespace MagicCircuit
 
    
 
-        public bool compute(ref List<CircuitItem> itemList)
+        public bool compute(List<CircuitItem> itemList)
         {
 
 			circuitItems = itemList;
@@ -53,7 +53,6 @@ namespace MagicCircuit
                 Debug.Log(circuitItems[i].powered);
                 Debug.Log(circuitItems[i].list[0]);
             }*/
-
             return true;
         }
 
@@ -92,17 +91,15 @@ namespace MagicCircuit
             /////////////////////////
 
             removeSwitches();
-
+		
             if (!computeCurrentFlow())
-            {
-                //Debug.Log("Error when computing CurrentFlow");
-                return false;
-            }
+				for (var i = 0; i < count; i++)
+					circuitItems[i].powered = false;
 
             return true;
         }
 
-        public void switchOnOff(int ID, bool state) // State true: right false: left
+		public void switchOnOff(int ID, bool state) // State true: right false: left
         {
             for (var i = 0; i < count; i++)
                 circuitItems[i].powered = false;
@@ -118,7 +115,7 @@ namespace MagicCircuit
             else
                 for (var i = 0; i < count; i++)
                     if (circuitItems[i].type == ItemType.SPDTSwitch)
-                        circuitItems[i].powered = true;              
+                        circuitItems[i].powered = true;
         }
 
         private bool computeCurrentFlow()
@@ -338,6 +335,12 @@ namespace MagicCircuit
         {
             circuitItems[ID].list.Reverse();
 
+
+
+			Debug.Log("CurrentFlow.cs flipLine : circuitItem["+ID+"] flipped : list[0] = " + circuitItems[ID].list[0] + " list[Count] = " + circuitItems[ID].list[circuitItems[ID].list.Count-1]);
+
+
+
             for (var j = 0; j < count; j++)
             {
                 if (modifiedConn[ID, j] == Connectivity.s)
@@ -345,6 +348,12 @@ namespace MagicCircuit
                 else
                 if (modifiedConn[ID, j] == Connectivity.e)
                     modifiedConn[ID, j] = Connectivity.s;
+
+				if (originalConn[ID, j] == Connectivity.s)
+					originalConn[ID, j] = Connectivity.e;
+				else
+				if (originalConn[ID, j] == Connectivity.e)
+					originalConn[ID, j] = Connectivity.s;
             }
         }
 
