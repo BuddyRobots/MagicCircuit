@@ -12,14 +12,12 @@ public class DemoShowPanel : MonoBehaviour
 	private GameObject preBtn;
 	private GameObject nextBtn;
 	private GameObject confirmBtn;
-
 //	private UISprite currDemoSprite;
 	private UITexture currDemoTex;
 
 	List<string> levelDemoPics=new List<string>();
+	List<Texture> levelDemoTex=new List<Texture>();
 	List<int> levelDemoIndex=null;
-
-
 
 	private enum  FromPanelFlag
 	{
@@ -56,10 +54,9 @@ public class DemoShowPanel : MonoBehaviour
 			if (levelDemoPics!=null && levelDemoPics.Count>0) 
 			{
 			//	currDemoSprite.spriteName=levelDemoPics[0];
-				currDemoTex.mainTexture.name=levelDemoPics[0];
+//				currDemoTex.mainTexture.name=levelDemoPics[0];
 
 			}
-
 
 		} 
 		else if(flag == 3|| flag==4)//如果是从拍摄界面或者识别界面进入的帮助界面
@@ -73,8 +70,10 @@ public class DemoShowPanel : MonoBehaviour
 			if (levelDemoPics!=null && levelDemoPics.Count>0) 
 			{
 //				currDemoSprite.spriteName=levelDemoPics[0];
-				currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[0];
+//				currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[0];
 			}
+
+
 
 		}
 	}
@@ -91,33 +90,68 @@ public class DemoShowPanel : MonoBehaviour
 
 	void OnPreBtnClick(GameObject btn)
 	{
-		if (levelDemoPics!=null) 
-		{
+//		if (levelDemoPics!=null) 
+//		{
+//
+//			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
+//			{
+//				return;
+//			}
+//			else//如果这个关卡不止一张demo图片
+//			{
+//				if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[0]) //如果当前图片就是demo图片集中的第一张，点击左键没反应
+//				{
+//					return;
+//				}
+//				else
+//				{
+//					//需要记录当前图片的名字
+//					for (int i = 1; i < levelDemoPics.Count; i++) 
+//					{
+//						if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[i]) 
+//						{
+//
+//							currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[i-1];
+//						}
+//					}
+//				}
+//			}	
+//		}
+//
 
-			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
-			{
-				return;
-			}
-			else//如果这个关卡不止一张demo图片
-			{
-				if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[0]) //如果当前图片就是demo图片集中的第一张，点击左键没反应
-				{
-					return;
-				}
-				else
-				{
-					//需要记录当前图片的名字
-					for (int i = 1; i < levelDemoPics.Count; i++) 
-					{
-						if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[i]) 
-						{
+//		if (levelDemoTex!=null) 
+//		{
+//
+//			if (levelDemoTex.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
+//			{
+//				return;
+//			}
+//			else//如果这个关卡不止一张demo图片
+//			{
+//				if (currDemoTex.mainTexture==levelDemoTex[0]) //如果当前图片就是demo图片集中的第一张，点击左键没反应
+//				{
+//					return;
+//				}
+//				else
+//				{
+//					//需要记录当前图片的名字
+//					for (int i = 1; i < levelDemoTex.Count; i++) 
+//					{
+//						if (currDemoTex.mainTexture==levelDemoTex[i]) 
+//						{
+//
+//							currDemoTex.mainTexture=levelDemoTex[i-1];
+//						}
+//					}
+//				}
+//			}	
+//		}
 
-							currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[i-1];
-						}
-					}
-				}
-			}	
-		}	
+
+
+		transform.Find("DemoPic").GetComponent<HelpDataShow>().Back();
+
+
 	}
 
 
@@ -125,35 +159,74 @@ public class DemoShowPanel : MonoBehaviour
 	void OnNextBtnClick(GameObject btn)
 	{
 
-		if (levelDemoPics!=null) 
-		{
+//		if (levelDemoPics!=null) 
+//		{
+//
+//			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
+//			{
+//				return;
+//			}
+//			else//如果这个关卡不止一张demo图片
+//			{
+//				if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[levelDemoPics.Count-1]) //如果当前图片就是demo图片集中的最后一张，点击右键没反应
+//				{
+//					return;
+//				}
+//				else
+//				{
+//					//需要记录当前图片的名字
+//					for (int i = 0; i < levelDemoPics.Count-1; i++) 
+//					{
+//						if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[i]) 
+//						{
+//							currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[i+1];
+//						}
+//					}
+//
+//				}
+//
+//			}
+//
+//		}
 
-			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
-			{
-				return;
-			}
-			else//如果这个关卡不止一张demo图片
-			{
-				if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[levelDemoPics.Count-1]) //如果当前图片就是demo图片集中的最后一张，点击右键没反应
-				{
-					return;
-				}
-				else
-				{
-					//需要记录当前图片的名字
-					for (int i = 0; i < levelDemoPics.Count-1; i++) 
-					{
-						if (currDemoTex.gameObject.GetComponent<UITexture>().name==levelDemoPics[i]) 
-						{
-							currDemoTex.gameObject.GetComponent<UITexture>().name=levelDemoPics[i+1];
-						}
-					}
 
-				}
 
-			}
 
-		}
+
+//		if (levelDemoTex!=null) 
+//		{
+//
+//			if (levelDemoTex.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
+//			{
+//				return;
+//			}
+//			else//如果这个关卡不止一张demo图片
+//			{
+//				if (currDemoTex.mainTexture==levelDemoTex[levelDemoTex.Count-1]) //如果当前图片就是demo图片集中的最后一张，点击右键没反应
+//				{
+//					return;
+//				}
+//				else
+//				{
+//					//需要记录当前图片的名字
+//					for (int i = 0; i < levelDemoTex.Count-1; i++) 
+//					{
+//						if (currDemoTex.mainTexture==levelDemoTex[i]) 
+//						{
+//							currDemoTex.mainTexture=levelDemoTex[i+1];
+//						}
+//					}
+//
+//				}
+//
+//			}
+//
+//		}
+
+
+
+		transform.Find("DemoPic").GetComponent<HelpDataShow>().Next();
+
 		
 	}
 

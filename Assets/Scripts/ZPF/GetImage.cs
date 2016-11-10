@@ -184,6 +184,11 @@ public class GetImage : MonoBehaviour
 			itemList.Clear();
 
 			recognizeAlge.process(frameImgList[i], ref itemList);
+
+
+	
+
+
 			listItemList.Add(itemList);
 
 
@@ -225,17 +230,27 @@ public class GetImage : MonoBehaviour
 		computeCurrentFlow();
 
 
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
-				     " connect_left = " + itemList[i].connect_left +
-				     " connect_right = " + itemList[i].connect_right +
-				     " connect_middle = " + itemList[i].connect_middle +
-				     " powered = " + itemList[i].powered +
-				     " list[0] = " + itemList[i].list[0]);
-		}
+//		for (int i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+//				     " connect_left = " + itemList[i].connect_left +
+//				     " connect_right = " + itemList[i].connect_right +
+//				     " connect_middle = " + itemList[i].connect_middle +
+//				     " powered = " + itemList[i].powered +
+//				     " list[0] = " + itemList[i].list[0]);
+//		}
 
-
+		//for debug test
+//		for (int k= 0; k < itemList.Count; k++) 
+//		{
+//			if (itemList[k].type==ItemType.CircuitLine) 
+//			{
+//
+//				for (var j = 0; j < itemList[k].list.Count; j++)
+//					Debug.Log("AAAAAAAAAAAA-----getimage-----circuiitem-------"+k+"    "+itemList[k].list[j]);
+//
+//			}
+//		}
 
 
 
@@ -266,6 +281,25 @@ public class GetImage : MonoBehaviour
 		// 		" connect_right = " + itemList[i].connect_right +
 		// 		" powered = " + itemList[i].powered);
 		// }
+
+
+
+
+
+		//for debug test
+//		for (int i = 0; i < itemList.Count; i++) 
+//		{
+//			if (itemList[i].type==ItemType.CircuitLine) 
+//			{
+//
+//				for (var j = 0; j < itemList[i].list.Count; j++)
+//					Debug.Log("%%%%%%%%%%%%----computeCurrentFlow------circuiitem-------"+i+"    "+itemList[i].list[j]);
+//
+//			}
+//		}
+
+
+
 	}
 
 

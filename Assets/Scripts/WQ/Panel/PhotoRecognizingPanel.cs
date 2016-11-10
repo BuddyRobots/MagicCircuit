@@ -276,6 +276,20 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			itemList=GetImage._instance.itemList;
 
+
+			//for debug test
+//			for (int i = 0; i < itemList.Count; i++) 
+//			{
+//				if (itemList[i].type==ItemType.CircuitLine) 
+//				{
+//
+//					for (var j = 0; j < itemList[i].list.Count; j++)
+//					Debug.Log("&&&&&&&&&&&&&-----circuiitem-------"+i+"    "+itemList[i].list[j]);
+//
+//				}
+//			}
+				
+
 			result = GetImage._instance.isCircuitCorrect;
 
 			if (!isMaskChangeGradual) 
@@ -630,8 +644,14 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			if (itemList[i].type==ItemType.CircuitLine) 
 			{
+
+				for (var j = 0; j < itemList[i].list.Count; j++)
+					Debug.Log("-----circuiitem-------"+i+"    "+itemList[i].list[j]);
+				
+
 				circuitLines.Add (itemList[i].list);
 				tags.Add (itemList[i].ID);//itemsList[i].ID equals to tag of arrow
+
 			}
 		}
 	}
@@ -651,8 +671,21 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				List<Vector3> templine = new List<Vector3>();
 				for (int n = 0; n < circuitLines[i].Count; n++) 
 				{
+//					Debug.Log("$$$$$$$$$$$$$$$$$$$-----"+i);
 					templine.Add (circuitLines[i] [n]);
 				}
+
+//				Debug.Log("^^^^^^^^^^^^^^^^^");
+//				for (int m= 0; m< templine.Count; m++) 
+//				{
+//					Debug.Log(templine[i]);
+//				}
+
+//				Debug.Log("##################");
+
+
+
+
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}
 		}

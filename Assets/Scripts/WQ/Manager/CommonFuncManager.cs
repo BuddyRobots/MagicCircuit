@@ -166,13 +166,30 @@ public class CommonFuncManager : MonoBehaviour
 	//传进来所有的线
 	public void ArrowsRefresh(List<CircuitItem> circuitItems)
 	{
+//
+//		Debug.Log("********************************");
+//		for (var j = 0; j < circuitItems.Count; j++)
+//			Debug.Log("SPDTSwitchCtrl.cs OnClick : GetImage._instance.itemList["+j+"].list[0] = " + circuitItems[j].list[0]);
+
+
 
 		for (int i = 0; i < circuitItems.Count; i++) 
 		{
 
 			if (circuitItems[i].type==ItemType.CircuitLine) 
 			{
-//				Debug.Log("circuitItems["+i+"] type=="+circuitItems[i].type+", circuitItems["+i+"] powered=="+circuitItems[i].powered);
+//				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@------------"+i);
+//				Debug.Log("left==="+circuitItems[i].connect_left+"right===="+circuitItems[i].connect_right);
+//
+//				for (int k = 0; k < circuitItems[i].list.Count; k++) {
+//					Debug.Log(circuitItems[i].list[k]);
+//					
+//				}
+//				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@");
+
+
+
+
 				string tag = circuitItems [i].ID.ToString ();
 				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
 				List<GameObject> arrows=new List<GameObject>();

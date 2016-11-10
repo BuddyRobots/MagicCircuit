@@ -7,15 +7,8 @@ public class DemoDataManager: SceneSinglton<DemoDataManager>
 
 	public Dictionary<int, List<string> > mDicDemoLevelPic = new Dictionary<int, List<string> >();
 
-
-//	public List<UITexture> startDemoTex;
-	public List<Texture> level_1_DemoTex;
-
-
-
-	void Awake()
+	void OnEnable()
 	{
-
 		List<string> startShow_pic_data = new List<string>();//startShow pic data
 		List<string> level_1_pic_data = new List<string>();//1st  Level pic data
 		List<string> level_2_pic_data = new List<string>();
@@ -33,10 +26,9 @@ public class DemoDataManager: SceneSinglton<DemoDataManager>
 		List<string> level_14_pic_data = new List<string>();
 		List<string> level_15_pic_data = new List<string>();
 
-		List<int> demoPicNumList=new List<int>();
 
 		int num_0=3;//开始demo张数
-		int num_1=3;
+		int num_1=3;//第一关展示图片张数
 		int num_2=3;
 		int num_3=4;
 		int num_4=4;
@@ -51,24 +43,6 @@ public class DemoDataManager: SceneSinglton<DemoDataManager>
 		int num_13=5;
 		int num_14=5;
 		int num_15=6;
-
-
-		demoPicNumList.Add(num_0);
-		demoPicNumList.Add(num_1);
-		demoPicNumList.Add(num_2);
-		demoPicNumList.Add(num_3);
-		demoPicNumList.Add(num_4);
-		demoPicNumList.Add(num_5);
-		demoPicNumList.Add(num_6);
-		demoPicNumList.Add(num_7);
-		demoPicNumList.Add(num_8);
-		demoPicNumList.Add(num_9);
-		demoPicNumList.Add(num_10);
-		demoPicNumList.Add(num_11);
-		demoPicNumList.Add(num_12);
-		demoPicNumList.Add(num_13);
-		demoPicNumList.Add(num_14);
-		demoPicNumList.Add(num_15);
 
 		for (int i = 0; i < num_0; i++) 
 		{
@@ -184,6 +158,7 @@ public class DemoDataManager: SceneSinglton<DemoDataManager>
 		mDicDemoLevelPic.Add(13,level_13_pic_data);
 		mDicDemoLevelPic.Add(14,level_14_pic_data);
 		mDicDemoLevelPic.Add(15,level_15_pic_data);
+
 	}
 
 }
