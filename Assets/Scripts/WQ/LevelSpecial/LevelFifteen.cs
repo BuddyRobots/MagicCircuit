@@ -42,6 +42,7 @@ public class LevelFifteen : MonoBehaviour
 //				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
 				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 			}
+
 		}
 	}
 }

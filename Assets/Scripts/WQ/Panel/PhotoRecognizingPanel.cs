@@ -739,7 +739,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		//to do...
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",4);
+		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel,false);
 	
 	}
 

@@ -58,25 +58,25 @@
       <type>SPDTSwitch</type>
       <list>
         <Vector3>
-          <x>150</x>
+          <x>-150</x>
           <y>150</y>
           <z>0</z>
         </Vector3>
       </list>
-      <theta>270</theta>
+      <theta>0</theta>
       <showOrder>2</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>150</x>
-		<y>200</y>
+		<x>-200</x>
+		<y>150</y>
 	  </connect_left>
 	  <connect_right>
-		<x>150</x>
-		<y>100</y>
+		<x>-100</x>
+		<y>150</y>
 	  </connect_right>
 	  <connect_middle>
-		<x>200</x>
-		<y>150</y>
+		<x>-150</x>
+		<y>100</y>
 	  </connect_middle>
     </XmlCircuitItem>
 	<XmlCircuitItem ID="3">
@@ -84,25 +84,25 @@
       <type>SPDTSwitch</type>
       <list>
         <Vector3>
-          <x>-150</x>
+          <x>150</x>
           <y>150</y>
           <z>0</z>
         </Vector3>
       </list>
-      <theta>270</theta>
+      <theta>0</theta>
       <showOrder>3</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-150</x>
-		<y>200</y>
+		<x>100</x>
+		<y>150</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-150</x>
-		<y>100</y>
+		<x>200</x>
+		<y>150</y>
 	  </connect_right>
 	  <connect_middle>
-		<x>-200</x>
-		<y>150</y>
+		<x>150</x>
+		<y>100</y>
 	  </connect_middle>	
     </XmlCircuitItem>
     <XmlCircuitItem ID="4">
@@ -110,18 +110,13 @@
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>150</x>
-          <y>200</y>
+          <x>100</x>
+          <y>-150</y>
           <z>0</z> 
 		</Vector3>	
-<!--		<Vector3>
-          <x>0</x>
-          <y>200</y>
-          <z>0</z> 
-		</Vector3>		-->
         <Vector3>
-          <x>-150</x>
-          <y>200</y>
+          <x>-100</x>
+          <y>-150</y>
           <z>0</z>
         </Vector3>
       </list>
@@ -129,12 +124,12 @@
       <showOrder>4</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>150</x>
-		<y>200</y>
+		<x>100</x>
+		<y>-150</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-150</x>
-		<y>200</y>
+		<x>-100</x>
+		<y>-150</y>
 	  </connect_right>
 	  <connect_middle>
 		<x>0</x>
@@ -146,12 +141,12 @@
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>-200</x>
-          <y>150</y>
+          <x>-150</x>
+          <y>100</y>
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>-200</x>
+          <x>-250</x>
           <y>0</y>
           <z>0</z>
         </Vector3>
@@ -165,8 +160,8 @@
       <showOrder>5</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-200</x>
-		<y>150</y>
+		<x>-150</x>
+		<y>100</y>
 	  </connect_left>
 	  <connect_right>
 		<x>-200</x>
@@ -185,15 +180,15 @@
           <x>150</x>
           <y>100</y>
           <z>0</z>
-        </Vector3>        
-<!--        <Vector3>
-          <x>0</x>
-          <y>100</y>
-          <z>0</z>
-        </Vector3>-->
+        </Vector3>  
         <Vector3>
-          <x>-150</x>
-          <y>100</y>
+          <x>250</x>
+          <y>0</y>
+          <z>0</z>
+        </Vector3>      
+        <Vector3>
+          <x>200</x>
+          <y>-150</y>
           <z>0</z>
         </Vector3>
       </list>
@@ -205,8 +200,8 @@
 		<y>100</y>
 	  </connect_left>
 	  <connect_right>
-		<x>-150</x>
-		<y>100</y>
+		<x>200</x>
+		<y>-150</y>
 	  </connect_right>
 	  <connect_middle>
 		<x>0</x>
@@ -218,18 +213,13 @@
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>200</x>
+          <x>-100</x>
           <y>150</y>
           <z>0</z>
         </Vector3>        
         <Vector3>
-          <x>200</x>
-          <y>0</y>
-          <z>0</z>
-        </Vector3>
-        <Vector3>
-          <x>200</x>
-          <y>-150</y>
+          <x>100</x>
+          <y>150</y>
           <z>0</z>
         </Vector3>
       </list>
@@ -237,36 +227,35 @@
       <showOrder>7</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>200</x>
+		<x>-100</x>
 		<y>150</y>
 	  </connect_left>
 	  <connect_right>
-		<x>200</x>
-		<y>-150</y>
+		<x>100</x>
+		<y>150</y>
 	  </connect_right>
 	  <connect_middle>
 		<x>0</x>
 		<y>0</y>
 	  </connect_middle>
     </XmlCircuitItem>
-
 	<XmlCircuitItem ID="8">
       <name>CircuitLine</name>
       <type>CircuitLine</type>
       <list>
         <Vector3>
-          <x>-100</x>
-          <y>-150</y>
+          <x>-200</x>
+          <y>150</y>
           <z>0</z>
         </Vector3>        
         <Vector3>
           <x>0</x>
-          <y>-150</y>
+          <y>200</y>
           <z>0</z>
         </Vector3>
         <Vector3>
-          <x>100</x>
-          <y>-150</y>
+          <x>200</x>
+          <y>150</y>
           <z>0</z>
         </Vector3>
       </list>
@@ -274,99 +263,13 @@
       <showOrder>8</showOrder>
       <powered>false</powered>
 	  <connect_left>
-		<x>-100</x>
-		<y>-150</y>
+		<x>-200</x>
+		<y>150</y>
 	  </connect_left>
 	  <connect_right>
-		<x>100</x>
-		<y>-150</y>
-	  </connect_right>
-    </XmlCircuitItem>	
-
-
-
-
-
-        <XmlCircuitItem ID="9">
-      <name>CircuitLine</name>
-      <type>CircuitLine</type>
-      <list>
-        <Vector3>
-          <x>-232</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3>
-
-        <Vector3>
-          <x>-208</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-
-          <Vector3>
-          <x>-196</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-
-        <Vector3>
-          <x>-176</x>
-          <y>-258</y>
-          <z>0</z>
-
-        </Vector3> 
-        <Vector3>
-          <x>-160</x>
-          <y>-259</y>
-          <z>0</z>
-        </Vector3> 
-
-        <Vector3>
-          <x>-138</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-
-
-        <Vector3>
-          <x>-105</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-
-        <Vector3>
-          <x>-77</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-
-        <Vector3>
-          <x>-47</x>
-          <y>-258</y>
-          <z>0</z>
-        </Vector3> 
-      </list>
-
-      <theta>0</theta>
-      <showOrder>9</showOrder>
-      <powered>false</powered>
-	  <connect_left>
-		<x>-232</x>
-		<y>-258</y>
-	  </connect_left>
-	  <connect_right>
-		<x>-47</x>
-		<y>-258</y>
+		<x>200</x>
+		<y>150</y>
 	  </connect_right>
     </XmlCircuitItem>
-
-
-
-
-
-
-
-
-
   </XmlCircuitItems>
 </XmlCircuitItemCollection>
