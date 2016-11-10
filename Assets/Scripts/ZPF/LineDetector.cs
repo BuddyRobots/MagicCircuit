@@ -49,7 +49,7 @@ namespace MagicCircuit
 			for (int i = 0; i < contours.Count; i++)
 			{
 
-//				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
+				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
 
 
 

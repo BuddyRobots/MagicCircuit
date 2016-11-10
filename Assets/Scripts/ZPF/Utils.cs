@@ -98,8 +98,9 @@ namespace MagicCircuit
             float dx = width / 2 * Mathf.Cos((float)theta);
 			float dy = width / 2 * Mathf.Sin((float)theta);
 
-			connect_left  = new Vector2(centerCamQuad.x - dx, centerCamQuad.y - dy);
-			connect_right = new Vector2(centerCamQuad.x + dx, centerCamQuad.y + dy);
+			connect_left   = new Vector2(centerCamQuad.x - dx, centerCamQuad.y - dy);
+			connect_right  = new Vector2(centerCamQuad.x + dx, centerCamQuad.y + dy);
+			connect_middle = new Vector2(centerCamQuad.x + dy, centerCamQuad.y - dx);
 
             theta = theta * Mathf.Rad2Deg; // 0 < theta < 360
         }

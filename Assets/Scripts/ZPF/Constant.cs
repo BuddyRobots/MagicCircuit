@@ -23,7 +23,7 @@
 		public const int    LINE_ADPTTHRES_KERNEL     = 21;
 		public const int    LINE_ADPTTHRES_SUB        = 10;
 		public const int    LINE_MORPH_KERNEL         = 3;
-		public const int    LINE_REGION_MIN_AREA      = 100;
+		public const int    LINE_REGION_MIN_AREA      = 150;
 		public const int    LINE_STEP_SMALL           = 10;
 		public const int    LINE_STEP_MEDIUM          = 15;
 		public const int    LINE_STEP_LARGE           = 25;

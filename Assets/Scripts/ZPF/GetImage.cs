@@ -187,9 +187,11 @@ public class GetImage : MonoBehaviour
 	// Thread for RecognizeAlgo.process 10 images
 	private void Thread_Process()
 	{
+		Debug.Log("GetImage.cs Thread_Process : Start!");
+
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
-//			Debug.Log("GetImage.cs Thread_Process : Start process image NO. " + i);
+			
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 
 

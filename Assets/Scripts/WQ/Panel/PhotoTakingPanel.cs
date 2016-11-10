@@ -66,7 +66,7 @@ public class PhotoTakingPanel : MonoBehaviour
 		countDown.gameObject.SetActive(true);
 
 
-//		GetImage._instance.isTakingPhoto = true;
+		GetImage._instance.isTakingPhoto = true;
 
 
 		//倒计时，每个数字停留一秒后变化
@@ -84,7 +84,6 @@ public class PhotoTakingPanel : MonoBehaviour
 
 		yield return new WaitForSeconds(1);
 		countDown.text = "1";
-		GetImage._instance.isTakingPhoto = true;
 
 		yield return new WaitForSeconds(1);
 
