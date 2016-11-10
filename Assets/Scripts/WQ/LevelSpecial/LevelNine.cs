@@ -132,7 +132,7 @@ public class LevelNine : MonoBehaviour
 				}
 			}
 
-
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 
 		}
 	}

@@ -5,47 +5,48 @@ using MagicCircuit;
 
 public class LevelThirteen : MonoBehaviour
 {
-	[HideInInspector]
-	public bool isVOswitchAndLAswitchTogether = false;
-	/// <summary>
-	/// 光敏开关是否闭合的标志
-	/// </summary>
-	private bool isLAswitchOn = false;
-
-	private float changeTime = 3f;//渐变的总时间
-	private  float changeTimer = 0;
-
-	private bool isVOswitchOn=false;
-	private bool isStartRecord = false;
-	private bool isFingerShow = false;
-	private bool isFingerDestroyed=false;
-	private bool isNightModeOnce=false;
-
 	private Transform VOswitch;
 	private Transform LAswitch;
 	private Transform micphoneBtn;
 
 	private UITexture nightBg=null;
 
-
-	private bool CurrLASwitchStatus=false;
-	private bool PreLASwitchStatus=false;
-
-
-
-	private bool CurrVOSwitchStatus=false;
-	private bool PreVOSwitchStatus=false;
-
 	private BoxCollider micPhoneBoxCol;
 	private UIButton micPhoneUIBtn;
 	private MicroPhoneBtnCtrl micPhontBtnCtrl;
+	private float changeTime = 3f;//渐变的总时间
+	private  float changeTimer = 0;
 
-
+	[HideInInspector]
+	public bool isVOswitchAndLAswitchTogether = false;
+	/// <summary>
+	/// 光敏开关是否闭合的标志
+	/// </summary>
+	private bool isLAswitchOn = false;
+	private bool isVOswitchOn=false;
+	private bool isStartRecord = false;
+	private bool isFingerShow = false;
+	private bool isFingerDestroyed=false;
+	private bool isNightModeOnce=false;
+	private bool CurrLASwitchStatus=false;
+	private bool PreLASwitchStatus=false;
+	private bool CurrVOSwitchStatus=false;
+	private bool PreVOSwitchStatus=false;
+	/// <summary>
+	/// 标记太阳月亮按钮的初始状态是显示太阳
+	/// </summary>
+	private bool preSunSwitchStatues = true;
 
 	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的,只有先闭合光敏，再闭合声控，电路才通
 
 	void OnEnable ()
 	{
+
+		CurrLASwitchStatus=false;
+		PreLASwitchStatus=false;
+		CurrVOSwitchStatus=false;
+		PreVOSwitchStatus=false;
+
 		isVOswitchAndLAswitchTogether = false;
 		isLAswitchOn = false;
 		changeTime = 3f;
@@ -73,10 +74,7 @@ public class LevelThirteen : MonoBehaviour
 	//在太阳月亮按钮出现小手，点击后变成月亮，小手消失，背景渐变暗，光敏开关在背景变暗之前闭合；
 	//在话筒按钮出现小手，点击后小手消失，弹出提示框提示玩家发出声音，收集到声音后提示框消失，声控开关闭合
 
-	/// <summary>
-	/// 标记太阳月亮按钮的初始状态是显示太阳
-	/// </summary>
-	private bool preSunSwitchStatues = true;
+
 
 	void Update () 
 	{
