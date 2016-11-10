@@ -28,13 +28,32 @@ public class StartPanel : MonoBehaviour
 	/// <param name="btn">参数是点击的按钮对象</param>
 	void OnNextBtnClick(GameObject btn)
 	{
-		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
-		PanelTranslate.Instance.DestoryThisPanel();
+		if (PlayerPrefs.HasKey("isEnterGameFirstTime") && PlayerPrefs.GetInt("isEnterGameFirstTime")==1) 
+		{
+			PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+			PanelTranslate.Instance.DestoryThisPanel();
+		}
+		else
+		{
+			PlayerPrefs.SetInt("isEnterGameFirstTime",1);
+
+			PlayerPrefs.SetInt("toDemoPanelFromPanel",1);
+
+			PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+			PanelTranslate.Instance.DestoryAllPanel();
+
+		}
+
+
+
+
+
 	}
 
 	void OnHelpBtnClick(GameObject btn)
 	{
 
-		//to do...
+		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+		PanelTranslate.Instance.DestoryAllPanel();
 	}
 }

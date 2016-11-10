@@ -45,8 +45,13 @@ public class PhotoTakingPanel : MonoBehaviour
 
 	void OnHelpBtnClick(GameObject btn)
 	{
+
+
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",2);
+
 		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-		PanelOff();
+//		PanelOff();
+		PanelTranslate.Instance.DestoryAllPanel();
 	}
 
 	void OnConfirmBtnClick(GameObject btn)
