@@ -180,7 +180,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
 
-		HomeBtn.Instance.panelOff = PanelOff;
+//		HomeBtn.Instance.panelOff = PanelOff;
 		data = LevelManager.currentLevelData;
 		lineParent = this.gameObject;
 
@@ -275,23 +275,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		if ( GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
 			itemList=GetImage._instance.itemList;
-
-
-			//for debug test
-//			for (int i = 0; i < itemList.Count; i++) 
-//			{
-//				if (itemList[i].type==ItemType.CircuitLine) 
-//				{
-//
-//					for (var j = 0; j < itemList[i].list.Count; j++)
-//					Debug.Log("&&&&&&&&&&&&&-----circuiitem-------"+i+"    "+itemList[i].list[j]);
-//
-//				}
-//			}
-				
-
 			result = GetImage._instance.isCircuitCorrect;
-
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
@@ -645,10 +629,6 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if (itemList[i].type==ItemType.CircuitLine) 
 			{
 
-				for (var j = 0; j < itemList[i].list.Count; j++)
-					Debug.Log("-----circuiitem-------"+i+"    "+itemList[i].list[j]);
-				
-
 				circuitLines.Add (itemList[i].list);
 				tags.Add (itemList[i].ID);//itemsList[i].ID equals to tag of arrow
 
@@ -671,20 +651,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				List<Vector3> templine = new List<Vector3>();
 				for (int n = 0; n < circuitLines[i].Count; n++) 
 				{
-//					Debug.Log("$$$$$$$$$$$$$$$$$$$-----"+i);
 					templine.Add (circuitLines[i] [n]);
 				}
-
-//				Debug.Log("^^^^^^^^^^^^^^^^^");
-//				for (int m= 0; m< templine.Count; m++) 
-//				{
-//					Debug.Log(templine[i]);
-//				}
-
-//				Debug.Log("##################");
-
-
-
 
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}

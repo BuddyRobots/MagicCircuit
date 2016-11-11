@@ -38,7 +38,7 @@ public class PhotoTakingPanel : MonoBehaviour
 	void OnEnable()
 	{
 		levelLabel.text = LevelManager.currentLevelData.LevelName+"拍摄中";
-		HomeBtn.Instance.panelOff = PanelOff;
+//		HomeBtn.Instance.panelOff = PanelOff;
 	}
 
 	#region 计算按钮的点击事件
@@ -75,7 +75,6 @@ public class PhotoTakingPanel : MonoBehaviour
 		//倒计时，每个数字停留一秒后变化
 		yield return new WaitForSeconds(1);
 		countDown.text = "2";
-
 
 
 		GetImage._instance.isTakingPhoto = false;

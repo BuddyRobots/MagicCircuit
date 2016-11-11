@@ -20,7 +20,7 @@ public class DescriptionPanel : MonoBehaviour {
 	void OnEnable()
 	{
 
-		HomeBtn.Instance.panelOff = PanelOff;
+//		HomeBtn.Instance.panelOff = PanelOff;
 
 	}
 	void Start () 

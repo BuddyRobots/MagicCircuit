@@ -240,20 +240,6 @@ public class GetImage : MonoBehaviour
 //				     " list[0] = " + itemList[i].list[0]);
 //		}
 
-		//for debug test
-//		for (int k= 0; k < itemList.Count; k++) 
-//		{
-//			if (itemList[k].type==ItemType.CircuitLine) 
-//			{
-//
-//				for (var j = 0; j < itemList[k].list.Count; j++)
-//					Debug.Log("AAAAAAAAAAAA-----getimage-----circuiitem-------"+k+"    "+itemList[k].list[j]);
-//
-//			}
-//		}
-
-
-
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 		int elapse_2 = time_2 - startTime_2;
@@ -271,8 +257,6 @@ public class GetImage : MonoBehaviour
 			isCircuitCorrect = cf.compute(itemList, LevelManager.currentLevelData.LevelID);
 
 
-
-
 		// Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
 		// for (int i = 0; i < itemList.Count; i++)
 		// {
@@ -281,24 +265,6 @@ public class GetImage : MonoBehaviour
 		// 		" connect_right = " + itemList[i].connect_right +
 		// 		" powered = " + itemList[i].powered);
 		// }
-
-
-
-
-
-		//for debug test
-//		for (int i = 0; i < itemList.Count; i++) 
-//		{
-//			if (itemList[i].type==ItemType.CircuitLine) 
-//			{
-//
-//				for (var j = 0; j < itemList[i].list.Count; j++)
-//					Debug.Log("%%%%%%%%%%%%----computeCurrentFlow------circuiitem-------"+i+"    "+itemList[i].list[j]);
-//
-//			}
-//		}
-
-
 
 	}
 

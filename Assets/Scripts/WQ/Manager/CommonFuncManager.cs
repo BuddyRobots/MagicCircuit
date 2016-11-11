@@ -39,7 +39,6 @@ public class CommonFuncManager : MonoBehaviour
 		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
 		if(volume > SOUND_CRITERION)
 		{
-//			Debug.Log ("volume > SOUND_CRITERION");
 			return true;
 		}
 		return false;
@@ -72,26 +71,13 @@ public class CommonFuncManager : MonoBehaviour
 			GameObject temp = GameObject.FindGameObjectWithTag (tag);//对应界面上的Tag来找到对应的图标对象
 			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
 			{
-				//这里只需要刷新受开关控制的item（灯泡，音响，电磁炉）的显示，开关的更新不在这里进行
+				//这里只需要刷新受开关控制的item（灯泡，音响，电磁炉）的显示，开关的更新不在这里进行,声控，光敏，延时开关的显示都不在这里进行控制
 				case ItemType.Bulb:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbOn":"bulbOff");
 					break;
 				case ItemType.VoiceTimedelaySwitch:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
 					break;
-
-
-
-//				case ItemType.VoiceOperSwitch:
-//					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VOswitchOn":"VOswitchOff");
-//					break;
-//				case ItemType.LightActSwitch:
-//				
-//					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "LAswitchOn":"LAswitchOff");
-//					break;
-
-
-
 				//如果是电磁炉
 				case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;
@@ -132,29 +118,6 @@ public class CommonFuncManager : MonoBehaviour
 						}
 					}
 					break;
-
-//				case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
-////				List<GameObject> temps=GameObject.FindGameObjectsWithTag(tag);
-//					GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
-//					List<GameObject> arrows=new List<GameObject>();
-//					arrows.Clear();
-//					for (int k = 0; k < temps.Length; k++)
-//					{
-//						if (temps[k].name.Contains("arrow")) 
-//						{
-//							arrows.Add(temps[k]);
-//						}
-//						
-//					}
-//				foreach (var item in arrows) 
-//					{ 
-//						if (item) 
-//						{
-//							item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
-//						}
-//					}
-//
-//					break;
 				default:
 					break;
 			}
@@ -166,29 +129,11 @@ public class CommonFuncManager : MonoBehaviour
 	//传进来所有的线
 	public void ArrowsRefresh(List<CircuitItem> circuitItems)
 	{
-//
-//		Debug.Log("********************************");
-//		for (var j = 0; j < circuitItems.Count; j++)
-//			Debug.Log("SPDTSwitchCtrl.cs OnClick : GetImage._instance.itemList["+j+"].list[0] = " + circuitItems[j].list[0]);
-
-
-
 		for (int i = 0; i < circuitItems.Count; i++) 
 		{
 
 			if (circuitItems[i].type==ItemType.CircuitLine) 
-//			{
-				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@------------"+i);
-				Debug.Log("left==="+circuitItems[i].connect_left+"right===="+circuitItems[i].connect_right);
-
-				for (int k = 0; k < circuitItems[i].list.Count; k++) {
-					Debug.Log(circuitItems[i].list[k]);
-					
-				}
-				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@");
-
-
-
+			{
 
 				string tag = circuitItems [i].ID.ToString ();
 				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
@@ -211,10 +156,9 @@ public class CommonFuncManager : MonoBehaviour
 				}
 
 			}
+		}
 
 	}
-
-
 
 
 
@@ -272,27 +216,6 @@ public class CommonFuncManager : MonoBehaviour
 					}
 				}
 				break;
-//			case ItemType.CircuitLine://有电则显示tag和这条线ID相同的箭头，没电则隐藏tag和这条线ID相同的箭头
-//				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
-//				List<GameObject> arrows=new List<GameObject>();
-//				arrows.Clear();
-//				for (int k = 0; k < temps.Length; k++)
-//				{
-//					if (temps[k].name.Contains("arrow")) 
-//					{
-//						arrows.Add(temps[k]);
-//					}
-//
-//				}
-//				foreach (var item in arrows) 
-//				{ 
-//					if (item) 
-//					{
-//						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
-//					}
-//				}
-//
-//				break;
 			default:
 				break;
 
