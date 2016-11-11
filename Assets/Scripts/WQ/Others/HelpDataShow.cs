@@ -20,6 +20,7 @@ public class HelpDataShow : MonoBehaviour {
 	public void InitFromStart()
 	{
 		Debug.Log("----------InitFromStart");
+
 		if (Helper)
 		{
 			Destroy (Helper);
@@ -30,6 +31,7 @@ public class HelpDataShow : MonoBehaviour {
 	public void InitFromLevel()
 	{
 		Debug.Log("----------InitFromLevel");
+
 		Init(LevelManager.currentLevelData.LevelID);
 	}
 
@@ -82,7 +84,6 @@ public class HelpDataShow : MonoBehaviour {
 		levelPictureNum.Add (5);//-----------------13
 		levelPictureNum.Add (6);//-----------------14
 		levelPictureNum.Add (3);//-----------------15
-
 	}
 		
 	private Texture GetTexture(string name)
