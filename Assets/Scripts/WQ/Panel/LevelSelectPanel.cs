@@ -184,18 +184,18 @@ public class LevelSelectPanel : MonoBehaviour {
 	void OnHelpBtnClick(GameObject btn)
 	{
 //		//code for unlock all level items test
-//		PlayerPrefs.SetInt ("LevelID",15);
-//		PlayerPrefs.SetInt ("LevelProgress",2);
-//		LevelManager._instance.LoadLocalLevelProgressData();
-//		RefreshLevelUI();
+		PlayerPrefs.SetInt ("LevelID",15);
+		PlayerPrefs.SetInt ("LevelProgress",2);
+		LevelManager._instance.LoadLocalLevelProgressData();
+		RefreshLevelUI();
 
 
 
 //		real code
-		PlayerPrefs.SetInt("toDemoPanelFromPanel",2);
-		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-		PanelTranslate.Instance.DestoryAllPanel();
-		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
+//		PlayerPrefs.SetInt("toDemoPanelFromPanel",2);
+//		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+//		PanelTranslate.Instance.DestoryAllPanel();
+//		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
 
 
 	}

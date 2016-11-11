@@ -177,15 +177,15 @@ public class CommonFuncManager : MonoBehaviour
 		{
 
 			if (circuitItems[i].type==ItemType.CircuitLine) 
-			{
-//				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@------------"+i);
-//				Debug.Log("left==="+circuitItems[i].connect_left+"right===="+circuitItems[i].connect_right);
-//
-//				for (int k = 0; k < circuitItems[i].list.Count; k++) {
-//					Debug.Log(circuitItems[i].list[k]);
-//					
-//				}
-//				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@");
+//			{
+				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@------------"+i);
+				Debug.Log("left==="+circuitItems[i].connect_left+"right===="+circuitItems[i].connect_right);
+
+				for (int k = 0; k < circuitItems[i].list.Count; k++) {
+					Debug.Log(circuitItems[i].list[k]);
+					
+				}
+				Debug.Log("@@@@@@@@@@@@@@@@@@@@@@@");
 
 
 
@@ -211,7 +211,7 @@ public class CommonFuncManager : MonoBehaviour
 				}
 
 			}
-		}
+
 	}
 
 
