@@ -47,6 +47,8 @@ public class PhotoTakingPanel : MonoBehaviour
 	{
 		PlayerPrefs.SetInt("toDemoPanelFromPanel",3);
 		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+
+		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromLevel();
 		PanelTranslate.Instance.DestoryAllPanel();
 	}
 

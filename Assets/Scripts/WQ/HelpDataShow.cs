@@ -12,8 +12,26 @@ public class HelpDataShow : MonoBehaviour {
 	{
 		InitNameData ();
 		//在这初始化，根据关卡
+//		Init(LevelManager.currentLevelData.LevelID);
+	}
+
+
+
+	public void InitFromStart()
+	{
+		if (Helper)
+		{
+			Destroy (Helper);
+		}
+		Init (16);
+	}
+
+	public void InitFromLevel()
+	{
+
 		Init(LevelManager.currentLevelData.LevelID);
 	}
+
 
 	/// <summary>
 	/// from 1 to 16
@@ -60,6 +78,7 @@ public class HelpDataShow : MonoBehaviour {
 		levelPictureNum.Add (5);//-----------------13
 		levelPictureNum.Add (5);//-----------------14
 		levelPictureNum.Add (6);//-----------------15
+		levelPictureNum.Add (3);//-----------------16
 
 
 	}

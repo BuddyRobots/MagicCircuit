@@ -774,6 +774,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	{
 		PlayerPrefs.SetInt("toDemoPanelFromPanel",4);
 		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel,false);
+		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromLevel();
 	
 	}
 

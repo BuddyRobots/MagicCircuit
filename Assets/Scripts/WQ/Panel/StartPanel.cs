@@ -66,6 +66,8 @@ public class StartPanel : MonoBehaviour
 		PlayerPrefs.SetInt("toDemoPanelFromPanel",1);//标记是从哪个界面进入帮助界面的
 		PlayerPrefs.SetInt("toDemoPanelFromBtn",2);
 		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+		//transform.parent.Find("DemoShowPanel/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
+		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
 		PanelTranslate.Instance.DestoryAllPanel();
 
 	}
