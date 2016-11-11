@@ -23,7 +23,10 @@ public class DemoShowPanel : MonoBehaviour
 		PHOTORECOGNIZE
 
 	}
-		
+	private bool isPreBtnEfective=true;
+	private bool isNextBtnEffective=true;
+
+
 	void Awake()
 	{
 		_instance = this;
@@ -32,22 +35,59 @@ public class DemoShowPanel : MonoBehaviour
 		preBtn=transform.Find("PreBtn").GetComponent<UISprite>().gameObject;
 		nextBtn=transform.Find("NextBtn").GetComponent<UISprite>().gameObject;
 		confirmBtn=transform.Find("ConfirmBtn").GetComponent<UISprite>().gameObject;
-
+//
+		isPreBtnEfective=true;
+		isNextBtnEffective=true;
+			
 		UIEventListener.Get (preBtn).onClick = OnPreBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
 		UIEventListener.Get (confirmBtn).onClick = OnConfirmBtnClick;
 	}
-		
+
+//	void Update()
+//	{
+//		if (!isNextBtnEffective && nextBtn.GetComponent<UISprite>().spriteName!="nextBtnDark") 
+//		{
+//			nextBtn.GetComponent<UISprite>().spriteName="nextBtnDark";
+//		}
+//		else if(isNextBtnEffective)
+//		{
+//			nextBtn.GetComponent<UISprite>().spriteName="nextBtnNormal";
+//		}
+//		if (!isPreBtnEfective && preBtn.GetComponent<UISprite>().spriteName!="PreBtnDark") 
+//		{
+//			preBtn.GetComponent<UISprite>().spriteName="PreBtnDark";
+//		}
+//		else if(isPreBtnEfective)
+//		{
+//			preBtn.GetComponent<UISprite>().spriteName="PreBtnNormal";
+//
+//		}
+//
+//	}
 
 	void OnPreBtnClick(GameObject btn)
 	{
-		transform.Find("DemoPic").GetComponent<HelpDataShow>().Back();
+		if (!transform.Find("DemoPic").GetComponent<HelpDataShow>().Back()) 
+		{
+			preBtn.GetComponent<UISprite>().spriteName="PreBtnDark";
+
+		}
+//		else
+//		{
+//			isPreBtnEfective=true;
+//		}
 	}
 
 	void OnNextBtnClick(GameObject btn)
 	{
-
-		transform.Find("DemoPic").GetComponent<HelpDataShow>().Next();
+		if (!transform.Find("DemoPic").GetComponent<HelpDataShow>().Next()) {
+			nextBtn.GetComponent<UISprite>().spriteName="nextBtnDark";
+		}
+//		else
+//		{
+//			isNextBtnEffective=true;
+//		}
 	}
 
 	void OnConfirmBtnClick(GameObject btn)

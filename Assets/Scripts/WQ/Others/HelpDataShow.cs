@@ -83,8 +83,6 @@ public class HelpDataShow : MonoBehaviour {
 		levelPictureNum.Add (6);//-----------------14
 		levelPictureNum.Add (3);//-----------------15
 
-
-
 	}
 		
 	private Texture GetTexture(string name)

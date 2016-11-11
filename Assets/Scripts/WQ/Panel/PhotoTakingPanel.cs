@@ -38,7 +38,7 @@ public class PhotoTakingPanel : MonoBehaviour
 	void OnEnable()
 	{
 		levelLabel.text = LevelManager.currentLevelData.LevelName+"拍摄中";
-//		HomeBtn.Instance.panelOff = PanelOff;
+//		HomeBtn.Instance.panelOff = PanelOff;   
 	}
 
 	#region 计算按钮的点击事件
