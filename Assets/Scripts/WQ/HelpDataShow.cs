@@ -19,6 +19,8 @@ public class HelpDataShow : MonoBehaviour {
 
 	public void InitFromStart()
 	{
+		Debug.Log("----------InitFromStart");
+
 		if (Helper)
 		{
 			Destroy (Helper);
@@ -28,6 +30,7 @@ public class HelpDataShow : MonoBehaviour {
 
 	public void InitFromLevel()
 	{
+		Debug.Log("----------InitFromLevel");
 
 		Init(LevelManager.currentLevelData.LevelID);
 	}
@@ -45,6 +48,9 @@ public class HelpDataShow : MonoBehaviour {
 		for (int i = 0; i < levelPictureNum[level - 1]; i++) {
 			temp [i] = GetTexture (GetName (level - 1, i));
 		}
+
+		Debug.Log("-----------"+temp.Length);
+
 		Helper.Init (temp);
 
 	}
@@ -64,23 +70,20 @@ public class HelpDataShow : MonoBehaviour {
 		
 		levelPictureNum.Add (3);//-----------------0
 		levelPictureNum.Add (3);//-----------------1
-		levelPictureNum.Add (3);//-----------------2
+		levelPictureNum.Add (4);//-----------------2
 		levelPictureNum.Add (4);//-----------------3
 		levelPictureNum.Add (4);//-----------------4
 		levelPictureNum.Add (4);//-----------------5
 		levelPictureNum.Add (4);//-----------------6
 		levelPictureNum.Add (4);//-----------------7
 		levelPictureNum.Add (4);//-----------------8
-		levelPictureNum.Add (4);//-----------------9
-		levelPictureNum.Add (3);//-----------------10
+		levelPictureNum.Add (3);//-----------------9
+		levelPictureNum.Add (4);//-----------------10
 		levelPictureNum.Add (4);//-----------------11
-		levelPictureNum.Add (4);//-----------------12
+		levelPictureNum.Add (5);//-----------------12
 		levelPictureNum.Add (5);//-----------------13
-		levelPictureNum.Add (5);//-----------------14
-		levelPictureNum.Add (6);//-----------------15
-		levelPictureNum.Add (3);//-----------------16
-
-
+		levelPictureNum.Add (6);//-----------------14
+		levelPictureNum.Add (3);//-----------------15
 	}
 		
 	private Texture GetTexture(string name)

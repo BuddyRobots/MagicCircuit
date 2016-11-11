@@ -43,7 +43,8 @@ namespace MagicCircuit
                 return false;
             }
 
-            //switchOnOff(3, false);
+            switchOnOff(3, false);
+			switchOnOff(3, true);
             //switchOnOff(2, false);
 
             // Display circuitItems

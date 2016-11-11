@@ -43,10 +43,11 @@ public class LevelFifteen : MonoBehaviour
 				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 
 
-
+				Debug.Log("%%%%%%%%%%%%%%%%%%%%%%%%-------------");
 				for (var j = 0; j < GetImage._instance.itemList.Count; j++)
 					Debug.Log("SPDTSwitchCtrl.cs OnClick : GetImage._instance.itemList["+j+"].list[0] = " + GetImage._instance.itemList[j].list[0]);
 			}
+
 		}
 	}
 }

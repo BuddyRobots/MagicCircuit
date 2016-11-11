@@ -5,7 +5,7 @@ using System.Collections;
 public class HomeBtn : SceneSinglton<HomeBtn>
 {
 	private GameObject startPanel;
-	public VoidDelegate panelOff;
+//	public VoidDelegate panelOff;
 
 	void Awake () 
 	{
@@ -14,12 +14,8 @@ public class HomeBtn : SceneSinglton<HomeBtn>
 
 	void onClick1(GameObject go)
 	{
-		//打开主界面,关闭父对象界面
-		//startPanel.SetActive (true);
-//		PanelTranslate.Instance.GetPanel(Panels.StartPanel);
+		//跳转到选关界面
 		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
-
-//		Instance.panelOff();
 		PanelTranslate.Instance.DestoryAllPanel();
 	}
 }

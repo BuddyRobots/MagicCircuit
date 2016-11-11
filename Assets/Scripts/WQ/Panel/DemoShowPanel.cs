@@ -8,132 +8,81 @@ public class DemoShowPanel : MonoBehaviour
 	public static DemoShowPanel _instance;
 	private GameObject preBtn;
 	private GameObject nextBtn;
-
-	private UISprite currDemoSprite;
+	private GameObject confirmBtn;
+	private UITexture currDemoTex;
 
 	List<string> levelDemoPics=new List<string>();
+	List<Texture> levelDemoTex=new List<Texture>();
 	List<int> levelDemoIndex=null;
 
+	private enum  FromPanelFlag
+	{
+		START=1,
+		LEVELSELECT,
+		PHOTOTAKING,
+		PHOTORECOGNIZE
+
+	}
+		
 	void Awake()
 	{
 		_instance = this;
-		currDemoSprite=transform.Find("DemoPic").GetComponent<UISprite>();
+		currDemoTex=transform.Find("DemoPic").GetComponent<UITexture>();
 
 		preBtn=transform.Find("PreBtn").GetComponent<UISprite>().gameObject;
 		nextBtn=transform.Find("NextBtn").GetComponent<UISprite>().gameObject;
-
-
+		confirmBtn=transform.Find("ConfirmBtn").GetComponent<UISprite>().gameObject;
 
 		UIEventListener.Get (preBtn).onClick = OnPreBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
-
-
-		int flag = PlayerPrefs.GetInt("toDemoPanelFromPanel");
-		//改成switch，条件用枚举---//也可以用全局静态变量来存储并判断
-		if(flag == 1)
-		{
-			return;
-
-		} else if(flag == 2)
-		{
-
-			int levelNum = LevelManager.currentLevelData.LevelID;
-
-			DemoDataManager.Instance.mDicDemoLevelPic.TryGetValue(levelNum,out levelDemoPics);
-
-
-			if (levelDemoPics!=null && levelDemoPics.Count>0) 
-			{
-				currDemoSprite.spriteName=levelDemoPics[0];
-			}
-
-		}
-
-
-
+		UIEventListener.Get (confirmBtn).onClick = OnConfirmBtnClick;
 	}
-
-	void OnEnable()
-	{
-		HomeBtn.Instance.panelOff = PanelOff;
-	}	
+		
 
 	void OnPreBtnClick(GameObject btn)
 	{
-		if (levelDemoPics!=null) 
-		{
-
-			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
-			{
-				return;
-			}
-			else//如果这个关卡不止一张demo图片
-			{
-				if (currDemoSprite.spriteName==levelDemoPics[0]) //如果当前图片就是demo图片集中的第一张，点击左键没反应
-				{
-					return;
-				}
-				else
-				{
-					//需要记录当前图片的名字
-					for (int i = 1; i < levelDemoPics.Count; i++) 
-					{
-						if (currDemoSprite.spriteName==levelDemoPics[i]) 
-						{
-
-							currDemoSprite.spriteName=levelDemoPics[i-1];
-						}
-					}
-
-				}
-
-			}
-			
-		}
-
-
-		
-		
+		transform.Find("DemoPic").GetComponent<HelpDataShow>().Back();
 	}
 
 	void OnNextBtnClick(GameObject btn)
 	{
 
-		if (levelDemoPics!=null) 
-		{
-
-			if (levelDemoPics.Count<=1) //如果这个关卡只有一张demo图片，点击按钮没反应
-			{
-				return;
-			}
-			else//如果这个关卡不止一张demo图片
-			{
-				if (currDemoSprite.spriteName==levelDemoPics[levelDemoPics.Count-1]) //如果当前图片就是demo图片集中的最后一张，点击右键没反应
-				{
-					return;
-				}
-				else
-				{
-					//需要记录当前图片的名字
-					for (int i = 0; i < levelDemoPics.Count-1; i++) 
-					{
-						if (currDemoSprite.spriteName==levelDemoPics[i]) 
-						{
-
-							currDemoSprite.spriteName=levelDemoPics[i+1];
-						}
-					}
-
-				}
-
-			}
-
-		}
-		
+		transform.Find("DemoPic").GetComponent<HelpDataShow>().Next();
 	}
 
-	public void PanelOff()
+	void OnConfirmBtnClick(GameObject btn)
 	{
-		gameObject.SetActive (false);
+		int flag= PlayerPrefs.GetInt("toDemoPanelFromPanel");
+		switch (flag) 
+		{
+		case (int)FromPanelFlag.START://如果是从开始界面进来的帮助界面
+			if (PlayerPrefs.HasKey("toDemoPanelFromBtn") && PlayerPrefs.GetInt("toDemoPanelFromBtn")==2) //从帮助按钮进来的
+			{
+				PanelTranslate.Instance.GetPanel(Panels.StartPanel);
+			}
+			else if ( PlayerPrefs.GetInt("toDemoPanelFromBtn")==1 ) //从开始按钮进来的
+			{
+				PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+			}
+			break;
+		case (int)FromPanelFlag.LEVELSELECT:
+			PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+			break;
+		case (int)FromPanelFlag.PHOTOTAKING:
+			PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel);
+			break;
+		case (int)FromPanelFlag.PHOTORECOGNIZE:
+			Destroy(gameObject);
+			break;
+		default:
+			break;
+		}
+		PanelTranslate.Instance.DestoryThisPanel();
+
 	}
+
+
+
+
+
 }

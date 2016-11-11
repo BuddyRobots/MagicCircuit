@@ -180,7 +180,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			gameObject.GetComponent<LevelHandle>().enabled=false;
 		}
 
-		HomeBtn.Instance.panelOff = PanelOff;
+//		HomeBtn.Instance.panelOff = PanelOff;
 		data = LevelManager.currentLevelData;
 		lineParent = this.gameObject;
 
@@ -275,9 +275,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		if ( GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
 			itemList=GetImage._instance.itemList;
-
 			result = GetImage._instance.isCircuitCorrect;
-
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
@@ -630,8 +628,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			if (itemList[i].type==ItemType.CircuitLine) 
 			{
+
 				circuitLines.Add (itemList[i].list);
 				tags.Add (itemList[i].ID);//itemsList[i].ID equals to tag of arrow
+
 			}
 		}
 	}
@@ -653,6 +653,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				{
 					templine.Add (circuitLines[i] [n]);
 				}
+
 				StartCoroutine (CreateArrowOnSingleLine(templine,tags[i]));
 			}
 		}
@@ -739,7 +740,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		//to do...
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",4);
+		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel,false);
+		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromLevel();
 	
 	}
 

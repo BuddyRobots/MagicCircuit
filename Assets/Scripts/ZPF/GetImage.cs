@@ -184,6 +184,11 @@ public class GetImage : MonoBehaviour
 			itemList.Clear();
 
 			recognizeAlge.process(frameImgList[i], ref itemList);
+
+
+	
+
+
 			listItemList.Add(itemList);
 
 
@@ -225,19 +230,15 @@ public class GetImage : MonoBehaviour
 		computeCurrentFlow();
 
 
-		for (int i = 0; i < itemList.Count; i++)
-		{
-			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
-				     " connect_left = " + itemList[i].connect_left +
-				     " connect_right = " + itemList[i].connect_right +
-				     " connect_middle = " + itemList[i].connect_middle +
-				     " powered = " + itemList[i].powered +
-				     " list[0] = " + itemList[i].list[0]);
-		}
-
-
-
-
+//		for (int i = 0; i < itemList.Count; i++)
+//		{
+//			Debug.Log("GetImage.cs Thread_Process : itemList[" + i + "].type = " + itemList[i].type +
+//				     " connect_left = " + itemList[i].connect_left +
+//				     " connect_right = " + itemList[i].connect_right +
+//				     " connect_middle = " + itemList[i].connect_middle +
+//				     " powered = " + itemList[i].powered +
+//				     " list[0] = " + itemList[i].list[0]);
+//		}
 
 
 		int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -256,8 +257,6 @@ public class GetImage : MonoBehaviour
 			isCircuitCorrect = cf.compute(itemList, LevelManager.currentLevelData.LevelID);
 
 
-
-
 		// Debug.Log("CurrentFlow compute result = " + isCircuitCorrect);
 		// for (int i = 0; i < itemList.Count; i++)
 		// {
@@ -266,6 +265,7 @@ public class GetImage : MonoBehaviour
 		// 		" connect_right = " + itemList[i].connect_right +
 		// 		" powered = " + itemList[i].powered);
 		// }
+
 	}
 
 
