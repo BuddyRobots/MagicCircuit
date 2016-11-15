@@ -156,7 +156,7 @@ public class LevelManager : MonoBehaviour
 		_instance = this;
 
 		//code for test...
-		PlayerPrefs.SetInt ("LevelID",14);
+		PlayerPrefs.SetInt ("LevelID",15);
 		PlayerPrefs.SetInt ("LevelProgress",2);
 	}
 
