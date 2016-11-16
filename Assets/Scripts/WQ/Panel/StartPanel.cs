@@ -56,6 +56,7 @@ public class StartPanel : MonoBehaviour
 			PlayerPrefs.SetInt("toDemoPanelFromBtn",1);
 
 			PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
+			GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
 			PanelTranslate.Instance.DestoryAllPanel();
 
 		}
