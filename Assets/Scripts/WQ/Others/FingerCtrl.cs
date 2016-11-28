@@ -22,7 +22,7 @@ public class FingerCtrl : MonoBehaviour
 	//private Vector3 direction;
 	private Vector3 dest;
 	private Vector3 startPos;
-	Vector3 moveOffset;
+	private Vector3 moveOffset;
 
 	private Vector3 dir;
 

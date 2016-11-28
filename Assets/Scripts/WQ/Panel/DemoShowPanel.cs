@@ -9,11 +9,8 @@ public class DemoShowPanel : MonoBehaviour
 	private GameObject preBtn;
 	private GameObject nextBtn;
 	private GameObject confirmBtn;
-	private UITexture currDemoTex;
-
-	List<string> levelDemoPics=new List<string>();
-	List<Texture> levelDemoTex=new List<Texture>();
-	List<int> levelDemoIndex=null;
+	private UISprite nextBtnSprite;
+	private UISprite preBtnSprite;
 
 	private enum  FromPanelFlag
 	{
@@ -30,12 +27,11 @@ public class DemoShowPanel : MonoBehaviour
 	void Awake()
 	{
 		_instance = this;
-		currDemoTex=transform.Find("DemoPic").GetComponent<UITexture>();
 
 		preBtn=transform.Find("PreBtn").GetComponent<UISprite>().gameObject;
 		nextBtn=transform.Find("NextBtn").GetComponent<UISprite>().gameObject;
 		confirmBtn=transform.Find("ConfirmBtn").GetComponent<UISprite>().gameObject;
-//
+
 		isPreBtnEfective=true;
 		isNextBtnEffective=true;
 			
@@ -43,51 +39,78 @@ public class DemoShowPanel : MonoBehaviour
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
 		UIEventListener.Get (confirmBtn).onClick = OnConfirmBtnClick;
 	}
+	void Start()
+	{
 
-//	void Update()
-//	{
-//		if (!isNextBtnEffective && nextBtn.GetComponent<UISprite>().spriteName!="nextBtnDark") 
-//		{
-//			nextBtn.GetComponent<UISprite>().spriteName="nextBtnDark";
-//		}
-//		else if(isNextBtnEffective)
-//		{
-//			nextBtn.GetComponent<UISprite>().spriteName="nextBtnNormal";
-//		}
-//		if (!isPreBtnEfective && preBtn.GetComponent<UISprite>().spriteName!="PreBtnDark") 
-//		{
-//			preBtn.GetComponent<UISprite>().spriteName="PreBtnDark";
-//		}
-//		else if(isPreBtnEfective)
-//		{
-//			preBtn.GetComponent<UISprite>().spriteName="PreBtnNormal";
-//
-//		}
-//
-//	}
+
+		nextBtnSprite=nextBtn.GetComponent<UISprite>();
+		preBtnSprite=preBtn.GetComponent<UISprite>();
+	}
+
+	void Update()
+	{
+
+		if (!isNextBtnEffective) 
+		{
+			if (nextBtnSprite.spriteName!="nextBtnDark") 
+			{
+				nextBtnSprite.spriteName="nextBtnDark";
+			}
+		}
+		else
+		{
+			if (nextBtnSprite.spriteName!="nextBtnNormal") 
+			{
+				nextBtnSprite.spriteName="nextBtnNormal";
+			}
+		}
+		if (!isPreBtnEfective) 
+		{
+			if (preBtnSprite.spriteName!="PreBtnDark") {
+				preBtnSprite.spriteName="PreBtnDark";
+			}
+
+		}
+		else
+		{
+			if (preBtnSprite.spriteName!="PreBtnNormal") {
+				preBtnSprite.spriteName="PreBtnNormal";
+			}
+
+		}
+
+	}
+
 
 	void OnPreBtnClick(GameObject btn)
 	{
 		if (!transform.Find("DemoPic").GetComponent<HelpDataShow>().Back()) 
 		{
-			preBtn.GetComponent<UISprite>().spriteName="PreBtnDark";
-
+			//如果上一张按钮不能点了，
+			preBtnSprite.spriteName="PreBtnDark";
+			isPreBtnEfective=false;
+			isNextBtnEffective=true;
 		}
-//		else
-//		{
-//			isPreBtnEfective=true;
-//		}
+		else
+		{
+			isPreBtnEfective=true;
+			isNextBtnEffective=true;
+		}
 	}
 
 	void OnNextBtnClick(GameObject btn)
 	{
-		if (!transform.Find("DemoPic").GetComponent<HelpDataShow>().Next()) {
-			nextBtn.GetComponent<UISprite>().spriteName="nextBtnDark";
+		if (!transform.Find("DemoPic").GetComponent<HelpDataShow>().Next())
+		{
+			nextBtnSprite.spriteName="nextBtnDark";
+			isNextBtnEffective=false;
+			isPreBtnEfective=true;
 		}
-//		else
-//		{
-//			isNextBtnEffective=true;
-//		}
+		else
+		{
+			isNextBtnEffective=true;
+			isPreBtnEfective=true;
+		}
 	}
 
 	void OnConfirmBtnClick(GameObject btn)

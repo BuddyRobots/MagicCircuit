@@ -8,10 +8,7 @@ public class LevelTwelve : MonoBehaviour
 	[HideInInspector]
 	public bool isLAswitchOccur = false;
 
-
-	private float changeTime = 3f;//渐变的总时间
-	private  float changeTimer = 0;
-//	private bool isCircuitWork = false;
+	private  float dayAndNight_changeTimer = 0;
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 	private bool CurrLASwitchStatus=false;
@@ -22,15 +19,11 @@ public class LevelTwelve : MonoBehaviour
 
 	void OnEnable () 
 	{
-		changeTime = 3f;
-		changeTimer = 0;
+		dayAndNight_changeTimer = 0;
 		isLAswitchOccur = false;
-//		isCircuitWork = false;
 
 		isFingerShow = false;
 		isFingerDestroyed=false;
-
-
 
 		LAswitch = transform.Find ("lightActSwitch");
 		nightBg = PhotoRecognizingPanel._instance.nightMask;
@@ -43,8 +36,6 @@ public class LevelTwelve : MonoBehaviour
 	{
 		if (isLAswitchOccur)
 		{
-//			Transform LAswitch = transform.Find ("lightActSwitch");
-//			nightBg = PhotoRecognizingPanel._instance.nightMask;
 			if (!isFingerShow) 
 			{
 				//在太阳月亮按钮位置出现小手，点击太阳，蒙版渐变暗，小手消失，光敏开关闭合，灯泡亮，电流走起
@@ -58,42 +49,40 @@ public class LevelTwelve : MonoBehaviour
 					Destroy (PhotoRecognizingPanel._instance.finger);	
 					isFingerDestroyed = true;
 				}
-				changeTimer += Time.deltaTime;
-				if (changeTimer >= changeTime) 
+				dayAndNight_changeTimer += Time.deltaTime;
+				if (dayAndNight_changeTimer >= Constant.DAYANDNITHT_CHANGETIME) 
 				{
-					changeTimer = changeTime;
+					dayAndNight_changeTimer = Constant.DAYANDNITHT_CHANGETIME;
 				}
-				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);//蒙版渐变暗
-				if(changeTimer>=changeTime*5/6)//背景渐变快完成时
+				nightBg.alpha = Mathf.Lerp (0, 1f, dayAndNight_changeTimer / Constant.DAYANDNITHT_CHANGETIME);//蒙版渐变暗
+				if(dayAndNight_changeTimer>=Constant.DAYANDNITHT_CHANGETIME*5/6)//背景渐变快完成时
 				{
-//					isCircuitWork = true;
 					CurrLASwitchStatus=true;
 					if (PreLASwitchStatus!=CurrLASwitchStatus) 
 					{
 						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
 						LAswitch.GetComponent<UISprite>().spriteName= "LAswitchOn";
-						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+						CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 						PreLASwitchStatus=CurrLASwitchStatus;
 					}
 				}
 			}
 			else //如果是白天
 			{
-				changeTimer -= Time.deltaTime;
-				if (changeTimer <= 0) 
+				dayAndNight_changeTimer -= Time.deltaTime;
+				if (dayAndNight_changeTimer <= 0) 
 				{
-					changeTimer =0;
+					dayAndNight_changeTimer =0;
 				}
-				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-				if (changeTimer <= changeTime / 6) 
+				nightBg.alpha = Mathf.Lerp (0, 1f, dayAndNight_changeTimer / Constant.DAYANDNITHT_CHANGETIME);
+				if (dayAndNight_changeTimer <= Constant.DAYANDNITHT_CHANGETIME / 6) 
 				{
-//					isCircuitWork = false;
 					CurrLASwitchStatus = false;
 					if (PreLASwitchStatus!=CurrLASwitchStatus) 
 					{
 						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), false);
 						LAswitch.GetComponent<UISprite>().spriteName= "LAswitchOff";
-						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+						CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 						PreLASwitchStatus=CurrLASwitchStatus;
 					}
 				}

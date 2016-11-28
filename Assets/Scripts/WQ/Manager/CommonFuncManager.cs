@@ -7,7 +7,6 @@ public class CommonFuncManager : MonoBehaviour
 {
 
 	public static CommonFuncManager _instance;
-	const int SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
 
 	void Awake()
 	{
@@ -37,12 +36,40 @@ public class CommonFuncManager : MonoBehaviour
 	public bool isSoundLoudEnough()
 	{
 		float volume = MicroPhoneInput.getInstance ().getSoundVolume();
-		if(volume > SOUND_CRITERION)
+		if(volume > Constant.SOUND_CRITERION)
 		{
 			return true;
 		}
 		return false;
 	}
+
+	public Vector3 ChooseMiddlePointOnLine(List< List<Vector3> > lines)
+	{
+		int maxNum = 0;//点的最大数量
+		int longestLineIndex = 0;//最长线段的下标
+		for (int i = 0; i < lines.Count; i++) 
+		{
+			if (lines [i].Count > maxNum) 
+			{
+				maxNum=lines [i].Count;
+				longestLineIndex = i;
+			}	
+		}
+		//最长的线段是lines[longestLineIndex],该线段上的点的个数是maxNum；需要取这条线段的中点
+		int index = 0;
+		if (maxNum % 2 == 0) 
+		{
+			index = maxNum / 2;	
+		} 
+		else 
+		{
+			index = (maxNum + 1) / 2;
+		}
+		Vector3 pos = (lines [longestLineIndex]) [index];
+		return pos;
+	}
+
+
 
 	/// <summary>
 	/// compute  the angle according to two points
@@ -58,12 +85,80 @@ public class CommonFuncManager : MonoBehaviour
 		float angle = tanValue * Mathf.Rad2Deg;//弧度转换为角度  
 		return angle;  
 	}
+		
+	public 	void CircuitItemRefresh()
+	{
+		switch (LevelManager.currentLevelData.LevelID)
+		{
+		case 7:
+			GetSwitchPoweredValueOfLv_7();
+			if (LevelSeven._instance.isTwoBatteryWork)
+			{
+				CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
+			}
+			else
+			{
+				CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
+			}
+			break;
+
+		case 8:
+			CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
+			break;
+		case 9:
+			CircuitItemRefreshWithTwoBattery (GetImage._instance.itemList);
+			GetCurBulbPoweredValueOfLv_9();
+			break;
+		default:
+			CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
+			break;
+		}
+	}
+
+	/// <summary>
+	/// get the value of curBulbPowerd of Level9, true represents the branch circuit  with bulbs on is powered, false represents powerless, powered or not effects the UIrefresh on bulb clicks
+	/// </summary>
+	void GetCurBulbPoweredValueOfLv_9()
+	{
+		List<CircuitItem> itemList=GetImage._instance.itemList;
+		for (int i = 0; i < itemList.Count; i++) 
+		{
+			if (itemList[i].type==ItemType.Bulb) 
+			{
+				if (itemList[i].powered) 
+				{
+					LevelNine._instance.curBulbPowerd=true;
+				}
+				else
+				{
+					LevelNine._instance.curBulbPowerd=false;
+				}
+
+			}
+		}
+	}
+
+	void GetSwitchPoweredValueOfLv_7()
+	{
+		List<CircuitItem> itemList=GetImage._instance.itemList;
+		for (int i = 0; i < itemList.Count; i++) 
+		{
+			if (itemList[i].type==ItemType.Switch) 
+			{
+				if (itemList[i].powered) 
+				{
+					LevelSeven._instance.curSwitchPowered=true;
+				}
+			}
+		}
+
+	}
 
 	/// <summary>
 	///1个电池的情况下刷新items 遍历新的circuitItem，根据其powered属性值来刷新（譬如灯泡，音响这种受开关控制的item）UI
 	/// </summary>
 	/// <param name="circuitItems">Circuit items.</param>
-	public void CircuitItemRefresh(List<CircuitItem> circuitItems)
+	public void CircuitItemRefreshWithOneBattery(List<CircuitItem> circuitItems)
 	{
 		for (int i = 0; i < circuitItems.Count ; i++) 
 		{
@@ -75,9 +170,9 @@ public class CommonFuncManager : MonoBehaviour
 				case ItemType.Bulb:
 					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbOn":"bulbOff");
 					break;
-				case ItemType.VoiceTimedelaySwitch:
-					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
-					break;
+//				case ItemType.VoiceTimedelaySwitch:
+//					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "VoiceDelayOn":"VoiceDelayOff");
+//					break;
 				//如果是电磁炉
 				case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;
@@ -99,14 +194,7 @@ public class CommonFuncManager : MonoBehaviour
 						if (!tempAudio.isPlaying) 
 						{
 							tempAudio.Play ();
-							if (LevelManager.currentLevelData.LevelID==9) 
-							{
-								tempAudio.volume = 1f;
-							}
-							else
-							{
-								tempAudio.volume = 0.5f;
-							}
+							tempAudio.volume = 0.5f;
 						}
 					} 
 					else // this item is power off
@@ -124,45 +212,6 @@ public class CommonFuncManager : MonoBehaviour
 		}
 	}
 
-
-
-	//传进来所有的线
-	public void ArrowsRefresh(List<CircuitItem> circuitItems)
-	{
-		for (int i = 0; i < circuitItems.Count; i++) 
-		{
-
-			if (circuitItems[i].type==ItemType.CircuitLine) 
-			{
-
-				string tag = circuitItems [i].ID.ToString ();
-				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
-				List<GameObject> arrows=new List<GameObject>();
-				arrows.Clear();
-				for (int k = 0; k < temps.Length; k++)
-				{
-					if (temps[k].name.Contains("arrow")) 
-					{
-						arrows.Add(temps[k]);
-					}
-
-				}
-				foreach (var item in arrows) 
-				{ 
-					if (item) 
-					{
-						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
-					}
-				}
-
-			}
-		}
-
-	}
-
-
-
-
 	/// <summary>
 	/// 两个电池的情况下刷新items
 	/// </summary>
@@ -176,7 +225,11 @@ public class CommonFuncManager : MonoBehaviour
 			switch (circuitItems [i].type) //根据图标的类型，和power值，来更改sprite进行刷新
 			{
 			case ItemType.Bulb:
-				temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbSpark":"bulbOff");
+				if (LevelManager.currentLevelData.LevelID!=9) 
+				{
+					temp.GetComponent<UISprite>().spriteName=(circuitItems [i].powered ? "bulbSpark":"bulbOff");
+
+				}
 				break;
 			case ItemType.InductionCooker:
 				GameObject steam = temp.transform.Find ("Steam").gameObject;
@@ -202,9 +255,7 @@ public class CommonFuncManager : MonoBehaviour
 					}
 					else
 					{
-
 						tempAudio.volume = 1f;
-
 					}
 				} 
 				else // this item is power off
@@ -223,5 +274,43 @@ public class CommonFuncManager : MonoBehaviour
 		}
 
 	}
+
+	//传进来所有的线
+	public void ArrowsRefresh(List<CircuitItem> circuitItems)
+	{
+		for (int i = 0; i < circuitItems.Count; i++) 
+		{
+
+			if (circuitItems[i].type==ItemType.CircuitLine) 
+			{
+
+				string tag = circuitItems [i].ID.ToString ();
+				GameObject[] temps = GameObject.FindGameObjectsWithTag(tag);
+				List<GameObject> arrows=new List<GameObject>();
+				arrows.Clear();
+				for (int k = 0; k < temps.Length; k++)
+				{
+					if (temps[k].name.Contains("Arrow")) 
+					{
+						arrows.Add(temps[k]);
+					}
+
+				}
+				foreach (var item in arrows) 
+				{ 
+					if (item) 
+					{
+						item.GetComponent<UISprite>().alpha = (circuitItems [i].powered ? 1:0);
+					}
+				}
+
+			}
+		}
+
+	}
+
+
+
+
 
 }

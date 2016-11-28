@@ -26,14 +26,14 @@ public class MoveCtrl : MonoBehaviour
 		if (line.Count > 0)
 		{
 			isAtDest = arrowCtrl.IsAtDest ();
-			if (isAtDest)
-			{//如果箭头移动到了目的地，重新设置目的地
+			if (isAtDest)//如果箭头移动到了目的地，重新设置目的地
+			{
 				index++;
 				arrowCtrl.SetDestination (line [index % line.Count], 3);
 			}
-			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 3) 
-			{// 如果箭头移动到了线路的终点，就销毁这个箭头
-				Destroy (gameObject);
+			if (Vector3.Distance (transform.localPosition, line [line.Count - 1]) < 3)// 如果箭头移动到了线路的终点，就放回对象池
+			{
+				GameObjectPool.ReturnToPool(gameObject);
 			}
 		}
 	}

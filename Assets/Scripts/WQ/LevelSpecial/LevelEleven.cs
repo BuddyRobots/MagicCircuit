@@ -7,12 +7,7 @@ public class LevelEleven : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isVOswitchOccur=false;
-	private bool isAnimationPlay=false;
 	private bool isStartRecord = false;
-	/// <summary>
-	/// 保证声音收集一次的标志
-	/// </summary>
-	private bool stayForAwhile = false;
 
 	private PhotoRecognizingPanel photoRecognizePanel;
 	private MicroPhoneBtnCtrl microBtnCtrl;
@@ -21,10 +16,8 @@ public class LevelEleven : MonoBehaviour
 	void OnEnable () 
 	{
 		isVOswitchOccur=false;
-		isAnimationPlay=false;
 		isStartRecord = false;
-		stayForAwhile = false;
-
+	
 		voiceSwitch=transform.Find("voiceOperSwitch");
 		photoRecognizePanel=PhotoRecognizingPanel._instance;
 		microBtnCtrl=transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ();
@@ -56,14 +49,13 @@ public class LevelEleven : MonoBehaviour
 				//收集到声音后，播放声音收集完成音效，提示框消失
 				if (CommonFuncManager._instance.isSoundLoudEnough ()) 
 				{
-					isAnimationPlay = true;
 					photoRecognizePanel.noticeToMakeVoice.SetActive (false);
 					photoRecognizePanel.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
 					photoRecognizePanel.voiceCollectionMark.SetActive (false);
 					MicroPhoneInput.getInstance ().StopRecord ();
 					GetImage._instance.cf.switchOnOff (int.Parse (voiceSwitch.gameObject.tag), true);
 					voiceSwitch.GetComponent<UISprite>().spriteName="VOswitchOn";
-					CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
+					CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);	
 				} 
 				CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 			}	

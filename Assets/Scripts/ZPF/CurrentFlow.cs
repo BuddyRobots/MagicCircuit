@@ -105,6 +105,7 @@ namespace MagicCircuit
 
         public void switchOnOff(int ID, bool state) // State true: on false: off
         {
+			Debug.Log("switchOnOff");
             // Restore connectivity to current state
             Array.Copy(currentConn, connectivity, currentConn.Length);
 

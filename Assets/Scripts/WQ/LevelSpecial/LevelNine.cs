@@ -6,11 +6,17 @@ using MagicCircuit;
 // level 9-----并联电路，2个电池+3个开关+2个灯泡+1个音响+1个电磁炉（2个开关分别控制2个灯泡，音响，电磁炉；电池不可点击）
 public class LevelNine : MonoBehaviour 
 {
+	public  static  LevelNine _instance;
+
 	[HideInInspector]
-	public bool isParallelCircuitWithTwoBulb = false;
-	private List<GameObject> switchList = null; 
+	public bool isLevelNine = false;
+	/// <summary>
+	/// bool to judge is bulb circuit powered or not
+	/// </summary>
+	[HideInInspector]
+	public bool curBulbPowerd=false;
+
 	private bool isBulbCircuitAniPlayed=false;
-	private bool isBulbClicked=false;
 	private GameObject clickBulb =null;
 	private List<GameObject> bulbList = null;
 	private bool isBulbAddComponent = false;
@@ -24,10 +30,19 @@ public class LevelNine : MonoBehaviour
 	private bool preClickBulbSemiStatus=false;
 	/// </summary>
 
+	UISprite nonClickBatterySprite=null;
+
+
+
+	void Awake()
+	{
+		_instance=this;
+	}
+
 	void OnEnable ()
 	{
-		isBulbClicked=false;
-		isParallelCircuitWithTwoBulb = false;
+		curBulbPowerd=false;
+		isLevelNine = false;
 		isBulbCircuitAniPlayed=false;
 		isBulbAddComponent = false;
 		singnal=2;
@@ -39,32 +54,22 @@ public class LevelNine : MonoBehaviour
 	//点击灯泡后，小手消失，灯泡变成半透明，另外一个灯泡变得更亮；再点击透明灯泡，灯泡复原成不透明，另外一个灯泡变正常亮
 	void Update () 
 	{
-		if (isParallelCircuitWithTwoBulb) 
+		if (isLevelNine) 
 		{
 			bulbList = PhotoRecognizingPanel._instance.bulbList;
-			switchList = PhotoRecognizingPanel._instance.switchList;
 
-			for (int i = 0; i < switchList.Count; i++) //点击开关，调用方法，circuitItems更新powered属性
+
+			if (curBulbPowerd) //如果灯泡的线路是有电的
 			{
-				GetImage._instance.cf.switchOnOff (int.Parse(switchList [i].tag), switchList [i].GetComponent<SwitchCtrl> ().isSwitchOn ? false : true);
-				CommonFuncManager._instance.CircuitItemRefresh(GetImage._instance.itemList);//使用新的circuititems
+				isBulbCircuitAniPlayed=true;
 			}
-
-
-
-			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
-
-
-
-			if (!isBulbCircuitAniPlayed) 
-			{
-				isBulbCircuitAniPlayed = BulbCircuitPowerdOrNot ();
-			}
-
+				
 			if (isBulbCircuitAniPlayed) //有灯泡的电路通了一次后灯泡才可以被点击
 			{
 				clickBulb = bulbList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
-		
+				nonClickBatterySprite=bulbList[0].GetComponent<UISprite>();
+
+				#region 给bulb添加脚本
 				if (!isBulbAddComponent) //保证只给bulb加一次脚本
 				{
 					clickBulb.AddComponent<BoxCollider> ();
@@ -75,80 +80,66 @@ public class LevelNine : MonoBehaviour
 					clickBulb.AddComponent<BulbCtrl> ();
 					isBulbAddComponent = true;
 				}
+				#endregion
 
-
+				#region 点击灯泡	
 				if (clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) //1个灯泡变成半透明
 				{ 
-					clickBulb.GetComponent<UISprite>().spriteName="semiTransBulb";
-					UISprite temp=bulbList[0].GetComponent<UISprite>();
-					if (temp.spriteName=="bulbOn") 
+					if (curBulbPowerd) //如果灯泡线路有电
 					{
-						temp.spriteName="bulbSpark";
+						nonClickBatterySprite.spriteName="bulbSpark";
+					} 
+					else //如果灯泡线路没电
+					{
+						nonClickBatterySprite.spriteName="bulbOff";
 					}
+					clickBulb.GetComponent<UISprite>().spriteName="semiTransBulb";
 					clickBulb.GetComponent<UISprite> ().depth = 1;//透明灯泡在电线下面显示，不遮挡电线和箭头
-					isBulbClicked = true; 
 				} 
-				//被点击为不透明
-				if (isBulbClicked && !clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
+				else
 				{
-
-					//如果灯泡有电，则应该是BulbOn，如果没电，则应该是BlubOFF  
-					int index=int.Parse(clickBulb.tag);
-					if (PhotoRecognizingPanel._instance.itemList[index].powered) 
+					if (curBulbPowerd) 
 					{
+						nonClickBatterySprite.spriteName="bulbOn";
 						clickBulb.GetComponent<UISprite>().spriteName="bulbOn";
-						bulbList[0].GetComponent<UISprite>().spriteName="bulbOn";
 					}
 					else
 					{
+						nonClickBatterySprite.spriteName="bulbOff";
 						clickBulb.GetComponent<UISprite>().spriteName="bulbOff";
 					}
-					bulbList [1].GetComponent<UISprite> ().depth = 4;
+					clickBulb.GetComponent<UISprite> ().depth = 4;
 				}
-			}
+				#endregion
 
-
-
-
-			//小手只出现两次的逻辑
-			if (singnal <=0) 
-			{
-				if (PhotoRecognizingPanel._instance.finger) 
+				#region  小手逻辑
+				//小手只出现两次的逻辑
+				if (singnal <=0) 
 				{
-					Destroy (PhotoRecognizingPanel._instance.finger);
-				}
-
-			} 
-			else 
-			{
-				if (clickBulb) 
-				{
-					GetComponent<PhotoRecognizingPanel> ().ShowFinger (clickBulb.transform.localPosition);//show finger
-					if (preClickBulbSemiStatus != clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
+					if (PhotoRecognizingPanel._instance.finger) 
 					{
-						singnal--;
-						preClickBulbSemiStatus = clickBulb.GetComponent<BulbCtrl> ().isSemiTrans;
+						Destroy (PhotoRecognizingPanel._instance.finger);
+					}
+				} 
+				else 
+				{
+					if (clickBulb) 
+					{
+						GetComponent<PhotoRecognizingPanel> ().ShowFinger (clickBulb.transform.localPosition);//show finger
+						if (preClickBulbSemiStatus != clickBulb.GetComponent<BulbCtrl> ().isSemiTrans) 
+						{
+							singnal--;
+							preClickBulbSemiStatus = clickBulb.GetComponent<BulbCtrl> ().isSemiTrans;
+						}
 					}
 				}
+				#endregion
 			}
-
 			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 
 		}
+
 	}
-	/// <summary>
-	/// if the bulb circuit is powerd and show animation
-	/// </summary>
-	/// <returns><c>true</c>, if powerd or not was circuited, <c>false</c> otherwise.</returns>
-	public bool BulbCircuitPowerdOrNot()
-	{
-		foreach (var item in GetImage._instance.itemList) 
-		{
-			if (item.powered && item.type==ItemType.Bulb)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+
+
 }
