@@ -14,9 +14,7 @@ public class HelpDataShow : MonoBehaviour {
 		//在这初始化，根据关卡
 //		Init(LevelManager.currentLevelData.LevelID);
 	}
-
-
-
+		
 	public void InitFromStart()
 	{
 		Debug.Log("----------InitFromStart");

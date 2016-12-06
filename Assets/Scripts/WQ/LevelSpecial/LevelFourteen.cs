@@ -12,69 +12,71 @@ public class LevelFourteen : MonoBehaviour
 	/// </summary>
 	private bool isLAswitchOn = false;
 
-	private float changeTime = 3f;//渐变的总时间
-	private  float changeTimer = 0;
-	private UITexture nightBg=null;
-	private bool isVOswitchOn=false;
+
 	private bool isStartRecord = false;
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 	private bool isNightModeOnce=false;
-
 	private bool isCountDownShow=false;
 	/// <summary>
 	/// 标记太阳月亮按钮的初始状态是显示太阳
 	/// </summary>
 	private bool preSunSwitchStatues = true;
-
-	/// <summary>
-	/// 声控开关闭合一次的总时间
-	/// </summary>
-	private float VOTime=5.5f;
-	private float VOTimer=0;
+	private bool CurrLASwitchStatus=false;
+	private bool PreLASwitchStatus=false;
 
 	private Transform VoiceDelaySwitch;
 	private Transform LAswitch;
 	private Transform micphoneBtn;
 	private Transform sunMoonBtn;
-	private Transform microphoneBtn;
+
 
 	private UISprite voiceDelaySprite;
 	private UISprite LAswitchSprite;
+	private UILabel countDown;
 
 	private PhotoRecognizingPanel photoRecognizePanel;
+	private MoonAndSunCtrl moonAndSunCtrl;
+	private BoxCollider micPhoneBoxCol;
+	private UIButton micPhoneUIBtn;
+	private MicroPhoneBtnCtrl micPhontBtnCtrl;
 
 
+	private  float changeTimer = 0;
+	private UITexture nightBg=null;
 	//如果玩家先点击了声控开关，声控开关闭合，再点击太阳月亮，光敏开关闭合，线路虽然连通了，也是不行的
 	//只有先闭合光敏，再闭合声控，电路才通
 	// to do ...
 	void OnEnable ()
 	{
+		countDown = PhotoRecognizingPanel._instance.countDownLabel;
+		CurrLASwitchStatus=false;
+		PreLASwitchStatus=false;
+
 		isLevelFourteen = false;
 		isLAswitchOn = false;
-		changeTime = 3f;
+
 		changeTimer = 0;
-		isVOswitchOn=false;
 		isFingerShow = false;
 		isNightModeOnce=false;
 		isFingerDestroyed=false;
 		isStartRecord = false;
-		isCountDownShow=false;
-		VOTime = 5f;
-		VOTimer = 0;
 
+
+		isCountDownShow=false;
 
 		VoiceDelaySwitch = transform.Find ("voiceTimedelaySwitch");
 		LAswitch = transform.Find ("lightActSwitch");
 		micphoneBtn = transform.Find ("MicroPhoneBtn");
 		nightBg = PhotoRecognizingPanel._instance.nightMask;
 		sunMoonBtn=transform.Find("SunAndMoonWidget");
-		microphoneBtn=transform.Find ("MicroPhoneBtn");
-
-		voiceDelaySprite=VoiceDelaySwitch.GetComponent<UISprite>();
-		LAswitchSprite=LAswitch.GetComponent<UISprite>();
 
 		photoRecognizePanel=PhotoRecognizingPanel._instance;
+
+		moonAndSunCtrl=sunMoonBtn.GetComponent<MoonAndSunCtrl>();
+		micPhoneBoxCol = micphoneBtn.gameObject.GetComponent<BoxCollider>();
+		micPhoneUIBtn = micphoneBtn.gameObject.GetComponent<UIButton>();
+		micPhontBtnCtrl = micphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>();
 
 	}
 
@@ -82,9 +84,6 @@ public class LevelFourteen : MonoBehaviour
 	//需要伴随话筒按钮，太阳/月亮按钮出现
 	//在太阳月亮按钮出现小手，点击后变成月亮，小手消失，背景渐变暗，光敏开关在背景变暗之前闭合；
 	//在话筒按钮出现小手，点击后小手消失，弹出提示框提示玩家发出声音，收集到声音后提示框消失，声控开关闭合
-
-
-
 	void Update () 
 	{
 		if (isLevelFourteen) 
@@ -95,14 +94,13 @@ public class LevelFourteen : MonoBehaviour
 				isFingerShow=true;
 			}
 
-			if (sunMoonBtn.GetComponent<MoonAndSunCtrl> ().isDaytime && !preSunSwitchStatues)//如果是白天，之前的按钮是月亮，说明是从晚上切换到白天
+			if (moonAndSunCtrl.isDaytime && !preSunSwitchStatues)//如果是白天，之前的按钮是月亮，说明是从晚上切换到白天
 			{
 				micphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice=false;
 				isStartRecord = false;
-				VOTime = 5f;
 			}
 			#region 如果是晚上（点击了太阳按钮）
-			if (!sunMoonBtn.GetComponent<MoonAndSunCtrl> ().isDaytime) 
+			if (!moonAndSunCtrl.isDaytime) 
 			{ 
 				isNightModeOnce = true;
 				//销毁小手
@@ -114,28 +112,36 @@ public class LevelFourteen : MonoBehaviour
 				}
 				//蒙板渐变暗，快全暗时，光敏开关闭合标志打开
 				changeTimer += Time.deltaTime;
-				if (changeTimer >= changeTime) 
+				if (changeTimer >= Constant.DAYANDNITHT_CHANGETIME) 
 				{
-					changeTimer = changeTime;
+					changeTimer = Constant.DAYANDNITHT_CHANGETIME;
 				}
-				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-				if (changeTimer >= changeTime * 5 / 6) 
+				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / Constant.DAYANDNITHT_CHANGETIME);
+				if (changeTimer >= Constant.DAYANDNITHT_CHANGETIME * 5 / 6) 
 				{
 					isLAswitchOn = true;
+
+
+					CurrLASwitchStatus=true;
+					if (PreLASwitchStatus!=CurrLASwitchStatus) 
+					{
+						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
+						LAswitch.GetComponent<UISprite> ().spriteName = "LAswitchOn";
+						PreLASwitchStatus=CurrLASwitchStatus;
+					}
 				}
 				if (isLAswitchOn)//如果光敏开光闭合了
 				{	
-					GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), true);
-					LAswitchSprite.spriteName = "LAswitchOn";
-					//只有晚上光敏开关闭合的时候，小话筒才可以被点击
-					microphoneBtn.gameObject.GetComponent<BoxCollider>().enabled=true;
-					microphoneBtn.gameObject.GetComponent<UIButton>().enabled=true;
-					microphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>().enabled=true;
-					photoRecognizePanel.ShowFinger (microphoneBtn.localPosition);//在话筒按钮出现小手
+					micPhoneBoxCol.enabled=true;
+					micPhoneUIBtn.enabled=true;
+					micPhontBtnCtrl.enabled=true;
+					GetComponent<PhotoRecognizingPanel> ().ShowFinger (transform.Find ("MicroPhoneBtn").localPosition);//在话筒按钮出现小手
+
 				}
 				if (micphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice)//点击了话筒按钮
 				{ 
-					if (photoRecognizePanel.finger) {
+					if (photoRecognizePanel.finger) 
+					{
 						Destroy (photoRecognizePanel.finger);	//小手消失
 					}
 
@@ -153,35 +159,22 @@ public class LevelFourteen : MonoBehaviour
 
 						if (!isCountDownShow) 
 						{
+							countDown.gameObject.SetActive(true);
 							StartCoroutine(CountDown());
 							isCountDownShow=true;
 						}
-
-						isVOswitchOn=true;
 						photoRecognizePanel.noticeToMakeVoice.SetActive (false);//提示框消失
 						photoRecognizePanel.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
 						photoRecognizePanel.voiceCollectionMark.SetActive(false);
 
 						MicroPhoneInput.getInstance().StopRecord();
 						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), true);
-						voiceDelaySprite.spriteName = "VoiceDelayOn";
-					}
-					if (isVOswitchOn) 
-					{
-						VOTimer += Time.deltaTime;
-						if (VOTimer >= VOTime) 
-						{
-							//声控延时开关断开，灯变暗
-							VOTimer = 0;
-							GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
-							voiceDelaySprite.spriteName = "VoiceDelayOff";
-							microphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;
-							isStartRecord = false;
-							isCountDownShow=false;
-						}
+						VoiceDelaySwitch.GetComponent<UISprite>().spriteName = "VoiceDelayOn";
+
+						CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 					}
 				}
-				CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+					
 			}
 			#endregion
 			#region 如果是白天
@@ -189,42 +182,46 @@ public class LevelFourteen : MonoBehaviour
 			{
 				if (isNightModeOnce)//白天已经切换到过黑夜了
 				{
-					microphoneBtn.gameObject.GetComponent<BoxCollider>().enabled=false;
-					microphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>().enabled=false;
+					StopCoroutine(CountDown());
+				
+					micphoneBtn.gameObject.GetComponent<BoxCollider>().enabled=false;
+					micphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>().enabled=false;
 
 					changeTimer -= Time.deltaTime;
 					if (changeTimer <= 0) 
 					{
 						changeTimer =0;
 					}
-					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-					if (changeTimer <= changeTime* 1/6) 
+					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / Constant.DAYANDNITHT_CHANGETIME);
+					if (changeTimer <= Constant.DAYANDNITHT_CHANGETIME* 1/6) 
 					{
-						isLAswitchOn = false;
-						GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), isLAswitchOn);
-						LAswitchSprite.spriteName ="LAswitchOff";
+						if (countDown.gameObject.activeSelf)
+						{
+							countDown.gameObject.SetActive(false);
+						}
+						CurrLASwitchStatus = false;
+						if (PreLASwitchStatus!=CurrLASwitchStatus) 
+						{
+							GetImage._instance.cf.switchOnOff (int.Parse (LAswitch.gameObject.tag), false);
+							LAswitch.GetComponent<UISprite>().spriteName= "LAswitchOff";
+							GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
 
-						isVOswitchOn=false;
-						GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), isVOswitchOn);
-						voiceDelaySprite.spriteName = "VoiceDelayOff";
+							CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
+							VoiceDelaySwitch.GetComponent<UISprite>().spriteName="VoiceDelayOff";
+							PreLASwitchStatus=CurrLASwitchStatus;
+						}
 					}
-					CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);	
 				}
 			}
 			#endregion
-
 			preSunSwitchStatues = sunMoonBtn.GetComponent<MoonAndSunCtrl>().isDaytime;
-
 			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
-		}
+			}
 	}
-
 
 
 	IEnumerator CountDown()
 	{
-		UILabel countDown = PhotoRecognizingPanel._instance.countDownLabel;
-		countDown.gameObject.SetActive(true);
 		countDown.gameObject.transform.localPosition = VoiceDelaySwitch.localPosition;
 
 		//倒计时，每个数字停留一秒后变化
@@ -237,6 +234,17 @@ public class LevelFourteen : MonoBehaviour
 		yield return new WaitForSeconds (1);
 		countDown.text = "1";
 		yield return new WaitForSeconds (1);
+		countDown.text = " ";
+
+
+		GetImage._instance.cf.switchOnOff (int.Parse (VoiceDelaySwitch.gameObject.tag), false);
+		CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
+		micphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice = false;	
+		VoiceDelaySwitch.GetComponent<UISprite>().spriteName = "VoiceDelayOff";
+
+		isStartRecord = false;
+		isCountDownShow=false;
+
 		countDown.gameObject.SetActive (false);
 		countDown.text = "5";
 	}

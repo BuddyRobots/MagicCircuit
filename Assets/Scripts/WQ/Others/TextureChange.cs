@@ -18,11 +18,10 @@ public class TextureChange : MonoBehaviour {
 
 	public bool Change(bool isNext)
 	{
-
-
 		currentID = isNext ? Mathf.Min (currentID + 1, textures.Count - 1) : Mathf.Max (0, currentID - 1);
 
-		int temp = isNext ? Mathf.Min (currentID + 1, textures.Count - 1) : Mathf.Max (0, currentID - 1);
+		int temp = isNext ? Mathf.Min (currentID + 1, textures.Count - 1) : Mathf.Max (0, currentID - 1);//用来存储前一个ID（如果点击的是上一张）/后一个ID（如果点击的是下一张）
+
 		GetComponent<UITexture> ().mainTexture = textures [currentID];
 
 		return currentID != temp;

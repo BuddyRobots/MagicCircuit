@@ -94,13 +94,13 @@ public class LevelHandle : MonoBehaviour
 			GetComponent<LevelSix>().isParrallelCircuit=true;
 			break;
 		case 7:
-			GetComponent<LevelSeven>().isParallelCircuitWithTwoBattery=true;
+			GetComponent<LevelSeven>().isLevelSeven=true;
 			break;
 		case 8:
 			GetComponent<LevelEight>().isLevelEight=true;
 			break;
 		case 9:
-			GetComponent<LevelNine>().isParallelCircuitWithTwoBulb=true;
+			GetComponent<LevelNine>().isLevelNine=true;
 			break;
 		case 10:
 			GetComponent<LevelTen>().isLevelTen=true;
@@ -112,7 +112,7 @@ public class LevelHandle : MonoBehaviour
 			GetComponent<LevelTwelve> ().isLAswitchOccur = true;
 			break;
 		case 13:
-			GetComponent<LevelThirteen> ().isVOswitchAndLAswitchTogether = true;
+			GetComponent<LevelThirteen> ().isLevelThirteen = true;
 			break;
 		case 14:
 			GetComponent<LevelFourteen> ().isLevelFourteen = true;
