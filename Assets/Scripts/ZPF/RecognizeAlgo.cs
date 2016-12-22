@@ -10,12 +10,10 @@ namespace MagicCircuit
 	{
 		[DllImport("__Internal")]  
 		private static extern int callLua_predictClass(double[] imageData,int imageDataLength);
-
 		[DllImport("__Internal")]  
 		private static extern int callLua_predictDirection(double[] imageData, int imageDataLength, int klass);
 
 		private static MatOfPoint2f modelImageSizePoint;
-
 		private LineDetector lineDetector;
 
 
@@ -26,7 +24,8 @@ namespace MagicCircuit
 			modelImageSizePoint = new MatOfPoint2f(new Point[4]
 				{ new Point(0, 0), new Point(Constant.MODEL_IMAGE_SIZE, 0), new Point(Constant.MODEL_IMAGE_SIZE, Constant.MODEL_IMAGE_SIZE), new Point(0, Constant.MODEL_IMAGE_SIZE) });
 	    }
-			
+
+
 	    public Mat process(Mat frameImg, ref List<CircuitItem> itemList)
 	    {
 	        Mat grayImg = new Mat();
@@ -41,24 +40,15 @@ namespace MagicCircuit
 
 
 
-
-
+			///
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
-
-
-
+			///
 
 
 
 	        // Thresholding
 	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
 	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
-
-
-
-
-
 
 	        // Get all the squares
 	        List<List<Point>> squares = new List<List<Point>>();
@@ -68,11 +58,10 @@ namespace MagicCircuit
 
 
 
-
+			///
 			Debug.Log("RecognizeAlgo.cs process : squares.Count = " + squares.Count);
 			Debug.Log("RecognizeAlgo.cs process : outer_squares.Count = " + outer_squares.Count);
-
-
+			///
 
 
 
@@ -139,11 +128,7 @@ namespace MagicCircuit
 					break;
 				}
 
-
-
-
-
-	            // Add to listItem
+				// Add to listItem
 				tmpItem = new CircuitItem(klass, name, type, showOrder++);
 	            tmpItem.extractCard(direction, outer_squares[i]);
 	            itemList.Add(tmpItem);
