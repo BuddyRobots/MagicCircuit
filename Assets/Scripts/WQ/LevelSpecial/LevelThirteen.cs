@@ -8,30 +8,30 @@ public class LevelThirteen : MonoBehaviour
 	private Transform VOswitch;
 	private Transform LAswitch;
 	private Transform micphoneBtn;
+	private Transform sunMoonBtn;
+
+	private MoonAndSunCtrl moonAndSunCtrl;
 
 	private UITexture nightBg=null;
 
 	private BoxCollider micPhoneBoxCol;
 	private UIButton micPhoneUIBtn;
 	private MicroPhoneBtnCtrl micPhontBtnCtrl;
-	private float changeTime = 3f;//渐变的总时间
+	//private float changeTime = 3f;//渐变的总时间
 	private  float changeTimer = 0;
 
 	[HideInInspector]
-	public bool isVOswitchAndLAswitchTogether = false;
+	public bool isLevelThirteen = false;
 	/// <summary>
 	/// 光敏开关是否闭合的标志
 	/// </summary>
 	private bool isLAswitchOn = false;
-	private bool isVOswitchOn=false;
 	private bool isStartRecord = false;
 	private bool isFingerShow = false;
 	private bool isFingerDestroyed=false;
 	private bool isNightModeOnce=false;
 	private bool CurrLASwitchStatus=false;
 	private bool PreLASwitchStatus=false;
-	private bool CurrVOSwitchStatus=false;
-	private bool PreVOSwitchStatus=false;
 	/// <summary>
 	/// 标记太阳月亮按钮的初始状态是显示太阳
 	/// </summary>
@@ -44,14 +44,11 @@ public class LevelThirteen : MonoBehaviour
 
 		CurrLASwitchStatus=false;
 		PreLASwitchStatus=false;
-		CurrVOSwitchStatus=false;
-		PreVOSwitchStatus=false;
 
-		isVOswitchAndLAswitchTogether = false;
+		isLevelThirteen = false;
 		isLAswitchOn = false;
-		changeTime = 3f;
+//		changeTime = 3f;
 		changeTimer = 0;
-		isVOswitchOn=false;
 		isFingerShow = false;
 		isNightModeOnce=false;
 		isFingerDestroyed=false;
@@ -60,9 +57,11 @@ public class LevelThirteen : MonoBehaviour
 		VOswitch = transform.Find ("voiceOperSwitch");
 		LAswitch = transform.Find ("lightActSwitch");
 		micphoneBtn = transform.Find ("MicroPhoneBtn");
+		sunMoonBtn=transform.Find("SunAndMoonWidget");
+
 		nightBg = PhotoRecognizingPanel._instance.nightMask;
 
-
+		moonAndSunCtrl=sunMoonBtn.GetComponent<MoonAndSunCtrl>();
 		micPhoneBoxCol = micphoneBtn.gameObject.GetComponent<BoxCollider>();
 		micPhoneUIBtn = micphoneBtn.gameObject.GetComponent<UIButton>();
 		micPhontBtnCtrl = micphoneBtn.gameObject.GetComponent<MicroPhoneBtnCtrl>();
@@ -78,21 +77,21 @@ public class LevelThirteen : MonoBehaviour
 
 	void Update () 
 	{
-		if (isVOswitchAndLAswitchTogether) 
+		if (isLevelThirteen) 
 		{
 			if (!isFingerShow) 
 			{
-				GetComponent<PhotoRecognizingPanel> ().ShowFinger(transform.Find("SunAndMoonWidget").localPosition);
+				GetComponent<PhotoRecognizingPanel> ().ShowFinger(sunMoonBtn.localPosition);
 				isFingerShow=true;
 			}
 
-			if (transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime && !preSunSwitchStatues)
+			if (moonAndSunCtrl.isDaytime && !preSunSwitchStatues)
 			{
 				micphoneBtn.GetComponent<MicroPhoneBtnCtrl> ().isCollectVoice=false;
 				isStartRecord = false;
 			}
 			#region 如果是晚上（点击了太阳按钮）
-			if (!transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime) 
+			if (!moonAndSunCtrl.isDaytime) 
 			{ 
 				isNightModeOnce = true;
 				//销毁小手
@@ -104,12 +103,12 @@ public class LevelThirteen : MonoBehaviour
 				}
 				//蒙板渐变暗，快全暗时，光敏开关闭合标志打开
 				changeTimer += Time.deltaTime;
-				if (changeTimer >= changeTime) 
+				if (changeTimer >= Constant.DAYANDNITHT_CHANGETIME) 
 				{
-					changeTimer = changeTime;
+					changeTimer = Constant.DAYANDNITHT_CHANGETIME;
 				}
-				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-				if (changeTimer >= changeTime * 5 / 6) 
+				nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / Constant.DAYANDNITHT_CHANGETIME);
+				if (changeTimer >= Constant.DAYANDNITHT_CHANGETIME * 5 / 6) 
 				{
 					isLAswitchOn = true;
 					CurrLASwitchStatus=true;
@@ -147,7 +146,6 @@ public class LevelThirteen : MonoBehaviour
 					}
 					if (CommonFuncManager._instance.isSoundLoudEnough ()) //收集到声音
 					{
-						isVOswitchOn=true;
 						PhotoRecognizingPanel._instance.noticeToMakeVoice.SetActive (false);//提示框消失
 						PhotoRecognizingPanel._instance.voiceCollectionMark.transform.Find ("Wave").GetComponent<MyAnimation> ().canPlay = false;
 						PhotoRecognizingPanel._instance.voiceCollectionMark.SetActive(false);
@@ -156,7 +154,7 @@ public class LevelThirteen : MonoBehaviour
 						GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), true);
 						VOswitch.GetComponent<UISprite>().spriteName="VOswitchOn";
 
-						CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+						CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 					}
 				}
 
@@ -175,8 +173,8 @@ public class LevelThirteen : MonoBehaviour
 					{
 						changeTimer =0;
 					}
-					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / changeTime);
-					if (changeTimer <= changeTime* 1/6) 
+					nightBg.alpha = Mathf.Lerp (0, 1f, changeTimer / Constant.DAYANDNITHT_CHANGETIME);
+					if (changeTimer <= Constant.DAYANDNITHT_CHANGETIME* 1/6) 
 					{
 						CurrLASwitchStatus = false;
 						if (PreLASwitchStatus!=CurrLASwitchStatus) 
@@ -185,7 +183,7 @@ public class LevelThirteen : MonoBehaviour
 							LAswitch.GetComponent<UISprite>().spriteName= "LAswitchOff";
 							GetImage._instance.cf.switchOnOff (int.Parse (VOswitch.gameObject.tag), false);
 
-							CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+							CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 							VOswitch.GetComponent<UISprite>().spriteName="VOswitchOff";
 							PreLASwitchStatus=CurrLASwitchStatus;
 						}
@@ -194,7 +192,7 @@ public class LevelThirteen : MonoBehaviour
 				}
 			}
 			#endregion
-			preSunSwitchStatues = transform.Find ("SunAndMoonWidget").GetComponent<MoonAndSunCtrl> ().isDaytime;
+			preSunSwitchStatues = moonAndSunCtrl.isDaytime;
 			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
 		}
 	}

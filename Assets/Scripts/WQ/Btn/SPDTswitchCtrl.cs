@@ -41,10 +41,11 @@ public class SPDTswitchCtrl : MonoBehaviour
 		isRightOn = !isRightOn;
 
 		GetImage._instance.cf_SPDT.switchOnOff (int.Parse (gameObject.tag), isRightOn);
-		CommonFuncManager._instance.CircuitItemRefresh (GetImage._instance.itemList);
+		CommonFuncManager._instance.CircuitItemRefreshWithOneBattery (GetImage._instance.itemList);
 
 		for (var i = 0; i < GetImage._instance.itemList.Count; i++)
+		{
 			Debug.Log("SPDTSwitchCtrl.cs OnClick : GetImage._instance.itemList["+i+"].list[0] = " + GetImage._instance.itemList[i].list[0]);
-
+		}
 	}
 }

@@ -29,8 +29,24 @@
 		public const int    LINE_STEP_LARGE           = 25;
 		public const int    LINE_MIN_POINT_NUM        = 3;
 
-		// PhotoRecognizingPanel.cs : Arrow show interval
+		// PhotoRecognizingPanel.cs 
 		public const float  ARROW_GEN_INTERVAL        = 0.8f;
+		public const float  LINEITEM_INTERVAL=0.05f;
+		public const float ITEM_INTERVAL=0.5f;
+		public const float RESULTSHOW_INTERVAL=1.5f;
+		public const float SHOWFINGERONLINE_INTERVAL=3.0f;
+
+		//LevelTwo.cs
+		public const float DESTROYLINE_RADIUS=0.03f;
+
+
+		//time of change from day to night
+		public const float DAYANDNITHT_CHANGETIME=3.0f;
+
+
+		//CommonFuncManager.cs
+		public const int SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
+
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected
 		public const int    POINT_CONNECT_REGION      = 40;

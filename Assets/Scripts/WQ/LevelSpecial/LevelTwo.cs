@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using MagicCircuit;
 // level 2
 public class LevelTwo : MonoBehaviour 
 {
+	public static LevelTwo _instance;
 	[HideInInspector]
 	public bool isRemoveLine=false;
 
 	[Range(0,2)]
 	public float radius;
-	private bool isFingerShow = false;
 
+	[HideInInspector]
+	public bool CanRemoveLine=false;
+
+
+	void Awake()
+	{
+
+		_instance=this;
+	}
 	void OnEnable()
 	{
+		CanRemoveLine=false;
 		isRemoveLine=false;
 		if (PhotoRecognizingPanel._instance) 
 		{
@@ -24,29 +35,25 @@ public class LevelTwo : MonoBehaviour
 	{
 		if (isRemoveLine) 
 		{
-			if (!GetComponent<PhotoRecognizingPanel> ().isArrowShowDone) 
+			if (!PhotoRecognizingPanel._instance.isArrowShowDone) 
 			{
 				CommonFuncManager._instance.OpenCircuit ();	
-
 			}
-			Vector3	randomPos = GetComponent<PhotoRecognizingPanel> ().ChooseRandomPointOnLine ();
+			Vector3	randomPos = CommonFuncManager._instance.ChooseMiddlePointOnLine (PhotoRecognizingPanel._instance.lines);
 			GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
-			StartCoroutine (TouchLineAfterAwhile ());
+			if (CanRemoveLine) 
+			{
+				TouchToDestroyLine ();
+			}
+
 		}
 	}
-		
-	IEnumerator TouchLineAfterAwhile()
-	{
-		yield return new WaitForSeconds (3f);
-		TouchToDestroyLine ();
-	}
-		
+
 	/// <summary>
 	/// 触摸移动销毁线条
 	/// </summary>
 	void TouchToDestroyLine()
 	{
-		PhotoRecognizingPanel temp = GetComponent<PhotoRecognizingPanel> ();
 		#if UNITY_EDITOR 
 		if (Input.GetMouseButtonDown(0)) 
 		{
@@ -54,14 +61,13 @@ public class LevelTwo : MonoBehaviour
 			RaycastHit hit;
 			if (Physics.Raycast (ray, out hit)) 
 			{
-//				Debug.Log("hit.collider.name===="+hit.collider.gameObject.name);
 				if (hit.collider.gameObject.name=="MaskBg" || hit.collider.gameObject.name=="Btn") 
 				{
 					return ;	
 				}
 				else
 				{
-					DestroyLine(hit.point,0.03f/*radius*/);
+					DestroyLine(hit.point,Constant.DESTROYLINE_RADIUS/*radius*/);
 				}
 			}
 		}
@@ -105,12 +111,8 @@ public class LevelTwo : MonoBehaviour
 				}
 				else
 				{
-
 					Destroy(hitColliders[k].gameObject);
-
 				}
-
-
 			}
 		}
 	}
@@ -128,9 +130,7 @@ public class LevelTwo : MonoBehaviour
 		{
 			Destroy (temp.arrowList[i]);
 		}
-
 	}
-
 
 
 }
