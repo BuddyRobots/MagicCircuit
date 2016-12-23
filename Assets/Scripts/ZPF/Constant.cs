@@ -2,6 +2,7 @@
 {
 	public static class Constant
 	{
+		/// ZhangPengfei
 		// GetImage.cs : Parameter for processing 10 photos
 		public const int    TAKE_NUM_OF_PHOTOS        = 1;
 
@@ -20,8 +21,8 @@
 		public const double CARD_OUTER_SQUARE_RATIO   = 1.4;
 
 		// LineDetector.cs : Parameter for limiting and filtering detected lines
-		public const int    LINE_ADPTTHRES_KERNEL     = 21;
-		public const int    LINE_ADPTTHRES_SUB        = 10;
+		public const int    LINE_ADPTTHRES_KERNEL     = 31;
+		public const int    LINE_ADPTTHRES_SUB        = 15;
 		public const int    LINE_MORPH_KERNEL         = 3;
 		public const int    LINE_REGION_MIN_AREA      = 150;
 		public const int    LINE_STEP_SMALL           = 10;
@@ -29,6 +30,8 @@
 		public const int    LINE_STEP_LARGE           = 25;
 		public const int    LINE_MIN_POINT_NUM        = 3;
 
+
+		/// WangQian
 		// PhotoRecognizingPanel.cs 
 		public const float  ARROW_GEN_INTERVAL        = 0.8f;
 		public const float  LINEITEM_INTERVAL         = 0.05f;
@@ -37,16 +40,13 @@
 		public const float  SHOWFINGERONLINE_INTERVAL = 3.0f;
 
 		//LevelTwo.cs
-		public const float  DESTROYLINE_RADIUS=0.03f;
-
+		public const float  DESTROYLINE_RADIUS        = 0.03f;
 
 		//time of change from day to night
-		public const float  DAYANDNITHT_CHANGETIME=3.0f;
-
+		public const float  DAYANDNITHT_CHANGETIME    = 3.0f;
 
 		//CommonFuncManager.cs
-		public const int    SOUND_CRITERION = 1;//音量大小标准，可以调整以满足具体需求
-
+		public const int    SOUND_CRITERION           = 1;//音量大小标准，可以调整以满足具体需求
 
 		// CurrentFlow.cs : Parameter for determining whether two points are connected
 		public const int    POINT_CONNECT_REGION      = 40;

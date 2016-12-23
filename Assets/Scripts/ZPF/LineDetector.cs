@@ -28,7 +28,7 @@ namespace MagicCircuit
 
 			// Thresholding
 			Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
+			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.LINE_MORPH_KERNEL, Constant.LINE_MORPH_KERNEL)));
 
 			// Remove card region
