@@ -5,8 +5,9 @@ using MagicCircuit;
 
 public class CardDetector
 {	
-    public static List<List<Point>> findSquares(Mat binaryImg)
+    public static List<List<Point>> findSquares(Mat _binaryImg)
     {
+		Mat binaryImg = _binaryImg.clone();
         List<List<Point>> squares = new List<List<Point>>();
         List<MatOfPoint> contours = new List<MatOfPoint>();
 
@@ -25,7 +26,6 @@ public class CardDetector
         for (int i = 0; i < contours.Count; i++)
         {
             Imgproc.approxPolyDP(contours2f[i], approx2f, Imgproc.arcLength(contours2f[i], true) * 0.05, true);
-            //Imgproc.approxPolyDP(contours2f[i], approx2f, 0.003, true);
 
             MatOfPoint approx = new MatOfPoint();
             approx2f.convertTo(approx, CvType.CV_32S);
@@ -43,9 +43,9 @@ public class CardDetector
                     squares.Add(approx.toList());
             }
         }
-
         return filterSquares(squares);
     }
+
 
     public static List<List<Point>> computeOuterSquare(List<List<Point>> squareList)
     {
@@ -62,24 +62,11 @@ public class CardDetector
 				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].y - squareCenter.y) + squareCenter.y;
                 tmpSquare.Add(new Point(x, y));
             }
-
-
-
-			//Debug.Log("CardDetector.cs computeOuterSquare : squareList[" + i + "] : " + squareList[i][0] + " " + squareList[i][1] + " " + squareList[i][2] + " " + squareList[i][3]);
-			//Debug.Log("CardDetector.cs computeOuterSquare : outerSquareList[" + i + "] : " + tmpSquare[0] + " " + tmpSquare[1] + " " + tmpSquare[2] + " " + tmpSquare[3]);
-
-
-
-
-
-
-
-
-
             outerSquareList.Add(tmpSquare);
         }
         return outerSquareList;
     }
+
 
     private static List<List<Point>> filterSquares(List<List<Point>> squares)
     {
@@ -111,11 +98,13 @@ public class CardDetector
         return filteredSquares;
     }
 
+
     private static double findLen(Point p1, Point p2, bool sqrt_v = true)
     {
         float v = Mathf.Pow((float)(p1.x - p2.x), 2) + Mathf.Pow((float)(p1.y - p2.y), 2);
         return sqrt_v ? Mathf.Sqrt(v) : v;
     }
+
 
     private static bool isSquareClockwise(List<Point> square)
     {
@@ -144,6 +133,7 @@ public class CardDetector
         return clockwise;
     }
 
+
     private static float Angle(Point pt1, Point pt2, Point pt0)
     {
         double dx1 = pt1.x - pt0.x;
@@ -151,171 +141,5 @@ public class CardDetector
         double dx2 = pt2.x - pt0.x;
         double dy2 = pt2.y - pt0.y;
         return (float)(dx1 * dx2 + dy1 * dy2) / Mathf.Sqrt((float)((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10));
-    }		        
-
-    /*public static void Img2Pts(Mat image, ref List<Point> imgPts)
-    {
-        Core.bitwise_not(image, image);
-        imgPts = new List<Point>();
-        Mat mat = new Mat();
-        Core.findNonZero(image, mat);
-        Converters.Mat_to_vector_Point(mat, imgPts);
-    }
-
-    public static void FindHullCircle(List<Point> imgPts, ref Point center, ref float radius)
-    {
-        MatOfInt hull = new MatOfInt();
-        MatOfPoint imgPtsMat = new MatOfPoint(imgPts.ToArray());
-        Imgproc.convexHull(imgPtsMat, hull, false);
-
-        /// the center point is at the average of all hull points
-        center = new Point(0, 0);
-        for (int i = 0; i < hull.rows(); i++)
-        {
-            center.x += imgPts[(int)hull.get(i, 0)[0]].x;
-            center.y += imgPts[(int)hull.get(i, 0)[0]].y;
-        }
-        center.x = center.x / hull.rows();
-        center.y = center.y / hull.rows();
-
-        /// then traverse all points to find out the radius
-        Point radiusP = new Point(center.x, center.y);
-        radius = 0;
-        float temp;
-        for (int i = 0; i < hull.rows(); i++)
-        {
-            if (Mathf.Abs((float)(imgPts[(int)hull.get(i, 0)[0]].x - center.x)) < Mathf.Abs((float)(radiusP.x - center.x)) && Mathf.Abs((float)(imgPts[(int)hull.get(i, 0)[0]].y - center.y)) < Mathf.Abs((float)(radiusP.y - center.y)))
-            {
-                continue;
-            }
-            temp = Mathf.Pow((float)(imgPts[(int)hull.get(i, 0)[0]].x - center.x), 2) + Mathf.Pow((float)(imgPts[(int)hull.get(i, 0)[0]].y - center.y), 2);
-            if (temp > radius)
-            {
-                radius = temp;
-                radiusP = imgPts[(int)hull.get(i, 0)[0]];
-            }
-        }
-        radius = Mathf.Sqrt(radius);
-    }
-
-    public static List<float> FindCircularDist(Mat image, int binNum, Point center)
-    {
-        List<float> dist = new List<float>(binNum);
-        for (int i = 0; i < binNum; i++)
-        {
-            dist.Add(0.0f);
-        }
-        int binIndex;
-        int totP = 0;
-
-        int x, y;
-        byte[] data = new byte[1];
-        float len, radian;
-
-        for (int row = 0; row < image.rows(); row++)
-        {
-            for (int col = 0; col < image.cols(); col++)
-            {
-                image.get(row, col, data);
-                if (data[0] != 0)
-                {
-                    continue;
-                }
-                x = col - (int)center.x;
-                y = (int)center.y - row;
-
-                if (x == 0 && y == 0)
-                {
-                    continue;
-                }
-
-                len = Mathf.Sqrt(x * x + y * y);
-                radian = Mathf.Asin(y / len);
-                if (x > 0 && y >= 0)
-                    radian = radian;
-                else if (x <= 0 && y > 0)
-                    radian = Mathf.PI - radian;
-                else if (x < 0 && y <= 0)
-                    radian = Mathf.PI - radian;
-                else if (x >= 0 && y < 0)
-                    radian = 2 * Mathf.PI + radian;
-                else
-                    continue;
-                binIndex = Mathf.FloorToInt(radian * binNum / 2 / Mathf.PI);
-                if (binIndex < 0)
-                {
-                    binIndex = 0;
-                }
-                else if (binIndex >= binNum)
-                {
-                    binIndex = binNum - 1;
-                }
-                dist[binIndex] += 1;
-                totP += 1;
-            }
-        }
-
-        /// normalize the circular distribution
-        for (int i = 0; i < binNum; i++)
-        {
-            dist[i] = dist[i] / totP;
-        }
-
-        return dist;
-    }
-
-    public static Mat GenImgFromPts(int width, int height, List<Point> pts)
-    {
-        Mat image = new Mat(height, width, CvType.CV_8U, new Scalar(255));
-        for (int i = 0; i < pts.Count; i++)
-        {
-            image.put((int)pts[i].y, (int)pts[i].x, new byte[1]);
-        }
-        return image;
-    }
-
-    public static Mat ToMnistFormat(List<Point> cluster)
-    {
-        List<int> ret = new List<int>();
-
-        List<Point> stdSquare = new List<Point>();
-        stdSquare.Add(new Point(4, 4));
-        stdSquare.Add(new Point(4, 23));
-        stdSquare.Add(new Point(23, 23));
-        stdSquare.Add(new Point(23, 4));
-
-        List<Point> clusterSquare = new List<Point>();
-        double minX = 10000, maxX = -1, minY = 10000, maxY = -1;
-        for (int i = 0; i < cluster.Count; i++)
-        {
-            minX = cluster[i].x < minX ? cluster[i].x : minX;
-            maxX = cluster[i].x > maxX ? cluster[i].x : maxX;
-            minY = cluster[i].y < minY ? cluster[i].y : minY;
-            maxY = cluster[i].y > maxY ? cluster[i].y : maxY;
-        }
-        double xSpan = maxX - minX, ySpan = maxY - minY;
-        double diff = Mathf.Abs((float)(xSpan - ySpan));
-        if (xSpan >= ySpan)
-        {
-            minY = minY - diff / 2;
-            maxY = maxY + diff / 2;
-        }
-        else
-        {
-            minX = minX - diff / 2;
-            maxX = maxX + diff / 2;
-        }
-        clusterSquare.Add(new Point(minX, minY));
-        clusterSquare.Add(new Point(minX, maxY));
-        clusterSquare.Add(new Point(maxX, maxY));
-        clusterSquare.Add(new Point(maxX, minY));
-
-        Mat transform = new Mat();
-        transform = Calib3d.findHomography(new MatOfPoint2f(clusterSquare.ToArray()), new MatOfPoint2f(stdSquare.ToArray()));
-
-        Mat img = GenImgFromPts(Mathf.RoundToInt((float)(2 * maxX)), Mathf.RoundToInt((float)(2 * maxY)), cluster);
-        Mat result = new Mat(28, 28, CvType.CV_8UC4);
-        Imgproc.warpPerspective(img, result, transform, new Size(28, 28));
-        return result;
-    }*/
+    }		
 }

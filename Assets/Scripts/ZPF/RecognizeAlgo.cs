@@ -21,8 +21,11 @@ namespace MagicCircuit
 	    {
 	        lineDetector = new LineDetector();
 
-			modelImageSizePoint = new MatOfPoint2f(new Point[4]
-				{ new Point(0, 0), new Point(Constant.MODEL_IMAGE_SIZE, 0), new Point(Constant.MODEL_IMAGE_SIZE, Constant.MODEL_IMAGE_SIZE), new Point(0, Constant.MODEL_IMAGE_SIZE) });
+			modelImageSizePoint = new MatOfPoint2f(new Point[4]{
+				new Point(0, 0),
+				new Point(Constant.MODEL_IMAGE_SIZE, 0),
+				new Point(Constant.MODEL_IMAGE_SIZE, Constant.MODEL_IMAGE_SIZE),
+				new Point(0, Constant.MODEL_IMAGE_SIZE)});
 	    }
 
 
@@ -48,7 +51,7 @@ namespace MagicCircuit
 
 	        // Thresholding
 	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
+			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 
 	        // Get all the squares
 	        List<List<Point>> squares = new List<List<Point>>();
@@ -138,26 +141,15 @@ namespace MagicCircuit
 
 
 
-
-
-
-
-
+			///
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
 			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
 
-
-
-
-
-
-
 	        /// Detect Lines =============================================================        
 			//Debug.Log("RecognizeAlgo.cs DetectLine Start!");
 			int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
-
+			///
 
 
 
@@ -176,22 +168,24 @@ namespace MagicCircuit
 
 
 
-
-
+			///
 			int time_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_2 = time_2 - startTime_2;
 			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
+			///
 
 
 
 	        return resultImg;
 	    }
 			
+
 		// Call lua to do card classification
 		private int predictClass(double[] cardArray)
 		{
+			///
 			int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
+			///
 
 
 
@@ -199,23 +193,24 @@ namespace MagicCircuit
 
 
 
-
-
+			///
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
 			//Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
+			///
 
 
 
 			return prediction;
 		}
 
+
 		// Call lua to do direction classification
 		private int predictDirection(double[] cardArray, int klass)
 		{
+			///
 			int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
-
+			///
 
 
 
@@ -223,21 +218,23 @@ namespace MagicCircuit
 
 
 
-
-
+			//
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
 			//Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
+			///
 
 
 
 			return prediction;
 		}
 
+
 		private double[] mat2array(Mat img)
 		{
+			///
 			int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
-
+			///
 
 
 
@@ -258,15 +255,17 @@ namespace MagicCircuit
 
 
 
+			///
 			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapseTime = currentTime - startTime;
 			//Debug.Log("RecognizeAlgo.cs mat2array() : Time elapse : " + elapseTime);
-
+			///
 
 
 
 			return sample;
 		}
+
 
 		private void reOrder(ref List<CircuitItem> listItem)
 		{
@@ -283,11 +282,26 @@ namespace MagicCircuit
 			listItem = tmpList;
 		}
 
+
 		// TODO
 		// Need to correct predicted direction due to unknown, strange bug
 		private void correctDirection(ref int direction, int klass)
 		{
 			if (klass == 1 || klass == 8)
+			{
+				switch (direction)
+				{
+				case 1:
+					direction = 2; break;
+				case 2:
+					direction = 1; break;
+				case 3:
+					direction = 4; break;
+				case 4:
+					direction = 3; break;
+				}
+			}
+			else if (klass == 9)
 			{
 				switch (direction)
 				{
@@ -316,42 +330,5 @@ namespace MagicCircuit
 				}
 			}
 		}
-
-		/*public List<Mat> createDataSet(Mat frameImg)
-	    {
-			
-	        Mat grayImg = new Mat();
-	        Mat binaryImg = new Mat();
-	        Mat cardTransImg = new Mat();
-	        Mat cardImg = new Mat();
-	        List<Mat> result = new List<Mat>();
-
-	        /// Detect Cards =============================================================
-	        MatOfPoint2f point = new MatOfPoint2f(new Point[4]
-	            { new Point(0, 0), new Point(imageSize, 0), new Point(imageSize, imageSize), new Point(0, imageSize) });
-
-	        // Thresholding
-	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-	        Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 15, 1);
-
-	        // Get all the squares
-	        List<List<Point>> squares = new List<List<Point>>();
-	        squares = CardDetector.findSquares(binaryImg);
-
-	        for (int i = 0; i < squares.Count; i++)
-	        {
-	            // Perspective transform
-	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), point);
-	            Imgproc.warpPerspective(frameImg, cardTransImg, homography, new Size());
-
-	            cardImg = cardTransImg.submat(0, imageSize, 0, imageSize);
-
-	            result.Add(cardImg);
-	            //path = path + "/" + System.DateTime.Now.Ticks + ".jpg";
-
-	            //Imgcodecs.imwrite(path, cardImg);
-	        }
-	        return result;
-	    }*/
 	}
 }

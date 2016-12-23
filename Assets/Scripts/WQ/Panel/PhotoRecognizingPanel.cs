@@ -261,7 +261,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
-				maskChangeTotalTime = (itemList.Count-1)  * Constant.ITEM_INTERVAL;//显示图标的总时间=(图标个数-1)*图标间隔时间
+				maskChangeTotalTime = (itemList.Count)  * Constant.ITEM_INTERVAL;//显示图标的总时间=(图标个数-1)*图标间隔时间
 				foreach (var item in circuitLines) 
 				{
 					maskChangeTotalTime += (float)((item.Count - 1) * Constant.LINEITEM_INTERVAL);//lineItemInterval);//显示一条线的总时间
