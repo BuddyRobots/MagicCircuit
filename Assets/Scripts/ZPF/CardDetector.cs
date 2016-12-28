@@ -11,7 +11,7 @@ public class CardDetector
         List<List<Point>> squares = new List<List<Point>>();
         List<MatOfPoint> contours = new List<MatOfPoint>();
 
-        Imgproc.findContours(binaryImg, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
+		Imgproc.findContours(binaryImg, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
         List<MatOfPoint2f> contours2f = new List<MatOfPoint2f>(contours.Count);
 

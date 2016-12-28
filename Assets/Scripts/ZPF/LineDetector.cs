@@ -27,6 +27,7 @@ namespace MagicCircuit
 			if (rectList.Count != 0) rectList.Clear();
 
 			// Thresholding
+			// Works best with Imgproc.THRESH_BINARY_INV
 			Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
 			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.LINE_MORPH_KERNEL, Constant.LINE_MORPH_KERNEL)));
@@ -42,7 +43,7 @@ namespace MagicCircuit
 
 			// Extract components using contour area
 			for (int i = 0; i < contours.Count; i++)
-			{
+			{				
 				///
 				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours["+i+"]) = " + Imgproc.contourArea(contours[i]));
 				///

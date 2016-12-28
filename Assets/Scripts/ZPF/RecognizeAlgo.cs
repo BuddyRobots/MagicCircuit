@@ -50,8 +50,9 @@ namespace MagicCircuit
 
 
 	        // Thresholding
+			// Works best with Imgproc.THRESH_BINARY
 	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
+			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 
 	        // Get all the squares
 	        List<List<Point>> squares = new List<List<Point>>();
@@ -269,16 +270,15 @@ namespace MagicCircuit
 
 		private void reOrder(ref List<CircuitItem> listItem)
 		{
-			int counter = 0;
 			List<CircuitItem> tmpList = new List<CircuitItem>();
 
 			for (var i = 1; i <= Constant.NUM_OF_CLASS; i++)
 				for (var j = 0; j < listItem.Count; j++)
 					if (listItem[j].ID == i)
-					{
-						listItem[j].ID = counter++;
 						tmpList.Add(listItem[j]);
-					}
+			for (var i = 0; i < tmpList.Count; i++)
+				tmpList[i].ID = i;
+			
 			listItem = tmpList;
 		}
 

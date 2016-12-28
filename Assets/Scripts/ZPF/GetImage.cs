@@ -176,27 +176,36 @@ public class GetImage : MonoBehaviour
 
 		for (var i = 0; i < frameImgList.Count; i++)
 		{
-			
+			///
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			///
 
 
 
 			itemList.Clear();
-
 			recognizeAlge.process(frameImgList[i], ref itemList);
 
 
-	
+
+			///
+			for (var j = 0; j < itemList.Count; j++)
+			{
+				Debug.Log("GetImage.cs Thread_Process() : itemList["+j+"].name = " + itemList[j].name + " List[0] = " + itemList[j].list[0]);
+			}
+			///
+
 
 
 			listItemList.Add(itemList);
 
 
 
+			///
 			int time_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			int elapse_1 = time_1 - startTime_1;
 
-//			Debug.Log("GetImage.cs Thread_Process : image NO. " + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+			//Debug.Log("GetImage.cs Thread_Process : image NO. " + i + " itemList.Count = " + itemList.Count + " time elapse" + elapse_1);
+			///
 		}
 
 		// TODO
