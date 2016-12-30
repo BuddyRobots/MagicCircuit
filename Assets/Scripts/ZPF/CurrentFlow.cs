@@ -397,12 +397,12 @@ namespace MagicCircuit
 
 		private bool batteryAdjacency(ref Connectivity c, ref int lineID)
 		{
+			// Adjacent right
 			int num = 0;
 			bool flag = false;
 			c = Connectivity.zero;
 			lineID = 0;
 
-			// Adjacent right
 			for (var j = boundary; j < count; j++)
 				if (connectivity[0, j] == Connectivity.r)
 				{
