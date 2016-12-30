@@ -137,8 +137,8 @@ public class WebCamTextureToMatHelper_Test  : MonoBehaviour
 			#endif
 			#endif
 
-				Debug.Log("name " + webCamTexture.name + " width " + webCamTexture.width + " height " + webCamTexture.height + " fps " + webCamTexture.requestedFPS);
-				Debug.Log("videoRotationAngle " + webCamTexture.videoRotationAngle + " videoVerticallyMirrored " + webCamTexture.videoVerticallyMirrored + " isFrongFacing " + webCamDevice.isFrontFacing);
+//				Debug.Log("name " + webCamTexture.name + " width " + webCamTexture.width + " height " + webCamTexture.height + " fps " + webCamTexture.requestedFPS);
+//				Debug.Log("videoRotationAngle " + webCamTexture.videoRotationAngle + " videoVerticallyMirrored " + webCamTexture.videoVerticallyMirrored + " isFrongFacing " + webCamDevice.isFrontFacing);
 
 				colors = new Color32[webCamTexture.width * webCamTexture.height];
 				rgbaMat = new Mat(webCamTexture.height, webCamTexture.width, CvType.CV_8UC4);
