@@ -275,5 +275,4 @@ public class GetImage : MonoBehaviour
 	{
 		webCamTextureToMatHelper_test.Dispose();
 	}		
-}
-
+}	
