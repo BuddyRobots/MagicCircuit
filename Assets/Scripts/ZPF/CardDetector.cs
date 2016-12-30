@@ -1,50 +1,158 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using OpenCVForUnity;
 using MagicCircuit;
-using System;
 
-public class CardDetector
-{	
-    public static List<List<Point>> findSquares(Mat _binaryImg)
-    {
-		Mat binaryImg = _binaryImg.clone();
-        List<List<Point>> squares = new List<List<Point>>();
-        List<MatOfPoint> contours = new List<MatOfPoint>();
 
+public static class CardDetector_new {
+	public static List<List<Point>> findSquares(Mat binaryImg)
+	{
+		// TODO : need to test binaryImg after mergeComponent
+		mergeConnectedComponents(ref binaryImg);
+
+		List<List<Point>> squareList = filterSquares(binaryImg);
+
+		return squareList;
+	}
+
+
+	private static void mergeConnectedComponents(ref Mat binaryImg)
+	{
+		Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_ERODE,
+			Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.CARD_ERODE_KERNEL, Constant.CARD_ERODE_KERNEL)));
+
+		Mat labeledImg = new Mat();
+		Mat stats = new Mat();
+
+		int numOfLabels = Imgproc.connectedComponentsWithStats(binaryImg, labeledImg, stats, new Mat(), 8, CvType.CV_16U);
+
+		List<int> componentToDeleteList = new List<int>();
+
+		for (var i = 1; i < numOfLabels; i++)
+		{
+			double stat_height = stats.get(i, Imgproc.CC_STAT_HEIGHT)[0];
+			double stat_width = stats.get(i, Imgproc.CC_STAT_WIDTH)[0];
+			//Debug.Log("RecognizeAlgo.cs process() : width = " + stat_width + "height = " + stat_height);
+
+			if (stat_width < Constant.CARD_MAX_SQUARE_LEN && stat_height < Constant.CARD_MAX_SQUARE_LEN)
+				componentToDeleteList.Add(i);
+		}
+
+		binaryImg = deleteComponents(binaryImg, labeledImg, componentToDeleteList);
+
+		Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_CLOSE,
+			Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.CARD_CLOSE_KERNEL, Constant.CARD_CLOSE_KERNEL)));
+	}
+
+
+	private static Mat deleteComponents(Mat binaryImg, Mat labeledImg, List<int> componentToDeleteList)
+	{
+		byte[] binaryArray = new byte[binaryImg.rows()*binaryImg.cols()];
+		binaryImg.get(0, 0, binaryArray);
+		short[] labeledArray = new short[labeledImg.rows()*labeledImg.cols()];
+		labeledImg.get(0, 0, labeledArray);
+
+		if (binaryArray.Length != labeledArray.Length)
+		{
+			Debug.Log("CardDetector.cs deleteComponent() : ERROR: Mismatching length!!!! " +
+				"binaryArray.Length = " + binaryArray.Length + " labeledArray.Length = " + labeledArray.Length);
+			return binaryImg;
+		}
+
+		for (var i = 0; i < labeledArray.Length; i++)
+		{
+			if (isInDeleteList(labeledArray[i], componentToDeleteList))
+				binaryArray[i] = 0;
+		}
+
+		binaryImg.put(0, 0, binaryArray);
+
+		return binaryImg;
+	}
+
+
+	private static bool isInDeleteList(int idx, List<int> deleteList)
+	{
+		for (var i = 0; i < deleteList.Count; i++)
+			if (idx == deleteList[i])
+				return true;
+		return false;
+	}
+
+
+	private static List<List<Point>> filterSquares(Mat binaryImg)
+	{
+		List<List<Point>> squareList = findPolygon(binaryImg);
+
+		List<List<Point>> filteredSquares = new List<List<Point>>();
+
+		for (int j = 0; j < squareList.Count; j++)
+		{
+			double len, curMaxLen = 0, curMinLen = 10000;
+
+			for (int i = 0; i < 3; i++)
+			{
+				len = calcLength(squareList[j][i%4], squareList[j][(i + 1)%4]);
+				curMaxLen = len > curMaxLen ? len : curMaxLen;
+				curMinLen = len < curMinLen ? len : curMinLen;
+			}
+
+			if (curMaxLen > Constant.CARD_MAX_SQUARE_LEN || curMinLen < Constant.CARD_MIN_SQUARE_LEN || curMaxLen/curMinLen > Constant.CARD_MAX_SQUARE_LEN_RATIO)
+				continue;
+
+			filteredSquares.Add(squareList[j]);
+		}
+
+
+
+		///
+		Debug.Log("CardDetector_new.cs filterSquares() : filteredSquares.Count = " + filteredSquares.Count);
+		///
+
+
+
+		return filteredSquares;
+	}
+
+
+	private static List<List<Point>> findPolygon(Mat binaryImg)
+	{		
+		List<MatOfPoint> contours = new List<MatOfPoint>();
 		Imgproc.findContours(binaryImg, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
 
-        List<MatOfPoint2f> contours2f = new List<MatOfPoint2f>(contours.Count);
+		List<MatOfPoint2f> contours2f = new List<MatOfPoint2f>(contours.Count);
 
-        for (int i = 0; i < contours.Count; i++)
-        {
-            MatOfPoint2f t = new MatOfPoint2f();
-            contours[i].convertTo(t, CvType.CV_32FC2);
-            contours2f.Add(t);
-        }
+		for (int i = 0; i < contours.Count; i++)
+		{
+			MatOfPoint2f t = new MatOfPoint2f();
+			contours[i].convertTo(t, CvType.CV_32FC2);
+			contours2f.Add(t);
+		}
 
-        MatOfPoint2f approx2f = new MatOfPoint2f();
-        for (int i = 0; i < contours.Count; i++)
-        {
-            Imgproc.approxPolyDP(contours2f[i], approx2f, Imgproc.arcLength(contours2f[i], true)*0.05, true);
+		List<List<Point>> squareList = new List<List<Point>>();
+		MatOfPoint2f approx2f = new MatOfPoint2f();
+		for (int i = 0; i < contours.Count; i++)
+		{
+			Imgproc.approxPolyDP(contours2f[i], approx2f, Imgproc.arcLength(contours2f[i], true)*0.05, true);
 
-            MatOfPoint approx = new MatOfPoint();
-            approx2f.convertTo(approx, CvType.CV_32S);
+			MatOfPoint approx = new MatOfPoint();
+			approx2f.convertTo(approx, CvType.CV_32S);
 
-            if (approx.size().height == 4 && Imgproc.contourArea(approx) > 1000 && Imgproc.isContourConvex(approx))
-            {
-                double maxCosine = 0;
-                for (int j = 2; j < 5; j++)
-                {
-                    double cosine = Mathf.Abs(calcAngle(approx.toArray()[j%4], approx.toArray()[j - 2], approx.toArray()[j - 1]));
-                    maxCosine = maxCosine > cosine ? maxCosine : cosine;
-                }
-                if (maxCosine < 0.8)
-                    squares.Add(approx.toList());
-            }
-        }
-        return filterSquares(squares);
-    }
+			if (approx.size().height == 4 && Imgproc.contourArea(approx) > 1000 && Imgproc.isContourConvex(approx))
+			{
+				double maxCosine = 0;
+				for (int j = 2; j < 5; j++)
+				{
+					double cosine = Mathf.Abs(calcAngle(approx.toArray()[j % 4], approx.toArray()[j - 2], approx.toArray()[j - 1]));
+					maxCosine = maxCosine > cosine ? maxCosine : cosine;
+				}
+				if (maxCosine < 0.8)
+					squareList.Add(approx.toList());
+			}
+		}
+		return squareList;
+	}
 
 
 	private static float calcAngle(Point pt1, Point pt2, Point pt0)
@@ -54,152 +162,12 @@ public class CardDetector
 		double dx2 = pt2.x - pt0.x;
 		double dy2 = pt2.y - pt0.y;
 		return (float)(dx1 * dx2 + dy1 * dy2) / Mathf.Sqrt((float)((dx1 * dx1 + dy1 * dy1) * (dx2 * dx2 + dy2 * dy2) + 1e-10));
-	}
+	}	
 
 
-    public static List<List<Point>> computeOuterSquare(List<List<Point>> squareList)
-    {
-		List<List<Point>> outerSquareList = new List<List<Point>>();
-
-        for (var i = 0; i < squareList.Count; i++)
-        {
-			List<Point> tmpSquare = new List<Point>();
-			Point squareCenter = new Point((squareList[i][0].x + squareList[i][2].x)/2, (squareList[i][0].y + squareList[i][2].y)/2);
-
-            for (var j = 0; j < 4; j++)
-            {
-				double x = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].x - squareCenter.x) + squareCenter.x;
-				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].y - squareCenter.y) + squareCenter.y;
-                tmpSquare.Add(new Point(x, y));
-            }
-            outerSquareList.Add(tmpSquare);
-        }
-        return outerSquareList;
-    }
-
-
-    private static List<List<Point>> filterSquares(List<List<Point>> squareList)
-    {
-		///
-		Debug.Log("CardDetector.cs filterSquares() : num of squares = " + squareList.Count);
-		///
-
-
-
-        List<List<Point>> filteredSquares = new List<List<Point>>();
-
-        for (int j = 0; j < squareList.Count; j++)
-        {
-            double len, curMaxLen = 0, curMinLen = 10000;
-
-            for (int i = 0; i < 3; i++)
-            {
-                len = calcLength(squareList[j][i % 4], squareList[j][(i + 1) % 4]);
-                curMaxLen = len > curMaxLen ? len : curMaxLen;
-                curMinLen = len < curMinLen ? len : curMinLen;
-            }
-
-			if (curMaxLen > Constant.CARD_MAX_SQUARE_LEN || curMinLen < Constant.CARD_MIN_SQUARE_LEN || curMaxLen / curMinLen > Constant.CARD_MAX_SQUARE_LEN_RATIO)
-                continue;
-
-
-
-			///
-			Debug.Log("CardDetector.cs filterSquares() : curMaxLen = " + curMaxLen + " curMinLen = " + curMinLen + " ratio = " + curMaxLen / curMinLen);
-			for (var k = 0; k < squareList[j].Count; k++)
-				Debug.Log("CardDetector.cs filterSquares() : squares["+j+"]["+k+"] = " + squareList[j][k]);
-			///
-
-
-
-			if (!isSquareClockwise(squareList[j]))
-				filteredSquares.Add(squareList[j]);
-        }
-
-		//deleteOverlaySquares(filteredSquares);
-
-
-
-		///
-		Debug.Log("CardDetector.cs filterSquares() : after deleteOverlaySquares : num of squares = " + filteredSquares.Count);
-		///
-
-			
-
-        return filteredSquares;
-    }
-
-
-    private static double calcLength(Point p1, Point p2, bool sqrt_v = true)
-    {
-        float v = Mathf.Pow((float)(p1.x - p2.x), 2) + Mathf.Pow((float)(p1.y - p2.y), 2);
-        return sqrt_v ? Mathf.Sqrt(v) : v;
-    }
-
-
-	private static void deleteOverlaySquares(List<List<Point>> squareList)
+	private static double calcLength(Point p1, Point p2, bool sqrt_v = true)
 	{
-		List<Point> centerList = new List<Point>();
-		for (var i = 0; i < squareList.Count; i++)
-			centerList.Add(calcCenterPoint(squareList[i]));
-		
-		for (var i = 0; i < squareList.Count - 1; i++)
-			for (var j = i + 1; j < squareList.Count; j++)
-				if (isOverlayed(centerList[i], centerList[j]))
-				{
-					centerList.RemoveAt(j);
-					squareList.RemoveAt(j);
-				}
+		float v = Mathf.Pow((float)(p1.x - p2.x), 2) + Mathf.Pow((float)(p1.y - p2.y), 2);
+		return sqrt_v ? Mathf.Sqrt(v) : v;
 	}
-
-
-	private static Point calcCenterPoint(List<Point> square)
-	{
-		Point center = new Point((square[0].x + square[2].x)/2, (square[0].y + square[2].y)/2);
-		return center;
-	}
-
-
-	private static bool isOverlayed(Point center_1, Point center_2)
-	{
-		if (calcDistance(center_1, center_2) < Constant.CARD_MAX_SQUARE_LEN)
-			return true;
-		else
-			return false;
-	}
-
-
-	private static double calcDistance(Point center_1, Point center_2)
-	{
-		return Math.Sqrt(Math.Pow((center_1.x - center_2.x), 2) + Math.Pow((center_1.y - center_2.y), 2));
-	}				
-
-
-	// Deprecated
-	private static bool isSquareClockwise(List<Point> square)
-    {
-        bool clockwise;
-        int direction;
-
-        if (Mathf.Abs((float)(square[0].x - square[1].x)) > Mathf.Abs((float)(square[0].y - square[1].y)))
-        {
-            direction = square[1].x > square[0].x ? 0 : 1;
-        }
-        else
-        {
-            direction = square[1].y > square[0].y ? 2 : 3;
-        }
-
-        if (direction == 0 || direction == 1)
-        {
-            int second_direction = square[2].y > square[1].y ? 2 : 3;
-            clockwise = (direction == 0 && second_direction == 2) || (direction == 1 && second_direction == 3);
-        }
-        else
-        {
-            int second_direction = square[2].x > square[1].x ? 0 : 1;
-            clockwise = (direction == 2 && second_direction == 1) || (direction == 3 && second_direction == 0);
-        }
-        return clockwise;
-    }
 }

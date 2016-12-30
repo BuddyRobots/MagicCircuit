@@ -89,7 +89,7 @@ namespace MagicCircuit
 	        // Get all the squares
 	        List<List<Point>> squareList = new List<List<Point>>();
 			List<List<Point>> outerSquareList = new List<List<Point>>();
-			squareList = CardDetector_new.findSquares(binaryImg);
+			squareList = CardDetector.findSquares(binaryImg);
 	        outerSquareList = CardDetector.computeOuterSquare(squareList);
 
 
