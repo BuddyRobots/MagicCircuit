@@ -85,12 +85,6 @@ public class GetImage : MonoBehaviour
 		    frameImg = webCamTextureToMatHelper_test.GetMat();
 
 
-			///
-			Debug.Log("W------");
-			Debug.Log(frameImg.width());
-			Debug.Log("H------");
-			Debug.Log(frameImg.height());
-			///
 
 
 			#if UNITY_IPHONE

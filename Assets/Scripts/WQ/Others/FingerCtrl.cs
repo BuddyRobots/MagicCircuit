@@ -29,10 +29,6 @@ public class FingerCtrl : MonoBehaviour
 	void Start () 
 	{
 		speed = 4f;
-		//dest = Vector3.zero;
-		//startPos = Vector3.zero;
-
-
 	}
 
 	void OnEnable()

@@ -77,7 +77,6 @@ public class PhotoTakingPanel : MonoBehaviour//SceneSinglton<PhotoTakingPanel>
 
 	IEnumerator CountDown()
 	{
-		Debug.Log("PhotoTaking_count down----------");
 		yield return new WaitForSeconds(1f);//1f for rest, real time is 3f..
 
 		countDown.gameObject.SetActive(true);
@@ -90,17 +89,12 @@ public class PhotoTakingPanel : MonoBehaviour//SceneSinglton<PhotoTakingPanel>
 
 		GetImage._instance.Thread_Process_Start();
 
-
-
 		yield return new WaitForSeconds(1);
 		countDown.text = "1";
 
-
-
 		yield return new WaitForSeconds(1);
 
-//		PanelTranslate.Instance.GetPanel(Panels.PhotoRecognizedPanel , false);//识别界面需要从 拍摄界面Quad上的GetImage获取itemlist数据，所以这里暂时不能销毁拍摄界面
-		PanelOff();
+		HideCountDown();
 
 		Manager.Instance.itemList=GetImage._instance.itemList;
 		Manager.Instance.texture_img=GetImage._instance.texture;
@@ -112,13 +106,11 @@ public class PhotoTakingPanel : MonoBehaviour//SceneSinglton<PhotoTakingPanel>
 	}
 	#endregion
 
-	public void PanelOff()
+	public void HideCountDown()
 	{
 		countDown.text = "3";
 		countDown.gameObject.SetActive (false);
 		noticeImg.gameObject.SetActive (false);
 
-//		GetImage._instance.isStartUpdate=false;
-//		PanelTranslate.Instance.DestoryThisPanel();
 	}
 }

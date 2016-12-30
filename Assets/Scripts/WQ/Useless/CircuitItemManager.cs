@@ -9,18 +9,8 @@ public class CircuitItemManager :AllSceneSinglton<CircuitItemManager>
 
 	//坐标管理类
 
-//	public static CircuitItemManager Instance;
-
-	//private CircuitItem item;
-
 	public List<CircuitItem> itemList=new List<CircuitItem>();//所有图标的集合
 	public List<CircuitItem> itemListTest=new List<CircuitItem>();//for test...
-
-//	void Awake()
-//	{
-//		Instance = this;
-//
-//	}
 
 	void Start () 
 	{
@@ -249,7 +239,7 @@ public class CircuitItemManager :AllSceneSinglton<CircuitItemManager>
 		itemListTest.Add(item6);
 		itemListTest.Add(item4);
 
-		//Debug.Log ("itemListTest.count====" + itemListTest.Count);
+
 
 	}
 

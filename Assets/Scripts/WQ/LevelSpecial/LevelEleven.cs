@@ -7,8 +7,8 @@ public class LevelEleven : MonoBehaviour
 {
 	[HideInInspector]
 	public bool isVOswitchOccur=false;
-	private bool isStartRecord = false;
 
+	private bool isStartRecord = false;
 	private PhotoRecognizingPanel photoRecognizePanel;
 	private MicroPhoneBtnCtrl microBtnCtrl;
 	private Transform voiceSwitch;
