@@ -7,10 +7,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenCVForUnity;
 using MagicCircuit;
-using OpenCVForUnitySample;
-#if UNITY_5_3 || UNITY_5_3_OR_NEWER
-using UnityEngine.SceneManagement;
-#endif
 
 
 [RequireComponent(typeof(WebCamTextureToMatHelper_Test))]
@@ -20,7 +16,7 @@ public class GetImage : MonoBehaviour
 	public static GetImage _instance;
 	public bool isThreadEnd = false;
 	public bool isCircuitCorrect = false;
-	public bool isStartUpdate=true;
+	public bool isStartUpdate = true;
 	// Flag for taking 10 photos
 	public bool isTakingPhoto = false;
 
@@ -36,13 +32,8 @@ public class GetImage : MonoBehaviour
 	#endregion
 
 	#region 私有属性
-	/// <summary>
-	/// The web cam texture to mat helper.
-	/// </summary>
+	private Mat frameImg;
 	private WebCamTextureToMatHelper_Test webCamTextureToMatHelper_test;
-	/// <summary>
-	/// The colors.
-	/// </summary>
 	private Color32[] colors;
 
 	private RecognizeAlgo recognizeAlge;
@@ -59,20 +50,17 @@ public class GetImage : MonoBehaviour
 
 	void Awake()
 	{
-
 		_instance = this;
 
 		recognizeAlge = new RecognizeAlgo();
 		cf = new CurrentFlow();
 		cf_SPDT = new CurrentFlow_SPDTSwitch();
-
 	}
-
-
+		
 
 	void Start()
 	{
-		webCamTextureToMatHelper_test=gameObject.GetComponent<WebCamTextureToMatHelper_Test>();
+		webCamTextureToMatHelper_test = gameObject.GetComponent<WebCamTextureToMatHelper_Test>();
 
 		webCamTextureToMatHelper_test.Init();
 	}
@@ -85,16 +73,14 @@ public class GetImage : MonoBehaviour
 		xmlItemList = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, xmlPath)).toCircuitItems();
 		#elif UNITY_IPHONE 
 		#endif
-
 	}
-
-	Mat frameImg;
+		
 
 	void Update()
 	{
 		if (webCamTextureToMatHelper_test.isPlaying() && webCamTextureToMatHelper_test.didUpdateThisFrame())
 		{
-		    frameImg = webCamTextureToMatHelper_test.GetMat ();
+		    frameImg = webCamTextureToMatHelper_test.GetMat();
 
 
 			///
@@ -145,7 +131,7 @@ public class GetImage : MonoBehaviour
 		//Utils.webCamTextureToMat(webCamTexture, frameImg);
 		//frameImgList.Add(frameImg.clone());
 
-		for (var i = 0; i < frameImgList.Count; i++)
+		for(var i = 0; i < frameImgList.Count; i++)
 		{
 
 			int startTime_1 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
@@ -229,22 +215,22 @@ public class GetImage : MonoBehaviour
 	/// <summary>
 	/// Raises the web cam texture to mat helper inited event.
 	/// </summary>
-	public void OnWebCamTextureToMatHelperInited ()
+	public void OnWebCamTextureToMatHelperInited()
 	{
 
-		Mat webCamTextureMat = webCamTextureToMatHelper_test.GetMat ();
+		Mat webCamTextureMat = webCamTextureToMatHelper_test.GetMat();
 
-		colors = new Color32[webCamTextureMat.cols () * webCamTextureMat.rows ()];
-		texture = new Texture2D (webCamTextureMat.cols (), webCamTextureMat.rows (), TextureFormat.RGBA32, false);
-
-
-//		gameObject.transform.localScale = new Vector3 (webCamTextureMat.cols (), webCamTextureMat.rows (), 1);
+		colors = new Color32[webCamTextureMat.cols() * webCamTextureMat.rows()];
+		texture = new Texture2D(webCamTextureMat.cols(), webCamTextureMat.rows(), TextureFormat.RGBA32, false);
 
 
-		gameObject.transform.localScale = new Vector3 (Constant.CAM_QUAD_WIDTH, Constant.CAM_QUAD_HEIGHT, 1);
+//		gameObject.transform.localScale = new Vector3(webCamTextureMat.cols(), webCamTextureMat.rows(), 1);
 
 
-		Debug.Log ("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
+		gameObject.transform.localScale = new Vector3(Constant.CAM_QUAD_WIDTH, Constant.CAM_QUAD_HEIGHT, 1);
+
+
+		Debug.Log("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
 
 		float width = 0;
 		float height = 0;
@@ -252,22 +238,22 @@ public class GetImage : MonoBehaviour
 		width = gameObject.transform.localScale.x;
 		height = gameObject.transform.localScale.y;
 
-		float widthScale = (float)Screen.width / width;
-		float heightScale = (float)Screen.height / height;
+		float widthScale =(float)Screen.width / width;
+		float heightScale =(float)Screen.height / height;
 		if (widthScale < heightScale) {
-			Camera.main.orthographicSize = (width * (float)Screen.height / (float)Screen.width) / 2;
+			Camera.main.orthographicSize =(width *(float)Screen.height /(float)Screen.width) / 2;
 		} else {
 			Camera.main.orthographicSize = height / 2;
 		}
 
-		gameObject.GetComponent<Renderer> ().material.mainTexture = texture;
+		gameObject.GetComponent<Renderer>().material.mainTexture = texture;
 
 	}
 
 
-	public void OnWebCamTextureToMatHelperDisposed ()
+	public void OnWebCamTextureToMatHelperDisposed()
 	{
-		Debug.Log ("OnWebCamTextureToMatHelperDisposed");
+		Debug.Log("OnWebCamTextureToMatHelperDisposed");
 
 	}
 
