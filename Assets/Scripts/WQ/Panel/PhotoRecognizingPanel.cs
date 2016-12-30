@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
+using UnityEngine.SceneManagement;
+
 
 	
-public class PhotoRecognizingPanel : MonoBehaviour 
+public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizingPanel>
 {
 	#region   公共变量
-	public static PhotoRecognizingPanel _instance;
+	public static PhotoRecognizingPanel Instance;
 
 	[HideInInspector]
 	public int transValue = 0;
@@ -22,7 +24,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	[HideInInspector]
 	public GameObject finger;
 
-	[HideInInspector]
+//	[HideInInspector]
 	public UILabel countDownLabel;
 	[HideInInspector]
 	public UITexture nightMask;
@@ -52,7 +54,7 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	[HideInInspector]
 	public  List<GameObject> bulbList = new List<GameObject> ();
 	[HideInInspector]
-	public List<List<Vector3>> circuitLines;
+	public List<List<Vector3>> circuitLines=new List<List<Vector3>>();
 	[HideInInspector]
 	public List<int> tags=new List<int>();
 	#endregion
@@ -79,10 +81,11 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private Vector3 offSet = new Vector3 (113, -108, 0);
 
 	//  btns on the panel
-	private GameObject helpBtn;
+//	private GameObject helpBtn;
+	public GameObject helpBtn;
 	private GameObject replayBtn;
 	private GameObject nextBtn;
-
+	private GameObject manager;
 	//  items need to show
 	private GameObject bulb;
 	private GameObject battery;
@@ -101,9 +104,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 	private GameObject linePrefab;
 	private GameObject fingerPrefab;
 
-	private UILabel levelNameLabel;
+	public UILabel levelNameLabel;
 
-	private UITexture photoImage;//拍摄截取的图像
+	public UITexture photoImage;//拍摄截取的图像
 	private UITexture dayMask;//遮盖背景图片的蒙板，通过改变透明度来显示拍摄的照片
 	private UITexture successShow;//welldone 界面
 	private UITexture failureShow;//failure界面
@@ -127,12 +130,15 @@ public class PhotoRecognizingPanel : MonoBehaviour
 
 	void Awake()
 	{
-		_instance = this;
+		Instance = this;
 	}
+
 
 	void Start()
 	{
-		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
+
+//		helpBtn = transform.Find ("HelpBtn").GetComponent<UIButton> ().gameObject;
+
 
 		bulb = Resources.Load ("Prefabs/Items/Bulb",typeof(GameObject))  as GameObject;
 		battery = Resources.Load ("Prefabs/Items/Battery",typeof(GameObject))  as GameObject;
@@ -149,30 +155,25 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		UIEventListener.Get (helpBtn).onClick = OnHelpBtnClick;
 		UIEventListener.Get (replayBtn).onClick = OnReplayBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
+
 	}
 		
 	void OnEnable()
 	{
-		//添加LevelHandle脚本并激活
-		if (!gameObject.GetComponent<LevelHandle>()) 
-		{
-			gameObject.AddComponent<LevelHandle>();
-			gameObject.GetComponent<LevelHandle>().enabled=false;
-		}
-		else
-		{
-			gameObject.GetComponent<LevelHandle>().enabled=false;
-		}
-			
+		
+
 		data = LevelManager.currentLevelData;
 		lineParent = this.gameObject;
 
-		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
-		levelNameLabel.text = "识别中";//LevelManager.currentLevelData.LevelName;
-		countDownLabel = transform.Find ("CountDownLabel").GetComponent<UILabel> ();
-		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
+//		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
+
+
+//		countDownLabel = transform.Find ("CountDownLabel").GetComponent<UILabel> ();
+//		photoImage =transform.Find ("Bg/PhotoImage").GetComponent<UITexture> ();//real code 
+
 		replayBtn=transform.Find("ReplayBtn").gameObject;
 		nextBtn=transform.Find("NextBtn").gameObject;
+		manager=GameObject.Find("Manager");
 		labelBgTwinkle = transform.Find ("LevelNameBgT").gameObject;
 		noticeToMakeVoice = transform.Find ("VoiceNotice").gameObject;
 		voiceCollectionMark = transform.Find ("MicrophoneAniBg").gameObject;
@@ -182,6 +183,8 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		failureShow=transform.Find ("FailureBg").GetComponent<UITexture> ();
 		dayMask = transform.Find ("Bg/DayBgT").GetComponent<UITexture> ();
 		nightMask = transform.Find ("Bg/NightBgT").GetComponent<UITexture> ();
+
+		levelNameLabel.text = "识别中";
 
 		photoImage.gameObject.SetActive (false);
 		replayBtn.SetActive(false);
@@ -219,22 +222,40 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		transValue = 0;
 		iconCount = 1;
 
-		circuitLines=new List<List<Vector3>>();
+//		circuitLines=new List<List<Vector3>>();
+
+
+
+		//添加LevelHandle脚本并激活
+		if (!gameObject.GetComponent<LevelHandle>()) 
+		{
+			gameObject.AddComponent<LevelHandle>();
+			gameObject.GetComponent<LevelHandle>().enabled=false;
+		}
+		else
+		{
+			gameObject.GetComponent<LevelHandle>().enabled=false;
+		}
+
+
 
 		StartCoroutine (ShowPhotoImage ());//进入识别界面的第一步是显示拍摄的照片
 		StartCoroutine (RemoveEmptyArrow ());
+
 	}
 		
 	IEnumerator ShowPhotoImage()// 显示拍摄的图片
 	{
 		photoImage.gameObject.SetActive (true);
-		photoImage.mainTexture = GetImage._instance.texture;
+//		photoImage.mainTexture = GetImage._instance.texture;
+		photoImage.mainTexture=Manager.Instance.texture_img;
 		yield return new WaitForSeconds (1f);
 		isPhotoImageShowDone = true;
 	}
 
 	IEnumerator RemoveEmptyArrow()
 	{
+		
 		while (true) 
 		{
 			for (int i = 0; i < arrowList.Count; ) 
@@ -250,18 +271,23 @@ public class PhotoRecognizingPanel : MonoBehaviour
 			}
 			yield return new WaitForSeconds (Constant.ITEM_INTERVAL);
 		}
+
 	}
 		
 	void Update () 
 	{
-		if ( GetImage._instance.isThreadEnd) //如果数据处理完了，还没有取数据，就取数据
+
+
+		if ( Manager.Instance.isTreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
-			itemList=GetImage._instance.itemList;
-			result = GetImage._instance.isCircuitCorrect;
+//			itemList=GetImage._instance.itemList;
+			itemList=Manager.Instance.itemList;
+//			result = GetImage._instance.isCircuitCorrect;
+			result = Manager.Instance.isCircuitCorrect;
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
-				maskChangeTotalTime = (itemList.Count) * Constant.ITEM_INTERVAL;//显示图标的总时间=(图标个数-1)*图标间隔时间
+				maskChangeTotalTime = (itemList.Count-1)  * Constant.ITEM_INTERVAL;//显示图标的总时间=(图标个数-1)*图标间隔时间
 				foreach (var item in circuitLines) 
 				{
 					maskChangeTotalTime += (float)((item.Count - 1) * Constant.LINEITEM_INTERVAL);//lineItemInterval);//显示一条线的总时间
@@ -341,6 +367,9 @@ public class PhotoRecognizingPanel : MonoBehaviour
 				LevelHandle._instance.CircuitHandleByLevelID (LevelManager.currentLevelData.LevelID);
 			}
 		}
+
+
+
 	}
 		
 	public void ShowFingerOnLine(Vector3 pos)
@@ -633,8 +662,10 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		
 	void OnReplayBtnClick(GameObject btn)
 	{
-		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel );
-		PanelTranslate.Instance.DestoryAllPanel();
+		
+		SceneManager.LoadScene("scene_PhotoTaking");
+		GameObject.DontDestroyOnLoad(manager);
+
 	}
 		
 	void OnNextBtnClick(GameObject btn)
@@ -644,17 +675,27 @@ public class PhotoRecognizingPanel : MonoBehaviour
 		{
 			PlayerPrefs.SetInt ("LevelID",data.LevelID);
 			PlayerPrefs.SetInt ("LevelProgress",2);
-			LevelManager._instance.LoadLocalLevelProgressData ();
+			LevelManager.Instance.LoadLocalLevelProgressData ();
 		}
-		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
-		PanelTranslate.Instance.DestoryAllPanel();
+//		PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+//		PanelTranslate.Instance.DestoryAllPanel();
+//		Manager.Instance.LoadScene("scene_LevelSelect");
+		SceneManager.LoadSceneAsync("scene_LevelSelect");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		PlayerPrefs.SetInt("toDemoPanelFromPanel",4);
-		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel,false);
-		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromLevel();
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",(int)FromPanelFlag.PHOTORECOGNIZE);
+//		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel,false);
+//		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromLevel();
+//		Manager.Instance.LoadScene("scene_DemoShow");
+
+//		SceneManager.LoadSceneAsync("scene_DemoShow");
+//		GameObject.DontDestroyOnLoad(manager);
+		SceneManager.LoadScene("scene_DemoShow",LoadSceneMode.Additive);
+		GameObject.DontDestroyOnLoad(manager);
+
 	}
 }
 

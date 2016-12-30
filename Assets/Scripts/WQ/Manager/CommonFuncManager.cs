@@ -13,25 +13,31 @@ public class CommonFuncManager : MonoBehaviour
 		_instance = this;
 	}
 
+
+	/*
 	/// <summary>
 	/// 接通电路
 	/// </summary>
 	public void OpenCircuit()
 	{
-		PhotoRecognizingPanel._instance.transValue = 1;
-		for (int i = 0; i < PhotoRecognizingPanel._instance.arrowList.Count; i++) 
-		{
-			if (PhotoRecognizingPanel._instance.arrowList [i]) 
-			{
-				//PhotoRecognizingPanel._instance.arrowList [i].GetComponent<ArrowCtrl> ().speed *=2;
-				PhotoRecognizingPanel._instance.arrowList [i].GetComponent<UISprite> ().alpha = 1;//显示电流
-			}
-
+//		PhotoRecognizingPanel.Instance.transValue = 1;
+//		for (int i = 0; i < PhotoRecognizingPanel.Instance.arrowList.Count; i++) 
+//		{
+//			if (PhotoRecognizingPanel.Instance.arrowList [i]) 
+//			{
+//				//PhotoRecognizingPanel._instance.arrowList [i].GetComponent<ArrowCtrl> ().speed *=2;
+//				PhotoRecognizingPanel.Instance.arrowList [i].GetComponent<UISprite> ().alpha = 1;//显示电流
+//			}
+//
+//		}
+		CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+		if (transform.Find ("bulb").GetComponent<UISprite> ().spriteName != "bulbOn") {
+			transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";//灯亮 
 		}
-		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";//灯亮 
-		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
+
+//		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
 	}
-		
+	*/	
 
 	public bool isSoundLoudEnough()
 	{
@@ -65,7 +71,9 @@ public class CommonFuncManager : MonoBehaviour
 		{
 			index = (maxNum + 1) / 2;
 		}
+
 		Vector3 pos = (lines [longestLineIndex]) [index];
+		//Vector3 pos =( (lines [longestLineIndex]).Count > index) ? (lines [longestLineIndex]) [index] : (lines [longestLineIndex]) [ (lines [longestLineIndex]).Count- 1];
 		return pos;
 	}
 

@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Collections;  
 [RequireComponent (typeof(AudioSource))]  
 
-public class MicroPhoneInput : MonoBehaviour {  
+public class MicroPhoneInput : MonoBehaviour  {  
 
 	private static MicroPhoneInput m_instance;  
 
@@ -47,12 +47,7 @@ public class MicroPhoneInput : MonoBehaviour {
 		return m_instance;  
 	}  
 
-	void OnGUI()  
-	{
-		//GUI.Label(new Rect(10,10,200,100),"loudness = "+loudness);   
 
-		
-	}  
 
 	public void StartRecord()  
 	{  

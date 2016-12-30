@@ -13,6 +13,8 @@ public class HelpDataShow : MonoBehaviour {
 		InitNameData ();
 		//在这初始化，根据关卡
 //		Init(LevelManager.currentLevelData.LevelID);
+
+
 	}
 		
 	public void InitFromStart()
@@ -30,7 +32,7 @@ public class HelpDataShow : MonoBehaviour {
 	{
 		Debug.Log("----------InitFromLevel");
 
-		Init(LevelManager.currentLevelData.LevelID);
+   		Init(LevelManager.currentLevelData.LevelID);
 	}
 
 
@@ -47,7 +49,7 @@ public class HelpDataShow : MonoBehaviour {
 			temp [i] = GetTexture (GetName (level - 1, i));
 		}
 
-		Debug.Log("-----------"+temp.Length);
+//		Debug.Log("-----------"+temp.Length);
 
 		Helper.Init (temp);
 

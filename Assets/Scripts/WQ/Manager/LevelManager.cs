@@ -8,9 +8,9 @@ using LitJson;
 ///管理类----从文件中读取信息，初始化关卡列表信息
 ///该脚本挂在camera上面，游戏一开始就运行（初始化数据，加载本地关卡数据，等等）
 /// </summary>
-public class LevelManager : MonoBehaviour 
+public class LevelManager : AllSceneSinglton<LevelManager>
 {	
-	public static LevelManager _instance;
+//	public static LevelManager Instance;
 
 	/// <summary>
 	/// 存储关卡数据的集合
@@ -153,36 +153,28 @@ public class LevelManager : MonoBehaviour
 	
 	void Awake()
 	{
-		_instance = this;
+
+
+
+//		Instance = this;
 
 		//code for test...
-		PlayerPrefs.SetInt ("LevelID",15);
-		PlayerPrefs.SetInt ("LevelProgress",2);
+//		PlayerPrefs.SetInt ("LevelID",0);
+//		PlayerPrefs.SetInt ("LevelProgress",0);
+
+//		ParseLevelItemInfo();
+//		LoadLocalLevelProgressData ();
 	}
 
-	void Start() 
-	{
-		ParseLevelItemInfo();
-		LoadLocalLevelProgressData ();
-//		initNeedShowHandData();
-	}
 
-	/*
-	void initNeedShowHandData()
-	{
-		PlayerPrefs.SetInt ("switchItem", 0);
-		if (!PlayerPrefs.HasKey("switchItem")) 
-		{
-			PlayerPrefs.SetInt ("switchItem", 0);
-		}
-	}
-	*/
+		
 
 	/// <summary>
 	/// 加载本地已经完成的关卡
 	/// </summary>
 	public void LoadLocalLevelProgressData()
 	{
+//		Debug.Log("LoadLocalLevelProgressData()----------");
 		int levelID = 0;
 		int levelPro = 0;
 		if (PlayerPrefs.HasKey ("LevelID"))
@@ -221,6 +213,7 @@ public class LevelManager : MonoBehaviour
 	public void UpdateLevelItemDataList(int levelID,int levelPro)
 	{
 //		Debug.Log ("updateLevelItemDataList----------------");
+//		Debug.Log("levelItemDataList.count=="+levelItemDataList.Count);
 //		Debug.Log ("levelID==" + levelID);	
 //		Debug.Log ("levelPro==" + levelPro);
 		if (levelID == 0) //表示一关都没有玩过，是第一次玩
@@ -271,6 +264,7 @@ public class LevelManager : MonoBehaviour
 	/// </summary>
 	public void ParseLevelItemInfo()
 	{
+//		Debug.Log("ParseLevelItemInfo()--------");
 		JsonData jd = JsonMapper.ToObject(leveljsonstr);   
 		JsonData jdLevelItems = jd["levelData"]; 
 
@@ -289,7 +283,9 @@ public class LevelManager : MonoBehaviour
 				levelItemDataList.Add (levelItemData);
 
 			}
+
 		}
+//		Debug.Log("levelItemDataList.count---"+levelItemDataList.Count);
 	}
 
 	/// <summary>
@@ -321,4 +317,11 @@ public class LevelManager : MonoBehaviour
 		currentLevelData = data;
 
 	}
+
+
+//	public void SetLevelItemData(int levelID)
+//	{
+//
+//		data=GetSingleLevelItem(levelID);
+//	}
 }

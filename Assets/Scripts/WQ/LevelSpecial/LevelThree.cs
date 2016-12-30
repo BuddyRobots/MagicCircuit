@@ -23,9 +23,9 @@ public class LevelThree : MonoBehaviour
 
 			if (!normalSwitch.GetComponent<SwitchCtrl> ().isSwitchOn) //开关闭合
 			{ 
-				if (PhotoRecognizingPanel._instance.finger) 
+				if (PhotoRecognizingPanel.Instance.finger) 
 				{
-					Destroy (PhotoRecognizingPanel._instance.finger);
+					Destroy (PhotoRecognizingPanel.Instance.finger);
 				}
 
 			} 

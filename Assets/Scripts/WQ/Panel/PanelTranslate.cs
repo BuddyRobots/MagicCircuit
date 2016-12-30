@@ -15,8 +15,15 @@ public enum Panels
 /// <summary>
 /// 管理界面相互跳转的类
 /// </summary>
-public class PanelTranslate : SceneSinglton<PanelTranslate> {
+public class PanelTranslate : MonoBehaviour//SceneSinglton<PanelTranslate> 
 
+{
+	public static PanelTranslate Instance;
+	void Awake()
+	{
+		Instance=this;
+
+	}
 	private Transform UIRoot
 	{
 		get

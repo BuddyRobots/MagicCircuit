@@ -4,20 +4,8 @@ using System.Collections.Generic;
 
 namespace MagicCircuit
 {
-    public enum ItemType
-    {
-        Battery,              // class 1
-		Switch,               // class 2
-		LightActSwitch,       // class 3
-		VoiceOperSwitch,      // class 4
-		VoiceTimedelaySwitch, // class 5
-		SPDTSwitch,           // class 6
-		Bulb,		          // class 7
-		Loudspeaker,          // class 8
-		InductionCooker,      // class 9
 
-        CircuitLine
-    }
+    
     
 	public class CircuitItem                        //图标管理类 (id,名字，类型，坐标)
     {

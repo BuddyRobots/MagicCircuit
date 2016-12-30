@@ -1,36 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
-public class DemoShowPanel : MonoBehaviour 
+public class DemoShowPanel : MonoBehaviour//SceneSinglton<DemoShowPanel> 
 {
-
-	public static DemoShowPanel _instance;
+	public static DemoShowPanel Instance;
 	private GameObject preBtn;
 	private GameObject nextBtn;
 	private GameObject confirmBtn;
+	private HelpDataShow helpDataShow;
+
 	private UISprite nextBtnSprite;
 	private UISprite preBtnSprite;
+	private int panelFlag;
 
-	private enum  FromPanelFlag
-	{
-		START=1,
-		LEVELSELECT,
-		PHOTOTAKING,
-		PHOTORECOGNIZE
 
-	}
 	private bool isPreBtnEfective=true;
 	private bool isNextBtnEffective=true;
 
 
 	void Awake()
 	{
-		_instance = this;
+		Instance = this;
 
 		preBtn=transform.Find("PreBtn").GetComponent<UISprite>().gameObject;
 		nextBtn=transform.Find("NextBtn").GetComponent<UISprite>().gameObject;
 		confirmBtn=transform.Find("ConfirmBtn").GetComponent<UISprite>().gameObject;
+		helpDataShow=transform.Find("DemoPic").GetComponent<HelpDataShow>();
 
 		isPreBtnEfective=true;
 		isNextBtnEffective=true;
@@ -38,13 +35,24 @@ public class DemoShowPanel : MonoBehaviour
 		UIEventListener.Get (preBtn).onClick = OnPreBtnClick;
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
 		UIEventListener.Get (confirmBtn).onClick = OnConfirmBtnClick;
+
 	}
 	void Start()
 	{
-
-
 		nextBtnSprite=nextBtn.GetComponent<UISprite>();
 		preBtnSprite=preBtn.GetComponent<UISprite>();
+
+		panelFlag= PlayerPrefs.GetInt("toDemoPanelFromPanel");
+
+		if (panelFlag==(int)FromPanelFlag.START || panelFlag==(int)FromPanelFlag.LEVELSELECT) 
+		{
+			helpDataShow.InitFromStart();
+		}
+		else
+		{
+			helpDataShow.InitFromLevel();
+
+		}
 	}
 
 	void Update()
@@ -115,37 +123,32 @@ public class DemoShowPanel : MonoBehaviour
 
 	void OnConfirmBtnClick(GameObject btn)
 	{
-		int flag= PlayerPrefs.GetInt("toDemoPanelFromPanel");
-		switch (flag) 
+		switch (panelFlag) 
 		{
 		case (int)FromPanelFlag.START://如果是从开始界面进来的帮助界面
 			if (PlayerPrefs.HasKey("toDemoPanelFromBtn") && PlayerPrefs.GetInt("toDemoPanelFromBtn")==2) //从帮助按钮进来的
 			{
-				PanelTranslate.Instance.GetPanel(Panels.StartPanel);
+				SceneManager.LoadSceneAsync("scene_Start");
 			}
 			else if ( PlayerPrefs.GetInt("toDemoPanelFromBtn")==1 ) //从开始按钮进来的
 			{
-				PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+				SceneManager.LoadSceneAsync("scene_LevelSelect");
 			}
 			break;
 		case (int)FromPanelFlag.LEVELSELECT:
-			PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
+			SceneManager.LoadSceneAsync("scene_LevelSelect");
 			break;
 		case (int)FromPanelFlag.PHOTOTAKING:
-			PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel);
+			SceneManager.LoadSceneAsync("scene_PhotoTaking");
 			break;
-		case (int)FromPanelFlag.PHOTORECOGNIZE:
-			Destroy(gameObject);
+		case (int)FromPanelFlag.PHOTORECOGNIZE://加载场景并且不销毁当前场景中的对象
+			SceneManager.UnloadScene("scene_Demoshow");
 			break;
 		default:
 			break;
 		}
-		PanelTranslate.Instance.DestoryThisPanel();
-
+		GameObject.DontDestroyOnLoad(GameObject.Find("Manager"));
 	}
-
-
-
 
 
 }

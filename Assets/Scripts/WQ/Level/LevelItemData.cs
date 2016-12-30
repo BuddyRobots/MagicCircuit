@@ -2,14 +2,14 @@
 using System.Collections;
 
 
+//public enum LevelProgress
+//{
+//
+//	Todo=0,
+//	Doing,
+//	Done
+//}
 
-public enum LevelProgress
-{
-
-	Todo=0,
-	Doing,
-	Done
-}
 
 public class LevelItemData 
 {

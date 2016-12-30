@@ -1,0 +1,25 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/WQ/LevelSpecial/LevelTwo.cs">
+    <Files>
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoTakingPanel.cs" Line="48" Column="1" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Manager/CommonFuncManager.cs" Line="34" Column="4" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelThree.cs" Line="32" Column="75" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Level/LevelHandle.cs" Line="73" Column="27" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/Panel/PhotoRecognizingPanel.cs" Line="218" Column="3" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelTwo.cs" Line="27" Column="17" NotebookId="1" />
+      <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelEight.cs" Line="27" Column="1" NotebookId="1" />
+    </Files>
+    <FloatingWindows>
+      <FloatingWindow WindowId="1" X="60" Y="23" Width="640" Height="480">
+        <Files>
+          <File FileName="Assets/Scripts/WQ/LevelSpecial/LevelOne.cs" Line="19" Column="6" />
+        </Files>
+      </FloatingWindow>
+    </FloatingWindows>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

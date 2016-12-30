@@ -2,24 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using MagicCircuit;
-public class CircuitItemManager :MonoBehaviour
+
+public class CircuitItemManager :AllSceneSinglton<CircuitItemManager>
 {
 	//该脚本应该挂载在识别界面，因为图标是在拍摄界面后被识别的
 
 	//坐标管理类
 
-	public static CircuitItemManager _instance;
+//	public static CircuitItemManager Instance;
 
 	//private CircuitItem item;
 
 	public List<CircuitItem> itemList=new List<CircuitItem>();//所有图标的集合
 	public List<CircuitItem> itemListTest=new List<CircuitItem>();//for test...
 
-	void Awake()
-	{
-		_instance = this;
-
-	}
+//	void Awake()
+//	{
+//		Instance = this;
+//
+//	}
 
 	void Start () 
 	{

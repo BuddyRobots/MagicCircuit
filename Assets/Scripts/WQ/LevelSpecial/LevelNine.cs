@@ -56,7 +56,7 @@ public class LevelNine : MonoBehaviour
 	{
 		if (isLevelNine) 
 		{
-			bulbList = PhotoRecognizingPanel._instance.bulbList;
+			bulbList = PhotoRecognizingPanel.Instance.bulbList;
 
 
 			if (curBulbPowerd) //如果灯泡的线路是有电的
@@ -116,9 +116,9 @@ public class LevelNine : MonoBehaviour
 				//小手只出现两次的逻辑
 				if (singnal <=0) 
 				{
-					if (PhotoRecognizingPanel._instance.finger) 
+					if (PhotoRecognizingPanel.Instance.finger) 
 					{
-						Destroy (PhotoRecognizingPanel._instance.finger);
+						Destroy (PhotoRecognizingPanel.Instance.finger);
 					}
 				} 
 				else 

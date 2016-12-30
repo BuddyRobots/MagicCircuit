@@ -51,7 +51,7 @@ public class LevelSeven : MonoBehaviour
 	{
 		if (isLevelSeven) 
 		{
-			batteryList = PhotoRecognizingPanel._instance.batteryList;
+			batteryList = PhotoRecognizingPanel.Instance.batteryList;
 			clickBattery = batteryList[1];//识别部分设定是ID为0的不能点击，为1的可以点击
 			if (curSwitchPowered) //如果任意一条有开关的线路有电了，表示电路通了可以给电池添加脚本并显示小手了
 			{
@@ -97,16 +97,16 @@ public class LevelSeven : MonoBehaviour
 				#region 小手出现两次
 				if (singnal <=0) 
 				{
-					if (PhotoRecognizingPanel._instance.finger) 
+					if (PhotoRecognizingPanel.Instance.finger) 
 					{
-						Destroy (PhotoRecognizingPanel._instance.finger);
+						Destroy (PhotoRecognizingPanel.Instance.finger);
 					}
 				} 
 				else 
 				{
 					if (clickBattery && batteryCtrl) 
 					{
-						PhotoRecognizingPanel._instance.ShowFinger (clickBattery.transform.localPosition);//show finger
+						PhotoRecognizingPanel.Instance.ShowFinger (clickBattery.transform.localPosition);//show finger
 						if ( preClickBatterySemiStatus != batteryCtrl.isSemiTrans) 
 						{
 							singnal--;

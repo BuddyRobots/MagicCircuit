@@ -15,6 +15,9 @@ public class LevelTwo : MonoBehaviour
 	[HideInInspector]
 	public bool CanRemoveLine=false;
 
+	private bool isCircuitPowered_cur;
+	private Vector3 randomPos;
+
 
 	void Awake()
 	{
@@ -25,9 +28,12 @@ public class LevelTwo : MonoBehaviour
 	{
 		CanRemoveLine=false;
 		isRemoveLine=false;
-		if (PhotoRecognizingPanel._instance) 
+
+		isCircuitPowered_cur=true;
+
+		if (PhotoRecognizingPanel.Instance) 
 		{
-			PhotoRecognizingPanel._instance.isNeedToCreateArrow = true;
+			PhotoRecognizingPanel.Instance.isNeedToCreateArrow = true;
 		}
 	}
 
@@ -35,17 +41,25 @@ public class LevelTwo : MonoBehaviour
 	{
 		if (isRemoveLine) 
 		{
-			if (!PhotoRecognizingPanel._instance.isArrowShowDone) 
-			{
-				CommonFuncManager._instance.OpenCircuit ();	
-			}
-			Vector3	randomPos = CommonFuncManager._instance.ChooseMiddlePointOnLine (PhotoRecognizingPanel._instance.lines);
+
+			CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
+
+			randomPos = CommonFuncManager._instance.ChooseMiddlePointOnLine (PhotoRecognizingPanel.Instance.lines);
 			GetComponent<PhotoRecognizingPanel> ().ShowFingerOnLine(randomPos);//动画播放3秒后，在电线上的任意随机点位置出现小手
+
 			if (CanRemoveLine) 
 			{
 				TouchToDestroyLine ();
 			}
+			if (isCircuitPowered_cur) 
+			{
+				transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";
 
+			}
+			else
+			{
+				transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+			}
 		}
 	}
 
@@ -108,6 +122,7 @@ public class LevelTwo : MonoBehaviour
 				{
 					Destroy(hitColliders[k].gameObject);
 					BreakCircuit();
+					isCircuitPowered_cur=false;
 				}
 				else
 				{
@@ -116,15 +131,18 @@ public class LevelTwo : MonoBehaviour
 			}
 		}
 	}
+		
 
 	void BreakCircuit()
 	{
+		isCircuitPowered_cur=false;
+
 		PhotoRecognizingPanel temp = GetComponent<PhotoRecognizingPanel> ();
 		if (temp.finger)
 		{
 			Destroy (temp.finger);
 		}
-		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
+//		transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOff";
 		temp.StopCreateArrows();
 		for (int i = 0; i < temp.arrowList.Count; i++) 
 		{

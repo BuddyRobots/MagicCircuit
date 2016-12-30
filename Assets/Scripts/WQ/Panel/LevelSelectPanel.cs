@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic; 
+using UnityEngine.SceneManagement;
 
-public class LevelSelectPanel : MonoBehaviour {
+public class LevelSelectPanel : MonoBehaviour//SceneSinglton<LevelSelectPanel> 
+{
 
 	//用来控制关卡列表，包含很多个LevelItemUI---用列表来存储
-	public static LevelSelectPanel _instance;
+	public static LevelSelectPanel Instance;
 
-	private GameObject levelDescriptionPanel;
+
 	private GameObject helpBtn;
-
+	[HideInInspector]
+	public  GameObject manager;
 
 	public List<UIButton> uiBtnListT = new List<UIButton>();
 	public List<UIButton> uiBtnListL = new List<UIButton>();
@@ -51,7 +54,7 @@ public class LevelSelectPanel : MonoBehaviour {
 
 	void Awake()
 	{
-		_instance = this;
+		Instance = this;
 
 		btnT01 = transform.Find ("Bg/LevelD01/LevelT01").GetComponent<UIButton> ();
 		btnL01 = transform.Find ("Bg/LevelD01/LevelL01").GetComponent<UIButton> ();
@@ -131,26 +134,35 @@ public class LevelSelectPanel : MonoBehaviour {
 		uiBtnListL.Add (btnL15);
 	}
 
-	void OnEnable()
+	void Start()
 	{
 		helpBtn=transform.Find("HelpBtn").gameObject;
+		manager=GameObject.Find("Manager");
+
 		UIEventListener.Get(helpBtn).onClick = OnHelpBtnClick;
+
+//		Debug.Log("----LevelManager.Instance.levelItemDataList.Count--"+LevelManager.Instance.levelItemDataList.Count);
 		RefreshLevelUI ();//界面刷新
-//		HomeBtn.Instance.panelOff = PanelOff;
+
 	}
 
 	//refresh UI
 	public void RefreshLevelUI()
 	{
-		for (int i = 0; i < LevelManager._instance.levelItemDataList.Count; ++i)
+//		Debug.Log("refreshLevelUI");
+		LevelItemData data=null;
+//		Debug.Log("LevelManager.Instance.levelItemDataList.Count--"+LevelManager.Instance.levelItemDataList.Count);
+		for (int i = 0; i < LevelManager.Instance.levelItemDataList.Count; ++i)
 		{
 			
-			LevelItemData data = LevelManager._instance.levelItemDataList [i];
+		    data = LevelManager.Instance.levelItemDataList [i];
+//			Debug.Log("data=="+data);
 			UIButton btnT = uiBtnListT [i];
 			UIButton btnL = uiBtnListL [i];
 			int levelId =btnT.GetComponent<LevelItemUI>().GetLevel(btnT.name);
 			if(data.LevelID==levelId)
 			{
+//				Debug.Log("data.levelID"+data.LevelID);
 				switch(data.Progress)
 				{
 					case LevelProgress.Todo:						
@@ -171,12 +183,7 @@ public class LevelSelectPanel : MonoBehaviour {
 			}
 		}
 	}
-
-//	public void PanelOff()
-//	{
-//		gameObject.SetActive (false);
-//	}
-
+		
 
 	void OnHelpBtnClick(GameObject btn)
 	{
@@ -189,9 +196,8 @@ public class LevelSelectPanel : MonoBehaviour {
 
 
 //		real code
-		PlayerPrefs.SetInt("toDemoPanelFromPanel",2);
-		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-		PanelTranslate.Instance.DestoryAllPanel();
-		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",(int)FromPanelFlag.LEVELSELECT);
+		SceneManager.LoadSceneAsync("scene_DemoShow");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 }

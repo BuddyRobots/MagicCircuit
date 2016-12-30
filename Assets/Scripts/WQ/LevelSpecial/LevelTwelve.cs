@@ -26,7 +26,7 @@ public class LevelTwelve : MonoBehaviour
 		isFingerDestroyed=false;
 
 		LAswitch = transform.Find ("lightActSwitch");
-		nightBg = PhotoRecognizingPanel._instance.nightMask;
+		nightBg = PhotoRecognizingPanel.Instance.nightMask;
 
 	}
 
@@ -46,7 +46,7 @@ public class LevelTwelve : MonoBehaviour
 			{
 				if (!isFingerDestroyed) 
 				{
-					Destroy (PhotoRecognizingPanel._instance.finger);	
+					Destroy (PhotoRecognizingPanel.Instance.finger);	
 					isFingerDestroyed = true;
 				}
 				dayAndNight_changeTimer += Time.deltaTime;

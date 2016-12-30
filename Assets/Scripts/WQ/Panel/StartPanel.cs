@@ -1,26 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using MagicCircuit;
+using System.Collections.Generic;
 
-public class StartPanel : MonoBehaviour 
+public class StartPanel :MonoBehaviour// SceneSinglton<StartPanel>
 {
-	
-	public static StartPanel _instance;
 
 	private GameObject nextBtn;
 	private GameObject helpBtn;
-	private bool isMusicOn = true;
+	private GameObject manager;
+
+	public static StartPanel Instance;
 
 	void Awake()
 	{
-		_instance = this;
+		Instance=this;
+		//code for test...
+//		PlayerPrefs.SetInt ("LevelID",0);
+//		PlayerPrefs.SetInt ("LevelProgress",0);
+
+		LevelManager.Instance.ParseLevelItemInfo();
+		LevelManager.Instance.LoadLocalLevelProgressData();
+
 	}
 
 	void Start () 
 	{		
 		nextBtn= transform.Find ("NextBtn").gameObject;
 		helpBtn=transform.Find("HelpBtn").gameObject;
+		manager=GameObject.Find("Manager");
+
 		UIEventListener.Get(nextBtn).onClick =OnNextBtnClick;
 		UIEventListener.Get(helpBtn).onClick =OnHelpBtnClick;
+
+
+
+
+		///
+//		List<CircuitItem> a=new List<CircuitItem>();
+//		a.Add(new CircuitItem(1,"a",ItemType.Battery,1));
+//		List<CircuitItem> b=new List<CircuitItem>();	
+//		b.Add(a[0]);
+//		b[0].ID=2;
+//		Debug.Log("a[0].ID-------"+a[0].ID);
+		///
+
+
 	}
 
 	/// <summary>
@@ -29,47 +55,27 @@ public class StartPanel : MonoBehaviour
 	/// <param name="btn">参数是点击的按钮对象</param>
 	void OnNextBtnClick(GameObject btn)
 	{
+		
 		if (PlayerPrefs.HasKey("isEnterGameFirstTime") && PlayerPrefs.GetInt("isEnterGameFirstTime")==1) //不是第一次进入游戏
 		{
-			Debug.Log("-------is not the first time lauching game-------");
-
-			//for test 
-//
-//			PlayerPrefs.SetInt("toDemoPanelFromPanel",1);
-//			PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-//			PanelTranslate.Instance.DestoryAllPanel();
-
-
-			//real code 
-			PanelTranslate.Instance.GetPanel(Panels.LevelSelectedPanel);
-			PanelTranslate.Instance.DestoryThisPanel();
+			SceneManager.LoadSceneAsync("scene_LevelSelect");
 		}
 		else//是第一次进入游戏
 		{
-
-			Debug.Log("*****is the first time lauching game****");
-
 			PlayerPrefs.SetInt("isEnterGameFirstTime",1);
-
-			PlayerPrefs.SetInt("toDemoPanelFromPanel",1);
-
+			PlayerPrefs.SetInt("toDemoPanelFromPanel",(int)FromPanelFlag.START);
 			PlayerPrefs.SetInt("toDemoPanelFromBtn",1);
 
-			PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-			GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
-			PanelTranslate.Instance.DestoryAllPanel();
-
+			SceneManager.LoadSceneAsync("scene_DemoShow");
 		}
+		GameObject.DontDestroyOnLoad(manager);
 	}
 
 	void OnHelpBtnClick(GameObject btn)
 	{
-		PlayerPrefs.SetInt("toDemoPanelFromPanel",1);//标记是从哪个界面进入帮助界面的
+		PlayerPrefs.SetInt("toDemoPanelFromPanel",(int)FromPanelFlag.START);//标记是从哪个界面进入帮助界面的
 		PlayerPrefs.SetInt("toDemoPanelFromBtn",2);
-		PanelTranslate.Instance.GetPanel(Panels.DemoShowPanel);
-		//transform.parent.Find("DemoShowPanel/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
-		GameObject.Find("UI Root/DemoShowPanel(Clone)/DemoPic").GetComponent<HelpDataShow>().InitFromStart();
-		PanelTranslate.Instance.DestoryAllPanel();
-
+		SceneManager.LoadSceneAsync("scene_DemoShow");
+		GameObject.DontDestroyOnLoad(manager);
 	}
 }

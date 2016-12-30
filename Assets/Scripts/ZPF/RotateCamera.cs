@@ -1,6 +1,7 @@
 ﻿using OpenCVForUnity;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace MagicCircuit
 {
@@ -35,9 +36,11 @@ namespace MagicCircuit
 
         public static void rotate(ref Mat img)
         {
+			Debug.Log("&&&&&&&&&&&");
 			Mat rst = new Mat(Constant.CAM_QUAD_HEIGHT, Constant.CAM_QUAD_WIDTH, CvType.CV_8UC3);
 			Imgproc.warpPerspective(img, rst, homo, rst.size());
 			img = rst.clone();
+			Debug.Log("&&&&&-------");
         }
     }
 }

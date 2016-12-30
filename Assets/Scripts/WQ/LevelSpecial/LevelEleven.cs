@@ -19,7 +19,7 @@ public class LevelEleven : MonoBehaviour
 		isStartRecord = false;
 	
 		voiceSwitch=transform.Find("voiceOperSwitch");
-		photoRecognizePanel=PhotoRecognizingPanel._instance;
+		photoRecognizePanel=PhotoRecognizingPanel.Instance;
 		microBtnCtrl=transform.Find ("MicroPhoneBtn").GetComponent<MicroPhoneBtnCtrl> ();
 		transform.Find ("MicroPhoneBtn").localPosition=new Vector3(272,338,0);//把小话筒摆在右上角的位置，使界面美观
 	}

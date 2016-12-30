@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{D3DD74DC-0F5C-D93E-7B0A-E42C036F9D5F}") = "MagicCircuit_ScenesChange", "Assembly-CSharp.csproj", "{4664F1CF-D1EA-B904-FA14-8BC268D51E6D}"
+EndProject
+Project("{D3DD74DC-0F5C-D93E-7B0A-E42C036F9D5F}") = "MagicCircuit_ScenesChange", "Assembly-CSharp-Editor.csproj", "{813EB198-662D-1340-5E7E-ED4B7FF3A0A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4664F1CF-D1EA-B904-FA14-8BC268D51E6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4664F1CF-D1EA-B904-FA14-8BC268D51E6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4664F1CF-D1EA-B904-FA14-8BC268D51E6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4664F1CF-D1EA-B904-FA14-8BC268D51E6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{813EB198-662D-1340-5E7E-ED4B7FF3A0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{813EB198-662D-1340-5E7E-ED4B7FF3A0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{813EB198-662D-1340-5E7E-ED4B7FF3A0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{813EB198-662D-1340-5E7E-ED4B7FF3A0A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

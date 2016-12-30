@@ -8,28 +8,32 @@ namespace MagicCircuit
     {		
 		public void detectLine(Mat frameImg, List<List<List<Point>>> lineGroupList, List<OpenCVForUnity.Rect> boundingRectList, List<List<Point>> cardSquares)
         {
+
+			//Debug.Log("LineDetector.cs detectLine Start!");
+
+
 			List<Mat> roiList = new List<Mat>();
 
 			getLines(frameImg, roiList, boundingRectList, cardSquares);
 
             for (var i = 0; i < roiList.Count; i++)
+            {
                 lineGroupList.Add(vectorize(roiList[i]));
+            }
         }
-
 
 		private void getLines(Mat frameImg, List<Mat> roiList, List<OpenCVForUnity.Rect> rectList, List<List<Point>> cardSquares)
 		{
-			Mat grayImg = new Mat();
+			Mat hsvImg = new Mat();
 			Mat binaryImg = new Mat();
 			Mat lineImg = new Mat();
 
 			if (roiList.Count  != 0) roiList.Clear();
 			if (rectList.Count != 0) rectList.Clear();
 
-			// Thresholding
-			// Works best with Imgproc.THRESH_BINARY_INV
-			Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
+			// Color Thresholding
+			Imgproc.cvtColor(frameImg, binaryImg, Imgproc.COLOR_BGR2GRAY);
+			Imgproc.adaptiveThreshold(binaryImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY_INV, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 			Imgproc.morphologyEx(binaryImg, binaryImg, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(Constant.LINE_MORPH_KERNEL, Constant.LINE_MORPH_KERNEL)));
 
 			// Remove card region
@@ -43,27 +47,26 @@ namespace MagicCircuit
 
 			// Extract components using contour area
 			for (int i = 0; i < contours.Count; i++)
-			{				
-				///
-				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours["+i+"]) = " + Imgproc.contourArea(contours[i]));
-				///
+			{
+
+//				Debug.Log("LineDetector.cs getLine : Imgproc.contourArea(contours[" + i + "]) = " + Imgproc.contourArea(contours[i]));
+
 
 
 
 				if (Imgproc.contourArea(contours[i]) > Constant.LINE_REGION_MIN_AREA)
 				{
-					OpenCVForUnity.Rect rect = Imgproc.boundingRect(contours[i]);
+					OpenCVForUnity.Rect re = Imgproc.boundingRect(contours[i]);
 
 					// Extract only the correspoding component from frame using roi
 					// The size of roi is a variable
-					Mat roi = new Mat(lineImg, rect);
+					Mat roi = new Mat(lineImg, re);
 					roiList.Add(roi);
-					rectList.Add(rect);
+					rectList.Add(re);
 				}
 			}
 			return;
 		}    
-
 
 		public static void removeCard(ref Mat img, List<List<Point>> squares)
 		{
@@ -76,7 +79,6 @@ namespace MagicCircuit
 							break;
 						}
 		}
-
 
 		private static bool isInROI(Point p, List<Point> roi)
 		{
@@ -92,7 +94,6 @@ namespace MagicCircuit
 			return false;
 		}
 
-
 		// function pro = kx-y+j, take two points a and b,
 		// compute the line argument k and j, then return the pro value
 		// so that can be used to determine whether the point p is on the left or right
@@ -103,7 +104,6 @@ namespace MagicCircuit
 			double j = a.y - k * a.x;
 			return k * p.x - p.y + j;
 		}
-
 
         private List<List<Point>> vectorize(Mat lineImg)
         {
@@ -126,6 +126,18 @@ namespace MagicCircuit
                 line.Add(firstPoint);
             }
             if (line.Count == 0) return listLine; // If we don't have any point
+
+
+
+
+
+
+//			Debug.Log("LineDetector.cs vectorize : firstPoint = " + firstPoint);
+
+
+
+
+
 
             bool firstPointFlag = true;
             bool shouldMergeFirstLine = false;
@@ -188,7 +200,6 @@ namespace MagicCircuit
             return listLine;
         }
 
-
         private Mat skeletonization(Mat grayImg)
         {
             Mat skel = new Mat(grayImg.size(), CvType.CV_8UC1, new Scalar(0, 0, 0));
@@ -217,7 +228,6 @@ namespace MagicCircuit
             return skel;
         }
 
-
         private Point findFirstPoint(Mat skel)
         {
             for (var i = 1; i < skel.rows(); i++)
@@ -228,7 +238,6 @@ namespace MagicCircuit
                     }
             return new Point(0, 0);
         }
-
 
 		private Queue<Point> findNextPoints(Mat skel, Point current, int step)
         {
@@ -317,7 +326,6 @@ namespace MagicCircuit
             return result;
         }
 
-
         private Point findIntersectPoint(Queue<Point> pointQueue)
         {
             if (pointQueue.Count == 0)
@@ -336,7 +344,6 @@ namespace MagicCircuit
 
             return new Point(x / count, y / count);
         }
-
 
         private void constructLine(Mat skel, Point current, ref List<Point> line, ref Queue<Point> pointQueue)
         {
@@ -370,7 +377,6 @@ namespace MagicCircuit
             }
         }
 
-
         private void removeBox(Mat img, int xl, int xr, int yu, int yd)
         {
             for(var i = yu; i <= yd; i++)
@@ -379,7 +385,6 @@ namespace MagicCircuit
                     img.put(i, j, 0);
                 }
         }
-
 
         private void mergeFirstLine(ref List<List<Point>> listLine)
         {
@@ -391,9 +396,12 @@ namespace MagicCircuit
             }
         }
 
-
-        // If a point in @end has and only has one match in @start, 
-        // merge these two lines.
+        /// <summary>
+        /// If a point in @end has and only has one match in @start, 
+        /// merge these two lines.
+        /// </summary>
+        /// <param name="listLine"></param>
+        /// 
         private void mergeLine(ref List<List<Point>> listLine)
         {
             List<Point> start = new List<Point>();
@@ -405,6 +413,7 @@ namespace MagicCircuit
                 start.Add(listLine[i][0]);
                 end.Add(listLine[i][listLine[i].Count - 1]);
             }
+
             // Compare
             for (var i = 0; i < end.Count; i++)
             {

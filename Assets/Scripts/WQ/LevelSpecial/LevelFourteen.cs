@@ -49,7 +49,7 @@ public class LevelFourteen : MonoBehaviour
 	// to do ...
 	void OnEnable ()
 	{
-		countDown = PhotoRecognizingPanel._instance.countDownLabel;
+		countDown = PhotoRecognizingPanel.Instance.countDownLabel;
 		CurrLASwitchStatus=false;
 		PreLASwitchStatus=false;
 
@@ -68,10 +68,10 @@ public class LevelFourteen : MonoBehaviour
 		VoiceDelaySwitch = transform.Find ("voiceTimedelaySwitch");
 		LAswitch = transform.Find ("lightActSwitch");
 		micphoneBtn = transform.Find ("MicroPhoneBtn");
-		nightBg = PhotoRecognizingPanel._instance.nightMask;
+		nightBg = PhotoRecognizingPanel.Instance.nightMask;
 		sunMoonBtn=transform.Find("SunAndMoonWidget");
 
-		photoRecognizePanel=PhotoRecognizingPanel._instance;
+		photoRecognizePanel=PhotoRecognizingPanel.Instance;
 
 		moonAndSunCtrl=sunMoonBtn.GetComponent<MoonAndSunCtrl>();
 		micPhoneBoxCol = micphoneBtn.gameObject.GetComponent<BoxCollider>();
@@ -106,7 +106,7 @@ public class LevelFourteen : MonoBehaviour
 				//销毁小手
 				if (!isFingerDestroyed) 
 				{
-					Destroy (PhotoRecognizingPanel._instance.finger);
+					Destroy (PhotoRecognizingPanel.Instance.finger);
 					isFingerShow=false;
 					isFingerDestroyed = true;
 				}

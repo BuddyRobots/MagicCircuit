@@ -65,8 +65,7 @@ public class LevelHandle : MonoBehaviour
 			break;
 		}
 	}
-
-
+		
 	/// <summary>
 	/// 根据关卡等级添加对应的关卡脚本
 	/// </summary>
@@ -76,10 +75,10 @@ public class LevelHandle : MonoBehaviour
 		switch (levelID) 
 		{
 		case 1:
-			gameObject.GetComponent<LevelOne> ().isPlayCircuitAnimation = true;
+			GetComponent<LevelOne> ().isPlayCircuitAnimation = true;
 			break;
 		case 2:
-			gameObject.GetComponent<LevelTwo> ().isRemoveLine = true;
+			GetComponent<LevelTwo> ().isRemoveLine = true;
 			break;
 		case 3:
 			GetComponent<LevelThree> ().isNormalSwitchOccur = true;

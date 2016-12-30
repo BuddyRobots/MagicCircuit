@@ -13,7 +13,6 @@ namespace MagicCircuit
         l, r, m, s, e
     }
 
-
     public class CurrentFlow_SPDTSwitch 
     {
         private List<CircuitItem> circuitItems;
@@ -28,38 +27,40 @@ namespace MagicCircuit
         private int boundary;                   // ID of the first CircuitLine
         private bool[] isOpened;                // Store information of which item is open circuited
 
+        private const int region = 30;
+
    
+
         public bool compute(List<CircuitItem> itemList)
         {
+
 			circuitItems = itemList;
             correctness = new Correctness_SPDTSwitch();
 
             if (!computeCircuitBranch())
-                return false;	
+            {                
+                //Debug.Log("Wrong Circuit!");
+                return false;
+            }
 
-			// Switch the switches to make sure all possible conditions counted.
-			List<int> switchIDList = new List<int>();
-			for (var i = 0; i < boundary; i++)
-				if (circuitItems[i].type == ItemType.SPDTSwitch)
-					switchIDList.Add(i);
-			if (switchIDList.Count != 2)
-				return false;
-			switchOnOff(switchIDList[0], false);
-			switchOnOff(switchIDList[1], false);
-			switchOnOff(switchIDList[0], true);
-			switchOnOff(switchIDList[1], true);
+            switchOnOff(3, false);
+			switchOnOff(3, true);
+            //switchOnOff(2, false);
 
             // Display circuitItems
-            for (var i = 0; i < count; i++)
+            /*for (var i = 0; i < count; i++)
             {
-				Debug.Log("CurrentFlow_SPDTSwitch.cs compute() : circuitItem["+i+"] name = " + circuitItems[i].name + " powered = " + circuitItems[i].powered + " list[0] = " + circuitItems[i].list[0]);
-            }
+                Debug.Log(i + ": ----------------");
+                Debug.Log(circuitItems[i].powered);
+                Debug.Log(circuitItems[i].list[0]);
+            }*/
             return true;
         }
 
-
         private bool computeCircuitBranch()
         {
+//            circuitItems = XmlCircuitItemCollection.Load(Path.Combine(Application.dataPath, "CircuitItems.xml")).toCircuitItems();
+
             count = circuitItems.Count;
 
             // Find boundary between cards & lines
@@ -83,9 +84,12 @@ namespace MagicCircuit
             Array.Copy(connectivity, originalConn, connectivity.Length);
             Array.Copy(connectivity, modifiedConn, connectivity.Length);
 
-            // computeCorrectness here
+            /////////////////////////
+            //@ computeCorrectness here
             if (!correctness.computeCorrectness(circuitItems, originalConn))
                 return false;
+            //correctness.computeCorrectness(circuitItems, originalConn);
+            /////////////////////////
 
             removeSwitches();
 		
@@ -95,173 +99,6 @@ namespace MagicCircuit
 
             return true;
         }
-
-
-		private void computeConnectivity()
-		{
-			// For each card, check which line is attached
-			// Improve performance?
-			for (var i = 0; i < boundary; i++)
-				for (var j = boundary; j < count; j++)
-				{
-					if (inBoxRegion(circuitItems[i].connect_left, circuitItems[j].connect_left))
-					{
-						connectivity[i, j] = Connectivity.l;
-						connectivity[j, i] = Connectivity.s;
-						circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
-						continue;
-					}
-					if (inBoxRegion(circuitItems[i].connect_right, circuitItems[j].connect_left))
-					{
-						connectivity[i, j] = Connectivity.r;
-						connectivity[j, i] = Connectivity.s;
-						circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
-						continue;
-					}
-					if (inBoxRegion(circuitItems[i].connect_middle, circuitItems[j].connect_left))
-					{
-						connectivity[i, j] = Connectivity.m;
-						connectivity[j, i] = Connectivity.s;
-						circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
-						continue;
-					}
-					if (inBoxRegion(circuitItems[i].connect_left, circuitItems[j].connect_right))
-					{
-						connectivity[i, j] = Connectivity.l;
-						connectivity[j, i] = Connectivity.e;
-						circuitItems[j].list.Add(circuitItems[i].list[0]);
-						continue;
-					}
-					if (inBoxRegion(circuitItems[i].connect_right, circuitItems[j].connect_right))
-					{
-						connectivity[i, j] = Connectivity.r;
-						connectivity[j, i] = Connectivity.e;
-						circuitItems[j].list.Add(circuitItems[i].list[0]);
-						continue;
-					}
-					if (inBoxRegion(circuitItems[i].connect_middle, circuitItems[j].connect_right))
-					{
-						connectivity[i, j] = Connectivity.m;
-						connectivity[j, i] = Connectivity.e;
-						circuitItems[j].list.Add(circuitItems[i].list[0]);
-						continue;
-					}
-				};
-
-			// For each line, check which line it is connected to
-			for (var i = boundary; i < count; i++)
-			{
-				for (var j = boundary; j < count; j++)
-				{
-					if (i == j) continue;
-					if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_left))
-					{ connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.s; }
-					if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_right))
-					{ connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.e; }
-				}
-				for (var j = boundary; j < count; j++)
-				{
-					if (i == j) continue;
-					if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_left))
-					{ connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.s; }
-					if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_right))
-					{ connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.e; }
-				}
-			}
-		}
-
-
-		private bool simplifyCircuit()
-		{
-			bool flag;
-			bool[] delete = new bool[count];
-			bool haveOpenCircuit = false;
-
-			// Initialize isOpened
-			isOpened = new bool[count];
-			for (var i = 0; i < count; i++)
-				isOpened[i] = false;
-
-			do
-			{
-				flag = false;
-				// Initialize delete[] to all false            
-				for (var i = 0; i < count; i++)
-					delete[i] = false;
-
-				for (var i = 0; i < count; i++)
-					if (isNotValid(i))
-					{
-						delete[i] = true;
-						isOpened[i] = true;
-						flag = true;
-						haveOpenCircuit = true;
-					}
-
-				for (var i = 0; i < count; i++)
-					if (delete[i])
-						for (var j = 0; j < count; j++)
-						{
-							connectivity[i, j] = Connectivity.zero;
-							connectivity[j, i] = Connectivity.zero;
-						}
-			} while (flag);
-
-			if (haveOpenCircuit) return false;
-			else return true;
-		}
-
-
-		// Construct modifiedConn
-		private void removeSwitches()
-		{
-			for (var i = 0; i < boundary; i++)
-				if (circuitItems[i].type == ItemType.SPDTSwitch)
-				{
-					circuitItems[i].powered = true;
-					int m = 0;
-					int r = 0;
-					for (var j = 0; j < count; j++)
-					{
-						modifiedConn[i, j] = Connectivity.zero;
-						modifiedConn[j, i] = Connectivity.zero;
-
-						if (originalConn[i, j] == Connectivity.m) m = j;
-						if (originalConn[i, j] == Connectivity.r) r = j;
-					}
-					modifiedConn[m, r] = originalConn[m, i];
-					modifiedConn[r, m] = originalConn[r, i];
-				}
-		}
-
-
-		private bool computeCurrentFlow()
-		{
-			// Traverse all the components to get current flow direction
-			Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
-
-			// Start from battery to find Connectivity.r
-			circuitItems[0].powered = true;
-			for (var j = boundary; j < count; j++)
-				if (modifiedConn[0, j] == Connectivity.r)
-					next.x = j;
-
-			// Update powered, flip lines
-			do
-			{
-				circuitItems[(int)next.x].powered = true;
-
-				if (modifiedConn[(int)next.x, (int)next.y] == Connectivity.e)
-					flipLine((int)next.x);
-
-				if (!findNext(ref next))
-					return false;
-
-			} while ((int)next.x != 0);
-
-			return true;
-		}	
-
 
 		public void switchOnOff(int ID, bool state) // State true: right false: left
         {
@@ -280,19 +117,139 @@ namespace MagicCircuit
                 for (var i = 0; i < count; i++)
                     if (circuitItems[i].type == ItemType.SPDTSwitch)
                         circuitItems[i].powered = true;
-        }					       
+        }
 
+        private bool computeCurrentFlow()
+        {
+            // Traverse all the components to get current flow direction
+            Vector2 next = new Vector2(0, 0);  // next : (next, current) ->
+
+            // Start from battery to find Connectivity.r
+            circuitItems[0].powered = true;
+            for (var j = boundary; j < count; j++)
+                if (modifiedConn[0, j] == Connectivity.r)
+                    next.x = j;
+
+            // Update powered, flip lines
+            do
+            {
+                circuitItems[(int)next.x].powered = true;
+
+                if (modifiedConn[(int)next.x, (int)next.y] == Connectivity.e)
+                    flipLine((int)next.x);
+
+                if (!findNext(ref next))
+                    return false;
+
+            } while ((int)next.x != 0);
+
+            return true;
+        }
+
+        private void computeConnectivity()
+        {
+            // For each card, check which line is attached
+            // Improve performance?
+            for (var i = 0; i < boundary; i++)
+                for (var j = boundary; j < count; j++)
+                {
+                    if (inRegion(circuitItems[i].connect_left, circuitItems[j].connect_left))
+                    {
+                        connectivity[i, j] = Connectivity.l;
+                        connectivity[j, i] = Connectivity.s;
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        continue;
+                    }
+                    if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_left))
+                    {
+                        connectivity[i, j] = Connectivity.r;
+                        connectivity[j, i] = Connectivity.s;
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        continue;
+                    }
+                    if (inRegion(circuitItems[i].connect_middle, circuitItems[j].connect_left))
+                    {
+                        connectivity[i, j] = Connectivity.m;
+                        connectivity[j, i] = Connectivity.s;
+                        circuitItems[j].list.Insert(0, circuitItems[i].list[0]);
+                        continue;
+                    }
+                    if (inRegion(circuitItems[i].connect_left, circuitItems[j].connect_right))
+                    {
+                        connectivity[i, j] = Connectivity.l;
+                        connectivity[j, i] = Connectivity.e;
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        continue;
+                    }
+                    if (inRegion(circuitItems[i].connect_right, circuitItems[j].connect_right))
+                    {
+                        connectivity[i, j] = Connectivity.r;
+                        connectivity[j, i] = Connectivity.e;
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        continue;
+                    }
+                    if (inRegion(circuitItems[i].connect_middle, circuitItems[j].connect_right))
+                    {
+                        connectivity[i, j] = Connectivity.m;
+                        connectivity[j, i] = Connectivity.e;
+                        circuitItems[j].list.Add(circuitItems[i].list[0]);
+                        continue;
+                    }
+                };
+
+            // For each line, check which line it is connected to
+            for (var i = boundary; i < count; i++)
+            {
+                for (var j = boundary; j < count; j++)
+                {
+                    if (i == j) continue;
+                    if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_left))
+                    { connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.s; }
+                    if (isConnected(circuitItems[i].connect_left, circuitItems[j].connect_right))
+                    { connectivity[i, j] = Connectivity.s; connectivity[j, i] = Connectivity.e; }
+                }
+                for (var j = boundary; j < count; j++)
+                {
+                    if (i == j) continue;
+                    if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_left))
+                    { connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.s; }
+                    if (isConnected(circuitItems[i].connect_right, circuitItems[j].connect_right))
+                    { connectivity[i, j] = Connectivity.e; connectivity[j, i] = Connectivity.e; }
+                }
+            }
+        }
+
+        // Construct modifiedConn
+        private void removeSwitches()
+        {
+            for (var i = 0; i < boundary; i++)
+                if (circuitItems[i].type == ItemType.SPDTSwitch)
+                {
+                    circuitItems[i].powered = true;
+                    int m = 0;
+                    int r = 0;
+                    for (var j = 0; j < count; j++)
+                    {
+                        modifiedConn[i, j] = Connectivity.zero;
+                        modifiedConn[j, i] = Connectivity.zero;
+
+                        if (originalConn[i, j] == Connectivity.m) m = j;
+                        if (originalConn[i, j] == Connectivity.r) r = j;
+                    }
+                    modifiedConn[m, r] = originalConn[m, i];
+                    modifiedConn[r, m] = originalConn[r, i];
+                }
+        }
 
         // Check if linePoint is in a box region of cardPoint
-        private bool inBoxRegion(Vector2 cardPoint, Vector2 linePoint)
+        private bool inRegion(Vector2 cardPoint, Vector2 linePoint)
         {
-            if ((linePoint.x > (cardPoint.x - Constant.POINT_CONNECT_REGION)) && (linePoint.x < (cardPoint.x + Constant.POINT_CONNECT_REGION))
-                && (linePoint.y > (cardPoint.y - Constant.POINT_CONNECT_REGION)) && (linePoint.y < (cardPoint.y + Constant.POINT_CONNECT_REGION)))
+            if ((linePoint.x > (cardPoint.x - region)) && (linePoint.x < (cardPoint.x + region))
+                && (linePoint.y > (cardPoint.y - region)) && (linePoint.y < (cardPoint.y + region)))
                 return true;
             else
                 return false;
         }
-
 
         private bool isConnected(Vector2 point_1, Vector2 point_2)
         {
@@ -302,6 +259,45 @@ namespace MagicCircuit
                 return false;
         }
 
+        private bool simplifyCircuit()
+        {
+            bool flag;
+            bool[] delete = new bool[count];
+            bool haveOpenCircuit = false;
+
+            // Initialize isOpened
+            isOpened = new bool[count];
+            for (var i = 0; i < count; i++)
+                isOpened[i] = false;
+
+            do
+            {
+                flag = false;
+                // Initialize delete[] to all false            
+                for (var i = 0; i < count; i++)
+                    delete[i] = false;
+
+                for (var i = 0; i < count; i++)
+                    if (isNotValid(i))
+                    {
+                        delete[i] = true;
+                        isOpened[i] = true;
+                        flag = true;
+                        haveOpenCircuit = true;
+                    }
+
+                for (var i = 0; i < count; i++)
+                    if (delete[i])
+                        for (var j = 0; j < count; j++)
+                        {
+                            connectivity[i, j] = Connectivity.zero;
+                            connectivity[j, i] = Connectivity.zero;
+                        }
+            } while (flag);
+
+            if (haveOpenCircuit) return false;
+            else return true;
+        }
 
         private bool isNotValid(int i)
         {
@@ -336,16 +332,13 @@ namespace MagicCircuit
                 return false;
         }
 
-
         private void flipLine(int ID)
         {
             circuitItems[ID].list.Reverse();
 
 
 
-			///
-			Debug.Log("CurrentFlow.cs flipLine() : circuitItem["+ID+"] flipped : list[0] = " + circuitItems[ID].list[0] + " list[Count] = " + circuitItems[ID].list[circuitItems[ID].list.Count-1]);
-			///
+//			Debug.Log("CurrentFlow.cs flipLine : circuitItem["+ID+"] flipped : list[0] = " + circuitItems[ID].list[0] + " list[Count] = " + circuitItems[ID].list[circuitItems[ID].list.Count-1]);
 
 
 
@@ -365,23 +358,6 @@ namespace MagicCircuit
             }
         }
 
-
-		private bool findNext(ref Vector2 next)
-		{
-			for (var j = 0; j < count; j++)
-			{
-				if (j == (int)next.y) continue;
-				if (modifiedConn[(int)next.x, j] != Connectivity.zero)
-				{
-					next.y = next.x;
-					next.x = j;
-					return true;
-				}
-			}
-			return false;
-		}
-
-
         private void switchLeft(int ID)
         {
             int l = 0;
@@ -400,7 +376,6 @@ namespace MagicCircuit
             modifiedConn[l, m] = originalConn[l, ID];
         }
 
-
         private void switchRight(int ID)
         {
             int l = 0;
@@ -417,6 +392,21 @@ namespace MagicCircuit
 
             modifiedConn[m, r] = originalConn[m, ID];
             modifiedConn[r, m] = originalConn[r, ID];
-        }			
+        }
+
+        private bool findNext(ref Vector2 next)
+        {
+            for (var j = 0; j < count; j++)
+            {
+                if (j == (int)next.y) continue;
+                if (modifiedConn[(int)next.x, j] != Connectivity.zero)
+                {
+                    next.y = next.x;
+                    next.x = j;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

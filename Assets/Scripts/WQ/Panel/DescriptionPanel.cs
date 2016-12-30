@@ -1,34 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class DescriptionPanel : MonoBehaviour {
-
-
-	public static DescriptionPanel _instance;
-
+public class DescriptionPanel : MonoBehaviour//SceneSinglton<DescriptionPanel> 
+{
 	private UILabel descriptionLabel;
 	private UILabel levelNameLabel;
 
 	private GameObject nextBtn;
+	private GameObject manager;
 
-	public  LevelItemData data;
+//	public  LevelItemData data;
 
-	void Awake()
-	{
-		_instance = this;
-	}
-	void OnEnable()
-	{
 
-//		HomeBtn.Instance.panelOff = PanelOff;
-
-	}
 	void Start () 
 	{
 		nextBtn = transform.Find ("NextBtn").GetComponent<UIButton> ().gameObject;
+		manager=GameObject.Find("Manager");
+
 		descriptionLabel = transform.Find ("LabelBg/Label").GetComponent<UILabel> ();
 		levelNameLabel = transform.Find ("LevelNameBg/Label").GetComponent<UILabel> ();
 		UIEventListener.Get (nextBtn).onClick = OnNextBtnClick;
+
+
+		if (LevelManager.currentLevelData!=null) 
+		{
+			Show(LevelManager.currentLevelData);
+		}
+
 
 	}
 
@@ -38,7 +37,7 @@ public class DescriptionPanel : MonoBehaviour {
 	/// <param name="data">传入的参数是关卡数据</param>
 	public void Show(LevelItemData data) 
 	{
-		this.data = data;
+//		this.data = data;
 
 		if(descriptionLabel == null)
 		{
@@ -64,14 +63,17 @@ public class DescriptionPanel : MonoBehaviour {
 	{
 		
 
-		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel);
-		PanelOff ();
+//		PanelTranslate.Instance.GetPanel(Panels.PhotoTakingPanel);
+//		PanelOff ();
+
+		SceneManager.LoadSceneAsync("scene_PhotoTaking");
+		GameObject.DontDestroyOnLoad(manager);
 
 	}
 
-	public void PanelOff()
-	{
-		PanelTranslate.Instance.DestoryThisPanel();
-	}
+//	public void PanelOff()
+//	{
+//		PanelTranslate.Instance.DestoryThisPanel();
+//	}
 
 }
