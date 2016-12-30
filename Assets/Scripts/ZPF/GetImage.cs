@@ -35,6 +35,8 @@ public class GetImage : MonoBehaviour
 	private Mat frameImg;
 	private WebCamTextureToMatHelper_Test webCamTextureToMatHelper_test;
 	private Color32[] colors;
+	private float GCTimer=0f;
+	private float GCTime=1f;
 
 	private RecognizeAlgo recognizeAlge;
 	public WebCamTexture webCamTexture;
@@ -108,6 +110,17 @@ public class GetImage : MonoBehaviour
 			Utils.matToTexture2D(frameImg, texture, colors);
 		}
 
+
+
+		///
+		GCTimer+=Time.deltaTime;
+		if (GCTimer>=GCTime) 
+		{
+			GCTimer=0;
+			GC.Collect();
+			Debug.Log("--------GC--------");
+		}
+		///
 	}
 
 	public void Thread_Process_Start()
