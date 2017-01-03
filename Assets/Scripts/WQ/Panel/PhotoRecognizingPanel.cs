@@ -280,10 +280,10 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 
 		if ( Manager.Instance.isTreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
-//			itemList=GetImage._instance.itemList;
-			itemList=Manager.Instance.itemList;
-//			result = GetImage._instance.isCircuitCorrect;
-			result = Manager.Instance.isCircuitCorrect;
+			itemList=GetImage._instance.itemList;
+//			itemList=Manager.Instance.itemList;
+			result = GetImage._instance.isCircuitCorrect;
+//			result = Manager.Instance.isCircuitCorrect;
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
