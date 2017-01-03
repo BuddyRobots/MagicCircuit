@@ -6,20 +6,18 @@ namespace MagicCircuit
 {
     public class LineDetector
     {		
-		public Mat detectLine(Mat frameImg, List<List<List<Point>>> lineGroupList, List<OpenCVForUnity.Rect> boundingRectList, List<List<Point>> cardSquares)
+		public void detectLine(Mat frameImg, List<List<List<Point>>> lineGroupList, List<OpenCVForUnity.Rect> boundingRectList, List<List<Point>> cardSquares)
         {
 			List<Mat> roiList = new List<Mat>();
 
-			Mat resultImg = getLines(frameImg, roiList, boundingRectList, cardSquares);
+			getLines(frameImg, roiList, boundingRectList, cardSquares);
 
             for (var i = 0; i < roiList.Count; i++)
                 lineGroupList.Add(vectorize(roiList[i]));
-
-			return resultImg;
         }
 
 
-		private Mat getLines(Mat frameImg, List<Mat> roiList, List<OpenCVForUnity.Rect> rectList, List<List<Point>> cardSquares)
+		private void getLines(Mat frameImg, List<Mat> roiList, List<OpenCVForUnity.Rect> rectList, List<List<Point>> cardSquares)
 		{
 			Mat grayImg = new Mat();
 			Mat binaryImg = new Mat();
@@ -37,8 +35,6 @@ namespace MagicCircuit
 			// Remove card region
 			removeCard(ref binaryImg, cardSquares);
 			lineImg = binaryImg.clone();
-
-			return lineImg;
 
 			// Find Contours
 			List<MatOfPoint> contours = new List<MatOfPoint>();
@@ -65,7 +61,6 @@ namespace MagicCircuit
 					rectList.Add(rect);
 				}
 			}
-			return lineImg;
 		}    
 
 

@@ -4,7 +4,7 @@ using OpenCVForUnity;
 using MagicCircuit;
 using System;
 
-public class CardDetector
+public class CardDetector_old
 {	
     public static List<List<Point>> findSquares(Mat _binaryImg)
     {

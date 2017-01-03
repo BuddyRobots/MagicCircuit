@@ -8,6 +8,11 @@ namespace MagicCircuit
 {
 	public class RecognizeAlgo
 	{
+		[DllImport("__Internal")]  
+		private static extern int callLua_predictClass(double[] imageData,int imageDataLength);
+		[DllImport("__Internal")]  
+		private static extern int callLua_predictDirection(double[] imageData, int imageDataLength, int klass);
+
 		private static MatOfPoint2f modelImageSizePoint;
 		private LineDetector lineDetector;
 
@@ -47,64 +52,27 @@ namespace MagicCircuit
 	        // Thresholding
 			// Works best with Imgproc.THRESH_BINARY
 	        Imgproc.cvtColor(frameImg, grayImg, Imgproc.COLOR_BGR2GRAY);
-			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, Constant.CARD_ADPTTHRES_KERNEL, Constant.CARD_ADPTTHRES_SUB);
-
-
-
-			///
-			/*return binaryImg;
-			// See the result of findContours
-			Mat draw = new Mat(binaryImg.rows(), binaryImg.cols(), CvType.CV_8UC3);
-			List<MatOfPoint> contours = new List<MatOfPoint>();
-
-			Imgproc.findContours(binaryImg, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE, new Point(0, 0));
-			for (var i = 0; i < contours.Count; i++)
-				Imgproc.drawContours(draw, contours, i, new Scalar(i*240/contours.Count, i*240/contours.Count, i*240/contours.Count));
-			return draw;*/
-			///
-			/*Mat labelImg = new Mat();//(binaryImg.rows(), binaryImg.cols(), CvType.CV_16UC1);
-			Mat visualLabel = new Mat();
-			Mat stats = new Mat();
-			int numLabel = Imgproc.connectedComponentsWithStats(binaryImg, labelImg, stats, new Mat(), 8, CvType.CV_16U);
-			Debug.Log("RecognizeAlgo.cs process() : numLabel = " + numLabel);
-			Core.normalize(labelImg, visualLabel, 0, 255, Core.NORM_MINMAX, CvType.CV_8U);
-
-
-			Debug.Log("RecognizeAlgo.cs process() : stats.rows() = " + stats.rows() + " cols() = " + stats.cols());
-			for (var i = 0; i < numLabel; i++)
-			{
-				double[] stat_area = stats.get(i, Imgproc.CC_STAT_AREA);
-				double[] stat_height = stats.get(i, Imgproc.CC_STAT_HEIGHT);
-				double[] stat_width = stats.get(i, Imgproc.CC_STAT_WIDTH);
-				//Debug.Log("RecognizeAlgo.cs process() : stat_area[0] = " + stat_area[0]);
-				Debug.Log("RecognizeAlgo.cs process() : stats["+i+"] area = " + stat_area[0] + " height = " + stat_height[0] + " width = " + stat_width[0]);
-			}
-			return visualLabel;*/
-			///
-			//CardDetector_new.findSquares(binaryImg);
-			///
-
-
+			Imgproc.adaptiveThreshold(grayImg, binaryImg, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, Constant.LINE_ADPTTHRES_KERNEL, Constant.LINE_ADPTTHRES_SUB);
 
 	        // Get all the squares
-	        List<List<Point>> squareList = new List<List<Point>>();
-			List<List<Point>> outerSquareList = new List<List<Point>>();
-			squareList = CardDetector.findSquares(binaryImg);
-	        outerSquareList = CardDetector.computeOuterSquare(squareList);
+	        List<List<Point>> squares = new List<List<Point>>();
+	        List<List<Point>> outer_squares = new List<List<Point>>();
+	        squares = CardDetector.findSquares(binaryImg);
+			outer_squares = CardDetector.computeOuterSquare(squares);
 
 
 
 			///
-			Debug.Log("RecognizeAlgo.cs process : squareList.Count = " + squareList.Count);
-			Debug.Log("RecognizeAlgo.cs process : outerSquareList.Count = " + outerSquareList.Count);
+			Debug.Log("RecognizeAlgo.cs process : squares.Count = " + squares.Count);
+			Debug.Log("RecognizeAlgo.cs process : outer_squares.Count = " + outer_squares.Count);
 			///
 
 
 
-	        for (int i = 0; i < squareList.Count; i++)
+	        for (int i = 0; i < squares.Count; i++)
 	        {
 	            // Perspective transform
-	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squareList[i].ToArray()), modelImageSizePoint);
+	            Mat homography = Calib3d.findHomography(new MatOfPoint2f(squares[i].ToArray()), modelImageSizePoint);
 	            Imgproc.warpPerspective(frameImg, frameTransImg, homography, new Size());
 
 				// predictClass
@@ -114,14 +82,14 @@ namespace MagicCircuit
 	            ItemType type = new ItemType();            
 				Mat cardImg = frameTransImg.submat(0, Constant.MODEL_IMAGE_SIZE, 0, Constant.MODEL_IMAGE_SIZE);
 				double[] cardArray = mat2array(cardImg);
-				int klass = 0;
+				int klass = predictClass(cardArray);
 
 				// predictDirection
 				// Input  : int klass,
 				//           Mat cardImg;
 				// Output : int direction (1, 2, 3, 4)
 				//int direction = 4;
-				int direction = 0;
+				int direction = predictDirection(cardArray, klass);
 				correctDirection(ref direction, klass);
 
 				switch (klass)
@@ -166,7 +134,7 @@ namespace MagicCircuit
 
 				// Add to listItem
 				tmpItem = new CircuitItem(klass, name, type, showOrder++);
-	            tmpItem.extractCard(direction, outerSquareList[i]);
+	            tmpItem.extractCard(direction, outer_squares[i]);
 	            itemList.Add(tmpItem);
 	        }
 			// ReOrder listItem
@@ -180,7 +148,7 @@ namespace MagicCircuit
 			//Debug.Log("RecognizeAlgo.cs DetectCards Time elapse : " + elapse_1);
 
 	        /// Detect Lines =============================================================        
-			//Debug.Log("RecognizeAlgo.cs DetectLine Start!");
+			Debug.Log("RecognizeAlgo.cs process() : DetectLine Start!");
 			int startTime_2 = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
 			///
 
@@ -188,9 +156,15 @@ namespace MagicCircuit
 
 			List<List<List<Point>>> lineGroupList = new List<List<List<Point>>>();
 			List<OpenCVForUnity.Rect> boundingRectList = new List<OpenCVForUnity.Rect>();
-			resultImg = lineDetector.detectLine(frameImg, lineGroupList, boundingRectList, outerSquareList);
+			lineDetector.detectLine(frameImg, lineGroupList, boundingRectList, outer_squares);
 
-			return resultImg;
+
+
+			///
+			Debug.Log("RecognizeAlgo.cs process() : lineGroupList.Count = " + lineGroupList.Count);
+			///
+
+
 
 	        // Add to CircuitItem
 			for (var i = 0; i < lineGroupList.Count; i++)
@@ -208,14 +182,64 @@ namespace MagicCircuit
 			int elapse_2 = time_2 - startTime_2;
 			//Debug.Log("RecognizeAlgo DetectLines Time elapse : " + elapse_2);
 			///
+			Debug.Log("RecognizeAlgo.cs process() : itemList.Count = " + itemList.Count);
+			Debug.Log("RecognizeAlgo.cs process() : DetectLine Ended!");
+			///
 
 
 
 	        return resultImg;
 	    }
+			
+
+		// Call lua to do card classification
+		private int predictClass(double[] cardArray)
+		{
+			///
+			int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			///
 
 
 
+			int prediction = callLua_predictClass(cardArray, cardArray.Length);
+
+
+
+			///
+			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			int elapseTime = currentTime - startTime;
+			//Debug.Log("RecognizeAlgo.cs predictClass() : Time elapse : " + elapseTime);
+			///
+
+
+
+			return prediction;
+		}
+
+
+		// Call lua to do direction classification
+		private int predictDirection(double[] cardArray, int klass)
+		{
+			///
+			int startTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			///
+
+
+
+			int prediction = callLua_predictDirection(cardArray, cardArray.Length, klass);
+
+
+
+			//
+			int currentTime = DateTime.Now.Second * 1000 + DateTime.Now.Millisecond;
+			int elapseTime = currentTime - startTime;
+			//Debug.Log("RecognizeAlgo.cs predictDirection() : Time elapse : " + elapseTime);
+			///
+
+
+
+			return prediction;
+		}
 
 
 		private double[] mat2array(Mat img)

@@ -5,7 +5,7 @@ using OpenCVForUnity;
 using MagicCircuit;
 
 
-public static class CardDetector_new {
+public static class CardDetector {
 	public static List<List<Point>> findSquares(Mat binaryImg)
 	{
 		// TODO : need to test binaryImg after mergeComponent
@@ -169,5 +169,26 @@ public static class CardDetector_new {
 	{
 		float v = Mathf.Pow((float)(p1.x - p2.x), 2) + Mathf.Pow((float)(p1.y - p2.y), 2);
 		return sqrt_v ? Mathf.Sqrt(v) : v;
+	}
+
+
+	public static List<List<Point>> computeOuterSquare(List<List<Point>> squareList)
+	{
+		List<List<Point>> outerSquareList = new List<List<Point>>();
+
+		for (var i = 0; i < squareList.Count; i++)
+		{
+			List<Point> tmpSquare = new List<Point>();
+			Point squareCenter = new Point((squareList[i][0].x + squareList[i][2].x)/2, (squareList[i][0].y + squareList[i][2].y)/2);
+
+			for (var j = 0; j < 4; j++)
+			{
+				double x = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].x - squareCenter.x) + squareCenter.x;
+				double y = Constant.CARD_OUTER_SQUARE_RATIO * (squareList[i][j].y - squareCenter.y) + squareCenter.y;
+				tmpSquare.Add(new Point(x, y));
+			}
+			outerSquareList.Add(tmpSquare);
+		}
+		return outerSquareList;
 	}
 }
