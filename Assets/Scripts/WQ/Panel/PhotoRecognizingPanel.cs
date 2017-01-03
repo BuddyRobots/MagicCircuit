@@ -283,15 +283,6 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 			result = GetImage._instance.isCircuitCorrect;
 			// result = Manager.Instance.isCircuitCorrect;
 
-
-
-			///
-			for (var i =0; i < itemList.Count; i++)
-				Debug.Log("PhotoRecognizingPanel.cs Update() : itemList["+i+"].type = " + itemList[i].type);
-			///
-
-
-
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();

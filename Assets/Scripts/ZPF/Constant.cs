@@ -18,7 +18,7 @@
 		public const int    CARD_MIN_SQUARE_LEN       = 65;
 		public const int    CARD_MAX_SQUARE_LEN       = 105;
 		public const double CARD_MAX_SQUARE_LEN_RATIO = 1.3;
-		public const double CARD_OUTER_SQUARE_RATIO   = 1.1;
+		public const double CARD_OUTER_SQUARE_RATIO   = 1.2;
 
 		// CardDetector_new.cs : 
 		public const int    CARD_ERODE_KERNEL         = 3;
