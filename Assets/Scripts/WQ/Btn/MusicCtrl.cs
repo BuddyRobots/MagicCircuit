@@ -44,7 +44,6 @@ public class MusicCtrl : MonoBehaviour {
 	{
 		
 		Manager.isMusicOn = false;  
-		Debug.Log("Manager.isMusicOn---"+Manager.isMusicOn);
 	}
 
 	/// <summary>
@@ -53,10 +52,7 @@ public class MusicCtrl : MonoBehaviour {
 	/// <param name="btn">Button.</param>
 	void  OnMusicOffBtnClick(GameObject btn)  
 	{
-		
 		Manager.isMusicOn = true;
-		Debug.Log("Manager.isMusicOn---"+Manager.isMusicOn);
-
 	}
 	
 

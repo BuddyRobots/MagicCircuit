@@ -14,31 +14,6 @@ public class CommonFuncManager : MonoBehaviour
 	}
 
 
-	/*
-	/// <summary>
-	/// 接通电路
-	/// </summary>
-	public void OpenCircuit()
-	{
-//		PhotoRecognizingPanel.Instance.transValue = 1;
-//		for (int i = 0; i < PhotoRecognizingPanel.Instance.arrowList.Count; i++) 
-//		{
-//			if (PhotoRecognizingPanel.Instance.arrowList [i]) 
-//			{
-//				//PhotoRecognizingPanel._instance.arrowList [i].GetComponent<ArrowCtrl> ().speed *=2;
-//				PhotoRecognizingPanel.Instance.arrowList [i].GetComponent<UISprite> ().alpha = 1;//显示电流
-//			}
-//
-//		}
-		CommonFuncManager._instance.ArrowsRefresh(GetImage._instance.itemList);
-		if (transform.Find ("bulb").GetComponent<UISprite> ().spriteName != "bulbOn") {
-			transform.Find ("bulb").GetComponent<UISprite> ().spriteName = "bulbOn";//灯亮 
-		}
-
-//		GetComponent<PhotoRecognizingPanel> ().isArrowShowDone = true;//标记已经播放电流
-	}
-	*/	
-
 	public bool isSoundLoudEnough()
 	{
 		float volume = MicroPhoneInput.getInstance ().getSoundVolume();

@@ -154,8 +154,6 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 	void Awake()
 	{
 
-
-
 //		Instance = this;
 
 		//code for test...
@@ -174,7 +172,6 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 	/// </summary>
 	public void LoadLocalLevelProgressData()
 	{
-//		Debug.Log("LoadLocalLevelProgressData()----------");
 		int levelID = 0;
 		int levelPro = 0;
 		if (PlayerPrefs.HasKey ("LevelID"))
@@ -196,10 +193,8 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 		
 			PlayerPrefs.SetInt ("LevelProgress", 0);
 			levelPro = PlayerPrefs.GetInt ("LevelProgress");
-//			Debug.Log ("levelPro2==" + levelPro);
 		}
-//		Debug.Log ("levelID==" + levelID);	
-//		Debug.Log ("levelPro==" + levelPro);
+
 		//获取到已完成的关卡后需要更新list数据
 		UpdateLevelItemDataList (levelID,levelPro);
 
@@ -212,10 +207,7 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 	/// <param name="levelPro">关卡进度</param>
 	public void UpdateLevelItemDataList(int levelID,int levelPro)
 	{
-//		Debug.Log ("updateLevelItemDataList----------------");
-//		Debug.Log("levelItemDataList.count=="+levelItemDataList.Count);
-//		Debug.Log ("levelID==" + levelID);	
-//		Debug.Log ("levelPro==" + levelPro);
+
 		if (levelID == 0) //表示一关都没有玩过，是第一次玩
 		{
 			//Debug.Log ("updateLevelItemDataListAA");
@@ -264,7 +256,7 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 	/// </summary>
 	public void ParseLevelItemInfo()
 	{
-//		Debug.Log("ParseLevelItemInfo()--------");
+
 		JsonData jd = JsonMapper.ToObject(leveljsonstr);   
 		JsonData jdLevelItems = jd["levelData"]; 
 
@@ -285,7 +277,7 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 			}
 
 		}
-//		Debug.Log("levelItemDataList.count---"+levelItemDataList.Count);
+
 	}
 
 	/// <summary>
@@ -317,11 +309,5 @@ public class LevelManager : AllSceneSinglton<LevelManager>
 		currentLevelData = data;
 
 	}
-
-
-//	public void SetLevelItemData(int levelID)
-//	{
-//
-//		data=GetSingleLevelItem(levelID);
-//	}
+		
 }

@@ -35,18 +35,6 @@ public class StartPanel :MonoBehaviour// SceneSinglton<StartPanel>
 		UIEventListener.Get(helpBtn).onClick =OnHelpBtnClick;
 
 
-
-
-		///
-//		List<CircuitItem> a=new List<CircuitItem>();
-//		a.Add(new CircuitItem(1,"a",ItemType.Battery,1));
-//		List<CircuitItem> b=new List<CircuitItem>();	
-//		b.Add(a[0]);
-//		b[0].ID=2;
-//		Debug.Log("a[0].ID-------"+a[0].ID);
-		///
-
-
 	}
 
 	/// <summary>

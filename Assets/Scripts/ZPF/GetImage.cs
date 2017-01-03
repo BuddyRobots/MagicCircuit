@@ -85,12 +85,6 @@ public class GetImage : MonoBehaviour
 		    frameImg = webCamTextureToMatHelper_test.GetMat();
 
 
-			///
-			Debug.Log("W------");
-			Debug.Log(frameImg.width());
-			Debug.Log("H------");
-			Debug.Log(frameImg.height());
-			///
 
 
 			#if UNITY_IPHONE
@@ -111,16 +105,14 @@ public class GetImage : MonoBehaviour
 		}
 
 
-
-		///
+	
 		GCTimer+=Time.deltaTime;
 		if (GCTimer>=GCTime) 
 		{
 			GCTimer=0;
 			GC.Collect();
-			Debug.Log("--------GC--------");
 		}
-		///
+
 	}
 
 	public void Thread_Process_Start()
@@ -245,7 +237,7 @@ public class GetImage : MonoBehaviour
 		gameObject.transform.localScale = new Vector3(Constant.CAM_QUAD_WIDTH, Constant.CAM_QUAD_HEIGHT, 1);
 
 
-		Debug.Log("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
+//		Debug.Log("Screen.width " + Screen.width + " Screen.height " + Screen.height + " Screen.orientation " + Screen.orientation);
 
 		float width = 0;
 		float height = 0;

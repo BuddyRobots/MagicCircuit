@@ -6,6 +6,7 @@ public class BatteryCtrl : MonoBehaviour
 
 	[HideInInspector]
 	public bool isSemiTrans = false;
+
 	private UISprite batterySprite;
 
 

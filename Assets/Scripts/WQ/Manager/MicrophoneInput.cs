@@ -7,7 +7,8 @@ using UnityEngine;
 using System.Collections;  
 [RequireComponent (typeof(AudioSource))]  
 
-public class MicroPhoneInput : MonoBehaviour  {  
+public class MicroPhoneInput : MonoBehaviour  
+{  
 
 	private static MicroPhoneInput m_instance;  
 
