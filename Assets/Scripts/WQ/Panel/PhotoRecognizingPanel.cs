@@ -276,25 +276,22 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 		
 	void Update () 
 	{
-
-
 		if ( Manager.Instance.isTreadEnd) //如果数据处理完了，还没有取数据，就取数据
 		{
-//			itemList=GetImage._instance.itemList;
-			itemList=Manager.Instance.itemList;
+			itemList=GetImage._instance.itemList;
+			// itemList=Manager.Instance.itemList;
+			result = GetImage._instance.isCircuitCorrect;
+			// result = Manager.Instance.isCircuitCorrect;
+
 
 
 			///
 			for (var i =0; i < itemList.Count; i++)
 				Debug.Log("PhotoRecognizingPanel.cs Update() : itemList["+i+"].type = " + itemList[i].type);
-			for (var i =0; i < GetImage._instance.itemList.Count; i++)
-				Debug.Log("PhotoRecognizingPanel.cs Update() : GetImage._instance.itemList["+i+"].type = " + GetImage._instance.itemList[i].type);
 			///
 
 
 
-//			result = GetImage._instance.isCircuitCorrect;
-			result = Manager.Instance.isCircuitCorrect;
 			if (!isMaskChangeGradual) 
 			{
 				GetCircuitLines ();
