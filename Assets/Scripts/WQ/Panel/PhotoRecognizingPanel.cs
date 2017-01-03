@@ -506,7 +506,7 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 			break;
 
 		case ItemType.CircuitLine:
-			
+			Debug.Log("----------------this is a line--------");
 			lines.Add (circuitItem.list);//如果是线路，则加入线路列表中，方便计算所有图标创建完的总时间
 			StartCoroutine (DrawCircuit (circuitItem.list,circuitItem.ID));
 			break;
@@ -529,6 +529,7 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 	/// <param name="pos">线上点的集合</param>
 	IEnumerator DrawCircuit(List <Vector3> pos, int lineID)
 	{
+		Debug.Log("-----drawLine----");
 		for (int i = 0; i < pos.Count - 1; i++)
 		{
 
@@ -541,6 +542,7 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 	//两点之间画线，需要知道两点之间的距离，线段的中心点，以及角度------思想是把要显示的图片放在中心点的位置，然后把图片的宽度拉伸到和线段一样长，再依照角度旋转
 	void DrawLineBetweenTwoPoints(Vector3 posFrom, Vector3 posTo, int lineID)
 	{
+		Debug.Log("--------DrawLineBetweenTwoPoints");
 		distance = Vector3.Distance (posFrom, posTo);
 		centerPos = Vector3.Lerp (posFrom, posTo, 0.5f);
 		angle = CommonFuncManager._instance.TanAngle (posFrom, posTo);
@@ -582,6 +584,7 @@ public class PhotoRecognizingPanel : MonoBehaviour//SceneSinglton<PhotoRecognizi
 
 			}
 		}
+		Debug.Log("-----GetCircuitLines()----circuitLines.count---"+circuitLines.Count);
 	}
 		
 	/// <summary>
